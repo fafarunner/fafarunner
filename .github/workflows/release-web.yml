@@ -1,0 +1,32 @@
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+name: Build and Release Web
+jobs:
+  build:
+    name: Build Web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install Deps
+        run: flutter pub get
+
+      - name: Build Web
+        run: flutter build web --no-tree-shake-icons --web-renderer canvaskit --base-href /flutter-boilerplate/
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.FLUTTER_GAMES_BOILERPLATE_BOT_TOKEN }}
+          publish_dir: ./build/web

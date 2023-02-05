@@ -1,0 +1,22 @@
+name: dio_trending_api
+description: A Flutter implementation of the TodosApi that uses dio.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  dio: ^4.0.6
+  flutter:
+    sdk: flutter
+  meta: ^1.3.0
+  rxdart: ^0.27.2
+  trending_api:
+    path: ../trending_api
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^3.0.1

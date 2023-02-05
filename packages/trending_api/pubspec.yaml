@@ -1,0 +1,15 @@
+name: trending_api
+description: The interface and models for an API providing access to Trending.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  trending_common:
+    path: ../trending_common
+
+dev_dependencies:
+  test: ^1.17.0
+  very_good_analysis: ^3.0.1
