@@ -1,5 +1,5 @@
-name: flutter_boilerplate
-description: A starter game in Flutter.
+name: fafa_runner
+description: Fafa Runner.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -20,7 +20,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=2.19.0 <3.0.0'
+  flutter: '>=3.7.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -55,20 +56,6 @@ dependencies:
   sentry_flutter: ^6.11.2
   shared_preferences: ^2.0.13
   synchronized: ^3.0.0+3
-  trending_common:
-    path: packages/trending_common
-  trending_api:
-    path: packages/trending_api
-  dio_trending_api:
-    path: packages/dio_trending_api
-  http_trending_api:
-    path: packages/http_trending_api
-  trending_repository_middleware:
-    path: packages/trending_repository_middleware
-  local_storage_trending_repository_middleware:
-    path: packages/local_storage_trending_repository_middleware
-  trending_repository:
-    path: packages/trending_repository
   window_manager: ^0.3.0
 
   # If you don't need one of the following dependencies,
