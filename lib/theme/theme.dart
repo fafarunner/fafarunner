@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FlutterBoilerplateTheme {
+class AppTheme {
   static ThemeData get light {
     return ThemeData(
       appBarTheme: const AppBarTheme(
@@ -12,7 +12,7 @@ class FlutterBoilerplateTheme {
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
       ),
-      toggleableActiveColor: const Color(0xFF13B9FF),
+      fontFamily: 'Normal',
     );
   }
 
@@ -28,7 +28,7 @@ class FlutterBoilerplateTheme {
       snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
       ),
-      toggleableActiveColor: const Color(0xFF13B9FF),
+      fontFamily: 'Normal',
     );
   }
 }
