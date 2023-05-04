@@ -4,10 +4,9 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
-  connectivity_plus
-  dynamic_color
   screen_retriever
   sentry_flutter
+  url_launcher_windows
   window_manager
 )
 
