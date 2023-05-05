@@ -169,7 +169,7 @@ class _MenuState extends State<Menu> with WindowListener {
                       text: context.l10n.poweredByPrefix,
                     ),
                     TextSpan(
-                      text: 'kjxbyz',
+                      text: context.l10n.author,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           _launchURL('https://github.com/kjxbyz');
