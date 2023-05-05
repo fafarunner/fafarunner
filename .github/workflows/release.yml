@@ -199,8 +199,8 @@ jobs:
           CERTIFICATE_DEV_PATH=$RUNNER_TEMP/build_certificate_dev.p12
           CERT_PATH=$RUNNER_TEMP/ios_distribution.cer
           CERT_DEV_PATH=$RUNNER_TEMP/development.cer
-          PP_PATH=$RUNNER_TEMP/flutter-template-ns-appstore.mobileprovision
-          PP_DEV_PATH=$RUNNER_TEMP/flutter-template-ns-dev.mobileprovision
+          PP_PATH=$RUNNER_TEMP/fafa_runner_appstore.mobileprovision
+          PP_DEV_PATH=$RUNNER_TEMP/fafa_runner_dev.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
           # import certificate and provisioning profile from secrets
@@ -245,8 +245,8 @@ jobs:
         if: ${{ always() }}
         run: |
           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/flutter-template-ns-appstore.mobileprovision
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/flutter-template-ns-dev.mobileprovision
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/fafa_runner_appstore.mobileprovision
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/fafa_runner_dev.mobileprovision
 
   windows-build:
     name: Create windows build
@@ -277,7 +277,7 @@ jobs:
 
       # Package the build.
       - name: Compress build for Windows
-        run: compress-archive -Path * -DestinationPath ${env:GITHUB_WORKSPACE}\flutter_boilerplate_windows.zip
+        run: compress-archive -Path * -DestinationPath ${env:GITHUB_WORKSPACE}\fafa_runner_windows.zip
         working-directory: build\windows\runner\Release
 
       - uses: actions/upload-artifact@v3
@@ -312,7 +312,7 @@ jobs:
 
       # Package the build.
       - name: Compress build for Linux
-        run: tar czf $GITHUB_WORKSPACE/flutter_boilerplate_linux.tar.gz *
+        run: tar czf $GITHUB_WORKSPACE/fafa_runner_linux.tar.gz *
         working-directory: build/linux/x64/release/bundle
 
       - uses: actions/upload-artifact@v3
@@ -342,7 +342,7 @@ jobs:
 
       # Package the build.
       - name: Compress build for macOS
-        run: ditto -c -k --sequesterRsrc --keepParent flutter_boilerplate.app $GITHUB_WORKSPACE/flutter_boilerplate_macos.zip
+        run: ditto -c -k --sequesterRsrc --keepParent FaFa\ Runner.app $GITHUB_WORKSPACE/fafa_runner_macos.zip
         working-directory: build/macos/Build/Products/Release
 
       - uses: actions/upload-artifact@v3

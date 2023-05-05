@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.kimmy.apps.flutter_boilerplate">
+    package="com.chenyifaer.fafarunner">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="flutter_boilerplate"
+        android:label="FaFa Runner"
         android:name="${applicationName}"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
