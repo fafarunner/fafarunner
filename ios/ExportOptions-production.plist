@@ -12,8 +12,8 @@
         <string>iPhone Distribution: Qingdao INSCO Network Technology Co., Ltd. (43V9N6VW8L)</string>
         <key>provisioningProfiles</key>
         <dict>
-            <key>me.kimmy.apps.flutter-games-boilerplate</key>
-            <string>flutter-games-boilerplate-appstore</string>
+            <key>com.chenyifaer.fafarunner</key>
+            <string>fafa_runner_appstore</string>
         </dict>
     </dict>
 </plist>

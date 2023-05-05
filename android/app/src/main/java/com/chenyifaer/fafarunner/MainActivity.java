@@ -1,4 +1,4 @@
-package me.kimmy.apps.flutter_boilerplate;
+package com.chenyifaer.fafarunner;
 
 import io.flutter.embedding.android.FlutterActivity;
 

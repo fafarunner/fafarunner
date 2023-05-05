@@ -10,8 +10,8 @@
         <string>manual</string>
         <key>provisioningProfiles</key>
         <dict>
-            <key>me.kimmy.apps.flutter-games-boilerplate</key>
-            <string>flutter-games-boilerplate-dev</string>
+            <key>com.chenyifaer.fafarunner</key>
+            <string>fafa_runner_dev</string>
         </dict>
     </dict>
 </plist>

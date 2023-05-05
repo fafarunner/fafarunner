@@ -1,11 +1,11 @@
 {
-    "name": "flutter_boilerplate",
-    "short_name": "flutter_boilerplate",
+    "name": "FaFa Runner",
+    "short_name": "FaFa Runner",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "FaFa Runner.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
