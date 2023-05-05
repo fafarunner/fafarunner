@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:fafa_runner/constrants/get.dart';
+import 'package:fafa_runner/dialog/dialog.dart';
 import 'package:fafa_runner/game/game.dart';
 import 'package:fafa_runner/l10n/l10n.dart';
-import 'package:fafa_runner/menu/linux_dialog.dart';
-import 'package:fafa_runner/menu/macos_dialog.dart';
-import 'package:fafa_runner/menu/window_dialog.dart';
 import 'package:fafa_runner/util/custom_sprite_animation_widget.dart';
 import 'package:fafa_runner/util/enemy_sprite_sheet.dart';
 import 'package:fafa_runner/util/player_sprite_sheet.dart';
