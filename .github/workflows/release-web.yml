@@ -28,5 +28,8 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.FAFA_RUNNER_BOT_TOKEN }}
+          personal_token: ${{ secrets.CYF_BOT_TOKEN }}
+          external_repository: cyf/fafa-runner
+          publish_branch: main
+          destination_dir: play
           publish_dir: ./build/web
