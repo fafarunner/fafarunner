@@ -51,7 +51,7 @@ jobs:
           name: ${{ github.event.inputs.version }}
           artifacts: "./**/*.apk,./**/*.aab,./**/*.ipa,./**/*.tar.gz,./**/*.zip"
           tag: ${{ github.event.inputs.version }}
-          token: ${{ secrets.FLUTTER_BOILERPLATE_BOT_TOKEN }}
+          token: ${{ secrets.CYF_BOT_TOKEN }}
           prerelease: ${{ github.event.inputs.prerelease == 'true' }}
 
   apk-build:
