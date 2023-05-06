@@ -21,15 +21,6 @@ Future<void> main() async {
   if (isDesktop) {
     await WindowManager.instance.ensureInitialized();
     await windowManager.waitUntilReadyToShow().then((_) async {
-      if (Platform.isWindows) {
-        await windowManager.setTitleBarStyle(
-          TitleBarStyle.hidden,
-          windowButtonVisibility: false,
-        );
-      }
-
-      // await windowManager.setSize(const Size(755, 545));
-      // await windowManager.setMinimumSize(const Size(755, 545));
       await windowManager.center();
       await windowManager.show();
       await windowManager.setPreventClose(true);
