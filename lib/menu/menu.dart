@@ -118,7 +118,7 @@ class _MenuState extends State<Menu> with WindowListener {
                 height: 20,
               ),
               DefectorRadio<bool>(
-                value: kIsWeb || isDesktop,
+                value: false,
                 label: 'Keyboard',
                 group: Game.useJoystick,
                 onChange: (value) {
@@ -131,7 +131,7 @@ class _MenuState extends State<Menu> with WindowListener {
                 height: 10,
               ),
               DefectorRadio<bool>(
-                value: isMobile,
+                value: true,
                 group: Game.useJoystick,
                 label: 'Joystick',
                 onChange: (value) {
