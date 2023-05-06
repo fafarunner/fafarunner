@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fafa_runner/bootstrap.dart';
 import 'package:fafa_runner/constrants/get.dart';
 import 'package:fafa_runner/util/sounds.dart';
