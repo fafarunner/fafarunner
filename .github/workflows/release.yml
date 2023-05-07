@@ -315,7 +315,7 @@ jobs:
       - name: Install LXD
         run: |
           sudo snap install lxd
-          sudo lxd init
+          sudo lxd init --minimal
           sudo usermod -a -G lxd root
 
       - name: Setup Flutter
