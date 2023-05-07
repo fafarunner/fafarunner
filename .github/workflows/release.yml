@@ -338,7 +338,7 @@ jobs:
         working-directory: build/linux/x64/release/bundle
 
       - name: Build snap
-        run: sudo snapcraft --use-lxd
+        run: snapcraft --use-lxd
 
       - uses: actions/upload-artifact@v3
         with:
