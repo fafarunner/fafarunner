@@ -1,0 +1,9 @@
+{
+  "title": "FaFa Runner",
+  "icon": "assets/distribution/fafa-runner.icns",
+  "background-color": "white",
+  "contents": [
+    { "x": 448, "y": 344, "type": "link", "path": "/Applications" },
+    { "x": 192, "y": 344, "type": "file", "path": "build/macos/Build/Products/Release/FaFa\\ Runner.app" }
+  ]
+}
