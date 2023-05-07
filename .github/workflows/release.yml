@@ -314,6 +314,7 @@ jobs:
 
       - name: Install LXD
         run: |
+          sudo apt-get install dirmngr udev fuse -y
           sudo snap install lxd
           sudo lxd init --minimal
           sudo usermod -a -G lxd root
