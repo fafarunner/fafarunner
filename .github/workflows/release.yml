@@ -336,7 +336,7 @@ jobs:
         working-directory: build/linux/x64/release/bundle
 
       - name: Build snap
-        run: snapcraft
+        run: sudo snapcraft
 
       - uses: actions/upload-artifact@v3
         with:
