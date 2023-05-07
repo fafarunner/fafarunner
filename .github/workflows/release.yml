@@ -312,9 +312,11 @@ jobs:
         run: |
           sudo snap install snapcraft --classic
 
-      - name: Install Multipass
+      - name: Install LXD
         run: |
-          sudo snap install multipass --classic
+          sudo snap install lxd
+          sudo lxd init -y
+          sudo usermod -a -G lxd root
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -336,7 +338,7 @@ jobs:
         working-directory: build/linux/x64/release/bundle
 
       - name: Build snap
-        run: sudo snapcraft
+        run: sudo snapcraft --use-lxd
 
       - uses: actions/upload-artifact@v3
         with:
