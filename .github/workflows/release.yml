@@ -350,16 +350,8 @@ jobs:
         env:
           version: ${{ github.event.inputs.version }}
 
-      - name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
-
-      - name: Install LXD
-        run: |
-          sudo apt-get install dirmngr udev fuse -y
-          sudo snap install lxd
-          sudo lxd init --minimal
-          sudo usermod -a -G lxd root
+      - name: Install Snapcraft with LXD
+        uses: samuelmeuli/action-snapcraft@v2
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -373,7 +365,7 @@ jobs:
         run: flutter pub get
 
       - name: Build snap
-        run: sudo snapcraft --use-lxd
+        run: sg lxd -c 'sudo snapcraft --use-lxd'
 
       - uses: actions/upload-artifact@v3
         with:
