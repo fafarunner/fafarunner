@@ -146,7 +146,7 @@ class _GameState extends State<Game> with GameListener, WindowListener {
       context,
       () {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => Game()),
+          MaterialPageRoute(builder: (context) => const Game()),
           (Route<dynamic> route) => false,
         );
       },
@@ -168,8 +168,8 @@ class _GameState extends State<Game> with GameListener, WindowListener {
 
   @override
   Future<void> onWindowClose() async {
-    final _isPreventClose = await windowManager.isPreventClose();
-    if (isDesktop && _isPreventClose) {
+    final isPreventClose = await windowManager.isPreventClose();
+    if (isDesktop && isPreventClose) {
       if (defaultTargetPlatform == TargetPlatform.windows) {
         await showWindowDialog(context);
       } else if (defaultTargetPlatform == TargetPlatform.macOS) {

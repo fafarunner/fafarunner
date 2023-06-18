@@ -250,8 +250,8 @@ class _MenuState extends State<Menu> with WindowListener {
 
   @override
   Future<void> onWindowClose() async {
-    final _isPreventClose = await windowManager.isPreventClose();
-    if (isDesktop && _isPreventClose) {
+    final isPreventClose = await windowManager.isPreventClose();
+    if (isDesktop && isPreventClose) {
       if (defaultTargetPlatform == TargetPlatform.windows) {
         await showWindowDialog(context);
       } else if (defaultTargetPlatform == TargetPlatform.macOS) {
@@ -263,9 +263,9 @@ class _MenuState extends State<Menu> with WindowListener {
   }
 
   Future<void> _launchURL(String url) async {
-    final _url = Uri.parse(url);
-    if (await canLaunchUrl(_url)) {
-      await launchUrl(_url);
+    final url0 = Uri.parse(url);
+    if (await canLaunchUrl(url0)) {
+      await launchUrl(url0);
     } else {
       throw Exception('Could not launch $url');
     }
