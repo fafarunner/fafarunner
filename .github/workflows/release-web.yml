@@ -15,7 +15,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.2'
+          flutter-version: '3.10.6'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -30,7 +30,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.CYF_BOT_TOKEN }}
-          external_repository: cyf/fafa-runner
-          publish_branch: gh-pages
-          destination_dir: play
+          external_repository: cyf/fafa_runner-web
+          publish_branch: main
+          cname: play.fafa-runner.chenyifaer.com
           publish_dir: ./build/web
