@@ -45,9 +45,7 @@ class Boss extends SimpleEnemy with ObjectCollision, UseBarLife {
 
   @override
   void render(Canvas canvas) {
-    this.drawDefaultLifeBar(canvas);
     drawBarSummonEnemy(canvas);
-
     super.render(canvas);
   }
 
@@ -123,16 +121,9 @@ class Boss extends SimpleEnemy with ObjectCollision, UseBarLife {
           positionExplosion = position.translate(0, height * 2);
           break;
         case Direction.upLeft:
-          // TODO: Handle this case.
-          break;
         case Direction.upRight:
-          // TODO: Handle this case.
-          break;
         case Direction.downLeft:
-          // TODO: Handle this case.
-          break;
         case Direction.downRight:
-          // TODO: Handle this case.
           break;
         default:
       }

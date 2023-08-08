@@ -30,24 +30,24 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bonfire: ^2.12.7
   cupertino_icons: ^1.0.5
-  fluent_ui: ^4.6.1
+  flame_audio: ^2.0.2
+  flame_splash_screen: ^0.1.0
+  fluent_ui: ^4.7.2
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash: ^2.3.0
+  flutter_native_splash: ^2.3.1
   intl: ^0.18.0
-  macos_ui: ^1.12.2
-  sentry_flutter: ^7.6.2
-  window_manager: ^0.3.4
-  bonfire: ^2.12.5
-  flame_audio: ^2.0.2
-  flame_splash_screen: ^0.1.0
-  url_launcher: ^6.1.11
+  macos_ui: ^2.0.0
+  sentry_flutter: ^7.9.0
+  url_launcher: ^6.1.12
+  window_manager: ^0.3.5
 
 dev_dependencies:
-  build_runner: ^2.4.4
+  build_runner: ^2.4.6
   flutter_test:
     sdk: flutter
   mockingjay: ^0.3.0

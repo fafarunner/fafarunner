@@ -12,7 +12,7 @@ Future<void> showMacosDialog(BuildContext context) async {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          buttonSize: ButtonSize.large,
+          controlSize: ControlSize.large,
           child: const Text('No'),
         ),
         secondaryButton: PushButton(
@@ -20,8 +20,8 @@ Future<void> showMacosDialog(BuildContext context) async {
             Navigator.of(context).pop();
             await windowManager.destroy();
           },
-          buttonSize: ButtonSize.large,
-          isSecondary: true,
+          controlSize: ControlSize.large,
+          secondary: true,
           child: const Text('Yes'),
         ),
         title: const Text('Confirm close'),

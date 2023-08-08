@@ -6,7 +6,7 @@ import 'package:fafa_runner/util/game_sprite_sheet.dart';
 import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
-class Goblin extends SimpleEnemy with ObjectCollision {
+class Goblin extends SimpleEnemy with ObjectCollision, UseBarLife {
   Goblin(this.initPosition)
       : super(
           animation: EnemySpriteSheet.goblinAnimations(),
@@ -32,15 +32,6 @@ class Goblin extends SimpleEnemy with ObjectCollision {
 
   final Vector2 initPosition;
   double attack = 25;
-
-  @override
-  void render(Canvas canvas) {
-    drawDefaultLifeBar(
-      canvas,
-      borderRadius: BorderRadius.circular(2),
-    );
-    super.render(canvas);
-  }
 
   @override
   void update(double dt) {

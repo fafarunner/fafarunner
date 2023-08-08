@@ -6,7 +6,7 @@ import 'package:fafa_runner/util/game_sprite_sheet.dart';
 import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
-class MiniBoss extends SimpleEnemy with ObjectCollision {
+class MiniBoss extends SimpleEnemy with ObjectCollision, UseBarLife {
   MiniBoss(this.initPosition)
       : super(
           animation: EnemySpriteSheet.miniBossAnimations(),
@@ -30,12 +30,6 @@ class MiniBoss extends SimpleEnemy with ObjectCollision {
   final Vector2 initPosition;
   double attack = 50;
   bool _seePlayerClose = false;
-
-  @override
-  void render(Canvas canvas) {
-    this.drawDefaultLifeBar(canvas);
-    super.render(canvas);
-  }
 
   @override
   void update(double dt) {
