@@ -26,6 +26,10 @@ jobs:
       - name: Build Web
         run: flutter build web --no-tree-shake-icons --web-renderer canvaskit --base-href /fafa-runner/play/
 
+      - name: Add README
+        run: |
+          echo "# FaFa Runner" >> ./build/web/README.md
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
