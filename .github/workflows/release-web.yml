@@ -30,7 +30,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.CYF_BOT_TOKEN }}
-          external_repository: cyf/fafa-runner
-          publish_branch: gh-pages
-          destination_dir: play
+          cname: play.fafa-runner.chenyifaer.com
           publish_dir: ./build/web
