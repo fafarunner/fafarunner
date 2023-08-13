@@ -59,166 +59,170 @@ class _MenuState extends State<Menu> with WindowListener {
   }
 
   Widget buildMenu() {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Text(
-                'FaFa Runner',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Normal',
-                  fontSize: 30,
+    return Title(
+      title: context.l10n.appName,
+      color: Colors.black,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  context.l10n.appName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Normal',
+                    fontSize: 30,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              if (sprites.isNotEmpty)
+                const SizedBox(
+                  height: 20,
+                ),
+                if (sprites.isNotEmpty)
+                  SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: CustomSpriteAnimationWidget(
+                      animation: sprites[currentPosition],
+                    ),
+                  ),
+                const SizedBox(
+                  height: 30,
+                ),
                 SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: CustomSpriteAnimationWidget(
-                    animation: sprites[currentPosition],
+                  width: 150,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      minimumSize: const Size(100, 40), //////// HERE
+                    ),
+                    child: Text(
+                      context.l10n.playCap,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Normal',
+                        fontSize: 17,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Game()),
+                      );
+                    },
                   ),
                 ),
-              const SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                width: 150,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    minimumSize: const Size(100, 40), //////// HERE
-                  ),
-                  child: Text(
-                    context.l10n.playCap,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Normal',
-                      fontSize: 17,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Game()),
-                    );
+                const SizedBox(
+                  height: 20,
+                ),
+                DefectorRadio<bool>(
+                  value: false,
+                  label: 'Keyboard',
+                  group: Game.useJoystick,
+                  onChange: (value) {
+                    setState(() {
+                      Game.useJoystick = value;
+                    });
                   },
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              DefectorRadio<bool>(
-                value: false,
-                label: 'Keyboard',
-                group: Game.useJoystick,
-                onChange: (value) {
-                  setState(() {
-                    Game.useJoystick = value;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DefectorRadio<bool>(
-                value: true,
-                group: Game.useJoystick,
-                label: 'Joystick',
-                onChange: (value) {
-                  setState(() {
-                    Game.useJoystick = value;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              if (!Game.useJoystick)
-                SizedBox(
-                  height: 80,
-                  width: 200,
-                  child: Sprite.load('keyboard_tip.png').asWidget(),
+                const SizedBox(
+                  height: 10,
                 ),
-            ],
+                DefectorRadio<bool>(
+                  value: true,
+                  group: Game.useJoystick,
+                  label: 'Joystick',
+                  onChange: (value) {
+                    setState(() {
+                      Game.useJoystick = value;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                if (!Game.useJoystick)
+                  SizedBox(
+                    height: 80,
+                    width: 200,
+                    child: Sprite.load('keyboard_tip.png').asWidget(),
+                  ),
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          height: 20,
-          margin: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: context.l10n.poweredByPrefix,
-                    ),
-                    TextSpan(
-                      text: context.l10n.author,
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          _launchURL('https://github.com/kjxbyz');
-                        },
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            height: 20,
+            margin: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: context.l10n.poweredByPrefix,
                       ),
-                    ),
-                    TextSpan(
-                      text: context.l10n.poweredBySuffix,
-                    ),
-                  ],
-                ),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Normal',
-                  fontSize: 12,
-                ),
-              ),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: context.l10n.builtWithPrefix,
-                    ),
-                    TextSpan(
-                      text: 'Bonfire',
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          _launchURL(
-                            'https://github.com/RafaelBarbosatec/bonfire',
-                          );
-                        },
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
+                      TextSpan(
+                        text: context.l10n.author,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            _launchURL('https://github.com/kjxbyz');
+                          },
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: context.l10n.builtWithSuffix,
-                    ),
-                  ],
+                      TextSpan(
+                        text: context.l10n.poweredBySuffix,
+                      ),
+                    ],
+                  ),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Normal',
+                    fontSize: 12,
+                  ),
                 ),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Normal',
-                  fontSize: 12,
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: context.l10n.builtWithPrefix,
+                      ),
+                      TextSpan(
+                        text: 'Bonfire',
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            _launchURL(
+                              'https://github.com/RafaelBarbosatec/bonfire',
+                            );
+                          },
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      TextSpan(
+                        text: context.l10n.builtWithSuffix,
+                      ),
+                    ],
+                  ),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Normal',
+                    fontSize: 12,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -226,22 +230,26 @@ class _MenuState extends State<Menu> with WindowListener {
   }
 
   Widget buildSplash() {
-    return FlameSplashScreen(
-      theme: FlameSplashTheme(
-        backgroundDecoration: const BoxDecoration(color: Colors.black),
-        logoBuilder: (context) => LayoutBuilder(builder: (context, constraints) {
-          return ConstrainedBox(
-            constraints: BoxConstraints.loose(const Size(300, 300)),
-            child: Image.asset('logo/logo_round.png'),
-          );
-        })
+    return Title(
+      title: context.l10n.appName,
+      color: Colors.black,
+      child: FlameSplashScreen(
+        theme: FlameSplashTheme(
+            backgroundDecoration: const BoxDecoration(color: Colors.black),
+            logoBuilder: (context) =>
+                LayoutBuilder(builder: (context, constraints) {
+                  return ConstrainedBox(
+                    constraints: BoxConstraints.loose(const Size(300, 300)),
+                    child: Image.asset('logo/logo_round.png'),
+                  );
+                })),
+        onFinish: (BuildContext context) {
+          setState(() {
+            showSplash = false;
+          });
+          startTimer();
+        },
       ),
-      onFinish: (BuildContext context) {
-        setState(() {
-          showSplash = false;
-        });
-        startTimer();
-      },
     );
   }
 

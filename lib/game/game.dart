@@ -13,6 +13,7 @@ import 'package:fafa_runner/enemies/goblin.dart';
 import 'package:fafa_runner/enemies/imp.dart';
 import 'package:fafa_runner/enemies/mini_boss.dart';
 import 'package:fafa_runner/interface/knight_interface.dart';
+import 'package:fafa_runner/l10n/l10n.dart';
 import 'package:fafa_runner/npc/kid.dart';
 import 'package:fafa_runner/npc/wizard_npc.dart';
 import 'package:fafa_runner/player/knight.dart';
@@ -92,44 +93,48 @@ class _GameState extends State<Game> with GameListener, WindowListener {
       );
     }
 
-    return Material(
-      color: Colors.transparent,
-      child: BonfireWidget(
-        gameController: _controller,
-        joystick: joystick,
-        player: Knight(
-          Vector2(2 * tileSize, 3 * tileSize),
-        ),
-        map: WorldMapByTiled(
-          'tiled/map.json',
-          forceTileSize: Vector2(tileSize, tileSize),
-          objectsBuilder: {
-            'door': (p) => Door(p.position, p.size),
-            'torch': (p) => Torch(p.position),
-            'potion': (p) => PotionLife(p.position, 30),
-            'wizard': (p) => WizardNPC(p.position),
-            'spikes': (p) => Spikes(p.position),
-            'key': (p) => DoorKey(p.position),
-            'kid': (p) => Kid(p.position),
-            'boss': (p) => Boss(p.position),
-            'goblin': (p) => Goblin(p.position),
-            'imp': (p) => Imp(p.position),
-            'mini_boss': (p) => MiniBoss(p.position),
-            'torch_empty': (p) => Torch(p.position, empty: true),
-          },
-        ),
-        interface: KnightInterface(),
-        lightingColorGame: Colors.black.withOpacity(0.6),
-        background: BackgroundColorGame(Colors.grey[900]!),
-        progress: const ColoredBox(
-          color: Colors.black,
-          child: Center(
-            child: Text(
-              'Loading...',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Normal',
-                fontSize: 20,
+    return Title(
+      title: context.l10n.appName,
+      color: Colors.black,
+      child: Material(
+        color: Colors.transparent,
+        child: BonfireWidget(
+          gameController: _controller,
+          joystick: joystick,
+          player: Knight(
+            Vector2(2 * tileSize, 3 * tileSize),
+          ),
+          map: WorldMapByTiled(
+            'tiled/map.json',
+            forceTileSize: Vector2(tileSize, tileSize),
+            objectsBuilder: {
+              'door': (p) => Door(p.position, p.size),
+              'torch': (p) => Torch(p.position),
+              'potion': (p) => PotionLife(p.position, 30),
+              'wizard': (p) => WizardNPC(p.position),
+              'spikes': (p) => Spikes(p.position),
+              'key': (p) => DoorKey(p.position),
+              'kid': (p) => Kid(p.position),
+              'boss': (p) => Boss(p.position),
+              'goblin': (p) => Goblin(p.position),
+              'imp': (p) => Imp(p.position),
+              'mini_boss': (p) => MiniBoss(p.position),
+              'torch_empty': (p) => Torch(p.position, empty: true),
+            },
+          ),
+          interface: KnightInterface(),
+          lightingColorGame: Colors.black.withOpacity(0.6),
+          background: BackgroundColorGame(Colors.grey[900]!),
+          progress: const ColoredBox(
+            color: Colors.black,
+            child: Center(
+              child: Text(
+                'Loading...',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Normal',
+                  fontSize: 20,
+                ),
               ),
             ),
           ),
