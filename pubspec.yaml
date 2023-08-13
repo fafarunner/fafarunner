@@ -52,6 +52,7 @@ dev_dependencies:
     sdk: flutter
   mockingjay: ^0.3.0
   mocktail: ^0.3.0
+  msix: ^3.16.1
   very_good_analysis: ^5.0.0+1
 
 # For information on the generic Dart part of this file, see the
@@ -68,6 +69,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - logo/
     - assets/
     - assets/images/
     - assets/images/emote/
@@ -105,3 +107,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+msix_config:
+  display_name: FaFa Runner
+  publisher_display_name: Qingdao INSCO Network Technology Co., Ltd.
+  identity_name: QingdaoINSCONetworkTechno.FaFaRunner
+  publisher: CN=5585C59A-AF21-4C4B-B1BE-407391662EF6
+  msix_version: 1.0.0.1
+  store: true
