@@ -2,6 +2,7 @@
   "@@locale": "en",
   "appName": "FaFa Runner",
   "playCap": "PLAY",
+  "loading": "Loading...",
   "creditsCap": "CREDITS",
   "poweredByPrefix": "Powered by ",
   "poweredBySuffix": "",

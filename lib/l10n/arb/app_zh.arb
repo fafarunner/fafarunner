@@ -1,6 +1,7 @@
 {
   "appName": "发发跑酷",
   "playCap": "开始玩",
+  "loading": "加载中...",
   "creditsCap": "学分",
   "poweredByPrefix": "由 ",
   "poweredBySuffix": " 开发",

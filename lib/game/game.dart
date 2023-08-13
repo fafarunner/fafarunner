@@ -125,12 +125,12 @@ class _GameState extends State<Game> with GameListener, WindowListener {
           interface: KnightInterface(),
           lightingColorGame: Colors.black.withOpacity(0.6),
           background: BackgroundColorGame(Colors.grey[900]!),
-          progress: const ColoredBox(
+          progress: ColoredBox(
             color: Colors.black,
             child: Center(
               child: Text(
-                'Loading...',
-                style: TextStyle(
+                context.l10n.loading,
+                style: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'Normal',
                   fontSize: 20,
