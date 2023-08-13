@@ -1,5 +1,6 @@
 {
   "@@locale": "en",
+  "appName": "FaFa Runner",
   "playCap": "PLAY",
   "creditsCap": "CREDITS",
   "poweredByPrefix": "Powered by ",
