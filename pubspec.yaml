@@ -39,6 +39,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   flutter_native_splash: ^2.3.1
   intl: ^0.18.0
   macos_ui: ^2.0.0
