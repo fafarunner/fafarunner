@@ -227,7 +227,15 @@ class _MenuState extends State<Menu> with WindowListener {
 
   Widget buildSplash() {
     return FlameSplashScreen(
-      theme: FlameSplashTheme.dark,
+      theme: FlameSplashTheme(
+        backgroundDecoration: const BoxDecoration(color: Colors.black),
+        logoBuilder: (context) => LayoutBuilder(builder: (context, constraints) {
+          return ConstrainedBox(
+            constraints: BoxConstraints.loose(const Size(300, 300)),
+            child: Image.asset('logo/logo_round.png'),
+          );
+        })
+      ),
       onFinish: (BuildContext context) {
         setState(() {
           showSplash = false;

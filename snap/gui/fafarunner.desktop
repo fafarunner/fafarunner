@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=FaFa Runner
+Comment=FaFa Runner
+Version=1.0.0
+Type=Application
+Terminal=false
+Exec=fafarunner
+Icon=${SNAP}/meta/gui/fafarunner.png
+Encoding=UTF-8

@@ -89,7 +89,7 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.chenyifaer.fafarunner" "\0"
+            VALUE "CompanyName", "Qingdao INSCO Network Technology Co., Ltd." "\0"
             VALUE "FileDescription", "FaFa Runner" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "FaFa Runner" "\0"

@@ -1,7 +1,10 @@
 name: fafarunner
 summary: FaFa Runner
 description: FaFa Runner
+type: app
+version: 1.0.0
 confinement: strict
+
 base: core18
 grade: stable
 architectures:
