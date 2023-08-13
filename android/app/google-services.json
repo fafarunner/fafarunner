@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "335725204791",
+    "project_id": "fafa-runner",
+    "storage_bucket": "fafa-runner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335725204791:android:15309d0d6958bf2dd876b2",
+        "android_client_info": {
+          "package_name": "com.chenyifaer.fafarunner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335725204791-445sk0sp9dfnkn04r0tilk3mdojmnuuc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJEs2z_sKdolkiCrEWfivF936FiQYEH3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335725204791-445sk0sp9dfnkn04r0tilk3mdojmnuuc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
