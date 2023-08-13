@@ -43,7 +43,7 @@ dependencies:
   flutter_native_splash: ^2.3.1
   flutter_web_plugins:
     sdk: flutter
-  intl: ^0.18.0
+  intl: ^0.18.1
   macos_ui: ^2.0.0
   sentry_flutter: ^7.9.0
   url_launcher: ^6.1.12
