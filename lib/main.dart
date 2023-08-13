@@ -6,6 +6,7 @@ import 'package:fafa_runner/constrants/get.dart';
 import 'package:fafa_runner/url_strategy/url_strategy_non_web.dart'
 if (dart.library.html) 'package:fafa_runner/url_strategy/url_strategy_web.dart';
 import 'package:fafa_runner/util/sounds.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -45,6 +46,10 @@ void main() {
         await Flame.device.fullScreen();
       }
       await Sounds.initialize();
+
+      if (isMobile) {
+        await Firebase.initializeApp();
+      }
 
       if (isDesktop) {
         await WindowManager.instance.ensureInitialized();

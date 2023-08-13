@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
+  firebase_core
   screen_retriever
   sentry_flutter
   url_launcher_windows

@@ -32,6 +32,7 @@ environment:
 dependencies:
   bonfire: ^2.12.7
   cupertino_icons: ^1.0.5
+  firebase_core: ^2.15.0
   flame_audio: ^2.0.2
   flame_splash_screen: ^0.1.0
   fluent_ui: ^4.7.2
@@ -39,9 +40,9 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_native_splash: ^2.3.1
   flutter_web_plugins:
     sdk: flutter
-  flutter_native_splash: ^2.3.1
   intl: ^0.18.0
   macos_ui: ^2.0.0
   sentry_flutter: ^7.9.0
