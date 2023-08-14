@@ -1,5 +1,5 @@
 on:
-  push:
+  pull_request:
     branches: [ "main" ]
 name: Build and Release Web
 jobs:
@@ -23,16 +23,3 @@ jobs:
 
       - name: Build Web
         run: flutter build web --no-tree-shake-icons --web-renderer canvaskit --base-href /fafa-runner/play/
-
-      - name: Add README
-        run: |
-          echo "# FaFa Runner" >> ./build/web/README.md
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.CYF_BOT_TOKEN }}
-          # external_repository: cyf/fafa_runner-web
-          # publish_branch: main
-          cname: play.fafa-runner.chenyifaer.com
-          publish_dir: ./build/web
