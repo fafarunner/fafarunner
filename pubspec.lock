@@ -577,18 +577,18 @@ packages:
     dependency: "direct dev"
     description:
       name: mockingjay
-      sha256: c31b9850139a2a54d6bcfa02af022a8b15bf7c0bb83b0d5881e001e396fa91de
+      sha256: "9ef2c471ab3db0f19a8e9600e255297ac13d1130a9b8f1926294ee6d0cb7d68f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0"
   mocktail:
     dependency: "direct dev"
     description:
       name: mocktail
-      sha256: "80a996cd9a69284b3dc521ce185ffe9150cde69767c2d3a0720147d93c0cef53"
+      sha256: "9503969a7c2c78c7292022c70c0289ed6241df7a9ba720010c0b215af29a5a58"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "1.0.0"
   msix:
     dependency: "direct dev"
     description:
