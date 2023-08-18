@@ -410,12 +410,12 @@ jobs:
 
       # Package the build.
       - name: Compress build for macOS
-        run: ditto -c -k --sequesterRsrc --keepParent FaFa\ Runner.app $GITHUB_WORKSPACE/fafa_runner_macos.zip
+        run: ditto -c -k --sequesterRsrc --keepParent FaFaRunnerDesktop.app $GITHUB_WORKSPACE/fafa_runner_macos.zip
         working-directory: build/macos/Build/Products/Release
 
       - name: Build dmg
         run: |
-          appdmg appdmg.json $GITHUB_WORKSPACE/FaFa\ Runner.dmg
+          appdmg appdmg.json $GITHUB_WORKSPACE/FaFaRunnerDesktop.dmg
 
       - uses: actions/upload-artifact@v3
         with:
