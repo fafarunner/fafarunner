@@ -4,5 +4,10 @@
     "config:base"
   ],
   "rangeStrategy": "bump",
-  "prHourlyLimit": 0
+  "prHourlyLimit": 0,
+  "packageRules": [
+    {
+      "excludePackageNames": ["flutter_localizations", "flutter_web_plugins", "flutter_test"]
+    }
+  ]
 }
