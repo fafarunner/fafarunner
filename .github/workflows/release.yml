@@ -69,7 +69,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.6'
+          flutter-version: '3.13.0'
 
 #      - name: Setup NDK
 #        uses: nttld/setup-ndk@v1
@@ -126,7 +126,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.6'
+          flutter-version: '3.13.0'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
@@ -179,7 +179,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.6'
+          flutter-version: '3.13.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -262,7 +262,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.6'
+          flutter-version: '3.13.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -311,7 +311,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.6'
+          flutter-version: '3.13.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -362,7 +362,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.6'
+          flutter-version: '3.13.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -388,7 +388,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.10.6'
+          flutter-version: '3.13.0'
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -410,12 +410,12 @@ jobs:
 
       # Package the build.
       - name: Compress build for macOS
-        run: ditto -c -k --sequesterRsrc --keepParent FaFa\ Runner.app $GITHUB_WORKSPACE/fafa_runner_macos.zip
+        run: ditto -c -k --sequesterRsrc --keepParent FaFaRunnerDesktop.app $GITHUB_WORKSPACE/fafa_runner_macos.zip
         working-directory: build/macos/Build/Products/Release
 
       - name: Build dmg
         run: |
-          appdmg appdmg.json $GITHUB_WORKSPACE/FaFa\ Runner.dmg
+          appdmg appdmg.json $GITHUB_WORKSPACE/FaFaRunnerDesktop.dmg
 
       - uses: actions/upload-artifact@v3
         with:
