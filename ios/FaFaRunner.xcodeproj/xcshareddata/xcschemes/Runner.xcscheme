@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-               BuildableName = "Runner.app"
-               BlueprintName = "Runner"
+               BuildableName = "FaFaRunner.app"
+               BlueprintName = "FaFaRunner"
                ReferencedContainer = "container:FaFaRunner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -31,8 +31,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "Runner.app"
-            BlueprintName = "Runner"
+            BuildableName = "FaFaRunner.app"
+            BlueprintName = "FaFaRunner"
             ReferencedContainer = "container:FaFaRunner.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -54,8 +54,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "Runner.app"
-            BlueprintName = "Runner"
+            BuildableName = "FaFaRunner.app"
+            BlueprintName = "FaFaRunner"
             ReferencedContainer = "container:FaFaRunner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,8 +71,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "Runner.app"
-            BlueprintName = "Runner"
+            BuildableName = "FaFaRunner.app"
+            BlueprintName = "FaFaRunner"
             ReferencedContainer = "container:FaFaRunner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

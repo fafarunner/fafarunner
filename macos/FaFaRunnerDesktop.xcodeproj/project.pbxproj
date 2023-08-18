@@ -26,7 +26,7 @@
 		33CC10F32044A3C60003C045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33CC10F22044A3C60003C045 /* Assets.xcassets */; };
 		33CC10F62044A3C60003C045 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33CC10F42044A3C60003C045 /* MainMenu.xib */; };
 		33CC11132044BFA00003C045 /* MainFlutterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC11122044BFA00003C045 /* MainFlutterWindow.swift */; };
-		D2D412954AE810D21624D192 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95F859BB8A4F0B9E4A410E6D /* Pods_Runner.framework */; };
+		6D4E61C940CEB8FF4F6590BB /* Pods_FaFaRunnerDesktop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489778EC01B0F505A3E60A13 /* Pods_FaFaRunnerDesktop.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,12 +67,12 @@
 		33E51913231747F40026EE4D /* DebugProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DebugProfile.entitlements; sourceTree = "<group>"; };
 		33E51914231749380026EE4D /* Release.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Release.entitlements; sourceTree = "<group>"; };
 		33E5194F232828860026EE4D /* AppInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppInfo.xcconfig; sourceTree = "<group>"; };
-		48EBB571DD9E4592606B078A /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		489778EC01B0F505A3E60A13 /* Pods_FaFaRunnerDesktop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FaFaRunnerDesktop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E52A2B066B5F387B2D5D6E /* Pods-FaFaRunnerDesktop.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaFaRunnerDesktop.profile.xcconfig"; path = "Target Support Files/Pods-FaFaRunnerDesktop/Pods-FaFaRunnerDesktop.profile.xcconfig"; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		95F859BB8A4F0B9E4A410E6D /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		95FB2A37664D446C84F08CFC /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		F2258321009131CCDE7FCF3E /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		EC9AD10746C7700C13E99BA4 /* Pods-FaFaRunnerDesktop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaFaRunnerDesktop.release.xcconfig"; path = "Target Support Files/Pods-FaFaRunnerDesktop/Pods-FaFaRunnerDesktop.release.xcconfig"; sourceTree = "<group>"; };
+		F4B4830760AD51FC551D3E77 /* Pods-FaFaRunnerDesktop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaFaRunnerDesktop.debug.xcconfig"; path = "Target Support Files/Pods-FaFaRunnerDesktop/Pods-FaFaRunnerDesktop.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2D412954AE810D21624D192 /* Pods_Runner.framework in Frameworks */,
+				6D4E61C940CEB8FF4F6590BB /* Pods_FaFaRunnerDesktop.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,9 +90,9 @@
 		1F582A32F9F2A2C62DD2BF10 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F2258321009131CCDE7FCF3E /* Pods-Runner.debug.xcconfig */,
-				48EBB571DD9E4592606B078A /* Pods-Runner.release.xcconfig */,
-				95FB2A37664D446C84F08CFC /* Pods-Runner.profile.xcconfig */,
+				F4B4830760AD51FC551D3E77 /* Pods-FaFaRunnerDesktop.debug.xcconfig */,
+				EC9AD10746C7700C13E99BA4 /* Pods-FaFaRunnerDesktop.release.xcconfig */,
+				69E52A2B066B5F387B2D5D6E /* Pods-FaFaRunnerDesktop.profile.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -165,7 +165,7 @@
 		D73912EC22F37F3D000D13A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				95F859BB8A4F0B9E4A410E6D /* Pods_Runner.framework */,
+				489778EC01B0F505A3E60A13 /* Pods_FaFaRunnerDesktop.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,9 +173,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		33CC10EC2044A3C60003C045 /* Runner */ = {
+		33CC10EC2044A3C60003C045 /* FaFaRunnerDesktop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 33CC10FB2044A3C60003C045 /* Build configuration list for PBXNativeTarget "Runner" */;
+			buildConfigurationList = 33CC10FB2044A3C60003C045 /* Build configuration list for PBXNativeTarget "FaFaRunnerDesktop" */;
 			buildPhases = (
 				978230ACF6030025E3CC79DF /* [CP] Check Pods Manifest.lock */,
 				33CC10E92044A3C60003C045 /* Sources */,
@@ -190,7 +190,7 @@
 			dependencies = (
 				33CC11202044C79F0003C045 /* PBXTargetDependency */,
 			);
-			name = Runner;
+			name = FaFaRunnerDesktop;
 			productName = Runner;
 			productReference = 33CC10ED2044A3C60003C045 /* FaFaRunnerDesktop.app */;
 			productType = "com.apple.product-type.application";
@@ -233,7 +233,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				33CC10EC2044A3C60003C045 /* Runner */,
+				33CC10EC2044A3C60003C045 /* FaFaRunnerDesktop */,
 				33CC111A2044C6BA0003C045 /* Flutter Assemble */,
 			);
 		};
@@ -258,15 +258,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FaFaRunnerDesktop/Pods-FaFaRunnerDesktop-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FaFaRunnerDesktop/Pods-FaFaRunnerDesktop-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FaFaRunnerDesktop/Pods-FaFaRunnerDesktop-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3399D490228B24CF009A79C7 /* ShellScript */ = {
@@ -322,7 +322,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Runner-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-FaFaRunnerDesktop-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -638,7 +638,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		33CC10FB2044A3C60003C045 /* Build configuration list for PBXNativeTarget "Runner" */ = {
+		33CC10FB2044A3C60003C045 /* Build configuration list for PBXNativeTarget "FaFaRunnerDesktop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				33CC10FC2044A3C60003C045 /* Debug */,
