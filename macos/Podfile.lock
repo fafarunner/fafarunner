@@ -3,7 +3,7 @@ PODS:
     - FlutterMacOS
   - Firebase/CoreOnly (10.12.0):
     - FirebaseCore (= 10.12.0)
-  - firebase_core (2.15.0):
+  - firebase_core (2.15.1):
     - Firebase/CoreOnly (~> 10.12.0)
     - FlutterMacOS
   - FirebaseCore (10.12.0):
@@ -92,7 +92,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   audioplayers_darwin: dcad41de4fbd0099cb3749f7ab3b0cb8f70b810c
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
-  firebase_core: ff59797157ca9adda4440071643761b41fcd03b3
+  firebase_core: 559d892df9267acc6b7254d46fb3041866777509
   FirebaseCore: f86a1394906b97ac445ae49c92552a9425831bed
   FirebaseCoreInternal: b342e37cd4f5b4454ec34308f073420e7920858e
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
