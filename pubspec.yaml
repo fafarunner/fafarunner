@@ -56,7 +56,7 @@ dev_dependencies:
   mockingjay: ^0.4.0
   mocktail: ^1.0.0
   msix: ^3.16.1
-  very_good_analysis: ^5.0.0+1
+  very_good_analysis: ^5.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
