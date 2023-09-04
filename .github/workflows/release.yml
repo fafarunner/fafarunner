@@ -59,7 +59,7 @@ jobs:
     name: Create apk build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           java-version: "17.x"
@@ -116,7 +116,7 @@ jobs:
     name: Create appbundle build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           java-version: "17.x"
@@ -173,7 +173,7 @@ jobs:
     name: Create ios build
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -256,7 +256,7 @@ jobs:
     name: Create windows build
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -294,7 +294,7 @@ jobs:
     name: Create linux build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Flutter requirements for Linux
         run: |
@@ -336,7 +336,7 @@ jobs:
     name: Create linux snap build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Flutter requirements for Linux
         run: |
@@ -382,7 +382,7 @@ jobs:
     name: Create macos build
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
