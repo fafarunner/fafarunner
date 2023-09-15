@@ -30,12 +30,12 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  bonfire: ^2.12.7
+  bonfire: ^2.12.8
   cupertino_icons: ^1.0.6
   firebase_core: ^2.15.1
   flame_audio: ^2.0.2
   flame_splash_screen: ^0.1.0
-  fluent_ui: ^4.7.3
+  fluent_ui: ^4.7.4
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -45,7 +45,7 @@ dependencies:
     sdk: flutter
   intl: ^0.18.1
   macos_ui: ^2.0.0
-  sentry_flutter: ^7.9.0
+  sentry_flutter: ^7.10.1
   url_launcher: ^6.1.14
   window_manager: ^0.3.6
 
@@ -55,7 +55,7 @@ dev_dependencies:
     sdk: flutter
   mockingjay: ^0.4.0
   mocktail: ^1.0.0
-  msix: ^3.16.1
+  msix: ^3.16.2
   very_good_analysis: ^5.1.0
 
 # For information on the generic Dart part of this file, see the
