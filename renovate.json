@@ -8,11 +8,11 @@
   "ignoreDeps": [
     "flutter_localizations",
     "flutter_web_plugins",
-    "flutter_test",
-    "flame_audio",
-    "FirebaseAnalytics",
-    "gradle",
-    "com.android.tools.build:gradle",
-    "org.jetbrains.kotlin:kotlin-gradle-plugin"
+    "flutter_test"
+//    "flame_audio",
+//    "FirebaseAnalytics",
+//    "gradle",
+//    "com.android.tools.build:gradle",
+//    "org.jetbrains.kotlin:kotlin-gradle-plugin"
   ]
 }
