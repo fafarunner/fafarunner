@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class DefectorRadio<T> extends StatelessWidget {
   const DefectorRadio({
-    super.key,
     required this.value,
     this.group,
     this.label,
     this.onChange,
+    super.key,
   });
 
   final T value;

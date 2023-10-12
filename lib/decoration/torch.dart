@@ -3,7 +3,9 @@ import 'package:fafa_runner/constrants/constrants.dart';
 import 'package:fafa_runner/util/game_sprite_sheet.dart';
 import 'package:flutter/material.dart';
 
-class Torch extends GameDecoration with Lighting {
+class Torch extends GameDecoration {
+  bool empty = false;
+
   Torch(Vector2 position, {this.empty = false})
       : super.withAnimation(
           animation: GameSpriteSheet.torch(),
@@ -18,8 +20,6 @@ class Torch extends GameDecoration with Lighting {
       ),
     );
   }
-
-  bool empty = false;
 
   @override
   void render(Canvas canvas) {
