@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Kid extends GameDecoration {
+  bool conversationWithHero = false;
+
   Kid(
     Vector2 position,
   ) : super.withAnimation(
@@ -19,21 +21,19 @@ class Kid extends GameDecoration {
           size: Vector2(valueByTileSize(8), valueByTileSize(11)),
         );
 
-  bool conversationWithHero = false;
-
-  final IntervalTick _timer = IntervalTick(1000);
-
   @override
   void update(double dt) {
     super.update(dt);
-    if (!conversationWithHero && _timer.update(dt)) {
+    if (!conversationWithHero && checkInterval('checkBossDead', 1000, dt)) {
       try {
         gameRef.enemies().firstWhere((e) => e is Boss);
       } catch (e) {
         conversationWithHero = true;
         gameRef.camera.moveToTargetAnimated(
-          this,
-          finish: _startConversation,
+          target: this,
+          onComplete: () {
+            _startConversation();
+          },
         );
       }
     }
@@ -60,7 +60,7 @@ class Kid extends GameDecoration {
       ],
       onFinish: () {
         Sounds.interaction();
-        gameRef.camera.moveToPlayerAnimated(finish: () {
+        gameRef.camera.moveToPlayerAnimated(onComplete: () {
           Dialogs.showCongratulations(gameRef.context);
         });
       },

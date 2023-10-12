@@ -53,66 +53,66 @@ packages:
     dependency: "direct main"
     description:
       name: audioplayers
-      sha256: "61583554386721772f9309f509e17712865b38565a903c761f96b1115a979282"
+      sha256: d9f6ca8e9b3e5af5e73d4c814404566f72698ee7ba35487bdf2baa6749e7503f
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "5.2.0"
   audioplayers_android:
     dependency: transitive
     description:
       name: audioplayers_android
-      sha256: dbdc9b7f2aa2440314c638aa55aadd45c7705e8340d5eddf2e3fb8da32d4ae2c
+      sha256: fb01b9481f431fe04ac60f1f97ce8158383f2dc754558820592f795d81ca9d53
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "4.0.2"
   audioplayers_darwin:
     dependency: transitive
     description:
       name: audioplayers_darwin
-      sha256: "6aea96df1d12f7ad5a71d88c6d1b22a216211a9564219920124c16768e456e9d"
+      sha256: "3034e99a6df8d101da0f5082dcca0a2a99db62ab1d4ddb3277bed3f6f81afe08"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "5.0.2"
   audioplayers_linux:
     dependency: transitive
     description:
       name: audioplayers_linux
-      sha256: "396b62ac62c92dd26c3bc5106583747f57a8b325ebd2b41e5576f840cfc61338"
+      sha256: "60787e73fefc4d2e0b9c02c69885402177e818e4e27ef087074cf27c02246c9e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "3.1.0"
   audioplayers_platform_interface:
     dependency: transitive
     description:
       name: audioplayers_platform_interface
-      sha256: f7daaed4659143094151ecf6bacd927d29ab8acffba98c110c59f0b81ae51143
+      sha256: "365c547f1bb9e77d94dd1687903a668d8f7ac3409e48e6e6a3668a1ac2982adb"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.1"
+    version: "6.1.0"
   audioplayers_web:
     dependency: transitive
     description:
       name: audioplayers_web
-      sha256: ec84fd46eed1577148ed4113f5998a36a18da4fce7170c37ce3e21b631393339
+      sha256: "22cd0173e54d92bd9b2c80b1204eb1eb159ece87475ab58c9788a70ec43c2a62"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "4.1.0"
   audioplayers_windows:
     dependency: transitive
     description:
       name: audioplayers_windows
-      sha256: "1d3aaac98a192b8488167711ba1e67d8b96333e8d0572ede4e2912e5bbce69a3"
+      sha256: "9536812c9103563644ada2ef45ae523806b0745f7a78e89d1b5fb1951de90e1a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "3.1.0"
   bonfire:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: "0333594472cd448e1a11edf0461e9015290e1a273bc6a6f757016878b9d7c1c2"
+      sha256: d78e2513c26bc3262f56112f4f7171059a71a15c7ce4027fd7ef399573c3648e
       url: "https://pub.dev"
     source: hosted
-    version: "2.12.8"
+    version: "3.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -349,18 +349,18 @@ packages:
     dependency: transitive
     description:
       name: flame
-      sha256: c38e1be5827aa839c166c6ed08a2733bb4523bf153d8c670739c20c842fa1844
+      sha256: f1ed45b49db36f6650882900f3216516d5c2628400bad8b4e92d83c116d79b12
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.3"
+    version: "1.9.1"
   flame_audio:
     dependency: "direct main"
     description:
       name: flame_audio
-      sha256: "2898e59b36485ee55a0e161a21e7346949030a6b2da948ce25df39f16d2874c0"
+      sha256: "2b21fb18587e4591ed2523ea26f88078e9927b6f6ed0768f24a531f0ea7a1a36"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.1.1"
   flame_splash_screen:
     dependency: "direct main"
     description:
@@ -449,10 +449,10 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
+      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.5"
+    version: "1.1.0"
   http_multi_server:
     dependency: transitive
     description:
@@ -934,10 +934,10 @@ packages:
     dependency: transitive
     description:
       name: tiledjsonreader
-      sha256: b9ce57567eed3b8efbe1ef2ec5ff8ba6f5aedb3a27f33d577e49de1aa5a95e13
+      sha256: "752c81fb93932fbd891369b955ab8bd90568fbd2e00cf3a1863b4a8829f82674"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.6"
+    version: "1.3.2"
   timing:
     dependency: transitive
     description:

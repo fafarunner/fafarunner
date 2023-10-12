@@ -6,30 +6,30 @@ import 'package:fafa_runner/util/game_sprite_sheet.dart';
 import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
-class MiniBoss extends SimpleEnemy with ObjectCollision, UseBarLife {
+class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
+  final Vector2 initPosition;
+  double attack = 50;
+  bool _seePlayerClose = false;
+
   MiniBoss(this.initPosition)
       : super(
           animation: EnemySpriteSheet.miniBossAnimations(),
           position: initPosition,
           size: Vector2(tileSize * 0.68, tileSize * 0.93),
-          speed: tileSize / 0.35,
+          speed: tileSize* 1.5,
           life: 150,
-        ) {
-    setupCollision(
-      CollisionConfig(
-        collisions: [
-          CollisionArea.rectangle(
-            size: Vector2(valueByTileSize(6), valueByTileSize(7)),
-            align: Vector2(valueByTileSize(2.5), valueByTileSize(8)),
-          ),
-        ],
+        );
+
+  @override
+  Future<void> onLoad() {
+    add(
+      RectangleHitbox(
+        size: Vector2(valueByTileSize(6), valueByTileSize(7)),
+        position: Vector2(valueByTileSize(2.5), valueByTileSize(8)),
       ),
     );
+    return super.onLoad();
   }
-
-  final Vector2 initPosition;
-  double attack = 50;
-  bool _seePlayerClose = false;
 
   @override
   void update(double dt) {
@@ -60,10 +60,11 @@ class MiniBoss extends SimpleEnemy with ObjectCollision, UseBarLife {
   @override
   void die() {
     gameRef.add(
-      AnimatedObjectOnce(
+      AnimatedGameObject(
         animation: GameSpriteSheet.smokeExplosion(),
         position: position,
         size: Vector2(32, 32),
+        loop: false,
       ),
     );
     removeFromParent();
@@ -76,15 +77,12 @@ class MiniBoss extends SimpleEnemy with ObjectCollision, UseBarLife {
       animationDestroy: GameSpriteSheet.fireBallExplosion(),
       size: Vector2.all(tileSize * 0.65),
       damage: attack,
-      speed: speed * (tileSize / 32),
+      speed: speed * 2.5,
       execute: Sounds.attackRange,
       onDestroy: Sounds.explosion,
-      collision: CollisionConfig(
-        collisions: [
-          CollisionArea.rectangle(
-            size: Vector2(tileSize / 2, tileSize / 2),
-          ),
-        ],
+      collision: RectangleHitbox(
+        size: Vector2(tileSize / 3, tileSize / 3),
+        position: Vector2(10, 5),
       ),
       lightingConfig: LightingConfig(
         radius: tileSize * 0.9,

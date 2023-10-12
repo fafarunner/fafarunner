@@ -30,11 +30,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  audioplayers: ^4.1.0
-  bonfire: ^2.12.8
+  audioplayers: ^5.2.0
+  bonfire: ^3.0.0
   cupertino_icons: ^1.0.6
   firebase_core: ^2.16.0
-  flame_audio: ^2.0.2
+  flame_audio: ^2.1.1
   flame_splash_screen: ^0.2.0
   fluent_ui: ^4.7.6
   flutter:

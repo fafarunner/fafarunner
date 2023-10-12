@@ -6,37 +6,36 @@ import 'package:fafa_runner/util/game_sprite_sheet.dart';
 import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
-class Goblin extends SimpleEnemy with ObjectCollision, UseBarLife {
+class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
+  final Vector2 initPosition;
+  double attack = 25;
+
   Goblin(this.initPosition)
       : super(
           animation: EnemySpriteSheet.goblinAnimations(),
           position: initPosition,
           size: Vector2.all(tileSize * 0.8),
-          speed: tileSize / 0.35,
+          speed: tileSize * 1.5,
           life: 120,
-        ) {
-    setupCollision(
-      CollisionConfig(
-        collisions: [
-          CollisionArea.rectangle(
-            size: Vector2(
-              valueByTileSize(7),
-              valueByTileSize(7),
-            ),
-            align: Vector2(valueByTileSize(3), valueByTileSize(4)),
-          ),
-        ],
+        );
+
+  @override
+  Future<void> onLoad() {
+    add(
+      RectangleHitbox(
+        size: Vector2(
+          valueByTileSize(7),
+          valueByTileSize(7),
+        ),
+        position: Vector2(valueByTileSize(3), valueByTileSize(4)),
       ),
     );
+    return super.onLoad();
   }
-
-  final Vector2 initPosition;
-  double attack = 25;
 
   @override
   void update(double dt) {
     super.update(dt);
-
     seeAndMoveToPlayer(
       closePlayer: (player) {
         execAttack();
@@ -48,10 +47,11 @@ class Goblin extends SimpleEnemy with ObjectCollision, UseBarLife {
   @override
   void die() {
     gameRef.add(
-      AnimatedObjectOnce(
+      AnimatedGameObject(
         animation: GameSpriteSheet.smokeExplosion(),
         position: position,
         size: Vector2(32, 32),
+        loop: false,
       ),
     );
     removeFromParent();
