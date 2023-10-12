@@ -9,29 +9,21 @@ import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Knight extends SimplePlayer with Lighting, ObjectCollision {
+class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
+  double attack = 25;
+  double stamina = 100;
+  async.Timer? _timerStamina;
+  bool containKey = false;
+  bool showObserveEnemy = false;
+
   Knight(Vector2 position)
       : super(
           animation: PlayerSpriteSheet.playerAnimations(),
           size: Vector2.all(tileSize),
           position: position,
           life: 200,
-          speed: tileSize / 0.25,
+          speed: tileSize * 2.5,
         ) {
-    setupCollision(
-      CollisionConfig(
-        collisions: [
-          CollisionArea.rectangle(
-            size: Vector2(valueByTileSize(8), valueByTileSize(8)),
-            align: Vector2(
-              valueByTileSize(4),
-              valueByTileSize(8),
-            ),
-          ),
-        ],
-      ),
-    );
-
     setupLighting(
       LightingConfig(
         radius: width * 1.5,
@@ -39,23 +31,27 @@ class Knight extends SimplePlayer with Lighting, ObjectCollision {
         color: Colors.deepOrangeAccent.withOpacity(0.2),
       ),
     );
-  }
-
-  double attack = 25;
-  double stamina = 100;
-  double initSpeed = tileSize / 0.25;
-  async.Timer? _timerStamina;
-  bool containKey = false;
-  bool showObserveEnemy = false;
-
-  @override
-  void joystickChangeDirectional(JoystickDirectionalEvent event) {
-    speed = initSpeed * event.intensity;
-    super.joystickChangeDirectional(event);
+    setupMovementByJoystick(
+      intencityEnabled: true,
+    );
   }
 
   @override
-  void joystickAction(JoystickActionEvent event) {
+  async.Future<void> onLoad() {
+    add(
+      RectangleHitbox(
+        size: Vector2(valueByTileSize(8), valueByTileSize(8)),
+        position: Vector2(
+          valueByTileSize(4),
+          valueByTileSize(8),
+        ),
+      ),
+    );
+    return super.onLoad();
+  }
+
+  @override
+  void onJoystickAction(JoystickActionEvent event) {
     if (event.id == 0 && event.event == ActionEvent.DOWN) {
       actionAttack();
     }
@@ -73,7 +69,7 @@ class Knight extends SimplePlayer with Lighting, ObjectCollision {
     if (event.id == 1 && event.event == ActionEvent.DOWN) {
       actionAttackRange();
     }
-    super.joystickAction(event);
+    super.onJoystickAction(event);
   }
 
   @override
@@ -116,19 +112,14 @@ class Knight extends SimplePlayer with Lighting, ObjectCollision {
     decrementStamina(10);
     simpleAttackRange(
       animationRight: GameSpriteSheet.fireBallAttackRight(),
-      animationLeft: GameSpriteSheet.fireBallAttackLeft(),
-      animationUp: GameSpriteSheet.fireBallAttackTop(),
-      animationDown: GameSpriteSheet.fireBallAttackBottom(),
       animationDestroy: GameSpriteSheet.fireBallExplosion(),
       size: Vector2(tileSize * 0.65, tileSize * 0.65),
       damage: 10,
-      speed: initSpeed * (tileSize / 32),
-      enableDiagonal: false,
+      speed: speed * 2.5,
       onDestroy: Sounds.explosion,
-      collision: CollisionConfig(
-        collisions: [
-          CollisionArea.rectangle(size: Vector2(tileSize / 2, tileSize / 2)),
-        ],
+      collision: RectangleHitbox(
+        size: Vector2(tileSize / 3, tileSize / 3),
+        position: Vector2(10, 5),
       ),
       lightingConfig: LightingConfig(
         radius: tileSize * 0.9,
@@ -154,6 +145,11 @@ class Knight extends SimplePlayer with Lighting, ObjectCollision {
       },
     );
     super.update(dt);
+  }
+
+  @override
+  void render(Canvas c) {
+    super.render(c);
   }
 
   void _verifyStamina() {
@@ -194,7 +190,7 @@ class Knight extends SimplePlayer with Lighting, ObjectCollision {
 
   void _showEmote({String emote = 'emote/emote_exclamacao.png'}) {
     gameRef.add(
-      AnimatedFollowerObject(
+      AnimatedFollowerGameObject(
         animation: SpriteAnimation.load(
           emote,
           SpriteAnimationData.sequenced(
@@ -204,8 +200,9 @@ class Knight extends SimplePlayer with Lighting, ObjectCollision {
           ),
         ),
         target: this,
-        size: Vector2(32, 32),
-        positionFromTarget: Vector2(18, -6),
+        loop: false,
+        size: Vector2.all(tileSize / 2),
+        offset: Vector2(18, -6),
       ),
     );
   }
