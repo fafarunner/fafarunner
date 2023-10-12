@@ -1,9 +1,18 @@
 PODS:
   - audioplayers_darwin (0.0.1):
     - Flutter
+  - Firebase/Analytics (10.15.0):
+    - Firebase/Core
+  - Firebase/Core (10.15.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (~> 10.15.0)
   - Firebase/CoreOnly (10.15.0):
     - FirebaseCore (= 10.15.0)
-  - firebase_core (2.16.0):
+  - firebase_analytics (10.5.1):
+    - Firebase/Analytics (= 10.15.0)
+    - firebase_core
+    - Flutter
+  - firebase_core (2.17.0):
     - Firebase/CoreOnly (= 10.15.0)
     - Flutter
   - FirebaseAnalytics (10.15.0):
@@ -100,8 +109,8 @@ PODS:
 
 DEPENDENCIES:
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
+  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - FirebaseAnalytics (= 10.15.0)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -126,6 +135,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   audioplayers_darwin:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
+  firebase_analytics:
+    :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
@@ -144,7 +155,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   Firebase: 66043bd4579e5b73811f96829c694c7af8d67435
-  firebase_core: 77172d0a9d8d19d07606e24406e4c2fc14d3265b
+  firebase_analytics: f153c564d6a7675e56e4f171454b9f1b3e7b6601
+  firebase_core: 28e84c2a4fcf6a50ef83f47b145ded8c1fa331e4
   FirebaseAnalytics: 47cef43728f81a839cf1306576bdd77ffa2eac7e
   FirebaseCore: 2cec518b43635f96afe7ac3a9c513e47558abd2e
   FirebaseCoreInternal: 2f4bee5ed00301b5e56da0849268797a2dd31fb4
@@ -162,6 +174,6 @@ SPEC CHECKSUMS:
   SentryPrivate: 48712023cdfd523735c2edb6b06bedf26c4730a3
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
-PODFILE CHECKSUM: 6fbe9330b9b5c5cc8e664b2c92b773a67cff7af5
+PODFILE CHECKSUM: a914151ec6120f61f3310328d1c8d3126150146c
 
 COCOAPODS: 1.13.0
