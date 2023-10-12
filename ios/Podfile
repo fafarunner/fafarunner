@@ -33,7 +33,6 @@ target 'FaFaRunner' do
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
-  pod 'FirebaseAnalytics', '10.15.0'
 end
 
 post_install do |installer|
