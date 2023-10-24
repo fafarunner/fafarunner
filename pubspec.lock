@@ -125,10 +125,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: "39fce9ac23e71356330cce834e851efe1b33c791bb6393026da7eabb37a145ec"
+      sha256: "6190484d2f0cf6057327c5137dba8b22d6d5b91307a7067e9d8106d872d244db"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -990,10 +990,10 @@ packages:
     dependency: transitive
     description:
       name: tiledjsonreader
-      sha256: "752c81fb93932fbd891369b955ab8bd90568fbd2e00cf3a1863b4a8829f82674"
+      sha256: "2fe265c0a47b81dff2ea900d6c3c915046c0d7a7347cfc812f3ddff1da914773"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.2"
+    version: "1.3.3"
   timing:
     dependency: transitive
     description:
