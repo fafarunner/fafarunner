@@ -8,14 +8,14 @@ on:
         required: true
         default: "v1.0.0-alpha.0"
         type: string
-      environment:
+      mode:
         type: choice
-        description: "Which environment are you using? (iOS only)"
+        description: "Which mode are you using? (iOS only)"
         required: true
-        default: "development"
+        default: "debug"
         options:
-          - development
-          - production
+          - debug
+          - release
       prerelease:
         description: "Prerelease"
         required: false
@@ -233,7 +233,7 @@ jobs:
           cp $PP_DEV_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Build
-        run: flutter build ipa --release --export-options-plist=ios/ExportOptions-${{ github.event.inputs.environment }}.plist
+        run: flutter build ipa --release --export-options-plist=ios/ExportOptions-${{ github.event.inputs.mode }}.plist
 
       # Package the build.
       - name: Copy build for iOS
