@@ -9,5 +9,11 @@
     "flutter_localizations",
     "flutter_web_plugins",
     "flutter_test"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["flutter", "dart"],
+      "groupName": "flutter"
+    }
   ]
 }
