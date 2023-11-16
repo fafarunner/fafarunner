@@ -1,10 +1,11 @@
 #!/bin/sh
 
 if cd flutter; then
-  git pull && cd .. ;
+  git pull && git checkout 3.13.9 && cd .. ;
 else
   echo "🟩 Install Flutter"
   git clone https://github.com/flutter/flutter.git -b stable
+  git checkout 3.13.9 ;
 fi
 
 echo "🟩 Running ls"
