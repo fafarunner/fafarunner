@@ -1,12 +1,27 @@
 #!/bin/sh
 
-if cd flutter; then
-  git pull && git checkout 3.13.9 && cd .. ;
-else
-  echo "🟩 Install Flutter"
-  git clone https://github.com/flutter/flutter.git -b stable
-  git checkout 3.13.9 ;
+set -e
+
+if ! command -v wget >/dev/null 2>&1; then
+   echo "🟩 Installing wget"
+   yum install wget xz -y
 fi
+
+if [ ! -f "flutter_linux_3.13.9-stable.tar.xz" ]; then
+   echo "🟩 Downloading Flutter"
+   wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.13.9-stable.tar.xz
+fi
+
+if [ -d "flutter" ]; then
+   echo "🟩 Removing flutter directory"
+   rm -rf flutter;
+fi
+
+echo "🟩 Unzipping"
+mkdir flutter && tar -xf flutter_linux_3.13.9-stable.tar.xz -C flutter --strip-components 1
+
+echo "🟩 Config $PWD/flutter"
+git config --global --add safe.directory "$PWD/flutter"
 
 echo "🟩 Running ls"
 ls
