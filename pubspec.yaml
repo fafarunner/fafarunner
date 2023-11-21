@@ -47,7 +47,7 @@ dependencies:
     sdk: flutter
   intl: ^0.18.1
   macos_ui: ^2.0.2
-  package_info_plus: ^4.2.0
+  package_info_plus: ^5.0.1
   path_provider: ^2.1.1
   sentry_flutter: ^7.13.1
   url_launcher: ^6.2.1
