@@ -49,7 +49,7 @@ dependencies:
   macos_ui: ^2.0.2
   package_info_plus: ^4.2.0
   path_provider: ^2.1.1
-  sentry_flutter: ^7.13.1
+  sentry_flutter: ^7.13.2
   url_launcher: ^6.2.1
   window_manager: ^0.3.7
 
