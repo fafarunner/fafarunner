@@ -133,10 +133,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: "30f13baf157d08992e5c613ed23b7c611f26e5f29f1a6063e4e497339d679c25"
+      sha256: "866d3f7f3bfc4e62c975dbafbfc5430c93a0ff4ccb2843ef1d853bedffc5eef1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.9"
+    version: "3.0.10"
   boolean_selector:
     dependency: transitive
     description:
@@ -429,10 +429,10 @@ packages:
     dependency: "direct main"
     description:
       name: fluent_ui
-      sha256: afb479593d00455e9fb5474545a8d0c8bf35071bcbfcb0bd8b017930ddbee45c
+      sha256: "8ee7f8c0167618fc52e5518f895809531c5e15f3b917c133e59d1112dac505c7"
       url: "https://pub.dev"
     source: hosted
-    version: "4.7.7"
+    version: "4.8.0"
   flutter:
     dependency: "direct main"
     description: flutter
