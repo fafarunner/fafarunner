@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: dd68ecea9f1e3556d385521bd21c7bafd6311a8c1e11abe2595ca27974f468ee
+      sha256: eb0ac20f704799b986049fbb3c1c16421eca319a1b872378d669513e12452ba5
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.13"
+    version: "1.3.14"
   a_star_algorithm:
     dependency: transitive
     description:
@@ -181,10 +181,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "10c6bcdbf9d049a0b666702cf1cee4ddfdc38f02a19d35ae392863b47519848b"
+      sha256: "67d591d602906ef9201caf93452495ad1812bea2074f04e25dbd7c133785821b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.4.7"
   build_runner_core:
     dependency: transitive
     description:
@@ -349,34 +349,34 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_analytics
-      sha256: de3d73b5c5618bf31004308b017b4067b7d9156b96e97b62d59ae5eab71081ec
+      sha256: "6325991042226a515406b4fc9204d3102e54a514b72fffb945b625d9f69c5196"
       url: "https://pub.dev"
     source: hosted
-    version: "10.7.1"
+    version: "10.7.2"
   firebase_analytics_platform_interface:
     dependency: transitive
     description:
       name: firebase_analytics_platform_interface
-      sha256: ffc59c0b00a572cd1fbf915a1d50cb4ccdc61e429614aa6ae9a598ee5723b96a
+      sha256: "38ad4bec1fa0fe16577e6f178e4c4280f029181b18e16bf68782c527c7d82bfe"
       url: "https://pub.dev"
     source: hosted
-    version: "3.8.1"
+    version: "3.8.2"
   firebase_analytics_web:
     dependency: transitive
     description:
       name: firebase_analytics_web
-      sha256: "0e725a7dcdeb0a59e44d93d1d45dfec94efe54329ac9d6aa145e24d31429100c"
+      sha256: "6c0deb691a26db2006ded65fd8999a204dcfe8ef67d7d75b7f55ebc08e1d89a4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.5+8"
+    version: "0.5.5+9"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: "471b46ea6a9af503184d4de691566887daedd312aec5baac5baa42d819f56446"
+      sha256: d301561d614487688d797717bef013a264c517d1d09e4c5c1325c3a64c835efb
       url: "https://pub.dev"
     source: hosted
-    version: "2.23.0"
+    version: "2.24.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -389,10 +389,10 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "0631a2ec971dbc540275e2fa00c3a8a2676f0a7adbc3c197d6fba569db689d97"
+      sha256: "10159d9ee42c79f4548971d92f3f0fcd5791f6738cda3583a4e3b2c8b244c018"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.1"
+    version: "2.9.0"
   fixnum:
     dependency: transitive
     description:
@@ -405,18 +405,18 @@ packages:
     dependency: transitive
     description:
       name: flame
-      sha256: b6bb76224fc29fd5eea25d66cda6e322e3678bdedc1f65956c6151326a6a798b
+      sha256: "4418cf72c53059241a2e9ddf8e783a01ae84caec31d7f6d30a19122b2c602748"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.1"
+    version: "1.11.0"
   flame_audio:
     dependency: "direct main"
     description:
       name: flame_audio
-      sha256: e9a25fac14a1017e7851f19ec18e759ce3001872d97398df29706824618b2690
+      sha256: "9be2c716584ed534e84c1f8557788c7ee2d7b3d067d6362b6401508d50b24728"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.3"
+    version: "2.1.4"
   flame_splash_screen:
     dependency: "direct main"
     description:
@@ -429,10 +429,10 @@ packages:
     dependency: "direct main"
     description:
       name: fluent_ui
-      sha256: "8ee7f8c0167618fc52e5518f895809531c5e15f3b917c133e59d1112dac505c7"
+      sha256: "460af0e4fe46e81818e7244e011d3e64febcc4ca00ff8ff994e5ae8ad9f14fa4"
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.0"
+    version: "4.8.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -657,10 +657,10 @@ packages:
     dependency: "direct dev"
     description:
       name: msix
-      sha256: "957d04eee260e4bd15bec1fdb988dfc73718285e201cf89d97ef01ef38e66d4c"
+      sha256: "519b183d15dc9f9c594f247e2d2339d855cf0eaacc30e19b128e14f3ecc62047"
       url: "https://pub.dev"
     source: hosted
-    version: "3.16.6"
+    version: "3.16.7"
   node_preamble:
     dependency: transitive
     description:
