@@ -7,9 +7,6 @@ import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
 class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
-  final Vector2 initPosition;
-  double attack = 25;
-
   Goblin(this.initPosition)
       : super(
           animation: EnemySpriteSheet.goblinAnimations(),
@@ -18,6 +15,9 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
           speed: tileSize * 1.5,
           life: 120,
         );
+
+  final Vector2 initPosition;
+  double attack = 25;
 
   @override
   Future<void> onLoad() {
@@ -69,7 +69,7 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, dynamic id) {
+  void receiveDamage(AttackFromEnum attacker, double damage, dynamic identify) {
     showDamage(
       damage,
       config: TextStyle(
@@ -78,6 +78,6 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
         fontFamily: 'Normal',
       ),
     );
-    super.receiveDamage(attacker, damage, id);
+    super.receiveDamage(attacker, damage, identify);
   }
 }

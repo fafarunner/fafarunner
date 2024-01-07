@@ -3,6 +3,14 @@ import 'package:fafa_runner/player/knight.dart';
 import 'package:flutter/material.dart';
 
 class BarLifeComponent extends InterfaceComponent {
+  BarLifeComponent()
+      : super(
+          id: 1,
+          position: Vector2(20, 20),
+          spriteUnselected: Sprite.load('health_ui.png'),
+          size: Vector2(120, 40),
+        );
+
   double padding = 20;
   double widthBar = 90;
   double strokeWidth = 12;
@@ -12,40 +20,32 @@ class BarLifeComponent extends InterfaceComponent {
   double maxStamina = 100;
   double stamina = 0;
 
-  BarLifeComponent()
-      : super(
-          id: 1,
-          position: Vector2(20, 20),
-          spriteUnselected: Sprite.load('health_ui.png'),
-          size: Vector2(120, 40),
-        );
-
   @override
   void update(double dt) {
     if (gameRef.player != null) {
       life = gameRef.player!.life;
       maxLife = gameRef.player!.maxLife;
       if (gameRef.player is Knight) {
-        stamina = (gameRef.player as Knight).stamina;
+        stamina = (gameRef.player! as Knight).stamina;
       }
     }
     super.update(dt);
   }
 
   @override
-  void render(Canvas c) {
+  void render(Canvas canvas) {
     try {
-      _drawLife(c);
-      _drawStamina(c);
+      _drawLife(canvas);
+      _drawStamina(canvas);
     } catch (e) {}
-    super.render(c);
+    super.render(canvas);
   }
 
   void _drawLife(Canvas canvas) {
-    double xBar = 29;
-    double yBar = 10;
+    const xBar = 29.0;
+    const yBar = 10.0;
     canvas.drawLine(
-      Offset(xBar, yBar),
+      const Offset(xBar, yBar),
       Offset(xBar + widthBar, yBar),
       Paint()
         ..color = Colors.blueGrey[800]!
@@ -56,7 +56,7 @@ class BarLifeComponent extends InterfaceComponent {
     final currentBarLife = (life * widthBar) / maxLife;
 
     canvas.drawLine(
-      Offset(xBar, yBar),
+      const Offset(xBar, yBar),
       Offset(xBar + currentBarLife, yBar),
       Paint()
         ..color = _getColorLife(currentBarLife)

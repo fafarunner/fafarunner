@@ -10,12 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
-  double attack = 25;
-  double stamina = 100;
-  async.Timer? _timerStamina;
-  bool containKey = false;
-  bool showObserveEnemy = false;
-
   Knight(Vector2 position)
       : super(
           animation: PlayerSpriteSheet.playerAnimations(),
@@ -35,6 +29,12 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
       intencityEnabled: true,
     );
   }
+
+  double attack = 25;
+  double stamina = 100;
+  async.Timer? _timerStamina;
+  bool containKey = false;
+  bool showObserveEnemy = false;
 
   @override
   async.Future<void> onLoad() {
@@ -145,11 +145,6 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
       },
     );
     super.update(dt);
-  }
-
-  @override
-  void render(Canvas c) {
-    super.render(c);
   }
 
   void _verifyStamina() {
