@@ -3,7 +3,7 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> showMacosDialog(BuildContext context) async {
-  await showCupertinoDialog(
+  await showCupertinoDialog<void>(
     context: context,
     builder: (_) {
       return MacosAlertDialog(

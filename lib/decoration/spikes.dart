@@ -4,9 +4,6 @@ import 'package:fafa_runner/player/knight.dart';
 import 'package:fafa_runner/util/game_sprite_sheet.dart';
 
 class Spikes extends GameDecoration with Sensor<Knight> {
-  final double damage;
-  Knight? player;
-
   Spikes(Vector2 position, {this.damage = 60})
       : super.withAnimation(
           animation: GameSpriteSheet.spikes(),
@@ -14,9 +11,12 @@ class Spikes extends GameDecoration with Sensor<Knight> {
           size: Vector2(tileSize, tileSize),
         );
 
+  final double damage;
+  Knight? player;
+
   @override
-  void onContact(Knight collision) {
-    player = collision;
+  void onContact(Knight component) {
+    player = component;
   }
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> showLinuxDialog(BuildContext context) async {
-  await showDialog(
+  await showDialog<void>(
     context: context,
     builder: (_) {
       return AlertDialog(

@@ -7,9 +7,6 @@ import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
 class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
-  final Vector2 initPosition;
-  double attack = 10;
-
   Imp(this.initPosition)
       : super(
           animation: EnemySpriteSheet.impAnimations(),
@@ -18,6 +15,9 @@ class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
           speed: tileSize * 2,
           life: 80,
         );
+
+  final Vector2 initPosition;
+  double attack = 10;
 
   @override
   Future<void> onLoad() {
@@ -72,7 +72,7 @@ class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, dynamic id) {
+  void receiveDamage(AttackFromEnum attacker, double damage, dynamic identify) {
     showDamage(
       damage,
       config: TextStyle(
@@ -81,6 +81,6 @@ class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
         fontFamily: 'Normal',
       ),
     );
-    super.receiveDamage(attacker, damage, id);
+    super.receiveDamage(attacker, damage, identify);
   }
 }

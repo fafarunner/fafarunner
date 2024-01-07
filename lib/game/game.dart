@@ -69,7 +69,7 @@ class _GameState extends State<Game> with WindowListener {
           sprite: Sprite.load('joystick_atack_range.png'),
           spritePressed: Sprite.load('joystick_atack_range_selected.png'),
           margin: const EdgeInsets.only(bottom: 50, right: 160),
-        )
+        ),
       ],
     );
     if (!Game.useJoystick) {
@@ -142,6 +142,7 @@ class _GameState extends State<Game> with WindowListener {
   Future<void> onWindowClose() async {
     final isPreventClose = await windowManager.isPreventClose();
     if (isDesktop && isPreventClose) {
+      if (!mounted) return;
       if (defaultTargetPlatform == TargetPlatform.windows) {
         await showWindowDialog(context);
       } else if (defaultTargetPlatform == TargetPlatform.macOS) {

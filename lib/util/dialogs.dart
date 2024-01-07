@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Dialogs {
   static void showGameOver(BuildContext context, VoidCallback playAgain) {
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -33,7 +33,7 @@ class Dialogs {
                     fontSize: 20,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -42,7 +42,7 @@ class Dialogs {
   }
 
   static void showCongratulations(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -99,11 +99,13 @@ class Dialogs {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const Menu()),
+                      MaterialPageRoute<void>(
+                        builder: (context) => const Menu(),
+                      ),
                       (Route<dynamic> route) => false,
                     );
                   },
-                )
+                ),
               ],
             ),
           ),

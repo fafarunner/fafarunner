@@ -7,18 +7,18 @@ import 'package:fafa_runner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
 class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
-  final Vector2 initPosition;
-  double attack = 50;
-  bool _seePlayerClose = false;
-
   MiniBoss(this.initPosition)
       : super(
           animation: EnemySpriteSheet.miniBossAnimations(),
           position: initPosition,
           size: Vector2(tileSize * 0.68, tileSize * 0.93),
-          speed: tileSize* 1.5,
+          speed: tileSize * 1.5,
           life: 150,
         );
+
+  final Vector2 initPosition;
+  double attack = 50;
+  bool _seePlayerClose = false;
 
   @override
   Future<void> onLoad() {
@@ -103,7 +103,7 @@ class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, dynamic id) {
+  void receiveDamage(AttackFromEnum attacker, double damage, dynamic identify) {
     showDamage(
       damage,
       config: TextStyle(
@@ -112,6 +112,6 @@ class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
         fontFamily: 'Normal',
       ),
     );
-    super.receiveDamage(attacker, damage, id);
+    super.receiveDamage(attacker, damage, identify);
   }
 }

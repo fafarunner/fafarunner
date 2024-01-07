@@ -8,7 +8,7 @@ class GameController extends GameComponent {
   @override
   void update(double dt) {
     if (checkInterval('gameOver', 100, dt)) {
-      if (gameRef.player != null && gameRef.player?.isDead == true) {
+      if (gameRef.player != null && (gameRef.player?.isDead ?? false)) {
         if (!showGameOver) {
           showGameOver = true;
           _showDialogGameOver();
@@ -22,10 +22,10 @@ class GameController extends GameComponent {
     showGameOver = true;
     Dialogs.showGameOver(
       context,
-          () {
+      () {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const Game()),
-              (Route<dynamic> route) => false,
+          MaterialPageRoute<void>(builder: (context) => const Game()),
+          (Route<dynamic> route) => false,
         );
       },
     );

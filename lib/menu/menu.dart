@@ -112,7 +112,9 @@ class _MenuState extends State<Menu> with WindowListener {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Game()),
+                        MaterialPageRoute<void>(
+                          builder: (context) => const Game(),
+                        ),
                       );
                     },
                   ),
@@ -235,14 +237,16 @@ class _MenuState extends State<Menu> with WindowListener {
       color: Colors.black,
       child: FlameSplashScreen(
         theme: FlameSplashTheme(
-            backgroundDecoration: const BoxDecoration(color: Colors.black),
-            logoBuilder: (context) =>
-                LayoutBuilder(builder: (context, constraints) {
-                  return ConstrainedBox(
-                    constraints: BoxConstraints.loose(const Size(300, 300)),
-                    child: Image.asset('logo/logo_round.png'),
-                  );
-                })),
+          backgroundDecoration: const BoxDecoration(color: Colors.black),
+          logoBuilder: (context) => LayoutBuilder(
+            builder: (context, constraints) {
+              return ConstrainedBox(
+                constraints: BoxConstraints.loose(const Size(300, 300)),
+                child: Image.asset('logo/logo_round.png'),
+              );
+            },
+          ),
+        ),
         onFinish: (BuildContext context) {
           setState(() {
             showSplash = false;
@@ -268,6 +272,7 @@ class _MenuState extends State<Menu> with WindowListener {
   Future<void> onWindowClose() async {
     final isPreventClose = await windowManager.isPreventClose();
     if (isDesktop && isPreventClose) {
+      if (!mounted) return;
       if (defaultTargetPlatform == TargetPlatform.windows) {
         await showWindowDialog(context);
       } else if (defaultTargetPlatform == TargetPlatform.macOS) {

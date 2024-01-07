@@ -16,13 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
-  final Vector2 initPosition;
-  double attack = 40;
-
-  bool addChild = false;
-  bool firstSeePlayer = false;
-  List<Enemy> childrenEnemy = [];
-
   Boss(this.initPosition)
       : super(
           animation: EnemySpriteSheet.bossAnimations(),
@@ -31,6 +24,13 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
           speed: tileSize * 1.5,
           life: 200,
         );
+
+  final Vector2 initPosition;
+  double attack = 40;
+
+  bool addChild = false;
+  bool firstSeePlayer = false;
+  List<Enemy> childrenEnemy = [];
 
   @override
   Future<void> onLoad() {
@@ -94,7 +94,7 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
         loop: false,
       ),
     );
-    for (var e in childrenEnemy) {
+    for (final e in childrenEnemy) {
       if (!e.isDead) e.die();
     }
     removeFromParent();
@@ -103,7 +103,7 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
 
   void addChildInMap(double dt) {
     if (checkInterval('addChild', 2000, dt)) {
-      Vector2 positionExplosion = Vector2.zero();
+      var positionExplosion = Vector2.zero();
 
       switch (directionThePlayerIsIn()) {
         case Direction.left:
@@ -121,19 +121,19 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
           break;
         default:
       }
-      Enemy e = childrenEnemy.length == 2
+      final Enemy e = childrenEnemy.length == 2
           ? MiniBoss(
-        Vector2(
-          positionExplosion.x,
-          positionExplosion.y,
-        ),
-      )
+              Vector2(
+                positionExplosion.x,
+                positionExplosion.y,
+              ),
+            )
           : Imp(
-        Vector2(
-          positionExplosion.x,
-          positionExplosion.y,
-        ),
-      );
+              Vector2(
+                positionExplosion.x,
+                positionExplosion.y,
+              ),
+            );
 
       gameRef.add(
         AnimatedGameObject(
@@ -160,7 +160,7 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, dynamic id) {
+  void receiveDamage(AttackFromEnum attacker, double damage, dynamic identify) {
     showDamage(
       damage,
       config: TextStyle(
@@ -169,42 +169,45 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
         fontFamily: 'Normal',
       ),
     );
-    super.receiveDamage(attacker, damage, id);
+    super.receiveDamage(attacker, damage, identify);
   }
 
   void drawBarSummonEnemy(Canvas canvas) {
-    double yPosition = 0;
-    double widthBar = (width - 10) / 3;
+    const yPosition = 0.0;
+    final widthBar = (width - 10) / 3;
     if (childrenEnemy.isEmpty) {
       canvas.drawLine(
-          Offset(0, yPosition),
-          Offset(widthBar, yPosition),
-          Paint()
-            ..color = Colors.orange
-            ..strokeWidth = 1
-            ..style = PaintingStyle.fill);
+        Offset.zero,
+        Offset(widthBar, yPosition),
+        Paint()
+          ..color = Colors.orange
+          ..strokeWidth = 1
+          ..style = PaintingStyle.fill,
+      );
     }
 
-    double lastX = widthBar + 5;
+    var lastX = widthBar + 5;
     if (childrenEnemy.length < 2) {
       canvas.drawLine(
-          Offset(lastX, yPosition),
-          Offset(lastX + widthBar, yPosition),
-          Paint()
-            ..color = Colors.orange
-            ..strokeWidth = 1
-            ..style = PaintingStyle.fill);
+        Offset(lastX, yPosition),
+        Offset(lastX + widthBar, yPosition),
+        Paint()
+          ..color = Colors.orange
+          ..strokeWidth = 1
+          ..style = PaintingStyle.fill,
+      );
     }
 
     lastX = lastX + widthBar + 5;
     if (childrenEnemy.length < 3) {
       canvas.drawLine(
-          Offset(lastX, yPosition),
-          Offset(lastX + widthBar, yPosition),
-          Paint()
-            ..color = Colors.orange
-            ..strokeWidth = 1
-            ..style = PaintingStyle.fill);
+        Offset(lastX, yPosition),
+        Offset(lastX + widthBar, yPosition),
+        Paint()
+          ..color = Colors.orange
+          ..strokeWidth = 1
+          ..style = PaintingStyle.fill,
+      );
     }
   }
 
@@ -264,14 +267,15 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
 
   void addImp(double x, double y) {
     final p = position.translated(x, y);
-    gameRef..add(
-      AnimatedGameObject(
-        animation: GameSpriteSheet.smokeExplosion(),
-        position: p,
-        size: Vector2.all(tileSize),
-        loop: false,
-      ),
-    )
-    ..add(Imp(p));
+    gameRef
+      ..add(
+        AnimatedGameObject(
+          animation: GameSpriteSheet.smokeExplosion(),
+          position: p,
+          size: Vector2.all(tileSize),
+          loop: false,
+        ),
+      )
+      ..add(Imp(p));
   }
 }

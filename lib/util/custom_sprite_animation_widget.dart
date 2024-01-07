@@ -2,7 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 
 class CustomSpriteAnimationWidget extends StatelessWidget {
-  const CustomSpriteAnimationWidget({super.key, required this.animation});
+  const CustomSpriteAnimationWidget({required this.animation, super.key});
 
   final Future<SpriteAnimation> animation;
 

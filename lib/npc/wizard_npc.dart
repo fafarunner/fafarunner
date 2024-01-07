@@ -9,21 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class WizardNPC extends SimpleNpc {
-  bool _showConversation = false;
-
   WizardNPC(
     Vector2 position,
   ) : super(
-    animation: SimpleDirectionAnimation(
-      idleRight: NpcSpriteSheet.wizardIdleLeft(),
-      runRight: NpcSpriteSheet.wizardIdleLeft(),
-    ),
-    position: position,
-    size: Vector2(
-      tileSize * 0.8,
-      tileSize,
-    ),
-  );
+          animation: SimpleDirectionAnimation(
+            idleRight: NpcSpriteSheet.wizardIdleLeft(),
+            runRight: NpcSpriteSheet.wizardIdleLeft(),
+          ),
+          position: position,
+          size: Vector2(
+            tileSize * 0.8,
+            tileSize,
+          ),
+        );
+
+  bool _showConversation = false;
 
   @override
   void update(double dt) {

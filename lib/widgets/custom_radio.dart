@@ -42,7 +42,7 @@ class DefectorRadio<T> extends StatelessWidget {
               label!,
               style: const TextStyle(color: Colors.white),
             ),
-          ]
+          ],
         ],
       ),
     );

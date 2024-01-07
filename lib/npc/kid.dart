@@ -11,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Kid extends GameDecoration {
-  bool conversationWithHero = false;
-
   Kid(
     Vector2 position,
   ) : super.withAnimation(
@@ -20,6 +18,8 @@ class Kid extends GameDecoration {
           position: position,
           size: Vector2(valueByTileSize(8), valueByTileSize(11)),
         );
+
+  bool conversationWithHero = false;
 
   @override
   void update(double dt) {
@@ -60,9 +60,11 @@ class Kid extends GameDecoration {
       ],
       onFinish: () {
         Sounds.interaction();
-        gameRef.camera.moveToPlayerAnimated(onComplete: () {
-          Dialogs.showCongratulations(gameRef.context);
-        });
+        gameRef.camera.moveToPlayerAnimated(
+          onComplete: () {
+            Dialogs.showCongratulations(gameRef.context);
+          },
+        );
       },
       onChangeTalk: (index) {
         Sounds.interaction();
