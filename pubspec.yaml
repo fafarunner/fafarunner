@@ -37,20 +37,20 @@ dependencies:
   firebase_core: ^2.24.0
   flame_audio: ^2.1.4
   flame_splash_screen: ^0.2.0
-  fluent_ui: ^4.8.1
+  fluent_ui: ^4.8.4
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash: ^2.3.6
+  flutter_native_splash: ^2.3.9
   flutter_web_plugins:
     sdk: flutter
   intl: ^0.18.1
   macos_ui: ^2.0.2
   package_info_plus: ^5.0.1
   path_provider: ^2.1.1
-  sentry_flutter: ^7.13.2
-  url_launcher: ^6.2.1
+  sentry_flutter: ^7.14.0
+  url_launcher: ^6.2.2
   window_manager: ^0.3.7
 
 dev_dependencies:
@@ -58,7 +58,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockingjay: ^0.5.0
-  mocktail: ^1.0.1
+  mocktail: ^1.0.2
   msix: ^3.16.7
   very_good_analysis: ^5.1.0
 
