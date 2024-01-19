@@ -58,7 +58,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockingjay: ^0.5.0
-  mocktail: ^1.0.2
+  mocktail: ^1.0.3
   msix: ^3.16.7
   very_good_analysis: ^5.1.0
 
