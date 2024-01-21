@@ -46,7 +46,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   intl: ^0.18.1
-  macos_ui: ^2.0.2
+  macos_ui: ^2.0.5
   package_info_plus: ^5.0.1
   path_provider: ^2.1.2
   sentry_flutter: ^7.14.0
