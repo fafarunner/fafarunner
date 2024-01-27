@@ -429,10 +429,10 @@ packages:
     dependency: "direct main"
     description:
       name: fluent_ui
-      sha256: "57b31a68fba8c87790b9d160d8ff94385c155821cad542582566d8c97cb4c3c0"
+      sha256: d6ffe21ff6bc61e98044a0529c139277dac2bbe6e71f868f7791d7eabc53d718
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.4"
+    version: "4.8.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -585,10 +585,10 @@ packages:
     dependency: "direct main"
     description:
       name: macos_ui
-      sha256: cc499122655c61728185561e9006af4b239f9526f98d7b2cbf42124e9044a0ff
+      sha256: d351f0bada7e5b0cee8cf394299878a6c04e5cfcd784fa1d40e44299501124d8
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.5"
   macos_window_utils:
     dependency: transitive
     description:
@@ -649,10 +649,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mocktail
-      sha256: f603ebd85a576e5914870b02e5839fc5d0243b867bf710651cf239a28ebb365e
+      sha256: c4b5007d91ca4f67256e720cb1b6d704e79a510183a12fa551021f652577dce6
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   msix:
     dependency: "direct dev"
     description:
@@ -849,18 +849,18 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: "89e426587b0879e53c46a0aae0eb312696d9d2d803ba14b252a65cc24b1416a2"
+      sha256: "5686ed515bb620dc52b4ae99a6586fe720d443591183cf1f620ec5d1f0eec100"
       url: "https://pub.dev"
     source: hosted
-    version: "7.14.0"
+    version: "7.15.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: fd089ee4e75a927be037c56815a0a54af5a519f52b803a5ffecb589bb36e2401
+      sha256: "505dec3b6810562785d2c34ae871c73ff2cba6cf436c32c188f0464df226ba8f"
       url: "https://pub.dev"
     source: hosted
-    version: "7.14.0"
+    version: "7.15.0"
   shelf:
     dependency: transitive
     description:
@@ -1030,10 +1030,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: d25bb0ca00432a5e1ee40e69c36c85863addf7cc45e433769d61bed3fe81fd96
+      sha256: c512655380d241a337521703af62d2c122bf7b77a46ff7dd750092aa9433499c
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.3"
+    version: "6.2.4"
   url_launcher_android:
     dependency: transitive
     description:
