@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: eb0ac20f704799b986049fbb3c1c16421eca319a1b872378d669513e12452ba5
+      sha256: f5628cd9c92ed11083f425fd1f8f1bc60ecdda458c81d73b143aeda036c35fe7
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.14"
+    version: "1.3.16"
   a_star_algorithm:
     dependency: transitive
     description:
@@ -133,10 +133,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: "866d3f7f3bfc4e62c975dbafbfc5430c93a0ff4ccb2843ef1d853bedffc5eef1"
+      sha256: c87ac0c0c0a5b47e7311dcb16230116a353b50979e7bfe54d20c76e6a19749de
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.10"
+    version: "3.3.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -349,34 +349,34 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_analytics
-      sha256: "6325991042226a515406b4fc9204d3102e54a514b72fffb945b625d9f69c5196"
+      sha256: "0240076090d77045d757aecb090616066d23b343840d4c21074094d6fe40a184"
       url: "https://pub.dev"
     source: hosted
-    version: "10.7.2"
+    version: "10.8.0"
   firebase_analytics_platform_interface:
     dependency: transitive
     description:
       name: firebase_analytics_platform_interface
-      sha256: "38ad4bec1fa0fe16577e6f178e4c4280f029181b18e16bf68782c527c7d82bfe"
+      sha256: "6d9baa077d16b47ef5f19d982c4fc475597991aa53b0c601216faa3e1cdab45f"
       url: "https://pub.dev"
     source: hosted
-    version: "3.8.2"
+    version: "3.9.0"
   firebase_analytics_web:
     dependency: transitive
     description:
       name: firebase_analytics_web
-      sha256: "6c0deb691a26db2006ded65fd8999a204dcfe8ef67d7d75b7f55ebc08e1d89a4"
+      sha256: "89a740249bce9d52a99db4e501be6087ca6749c73c47cff2b174802be10abd81"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.5+9"
+    version: "0.5.5+12"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: d301561d614487688d797717bef013a264c517d1d09e4c5c1325c3a64c835efb
+      sha256: "96607c0e829a581c2a483c658f04e8b159964c3bae2730f73297070bc85d40bb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.24.0"
+    version: "2.24.2"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -389,10 +389,10 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "10159d9ee42c79f4548971d92f3f0fcd5791f6738cda3583a4e3b2c8b244c018"
+      sha256: d585bdf3c656c3f7821ba1bd44da5f13365d22fcecaf5eb75c4295246aaa83c0
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
+    version: "2.10.0"
   fixnum:
     dependency: transitive
     description:
@@ -402,7 +402,7 @@ packages:
     source: hosted
     version: "1.1.0"
   flame:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flame
       sha256: "61c42b966a6b1f44ee093194e6701d45b14fdda1859c14fe68a39489454bfbd4"
@@ -998,10 +998,10 @@ packages:
     dependency: transitive
     description:
       name: tiledjsonreader
-      sha256: "2fe265c0a47b81dff2ea900d6c3c915046c0d7a7347cfc812f3ddff1da914773"
+      sha256: "9390145be049ec4d73ef43672b337ce40fa6e4a72a0672ad680e4971edba2899"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.3"
+    version: "1.3.4"
   timing:
     dependency: transitive
     description:

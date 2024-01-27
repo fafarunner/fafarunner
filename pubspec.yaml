@@ -31,10 +31,11 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^5.2.1
-  bonfire: ^3.0.10
+  bonfire: ^3.3.0
   cupertino_icons: ^1.0.6
-  firebase_analytics: ^10.7.2
-  firebase_core: ^2.24.0
+  firebase_analytics: ^10.8.0
+  firebase_core: ^2.24.2
+  flame: ^1.14.0
   flame_audio: ^2.1.7
   flame_splash_screen: ^0.2.0
   fluent_ui: ^4.8.5
