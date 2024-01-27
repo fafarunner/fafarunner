@@ -28,3 +28,15 @@ apk: ## Release Apk
 appbundle: ## Release Appbundle
 	echo "╠ Releasing Appbundle..."
 	flutter build appbundle --no-tree-shake-icons --target lib/main.dart
+
+adhoc:
+	echo "╠ Removing build products and intermediate files from the build root..."
+	cd ios && xcodebuild clean && cd ..
+	echo "╠ Releasing to adhoc..."
+	flutter build ipa --export-options-plist=ios/ExportOptions-debug.plist
+
+appstore:
+	echo "╠ Removing build products and intermediate files from the build root..."
+	cd ios && xcodebuild clean && cd ..
+	echo "╠ Releasing to app store..."
+	flutter build ipa --export-options-plist=ios/ExportOptions-release.plist
