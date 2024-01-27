@@ -32,9 +32,16 @@ class Game extends StatefulWidget {
   State<Game> createState() => _GameState();
 }
 
-class _GameState extends State<Game> with WindowListener {
+class _GameState extends State<Game>
+    with WindowListener, TickerProviderStateMixin {
+  late AnimationController _controller;
+
   @override
   void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
     windowManager.addListener(this);
     Sounds.playBackgroundSound();
     super.initState();
@@ -42,6 +49,7 @@ class _GameState extends State<Game> with WindowListener {
 
   @override
   void dispose() {
+    _controller.dispose();
     windowManager.removeListener(this);
     Sounds.stopBackgroundSound();
     super.dispose();
@@ -87,42 +95,11 @@ class _GameState extends State<Game> with WindowListener {
     return Title(
       title: context.l10n.appName,
       color: Colors.black,
-      child: Material(
-        color: Colors.transparent,
-        child: BonfireWidget(
-          joystick: joystick,
-          player: Knight(
-            Vector2(2 * tileSize, 3 * tileSize),
-          ),
-          map: WorldMapByTiled(
-            'tiled/map.json',
-            forceTileSize: Vector2(tileSize, tileSize),
-            objectsBuilder: {
-              'door': (p) => Door(p.position, p.size),
-              'torch': (p) => Torch(p.position),
-              'potion': (p) => PotionLife(p.position, 30),
-              'wizard': (p) => WizardNPC(p.position),
-              'spikes': (p) => Spikes(p.position),
-              'key': (p) => DoorKey(p.position),
-              'kid': (p) => Kid(p.position),
-              'boss': (p) => Boss(p.position),
-              'goblin': (p) => Goblin(p.position),
-              'imp': (p) => Imp(p.position),
-              'mini_boss': (p) => MiniBoss(p.position),
-              'torch_empty': (p) => Torch(p.position, empty: true),
-            },
-          ),
-          components: [GameController()],
-          interface: KnightInterface(),
-          lightingColorGame: Colors.black.withOpacity(0.6),
-          backgroundColor: Colors.grey[900],
-          cameraConfig: CameraConfig(
-            speed: 3,
-            zoom: getZoomFromMaxVisibleTile(context, tileSize, 18),
-          ),
-          progress: ColoredBox(
-            color: Colors.black,
-            child: Center(
+      child: ColoredBox(
+        color: Colors.black,
+        child: Stack(
+          children: [
+            Center(
               child: Text(
                 context.l10n.loading,
                 style: const TextStyle(
@@ -132,7 +109,48 @@ class _GameState extends State<Game> with WindowListener {
                 ),
               ),
             ),
-          ),
+            FadeTransition(
+              opacity: _controller,
+              child: BonfireWidget(
+                joystick: joystick,
+                player: Knight(
+                  Vector2(2 * tileSize, 3 * tileSize),
+                ),
+                map: WorldMapByTiled(
+                  TiledReader.asset('tiled/map.json'),
+                  forceTileSize: Vector2(tileSize, tileSize),
+                  objectsBuilder: {
+                    'door': (p) => Door(p.position, p.size),
+                    'torch': (p) => Torch(p.position),
+                    'potion': (p) => PotionLife(p.position, 30),
+                    'wizard': (p) => WizardNPC(p.position),
+                    'spikes': (p) => Spikes(p.position),
+                    'key': (p) => DoorKey(p.position),
+                    'kid': (p) => Kid(p.position),
+                    'boss': (p) => Boss(p.position),
+                    'goblin': (p) => Goblin(p.position),
+                    'imp': (p) => Imp(p.position),
+                    'mini_boss': (p) => MiniBoss(p.position),
+                    'torch_empty': (p) => Torch(p.position, empty: true),
+                  },
+                ),
+                components: [GameController()],
+                interface: KnightInterface(),
+                lightingColorGame: Colors.black.withOpacity(0.6),
+                backgroundColor: Colors.grey[900],
+                cameraConfig: CameraConfig(
+                  speed: 3,
+                  zoom: getZoomFromMaxVisibleTile(context, tileSize, 18),
+                ),
+                onReady: (_) {
+                  Future.delayed(
+                    const Duration(milliseconds: 300),
+                    () => _controller.forward(),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:fafa_runner/player/knight.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BarLifeComponent extends InterfaceComponent {
@@ -37,7 +38,11 @@ class BarLifeComponent extends InterfaceComponent {
     try {
       _drawLife(canvas);
       _drawStamina(canvas);
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
     super.render(canvas);
   }
 
