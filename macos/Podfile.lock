@@ -14,7 +14,7 @@ PODS:
     - Firebase/Analytics (= 10.20.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_core (2.25.0):
+  - firebase_core (2.25.1):
     - Firebase/CoreOnly (~> 10.20.0)
     - FlutterMacOS
   - FirebaseAnalytics (10.20.0):
@@ -177,7 +177,7 @@ SPEC CHECKSUMS:
   audioplayers_darwin: dcad41de4fbd0099cb3749f7ab3b0cb8f70b810c
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
   firebase_analytics: 6b4116443c0547e53c65cac620efc22f598ab54f
-  firebase_core: 88400e91f94a14f5886c8dc3d9f8532160eb0b59
+  firebase_core: 7a89ffceaf91c4245d1e8d6908baa01961663ffd
   FirebaseAnalytics: a2731bf3670747ce8f65368b118d18aa8e368246
   FirebaseCore: 28045c1560a2600d284b9c45a904fe322dc890b6
   FirebaseCoreInternal: efeeb171ac02d623bdaefe121539939821e10811
