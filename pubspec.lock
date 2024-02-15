@@ -133,10 +133,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: c87ac0c0c0a5b47e7311dcb16230116a353b50979e7bfe54d20c76e6a19749de
+      sha256: "9b20334a4de57a6c06d93587caf33679f36300792e30f80b1f7277d90302e418"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "3.4.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -405,18 +405,18 @@ packages:
     dependency: "direct main"
     description:
       name: flame
-      sha256: "61c42b966a6b1f44ee093194e6701d45b14fdda1859c14fe68a39489454bfbd4"
+      sha256: "2a2352741500ce47823dcf212f06b23e9bdb622454eab90244ee6da58e23b488"
       url: "https://pub.dev"
     source: hosted
-    version: "1.14.0"
+    version: "1.15.0"
   flame_audio:
     dependency: "direct main"
     description:
       name: flame_audio
-      sha256: da2a04589cc0ec7c4720da813ecf6c969305408019b676d833c8cc2b315401fc
+      sha256: b0edbb5f60385b6285adf3891e50645f4c831d2674e29dc75b263c982ac0fc45
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.7"
+    version: "2.1.8"
   flame_splash_screen:
     dependency: "direct main"
     description:
@@ -849,18 +849,18 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: a7946f4a90b0feb47214981d881b98149e05f6c576da9f2a2f33945bf561de25
+      sha256: d2ee9c850d876d285f22e2e662f400ec2438df9939fe4acd5d780df9841794ce
       url: "https://pub.dev"
     source: hosted
-    version: "7.16.0"
+    version: "7.16.1"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "6db7fa1b076faf2f5dd77d8cc9ef206171f32a290cc638842d78e5d62b441a27"
+      sha256: "5b428c189c825f16fb14e9166529043f06b965d5b59bfc3a1415e39c082398c0"
       url: "https://pub.dev"
     source: hosted
-    version: "7.16.0"
+    version: "7.16.1"
   shelf:
     dependency: transitive
     description:
