@@ -23,20 +23,22 @@ build_runner: ## Build the files for changes
 
 apk: ## Release Apk
 	echo "╠ Releasing Apk..."
-	flutter build apk --no-tree-shake-icons --target lib/main.dart
+	bash build-android.sh && flutter build apk --no-tree-shake-icons --target lib/main.dart --flavor staging
 
 appbundle: ## Release Appbundle
 	echo "╠ Releasing Appbundle..."
-	flutter build appbundle --no-tree-shake-icons --target lib/main.dart
+	flutter build appbundle --no-tree-shake-icons --target lib/main.dart --flavor production
 
 adhoc:
 	echo "╠ Removing build products and intermediate files from the build root..."
 	cd ios && xcodebuild clean && cd ..
 	echo "╠ Releasing to adhoc..."
-	flutter build ipa --export-options-plist=ios/ExportOptions-debug.plist
+	bash build-ios.sh && flutter build ipa --export-options-plist=ios/ExportOptions-debug.plist
 
 appstore:
 	echo "╠ Removing build products and intermediate files from the build root..."
 	cd ios && xcodebuild clean && cd ..
+	echo "╠ Removing BuildConfig.xcconfig..."
+	rm -f ios/Flutter/BuildConfig.xcconfig
 	echo "╠ Releasing to app store..."
 	flutter build ipa --export-options-plist=ios/ExportOptions-release.plist

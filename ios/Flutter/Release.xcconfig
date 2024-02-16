@@ -1,2 +1,3 @@
 #include? "Pods/Target Support Files/Pods-FaFaRunner/Pods-FaFaRunner.release.xcconfig"
 #include "Generated.xcconfig"
+#include? "BuildConfig.xcconfig"
