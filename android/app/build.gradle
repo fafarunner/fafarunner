@@ -27,6 +27,20 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def versioningProperties = new Properties()
+def versioningFile = rootProject.file('versioning.properties')
+if (versioningFile.exists()) {
+    versioningFile.withReader('UTF-8') { reader ->
+        versioningProperties.load(reader)
+    }
+}
+
+def appSuffix = versioningProperties.getProperty('app.suffix')
+def appVersionNameSuffix = ''
+if (appSuffix) {
+    appVersionNameSuffix = "+${appSuffix}"
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
@@ -51,6 +65,18 @@ android {
         versionCode 1
         versionName flutterVersionName
 //        versionCode flutterVersionCode.toInteger()
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        staging {
+            dimension "default"
+            versionNameSuffix appVersionNameSuffix
+        }
+
+        production {
+            dimension "default"
+        }
     }
 
     signingConfigs {
