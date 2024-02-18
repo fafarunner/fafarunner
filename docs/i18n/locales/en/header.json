@@ -1,0 +1,12 @@
+{
+  "title": "FaFa Runner",
+  "menus": {
+    "system": "Auto Mode",
+    "dark": "Dark Mode",
+    "light": "Light Mode"
+  },
+  "languages": {
+    "zh": "Chinese",
+    "en": "English"
+  }
+}

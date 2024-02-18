@@ -1,0 +1,1 @@
+cd docs && pnpm commitlint --edit "$1"
