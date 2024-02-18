@@ -16,7 +16,7 @@ export default function Footer(props: LngProps) {
       {/*  {t("footer")}{" "}*/}
       {/*  <a*/}
       {/*    className="font-medium text-gray-800 underline transition-colors dark:text-white/90"*/}
-      {/*    href="https://github.com/cyf/fafa-runner"*/}
+      {/*    href="https://github.com/cyf/fafa_runner"*/}
       {/*    target="_blank"*/}
       {/*    rel="noopener noreferrer"*/}
       {/*  >*/}
@@ -49,7 +49,7 @@ export default function Footer(props: LngProps) {
         {process.env.VERCEL_GIT_COMMIT_SHA && (
           <p className="flex items-center justify-center">
             <a
-              href={`https://github.com/cyf/fafa-runner/commit/${process.env.VERCEL_GIT_COMMIT_SHA}`}
+              href={`https://github.com/cyf/fafa_runner/commit/${process.env.VERCEL_GIT_COMMIT_SHA}`}
               target="_blank"
               className="hover:underline"
               rel="noreferrer"
