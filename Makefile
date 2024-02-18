@@ -2,6 +2,8 @@
 get:
 	echo "╠ Installing dependencies..."
 	flutter pub get
+	make ios_install
+	make macos_install
 
 outdated:
 	echo "╠ Resolving dependencies..."
@@ -12,6 +14,27 @@ clean: ## Cleans the environment
 	flutter clean
 	echo "╠ Installing dependencies..."
 	flutter pub get
+
+install:
+	make npm_install
+	make ios_install
+	make macos_install
+
+dev:
+	echo "╠ Start app..."
+	cd docs && pnpm dev && cd ..
+
+npm_install:
+	echo "╠ Resolving npm dependencies..."
+	cd docs && pnpm i && cd ..
+
+ios_install: ## Installing ios dependencies
+	echo "╠ Resolving ios dependencies..."
+	cd ios && pod install && cd ..
+
+macos_install: ## Installing ios dependencies
+	echo "╠ Resolving macos dependencies..."
+	cd macos && pod install && cd ..
 
 build_watch: ## Watches the files for changes
 	echo "╠ Watching the project..."
