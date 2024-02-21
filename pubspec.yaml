@@ -50,7 +50,7 @@ dependencies:
   package_info_plus: ^5.0.1
   path_provider: ^2.1.2
   sentry_flutter: ^7.16.1
-  url_launcher: ^6.2.4
+  url_launcher: ^6.2.5
   window_manager: ^0.3.8
 
 dev_dependencies:
