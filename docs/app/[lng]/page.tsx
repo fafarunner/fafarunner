@@ -19,6 +19,7 @@ import { BiTestTube } from "react-icons/bi";
 import { FaBlog } from "react-icons/fa";
 import Image from "next/image";
 // import dynamic from "next/dynamic";
+import Release from "@/components/home/github-release";
 import { useTranslation } from "@/i18n/client";
 import { basePath } from "@/constants";
 import { allPosts } from "contentlayer/generated";
@@ -91,34 +92,35 @@ export default function Home({
           </Balancer>
         </p>
       </div>
-      <div className="mt-10 grid w-full max-w-screen-xl animate-fade-up xl:px-0">
-        <div className="flex items-center justify-center">
-          <div className="grid w-full grid-cols-1 gap-5 md:max-w-3xl md:grid-cols-2">
-            <Link
-              href="https://www.chenyifaer.com/join"
-              target="_blank"
-              className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 hover:enabled:border-gray-800 disabled:cursor-not-allowed dark:bg-black dark:text-white/80 max-md:mx-10"
-              rel="noopener noreferrer"
-            >
-              <BiTestTube className="h-7 w-7" />
-              <p>
-                <span className="sm:inline-block">{tc("join")}</span>
-              </p>
-            </Link>
-            <Link
-              href="https://www.chenyifaer.com/fafa-runner/play"
-              target="_blank"
-              className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 hover:enabled:border-gray-800 disabled:cursor-not-allowed dark:bg-black dark:text-white/80 max-md:mx-10"
-              rel="noopener noreferrer"
-            >
-              <IoGameControllerOutline className="h-7 w-7" />
-              <p>
-                <span className="sm:inline-block">{tc("play")}</span>
-              </p>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <Release lng={params.lng} />
+      {/*<div className="mt-10 grid w-full max-w-screen-xl animate-fade-up xl:px-0">*/}
+      {/*  <div className="flex items-center justify-center">*/}
+      {/*    <div className="grid w-full grid-cols-1 gap-5 md:max-w-3xl md:grid-cols-2">*/}
+      {/*      <Link*/}
+      {/*        href="https://www.chenyifaer.com/join"*/}
+      {/*        target="_blank"*/}
+      {/*        className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 hover:enabled:border-gray-800 disabled:cursor-not-allowed dark:bg-black dark:text-white/80 max-md:mx-10"*/}
+      {/*        rel="noopener noreferrer"*/}
+      {/*      >*/}
+      {/*        <BiTestTube className="h-7 w-7" />*/}
+      {/*        <p>*/}
+      {/*          <span className="sm:inline-block">{tc("join")}</span>*/}
+      {/*        </p>*/}
+      {/*      </Link>*/}
+      {/*      <Link*/}
+      {/*        href="https://www.chenyifaer.com/fafa-runner/play"*/}
+      {/*        target="_blank"*/}
+      {/*        className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 hover:enabled:border-gray-800 disabled:cursor-not-allowed dark:bg-black dark:text-white/80 max-md:mx-10"*/}
+      {/*        rel="noopener noreferrer"*/}
+      {/*      >*/}
+      {/*        <IoGameControllerOutline className="h-7 w-7" />*/}
+      {/*        <p>*/}
+      {/*          <span className="sm:inline-block">{tc("play")}</span>*/}
+      {/*        </p>*/}
+      {/*      </Link>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
       {/*<div className="my-10 grid w-full max-w-screen-xl animate-fade-up grid-cols-1 gap-5 px-5 sm:grid-cols-2 lg:grid-cols-3 xl:px-0">*/}
       {/*  {features.map(({ title, description, demo, url }) => (*/}
       {/*    <DynamicCard*/}
