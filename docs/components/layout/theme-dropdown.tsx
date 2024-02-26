@@ -6,7 +6,7 @@ import type { IconType } from "react-icons";
 import Popover from "@/components/shared/popover";
 import { useAppTheme } from "@/lib/hooks";
 import { useTranslation } from "@/i18n/client";
-import { LngProps } from "@/i18next-lng";
+import { LngProps } from "@/types/i18next-lng";
 import { themes, icons, Theme, ThemeMode } from "@/theme";
 
 export default function ThemeDropdown(props: LngProps) {

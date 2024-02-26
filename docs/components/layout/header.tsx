@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { FaRegPlayCircle } from "react-icons/fa";
 import useScroll from "@/lib/hooks/use-scroll";
 import LngDropdown from "./lng-dropdown";
 import ThemeDropdown from "./theme-dropdown";
-import { LngProps } from "@/i18next-lng";
 import { useTranslation } from "@/i18n/client";
 import { basePath } from "@/constants";
-import { Github } from "@/components/shared/icons";
+// import { Github } from "@/components/shared/icons";
+import { LngProps } from "@/types/i18next-lng";
 
 export default function Header(props: LngProps) {
   const { t } = useTranslation(props.lng, "header");
@@ -47,15 +48,26 @@ export default function Header(props: LngProps) {
           id="navbar-language"
         >
           <ul className="flex flex-col items-center rounded-lg border border-gray-100 p-4 font-medium dark:border-gray-700 max-md:space-y-3 md:mt-0 md:flex-row md:space-x-3 md:border-0 md:p-0">
+            {/*<li className="h-8 w-8 sm:h-9 sm:w-9">*/}
+            {/*  <div className="relative inline-block text-left">*/}
+            {/*    <Link*/}
+            {/*      target="_blank"*/}
+            {/*      rel="noopener noreferrer"*/}
+            {/*      href="https://github.com/cyf/fafa_runner"*/}
+            {/*      className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full transition-all duration-75 focus:outline-none active:scale-95 sm:h-9 sm:w-9"*/}
+            {/*    >*/}
+            {/*      <Github className="h-5 w-5" />*/}
+            {/*    </Link>*/}
+            {/*  </div>*/}
+            {/*</li>*/}
             <li className="h-8 w-8 sm:h-9 sm:w-9">
               <div className="relative inline-block text-left">
                 <Link
+                  href="https://chenyifaer.com/fafa-runner/play/"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://github.com/cyf/fafa_runner"
                   className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full transition-all duration-75 focus:outline-none active:scale-95 sm:h-9 sm:w-9"
                 >
-                  <Github className="h-5 w-5" />
+                  <FaRegPlayCircle className="h-5 w-5" />
                 </Link>
               </div>
             </li>
@@ -73,7 +85,7 @@ export default function Header(props: LngProps) {
           aria-controls="navbar-language"
           aria-expanded="false"
         >
-          <span className="sr-only">Open main menu</span>
+          <span className="sr-only">Open menu</span>
           <svg
             className="h-5 w-5"
             aria-hidden="true"

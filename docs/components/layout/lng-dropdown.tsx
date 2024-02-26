@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/i18n/client";
 import { languages } from "@/i18n/settings";
-import { LngProps } from "@/i18next-lng";
+import { LngProps } from "@/types/i18next-lng";
 
 export default function LngDropdown(props: LngProps) {
   const { t } = useTranslation(props.lng, "header");
