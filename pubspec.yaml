@@ -33,8 +33,8 @@ dependencies:
   audioplayers: ^5.2.1
   bonfire: ^3.4.0
   cupertino_icons: ^1.0.6
-  firebase_analytics: ^10.8.6
-  firebase_core: ^2.25.4
+  firebase_analytics: ^10.8.7
+  firebase_core: ^2.25.5
   flame: ^1.15.0
   flame_audio: ^2.1.8
   flame_splash_screen: ^0.2.0

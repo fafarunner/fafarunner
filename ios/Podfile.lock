@@ -8,11 +8,11 @@ PODS:
     - FirebaseAnalytics (~> 10.20.0)
   - Firebase/CoreOnly (10.20.0):
     - FirebaseCore (= 10.20.0)
-  - firebase_analytics (10.8.6):
+  - firebase_analytics (10.8.7):
     - Firebase/Analytics (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.25.4):
+  - firebase_core (2.25.5):
     - Firebase/CoreOnly (= 10.20.0)
     - Flutter
   - FirebaseAnalytics (10.20.0):
@@ -155,8 +155,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
-  firebase_analytics: 9c600045bfb4d16dd78593d18f32c99bb77e5001
-  firebase_core: a46c312d8bae4defa3d009b2aa7b5b413aeb394e
+  firebase_analytics: 2c1c3057d5da3bd3aab819f7e6ee153a4e46c59e
+  firebase_core: c8628c7ce80f79439149549052bff22f6784fbf5
   FirebaseAnalytics: a2731bf3670747ce8f65368b118d18aa8e368246
   FirebaseCore: 28045c1560a2600d284b9c45a904fe322dc890b6
   FirebaseCoreInternal: efeeb171ac02d623bdaefe121539939821e10811
