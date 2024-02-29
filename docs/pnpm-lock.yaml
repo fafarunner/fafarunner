@@ -30,8 +30,8 @@ dependencies:
     specifier: ^10.2.3
     version: 10.2.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
   framer-motion:
-    specifier: ^11.0.7
-    version: 11.0.7(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^11.0.8
+    version: 11.0.8(react-dom@18.2.0)(react@18.2.0)
   http-status:
     specifier: ^1.7.4
     version: 1.7.4
@@ -7502,8 +7502,8 @@ packages:
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
-  /framer-motion@11.0.7(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-IyzcBkDDx8KvP351oPLB8Km2QyNGMS+oc/LiuDr5w1ph32UXZZWFrBvOTcz3/beVAauthvtmDwSSXRefztaWcA==}
+  /framer-motion@11.0.8(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1KSGNuqe1qZkS/SWQlDnqK2VCVzRVEoval379j0FiUBJAZoqgwyvqFkfvJbgW2IPFo4wX16K+M0k5jO23lCIjA==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
