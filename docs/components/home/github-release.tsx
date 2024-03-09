@@ -13,11 +13,11 @@ import GithubPkg from "@/components/home/github-pkg";
 import { platforms } from "@/constants";
 import { getLatestRelease } from "@/request";
 import { useTranslation } from "@/i18n/client";
-import { LngProps } from "@/types/i18next-lng";
-import { Asset, Release } from "@/types/github";
-import { SystemOS } from "@/types/common";
+import type { LngProps } from "@/types/i18next-lng";
+import type { Asset, Release } from "@/types/github";
+import type { SystemOS } from "@/types/common";
 
-export default function Release({ lng }: LngProps) {
+export default function GithubRelease({ lng }: LngProps) {
   const { t } = useTranslation(lng, "common");
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Release>({});
