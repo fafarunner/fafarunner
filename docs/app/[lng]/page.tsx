@@ -19,7 +19,7 @@ import { BiTestTube } from "react-icons/bi";
 import { FaBlog } from "react-icons/fa";
 import Image from "next/image";
 // import dynamic from "next/dynamic";
-import Release from "@/components/home/github-release";
+import GithubRelease from "@/components/home/github-release";
 import { useTranslation } from "@/i18n/client";
 import { basePath } from "@/constants";
 import { allPosts } from "contentlayer/generated";
@@ -92,7 +92,7 @@ export default function Home({
           </Balancer>
         </p>
       </div>
-      <Release lng={params.lng} />
+      <GithubRelease lng={params.lng} />
       {/*<div className="mt-10 grid w-full max-w-screen-xl animate-fade-up xl:px-0">*/}
       {/*  <div className="flex items-center justify-center">*/}
       {/*    <div className="grid w-full grid-cols-1 gap-5 md:max-w-3xl md:grid-cols-2">*/}

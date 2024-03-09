@@ -33,8 +33,8 @@ dependencies:
   audioplayers: ^5.2.1
   bonfire: ^3.4.0
   cupertino_icons: ^1.0.6
-  firebase_analytics: ^10.8.8
-  firebase_core: ^2.26.0
+  firebase_analytics: ^10.8.9
+  firebase_core: ^2.27.0
   flame: ^1.15.0
   flame_audio: ^2.1.8
   flame_splash_screen: ^0.2.0
@@ -49,7 +49,7 @@ dependencies:
   macos_ui: ^2.0.5
   package_info_plus: ^5.0.1
   path_provider: ^2.1.2
-  sentry_flutter: ^7.16.1
+  sentry_flutter: ^7.17.0
   url_launcher: ^6.2.5
   window_manager: ^0.3.8
 
