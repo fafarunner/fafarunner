@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1510"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -15,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-               BuildableName = "FaFaRunnerDesktop.app"
-               BlueprintName = "FaFaRunnerDesktop"
-               ReferencedContainer = "container:FaFaRunnerDesktop.xcodeproj">
+               BuildableName = "FaFaRunner.app"
+               BlueprintName = "FaFaRunnerMac"
+               ReferencedContainer = "container:FaFaRunnerMac.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,18 +27,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-            BuildableName = "FaFaRunnerDesktop.app"
-            BlueprintName = "FaFaRunnerDesktop"
-            ReferencedContainer = "container:FaFaRunnerDesktop.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <Testables>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -54,14 +45,14 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-            BuildableName = "FaFaRunnerDesktop.app"
-            BlueprintName = "FaFaRunnerDesktop"
-            ReferencedContainer = "container:FaFaRunnerDesktop.xcodeproj">
+            BuildableName = "FaFaRunner.app"
+            BlueprintName = "FaFaRunnerMac"
+            ReferencedContainer = "container:FaFaRunnerMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Profile"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -71,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-            BuildableName = "FaFaRunnerDesktop.app"
-            BlueprintName = "FaFaRunnerDesktop"
-            ReferencedContainer = "container:FaFaRunnerDesktop.xcodeproj">
+            BuildableName = "FaFaRunner.app"
+            BlueprintName = "FaFaRunnerMac"
+            ReferencedContainer = "container:FaFaRunnerMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
