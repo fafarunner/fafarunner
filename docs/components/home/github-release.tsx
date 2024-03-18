@@ -161,7 +161,7 @@ export default function GithubRelease({ lng }: LngProps) {
               {t("latest")}:{" "}
               <Link
                 className="text-red-400"
-                href={`https://github.com/cyf/fafa_runner/releases/tag/${data?.tag_name}`}
+                href={`https://github.com/fafarunner/fafa-runner/releases/tag/${data?.tag_name}`}
                 target="_blank"
               >
                 {data?.tag_name}

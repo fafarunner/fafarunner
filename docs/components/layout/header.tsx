@@ -53,7 +53,7 @@ export default function Header(props: LngProps) {
             {/*    <Link*/}
             {/*      target="_blank"*/}
             {/*      rel="noopener noreferrer"*/}
-            {/*      href="https://github.com/cyf/fafa_runner"*/}
+            {/*      href="https://github.com/fafarunner/fafa-runner"*/}
             {/*      className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full transition-all duration-75 focus:outline-none active:scale-95 sm:h-9 sm:w-9"*/}
             {/*    >*/}
             {/*      <Github className="h-5 w-5" />*/}
