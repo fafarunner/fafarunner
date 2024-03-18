@@ -37,13 +37,13 @@ dependencies:
   firebase_core: ^2.27.0
   flame: ^1.15.0
   flame_audio: ^2.1.8
-  flame_splash_screen: ^0.2.0
+  flame_splash_screen: ^0.3.0
   fluent_ui: ^4.8.6
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash: ^2.3.10
+  flutter_native_splash: ^2.4.0
   flutter_web_plugins:
     sdk: flutter
   macos_ui: ^2.0.5
