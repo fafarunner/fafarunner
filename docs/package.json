@@ -18,7 +18,7 @@
     "accept-language": "^3.0.18",
     "classnames": "^2.5.1",
     "contentlayer": "^0.3.4",
-    "date-fns": "^3.5.0",
+    "date-fns": "^3.6.0",
     "focus-trap-react": "^10.2.3",
     "framer-motion": "^11.0.14",
     "http-status": "^1.7.4",
