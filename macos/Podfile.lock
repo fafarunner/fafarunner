@@ -10,11 +10,11 @@ PODS:
     - FirebaseAnalytics (~> 10.22.0)
   - Firebase/CoreOnly (10.22.0):
     - FirebaseCore (= 10.22.0)
-  - firebase_analytics (10.8.9):
+  - firebase_analytics (10.8.10):
     - Firebase/Analytics (= 10.22.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_core (2.27.0):
+  - firebase_core (2.27.1):
     - Firebase/CoreOnly (~> 10.22.0)
     - FlutterMacOS
   - FirebaseAnalytics (10.22.0):
@@ -185,8 +185,8 @@ SPEC CHECKSUMS:
   appkit_ui_element_colors: 39bb2d80be3f19b152ccf4c70d5bbe6cba43d74a
   audioplayers_darwin: dcad41de4fbd0099cb3749f7ab3b0cb8f70b810c
   Firebase: 797fd7297b7e1be954432743a0b3f90038e45a71
-  firebase_analytics: d3b627594fb80567824609e9c2622bd4f48aee81
-  firebase_core: 94cef1d79e26747286a4808b2345c1ecb8501b11
+  firebase_analytics: 0c4828b46e9ccaa4598721abf366bedd9b2e9b45
+  firebase_core: cb81862138b1b98a890bcf3ee59ec820dad075b9
   FirebaseAnalytics: 8d0ff929c63b7f72260f332b86ccf569776b75d3
   FirebaseCore: 0326ec9b05fbed8f8716cddbf0e36894a13837f7
   FirebaseCoreInternal: bca337352024b18424a61e478460547d46c4c753
@@ -197,7 +197,7 @@ SPEC CHECKSUMS:
   macos_ui: 6229a8922cd97bafb7d9636c8eb8dfb0744183ca
   macos_window_utils: 933f91f64805e2eb91a5bd057cf97cd097276663
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
+  package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
