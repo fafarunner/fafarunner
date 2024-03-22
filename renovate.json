@@ -17,10 +17,6 @@
       "matchPackageNames": ["@types/node"]
     },
     {
-      "allowedVersions": "18",
-      "matchPackageNames": ["@commitlint/cli", "@commitlint/config-conventional"]
-    },
-    {
       "allowedVersions": "2",
       "matchPackageNames": ["tsparticles"]
     },
