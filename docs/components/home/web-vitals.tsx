@@ -32,7 +32,7 @@ export default function WebVitals() {
       <CountingNumbers
         value={100}
         duration={2500}
-        className="absolute inset-0 mx-auto flex items-center justify-center font-display text-5xl text-green-500"
+        className="font-display absolute inset-0 mx-auto flex items-center justify-center text-5xl text-green-500"
       />
     </div>
   );
