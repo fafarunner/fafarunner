@@ -1,18 +1,25 @@
 "use client";
-
-import { useState } from "react";
-import { RiTranslate } from "react-icons/ri";
-import Popover from "@/components/shared/popover";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { RiTranslate } from "react-icons/ri";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/i18n/client";
 import { languages } from "@/i18n/settings";
-import { LngProps } from "@/types/i18next-lng";
+import type { LngProps } from "@/types/i18next-lng";
 
 export default function LngDropdown(props: LngProps) {
   const { t } = useTranslation(props.lng, "header");
   const pathName = usePathname();
   const [openPopover, setOpenPopover] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const redirectedPathName = (locale: string) => {
     if (!pathName) return "/";
@@ -23,37 +30,58 @@ export default function LngDropdown(props: LngProps) {
 
   return (
     <div className="relative inline-block text-left">
-      <Popover
-        content={
+      <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="link"
+            className="hidden h-8 w-8 items-center justify-center overflow-hidden rounded-full p-0 transition-all duration-75 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 active:scale-95 sm:h-9 sm:w-9 md:flex"
+          >
+            <RiTranslate className="h-5 w-5" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
           <div className="w-full min-w-[14rem] rounded-md bg-white p-2 dark:bg-black">
+            {languages.map((locale) => {
+              return (
+                <DropdownMenuItem key={locale} disabled={locale === props.lng}>
+                  <Link
+                    key={locale}
+                    href={redirectedPathName(locale)}
+                    className="relative flex w-full items-center justify-start space-x-2 rounded-md py-2 text-left text-sm font-medium transition-all duration-75"
+                  >
+                    <p className="text-sm">{t(`languages.${locale}`)}</p>
+                  </Link>
+                </DropdownMenuItem>
+              );
+            })}
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Drawer open={openDrawer} onOpenChange={setOpenDrawer}>
+        <DrawerTrigger asChild>
+          <Button
+            variant="link"
+            className="h-8 w-8 items-center justify-center overflow-hidden rounded-full p-0 transition-all duration-75 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 active:scale-95 sm:h-9 sm:w-9 md:hidden"
+          >
+            <RiTranslate className="h-5 w-5" />
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <div className="min-w-sm mx-auto w-full rounded-md p-2">
             {languages.map((locale) => {
               return (
                 <Link
                   key={locale}
                   href={redirectedPathName(locale)}
-                  className={`relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                    locale === props.lng
-                      ? "cursor-not-allowed bg-gray-100 dark:bg-gray-700"
-                      : ""
-                  }`}
+                  className={`relative flex w-full items-center justify-start space-x-2 rounded-md px-2 py-3 text-left text-sm font-medium transition-all duration-75 ${locale === props.lng ? "pointer-events-none opacity-50" : "hover:bg-accent hover:text-accent-foreground"}`}
                 >
                   <p className="text-sm">{t(`languages.${locale}`)}</p>
                 </Link>
               );
             })}
           </div>
-        }
-        align="end"
-        openPopover={openPopover}
-        setOpenPopover={setOpenPopover}
-      >
-        <button
-          onClick={() => setOpenPopover(!openPopover)}
-          className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full transition-all duration-75 focus:outline-none active:scale-95 sm:h-9 sm:w-9"
-        >
-          <RiTranslate className="h-5 w-5" />
-        </button>
-      </Popover>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }
