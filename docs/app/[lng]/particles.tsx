@@ -1,148 +1,124 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { loadFull } from "tsparticles";
-import type { Engine, Container, ISourceOptions } from "tsparticles-engine";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import type { Engine, Container } from "@tsparticles/engine";
 import { useAppTheme } from "@/lib/hooks";
-
-const Particles = dynamic(() => import("react-particles"), {
-  ssr: false,
-});
-
-const config: ISourceOptions = {
-  autoplay: true,
-  fullScreen: {
-    enable: true,
-    zIndex: -1,
-  },
-  background: {
-    color: {
-      value: "transparent",
-    },
-  },
-  fpsLimit: 60,
-  interactivity: {
-    events: {
-      onClick: {
-        enable: true,
-        mode: "push",
-      },
-      onHover: {
-        enable: true,
-        mode: "repulse",
-      },
-      resize: true,
-    },
-    modes: {
-      bubble: {
-        distance: 400,
-        duration: 2,
-        opacity: 0.8,
-        size: 40,
-      },
-      push: {
-        quantity: 1,
-      },
-      repulse: {
-        distance: 200,
-        duration: 0.4,
-      },
-    },
-  },
-  particles: {
-    color: {
-      value: "#ff8906",
-    },
-    links: {
-      color: "#777777",
-      distance: 150,
-      enable: true,
-      opacity: 0.5,
-      width: 1,
-    },
-    collisions: {
-      enable: true,
-    },
-    move: {
-      direction: "none",
-      enable: true,
-      outMode: "bounce",
-      random: false,
-      speed: 1,
-      straight: false,
-    },
-    number: {
-      density: {
-        enable: true,
-        area: 800,
-      },
-      value: 90,
-    },
-    opacity: {
-      value: 0.5,
-    },
-    shape: {
-      type: "circle",
-    },
-    size: {
-      random: true,
-      value: 5,
-    },
-  },
-  themes: [
-    {
-      name: "light",
-      default: {
-        value: true,
-        mode: "light",
-      },
-      options: {
-        background: {
-          color: "transparent",
-        },
-      },
-    },
-    {
-      name: "dark",
-      default: {
-        value: true,
-        mode: "dark",
-      },
-      options: {
-        background: {
-          color: "#000000",
-        },
-      },
-    },
-  ],
-  detectRetina: true,
-};
 
 export default function Particle() {
   const { resolvedTheme: theme } = useAppTheme();
+  const particlesRef = useRef<Container>();
 
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
-  const [particlesContainer, setParticlesContainer] = useState<
-    Container | undefined
-  >();
+  const [init, setInit] = useState(false);
 
-  const particlesLoaded = useCallback(async (container?: Container) => {
-    setParticlesContainer(container);
+  useEffect(() => {
+    initParticlesEngine(async (engine: Engine) => {
+      await loadFull(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
   useEffect(() => {
     const loadTheme = async () => {
-      if (particlesContainer) {
-        await particlesContainer.loadTheme(theme);
+      if (particlesRef.current) {
+        await particlesRef.current?.loadTheme(theme);
       }
     };
 
     loadTheme();
-  }, [theme, particlesContainer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme, particlesRef.current]);
+
+  // 根据内容判断是否显示的页面内组件
+  const ShowContent = useCallback(
+    ({
+      isShow,
+      children,
+    }: {
+      isShow: boolean;
+      children: React.ReactElement;
+    }) => (isShow ? children : null),
+    [],
+  );
 
   return (
-    <Particles options={config} init={particlesInit} loaded={particlesLoaded} />
+    <ShowContent isShow={init}>
+      <Particles
+        id="tsparticles"
+        particlesLoaded={async (container?: Container) => {
+          particlesRef.current = container;
+        }}
+        options={{
+          background: {
+            color: {
+              value: "transparent",
+            },
+          },
+          fpsLimit: 120,
+          interactivity: {
+            events: {
+              onClick: {
+                enable: true,
+                mode: "push",
+              },
+              onHover: {
+                enable: true,
+                mode: "repulse",
+              },
+              // resize: true,
+            },
+            modes: {
+              push: {
+                quantity: 4,
+              },
+              repulse: {
+                distance: 200,
+                duration: 0.4,
+              },
+            },
+          },
+          particles: {
+            color: {
+              value: theme === "dark" ? "#ffffff" : "#0d47a1",
+            },
+            links: {
+              color: theme === "dark" ? "#ffffff" : "#0d47a1",
+              distance: 150,
+              enable: true,
+              opacity: 0.5,
+              width: 1,
+            },
+            move: {
+              direction: "none",
+              enable: true,
+              outModes: {
+                default: "bounce",
+              },
+              random: false,
+              speed: 6,
+              straight: false,
+            },
+            number: {
+              density: {
+                enable: true,
+                // area: 800,
+              },
+              value: 80,
+            },
+            opacity: {
+              value: 0.5,
+            },
+            shape: {
+              type: "circle",
+            },
+            size: {
+              value: { min: 1, max: 5 },
+            },
+          },
+          detectRetina: true,
+        }}
+      />
+    </ShowContent>
   );
 }
