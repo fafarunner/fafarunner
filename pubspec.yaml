@@ -54,7 +54,7 @@ dependencies:
   window_manager: ^0.3.8
 
 dev_dependencies:
-  build_runner: ^2.4.8
+  build_runner: ^2.4.9
   flutter_test:
     sdk: flutter
   mockingjay: ^0.5.0
