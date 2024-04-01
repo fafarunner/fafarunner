@@ -7,7 +7,7 @@ declare global {
 const octokit =
   global.octokit ||
   new Octokit({
-    auth: process.env.NEXT_PUBLIC_GH_TOKEN,
+    auth: process.env.GH_TOKEN,
   });
 
 if (process.env.NODE_ENV === "development") global.octokit = octokit;
