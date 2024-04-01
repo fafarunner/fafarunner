@@ -8,8 +8,8 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const latestRelease = await github.repos.getLatestRelease({
-      owner: process.env.NEXT_PUBLIC_GH_REPO_OWNER,
-      repo: process.env.NEXT_PUBLIC_GH_REPO,
+      owner: process.env.GH_REPO_OWNER,
+      repo: process.env.GH_REPO,
     });
 
     return Response.json(

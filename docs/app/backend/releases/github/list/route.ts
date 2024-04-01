@@ -30,8 +30,8 @@ export async function GET(request: Request) {
     }
 
     const res = await github.repos.listReleases({
-      owner: process.env.NEXT_PUBLIC_GH_REPO_OWNER,
-      repo: process.env.NEXT_PUBLIC_GH_REPO,
+      owner: process.env.GH_REPO_OWNER,
+      repo: process.env.GH_REPO,
       page,
       per_page: page_size,
     });
