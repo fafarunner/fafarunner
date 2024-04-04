@@ -13,7 +13,7 @@
   "dependencies": {
     "@emotion/is-prop-valid": "^1.2.2",
     "@hookform/resolvers": "^3.3.4",
-    "@octokit/rest": "^20.0.2",
+    "@octokit/rest": "^20.1.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
@@ -50,7 +50,7 @@
     "i18next": "^23.10.1",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-resources-to-backend": "^1.2.0",
-    "joi": "^17.12.2",
+    "joi": "^17.12.3",
     "leva": "^0.9.35",
     "lucide-react": "^0.364.0",
     "ms": "^2.1.3",
@@ -82,9 +82,9 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.12",
     "@types/ms": "^0.7.34",
-    "@types/node": "^18.19.28",
-    "@types/react": "^18.2.73",
-    "@types/react-dom": "^18.2.23",
+    "@types/node": "^18.19.29",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.24",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.1.4",
@@ -99,5 +99,5 @@
   "engines": {
     "node": "^18"
   },
-  "packageManager": "pnpm@8.15.5"
+  "packageManager": "pnpm@8.15.6"
 }
