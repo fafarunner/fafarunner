@@ -6,9 +6,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  Button,
+} from "muse-ui";
 import { useAppTheme } from "@/lib/hooks";
 import { useTranslation } from "@/i18n/client";
 import { themes, icons } from "@/theme";
@@ -49,7 +51,7 @@ export default function ThemeDropdown(props: LngProps) {
                   <Button
                     key={t1.mode}
                     onClick={() => setTheme(t1.mode)}
-                    className="relative flex w-full items-center justify-start space-x-2 rounded-md bg-background px-2 py-6 text-left text-sm text-inherit transition-all duration-75 hover:bg-accent hover:text-accent-foreground"
+                    className="relative flex w-full items-center justify-start space-x-2 rounded-md bg-background px-2 py-6 text-left text-sm text-inherit transition-all duration-75 hover:bg-accent hover:text-accent-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
                   >
                     <t1.icon className="mr-0 h-4 w-4" />
                     <p className="text-sm">{t(`menus.${t1.mode}`)}</p>

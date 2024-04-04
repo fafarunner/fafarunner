@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { BiArrowToTop } from "react-icons/bi";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "muse-ui";
 import GoogleAnalytics from "@/components/shared/google-analytics";
 import CookieBanner from "@/components/shared/cookie-banner";
 import ScrollToTop from "@/components/layout/scroll-to-top";
@@ -83,6 +84,7 @@ export default async function RootLayout({
           </main>
           <Footer lng={params.lng} />
           <CookieBanner lng={params.lng} />
+          <Toaster />
         </Providers>
         <ScrollToTop
           smooth
