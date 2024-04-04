@@ -78,12 +78,7 @@ export default function Release({
             />
           </dd>
         </div>
-        <GithubPkg
-          assets={release?.assets || []}
-          lng={lng}
-          disabled={false}
-          wrapped={false}
-        >
+        <GithubPkg assets={release?.assets || []} lng={lng} disabled={false}>
           <div className="flex cursor-pointer gap-x-2.5 text-gray-500 hover:text-green-400 dark:text-gray-400 dark:hover:text-green-300">
             <dt>
               <span className="sr-only">Total assets</span>

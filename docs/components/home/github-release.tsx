@@ -9,7 +9,7 @@ import {
   Apple,
   Linux,
 } from "@/components/shared/icons";
-import GithubPkg from "@/components/home/github-pkg";
+import GitHubPkg from "@/components/home/github-pkg";
 import { platforms } from "@/constants";
 import { getLatestRelease } from "@/request";
 import { useTranslation } from "@/i18n/client";
@@ -79,30 +79,65 @@ export default function GithubRelease({ lng }: LngProps) {
     <>
       <div className="mt-10 grid w-full max-w-screen-xl animate-fade-up xl:px-0">
         <div className="flex items-center justify-center">
-          <div className="grid w-full grid-cols-1 gap-5 px-10 sm:grid-cols-2 sm:px-10 md:max-w-5xl md:grid-cols-4 lg:px-0">
-            <GithubPkg
+          <div className="grid w-full grid-cols-1 gap-5 px-10 sm:grid-cols-2 sm:px-10 md:grid-cols-4">
+            <GitHubPkg
               lng={lng}
               disabled={loading || error || !android.length}
               assets={android}
+              wrapperClassName="border border-gray-300 hover:border-gray-800 shadow-md"
             >
               <Android className="h-7 w-7" />
               <p>
                 <span className="sm:inline-block">Android</span>
               </p>
-            </GithubPkg>
-            <GithubPkg
+            </GitHubPkg>
+            <GitHubPkg
               lng={lng}
               disabled={loading || error || !ios.length}
               assets={ios}
+              wrapperClassName="border border-gray-300 hover:border-gray-800 shadow-md"
             >
               <AppStore className="h-7 w-7" />
               <p>
-                <span className="sm:inline-block">App Store</span>
+                <span className="sm:inline-block">iOS</span>
               </p>
-            </GithubPkg>
+            </GitHubPkg>
+            <GitHubPkg
+              lng={lng}
+              disabled={loading || error || !macos.length}
+              assets={macos}
+              wrapperClassName="border border-gray-300 hover:border-gray-800 shadow-md"
+            >
+              <Apple className="h-7 w-7" />
+              <p>
+                <span className="sm:inline-block">macOS</span>
+              </p>
+            </GitHubPkg>
+            <GitHubPkg
+              lng={lng}
+              disabled={loading || error || !windows.length}
+              assets={windows}
+              wrapperClassName="border border-gray-300 hover:border-gray-800 shadow-md"
+            >
+              <Microsoft className="h-7 w-7" />
+              <p>
+                <span className="sm:inline-block">Windows</span>
+              </p>
+            </GitHubPkg>
+            <GitHubPkg
+              lng={lng}
+              disabled={loading || error || !linux.length}
+              assets={linux}
+              wrapperClassName="border border-gray-300 hover:border-gray-800 shadow-md"
+            >
+              <Linux className="h-7 w-7" />
+              <p>
+                <span className="sm:inline-block">Linux</span>
+              </p>
+            </GitHubPkg>
             <Link
-              className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 dark:bg-black dark:text-white/80 max-md:mx-0"
-              href=""
+              className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 dark:text-white/80 max-md:mx-0"
+              href="https://play.google.com/store/apps/details?id=com.chenyifaer.fafarunner"
             >
               <GooglePlay className="h-7 w-7" />
               <p>
@@ -110,44 +145,14 @@ export default function GithubRelease({ lng }: LngProps) {
               </p>
             </Link>
             <Link
-              className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 dark:bg-black dark:text-white/80 max-md:mx-0"
-              href=""
+              className="flex items-center justify-center space-x-2 rounded-full border border-gray-300 px-5 py-2 text-sm text-gray-600 shadow-md transition-colors hover:border-gray-800 dark:text-white/80 max-md:mx-0"
+              href="https://apps.apple.com/us/app/id6446263696"
             >
               <AppStore className="h-7 w-7" />
               <p>
                 <span className="sm:inline-block">App Store</span>
               </p>
             </Link>
-            <GithubPkg
-              lng={lng}
-              disabled={loading || error || !macos.length}
-              assets={macos}
-            >
-              <Apple className="h-7 w-7" />
-              <p>
-                <span className="sm:inline-block">Apple</span>
-              </p>
-            </GithubPkg>
-            <GithubPkg
-              lng={lng}
-              disabled={loading || error || !windows.length}
-              assets={windows}
-            >
-              <Microsoft className="h-7 w-7" />
-              <p>
-                <span className="sm:inline-block">Microsoft</span>
-              </p>
-            </GithubPkg>
-            <GithubPkg
-              lng={lng}
-              disabled={loading || error || !linux.length}
-              assets={linux}
-            >
-              <Linux className="h-7 w-7" />
-              <p>
-                <span className="sm:inline-block">Linux</span>
-              </p>
-            </GithubPkg>
           </div>
         </div>
       </div>
@@ -172,7 +177,7 @@ export default function GithubRelease({ lng }: LngProps) {
             href={`/${lng}/releases`}
             className="ml-2 text-sm text-gray-500 hover:underline dark:text-gray-400"
           >
-            {t("more-releases")}
+            {t("more-versions")}
           </Link>
         </Balancer>
       </p>
