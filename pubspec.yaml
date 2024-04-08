@@ -38,7 +38,7 @@ dependencies:
   flame: ^1.15.0
   flame_audio: ^2.1.8
   flame_splash_screen: ^0.3.0
-  fluent_ui: ^4.8.6
+  fluent_ui: ^4.8.7
   flutter:
     sdk: flutter
   flutter_localizations:
