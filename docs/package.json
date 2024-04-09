@@ -62,7 +62,7 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.12",
     "@types/ms": "^0.7.34",
-    "@types/node": "^18.19.29",
+    "@types/node": "^18.19.31",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
     "autoprefixer": "^10.4.19",
