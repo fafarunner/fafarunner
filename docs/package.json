@@ -28,7 +28,7 @@
     "http-status": "^1.7.4",
     "i18next": "^23.11.1",
     "i18next-browser-languagedetector": "^7.2.1",
-    "i18next-resources-to-backend": "^1.2.0",
+    "i18next-resources-to-backend": "^1.2.1",
     "joi": "^17.12.3",
     "leva": "^0.9.35",
     "lucide-react": "^0.367.0",
