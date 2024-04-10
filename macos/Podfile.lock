@@ -10,11 +10,11 @@ PODS:
     - FirebaseAnalytics (~> 10.22.0)
   - Firebase/CoreOnly (10.22.0):
     - FirebaseCore (= 10.22.0)
-  - firebase_analytics (10.10.0):
+  - firebase_analytics (10.10.1):
     - Firebase/Analytics (= 10.22.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_core (2.28.0):
+  - firebase_core (2.29.0):
     - Firebase/CoreOnly (~> 10.22.0)
     - FlutterMacOS
   - FirebaseAnalytics (10.22.0):
@@ -114,7 +114,7 @@ PODS:
     - FlutterMacOS
   - Sentry/HybridSDK (8.21.0):
     - SentryPrivate (= 8.21.0)
-  - sentry_flutter (0.0.1):
+  - sentry_flutter (7.19.0):
     - Flutter
     - FlutterMacOS
     - Sentry/HybridSDK (= 8.21.0)
@@ -185,8 +185,8 @@ SPEC CHECKSUMS:
   appkit_ui_element_colors: 39bb2d80be3f19b152ccf4c70d5bbe6cba43d74a
   audioplayers_darwin: dcad41de4fbd0099cb3749f7ab3b0cb8f70b810c
   Firebase: 797fd7297b7e1be954432743a0b3f90038e45a71
-  firebase_analytics: cdbc8425cdab00759feacb081ca0bd964a85f98f
-  firebase_core: 2c57be44d4fb5de6757fd8ebe04e363599daef36
+  firebase_analytics: a4d08292c26f228f0878e0c6df39218b2467a513
+  firebase_core: 6745c546d07fc9e954f20fdde793e1d1727ae679
   FirebaseAnalytics: 8d0ff929c63b7f72260f332b86ccf569776b75d3
   FirebaseCore: 0326ec9b05fbed8f8716cddbf0e36894a13837f7
   FirebaseCoreInternal: bca337352024b18424a61e478460547d46c4c753
@@ -202,7 +202,7 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
   Sentry: ebc12276bd17613a114ab359074096b6b3725203
-  sentry_flutter: dff1df05dc39c83d04f9330b36360fc374574c5e
+  sentry_flutter: 88ebea3f595b0bc16acc5bedacafe6d60c12dcd5
   SentryPrivate: d651efb234cf385ec9a1cdd3eff94b5e78a0e0fe
   url_launcher_macos: d2691c7dd33ed713bf3544850a623080ec693d95
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
