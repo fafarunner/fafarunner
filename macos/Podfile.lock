@@ -198,7 +198,7 @@ SPEC CHECKSUMS:
   macos_window_utils: 933f91f64805e2eb91a5bd057cf97cd097276663
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
   Sentry: ebc12276bd17613a114ab359074096b6b3725203
