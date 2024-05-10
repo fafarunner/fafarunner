@@ -32,9 +32,9 @@ environment:
 dependencies:
   audioplayers: ^5.2.1
   bonfire: ^3.4.0
-  cupertino_icons: ^1.0.6
-  firebase_analytics: ^10.10.1
-  firebase_core: ^2.29.0
+  cupertino_icons: ^1.0.8
+  firebase_analytics: ^10.10.5
+  firebase_core: ^2.31.0
   flame: ^1.15.0
   flame_audio: ^2.1.8
   flame_splash_screen: ^0.3.0
@@ -46,10 +46,10 @@ dependencies:
   flutter_native_splash: ^2.4.0
   flutter_web_plugins:
     sdk: flutter
-  macos_ui: ^2.0.5
-  package_info_plus: ^7.0.0
+  macos_ui: ^2.0.7
+  package_info_plus: ^8.0.0
   path_provider: ^2.1.3
-  sentry_flutter: ^7.19.0
+  sentry_flutter: ^8.1.0
   url_launcher: ^6.2.6
   window_manager: ^0.3.8
 
@@ -61,9 +61,6 @@ dev_dependencies:
   mocktail: ^1.0.3
   msix: ^3.16.7
   very_good_analysis: ^5.1.0
-
-dependency_overrides:
-  package_info_plus: ^7.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
