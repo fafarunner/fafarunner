@@ -8,14 +8,9 @@
   "ignoreDeps": [
     "flutter_localizations",
     "flutter_web_plugins",
-    "flutter_test",
-    "node"
+    "flutter_test"
   ],
   "packageRules": [
-    {
-      "allowedVersions": "18",
-      "matchPackageNames": ["@types/node"]
-    },
     {
       "matchPackageNames": ["flutter", "dart"],
       "groupName": "flutter"
