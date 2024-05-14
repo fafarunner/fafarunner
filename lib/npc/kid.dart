@@ -1,12 +1,12 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/enemies/boss.dart';
-import 'package:fafa_runner/l10n/l10n.dart';
-import 'package:fafa_runner/util/custom_sprite_animation_widget.dart';
-import 'package:fafa_runner/util/dialogs.dart';
-import 'package:fafa_runner/util/functions.dart';
-import 'package:fafa_runner/util/npc_sprite_sheet.dart';
-import 'package:fafa_runner/util/player_sprite_sheet.dart';
-import 'package:fafa_runner/util/sounds.dart';
+import 'package:fafarunner/enemies/boss.dart';
+import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
+import 'package:fafarunner/util/dialogs.dart';
+import 'package:fafarunner/util/functions.dart';
+import 'package:fafarunner/util/npc_sprite_sheet.dart';
+import 'package:fafarunner/util/player_sprite_sheet.dart';
+import 'package:fafarunner/util/sounds.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/constrants/constrants.dart';
-import 'package:fafa_runner/player/knight.dart';
-import 'package:fafa_runner/util/game_sprite_sheet.dart';
+import 'package:fafarunner/constrants/constrants.dart';
+import 'package:fafarunner/player/knight.dart';
+import 'package:fafarunner/util/game_sprite_sheet.dart';
 
 class Spikes extends GameDecoration with Sensor<Knight> {
   Spikes(Vector2 position, {this.damage = 60})

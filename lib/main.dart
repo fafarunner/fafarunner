@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:fafa_runner/app/app.dart';
-import 'package:fafa_runner/constrants/get.dart';
-import 'package:fafa_runner/url_strategy/url_strategy_non_web.dart'
-    if (dart.library.html) 'package:fafa_runner/url_strategy/url_strategy_web.dart';
-import 'package:fafa_runner/util/sounds.dart';
+import 'package:fafarunner/app/app.dart';
+import 'package:fafarunner/constrants/get.dart';
+import 'package:fafarunner/url_strategy/url_strategy_non_web.dart'
+    if (dart.library.html) 'package:fafarunner/url_strategy/url_strategy_web.dart';
+import 'package:fafarunner/util/sounds.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/cupertino.dart';

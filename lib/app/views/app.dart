@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:fafa_runner/app/views/app/platforms.dart';
+import 'package:fafarunner/app/views/app/platforms.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

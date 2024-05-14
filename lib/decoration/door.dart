@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/l10n/l10n.dart';
-import 'package:fafa_runner/player/knight.dart';
-import 'package:fafa_runner/util/game_sprite_sheet.dart';
+import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/player/knight.dart';
+import 'package:fafarunner/util/game_sprite_sheet.dart';
 import 'package:flutter/cupertino.dart';
 
 class Door extends GameDecoration {

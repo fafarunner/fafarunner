@@ -1,9 +1,9 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/constrants/constrants.dart';
-import 'package:fafa_runner/util/enemy_sprite_sheet.dart';
-import 'package:fafa_runner/util/functions.dart';
-import 'package:fafa_runner/util/game_sprite_sheet.dart';
-import 'package:fafa_runner/util/sounds.dart';
+import 'package:fafarunner/constrants/constrants.dart';
+import 'package:fafarunner/util/enemy_sprite_sheet.dart';
+import 'package:fafarunner/util/functions.dart';
+import 'package:fafarunner/util/game_sprite_sheet.dart';
+import 'package:fafarunner/util/sounds.dart';
 import 'package:flutter/material.dart';
 
 class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {

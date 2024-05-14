@@ -1,5 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/constrants/constrants.dart';
+import 'package:fafarunner/constrants/constrants.dart';
 
 class Barrel extends GameDecoration {
   Barrel(Vector2 position)
