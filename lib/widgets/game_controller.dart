@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/game/game.dart';
-import 'package:fafa_runner/util/dialogs.dart';
+import 'package:fafarunner/game/game.dart';
+import 'package:fafarunner/util/dialogs.dart';
 import 'package:flutter/material.dart';
 
 class GameController extends GameComponent {

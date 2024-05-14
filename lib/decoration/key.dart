@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/constrants/constrants.dart';
-import 'package:fafa_runner/player/knight.dart';
+import 'package:fafarunner/constrants/constrants.dart';
+import 'package:fafarunner/player/knight.dart';
 
 class DoorKey extends GameDecoration with Sensor {
   DoorKey(Vector2 position)

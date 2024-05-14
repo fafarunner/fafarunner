@@ -1,5 +1,5 @@
-import 'package:fafa_runner/l10n/l10n.dart';
-import 'package:fafa_runner/menu/menu.dart';
+import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/menu/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 

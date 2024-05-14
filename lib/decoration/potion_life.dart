@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/constrants/constrants.dart';
-import 'package:fafa_runner/player/knight.dart';
+import 'package:fafarunner/constrants/constrants.dart';
+import 'package:fafarunner/player/knight.dart';
 
 class PotionLife extends GameDecoration with Sensor<Knight> {
   PotionLife(this.initPosition, this.life)

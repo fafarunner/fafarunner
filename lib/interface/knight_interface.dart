@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart' hide BarLifeComponent;
-import 'package:fafa_runner/interface/bar_life_component.dart';
-import 'package:fafa_runner/player/knight.dart';
+import 'package:fafarunner/interface/bar_life_component.dart';
+import 'package:fafarunner/player/knight.dart';
 import 'package:flutter/foundation.dart';
 
 class KnightInterface extends GameInterface {

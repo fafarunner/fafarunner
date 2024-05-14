@@ -1,5 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/player/knight.dart';
+import 'package:fafarunner/player/knight.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

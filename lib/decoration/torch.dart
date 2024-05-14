@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafa_runner/constrants/constrants.dart';
-import 'package:fafa_runner/util/game_sprite_sheet.dart';
+import 'package:fafarunner/constrants/constrants.dart';
+import 'package:fafarunner/util/game_sprite_sheet.dart';
 import 'package:flutter/material.dart';
 
 class Torch extends GameDecoration {

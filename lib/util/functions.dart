@@ -1,4 +1,4 @@
-import 'package:fafa_runner/constrants/constrants.dart';
+import 'package:fafarunner/constrants/constrants.dart';
 
 const tileSizeSpriteSheet = 16;
 

@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:bonfire/bonfire.dart' hide Timer;
-import 'package:fafa_runner/constrants/get.dart';
-import 'package:fafa_runner/dialog/dialog.dart';
-import 'package:fafa_runner/game/game.dart';
-import 'package:fafa_runner/l10n/l10n.dart';
-import 'package:fafa_runner/util/custom_sprite_animation_widget.dart';
-import 'package:fafa_runner/util/enemy_sprite_sheet.dart';
-import 'package:fafa_runner/util/player_sprite_sheet.dart';
-import 'package:fafa_runner/util/sounds.dart';
-import 'package:fafa_runner/widgets/custom_radio.dart';
+import 'package:fafarunner/constrants/get.dart';
+import 'package:fafarunner/dialog/dialog.dart';
+import 'package:fafarunner/game/game.dart';
+import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
+import 'package:fafarunner/util/enemy_sprite_sheet.dart';
+import 'package:fafarunner/util/player_sprite_sheet.dart';
+import 'package:fafarunner/util/sounds.dart';
+import 'package:fafarunner/widgets/custom_radio.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
