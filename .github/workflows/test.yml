@@ -137,7 +137,7 @@ jobs:
       # Package the build.
       - name: Copy build for Android
         run: cp *.aab $GITHUB_WORKSPACE/
-        working-directory: build/app/outputs/bundle/release
+        working-directory: build/app/outputs/bundle/stagingRelease
 
       - uses: actions/upload-artifact@v4
         with:
