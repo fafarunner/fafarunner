@@ -1,0 +1,1 @@
+export 'strings.g.dart';

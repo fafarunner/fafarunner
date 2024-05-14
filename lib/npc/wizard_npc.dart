@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:fafarunner/constrants/constrants.dart';
-import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
 import 'package:fafarunner/util/npc_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';
@@ -64,13 +64,14 @@ class WizardNPC extends SimpleNpc {
   }
 
   void _showIntroduction() {
+    final t = Translations.of(gameRef.context);
     Sounds.interaction();
     TalkDialog.show(
       gameRef.context,
       [
         Say(
           text: [
-            TextSpan(text: gameRef.context.l10n.talkWizard1),
+            TextSpan(text: t.pages.talkWizard1),
           ],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.wizardIdleLeft(),
@@ -78,26 +79,26 @@ class WizardNPC extends SimpleNpc {
           personSayDirection: PersonSayDirection.RIGHT,
         ),
         Say(
-          text: [TextSpan(text: gameRef.context.l10n.talkPlayer1)],
+          text: [TextSpan(text: t.pages.talkPlayer1)],
           person: CustomSpriteAnimationWidget(
             animation: PlayerSpriteSheet.idleRight(),
           ),
         ),
         Say(
-          text: [TextSpan(text: gameRef.context.l10n.talkWizard2)],
+          text: [TextSpan(text: t.pages.talkWizard2)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.wizardIdleLeft(),
           ),
           personSayDirection: PersonSayDirection.RIGHT,
         ),
         Say(
-          text: [TextSpan(text: gameRef.context.l10n.talkPlayer2)],
+          text: [TextSpan(text: t.pages.talkPlayer2)],
           person: CustomSpriteAnimationWidget(
             animation: PlayerSpriteSheet.idleRight(),
           ),
         ),
         Say(
-          text: [TextSpan(text: gameRef.context.l10n.talkWizard3)],
+          text: [TextSpan(text: t.pages.talkWizard3)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.wizardIdleLeft(),
           ),

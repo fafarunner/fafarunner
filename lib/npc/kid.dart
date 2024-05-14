@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:fafarunner/enemies/boss.dart';
-import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
 import 'package:fafarunner/util/dialogs.dart';
 import 'package:fafarunner/util/functions.dart';
@@ -40,19 +40,20 @@ class Kid extends GameDecoration {
   }
 
   void _startConversation() {
+    final t = Translations.of(gameRef.context);
     Sounds.interaction();
     TalkDialog.show(
       gameRef.context,
       [
         Say(
-          text: [TextSpan(text: gameRef.context.l10n.talkKid2)],
+          text: [TextSpan(text: t.pages.talkKid2)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.kidIdleLeft(),
           ),
           personSayDirection: PersonSayDirection.RIGHT,
         ),
         Say(
-          text: [TextSpan(text: gameRef.context.l10n.talkPlayer4)],
+          text: [TextSpan(text: t.pages.talkPlayer4)],
           person: CustomSpriteAnimationWidget(
             animation: PlayerSpriteSheet.idleRight(),
           ),
