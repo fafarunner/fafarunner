@@ -11,8 +11,8 @@ import 'package:fafarunner/enemies/boss.dart';
 import 'package:fafarunner/enemies/goblin.dart';
 import 'package:fafarunner/enemies/imp.dart';
 import 'package:fafarunner/enemies/mini_boss.dart';
+import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/interface/knight_interface.dart';
-import 'package:fafarunner/l10n/l10n.dart';
 import 'package:fafarunner/npc/kid.dart';
 import 'package:fafarunner/npc/wizard_npc.dart';
 import 'package:fafarunner/player/knight.dart';
@@ -57,6 +57,8 @@ class _GameState extends State<Game>
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
     var joystick = Joystick(
       directional: JoystickDirectional(
         spriteBackgroundDirectional: Sprite.load('joystick_background.png'),
@@ -93,7 +95,7 @@ class _GameState extends State<Game>
     }
 
     return Title(
-      title: context.l10n.appName,
+      title: t.pages.appName,
       color: Colors.black,
       child: ColoredBox(
         color: Colors.black,
@@ -101,7 +103,7 @@ class _GameState extends State<Game>
           children: [
             Center(
               child: Text(
-                context.l10n.loading,
+                t.pages.loading,
                 style: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'Normal',

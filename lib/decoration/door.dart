@@ -1,5 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/player/knight.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,13 +53,14 @@ class Door extends GameDecoration {
   }
 
   void _showIntroduction() {
+    final t = Translations.of(gameRef.context);
     TalkDialog.show(
       gameRef.context,
       [
         Say(
           text: [
             TextSpan(
-              text: gameRef.context.l10n.doorWithoutKey,
+              text: t.pages.doorWithoutKey,
             ),
           ],
           person: (gameRef.player as SimplePlayer?)

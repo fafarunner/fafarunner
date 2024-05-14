@@ -1,5 +1,6 @@
-import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/i18n/i18n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 extension PumpApp on WidgetTester {
@@ -8,8 +9,9 @@ extension PumpApp on WidgetTester {
   ) {
     return pumpWidget(
       MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
+        locale: AppLocaleUtils.findDeviceLocale().flutterLocale,
+        supportedLocales: AppLocaleUtils.supportedLocales,
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
         home: Scaffold(body: widget),
       ),
     );

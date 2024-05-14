@@ -1,9 +1,10 @@
-import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/menu/menu.dart';
 import 'package:flutter/material.dart';
 
 class Dialogs {
   static void showGameOver(BuildContext context, VoidCallback playAgain) {
+    final t = Translations.of(context);
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -26,7 +27,7 @@ class Dialogs {
                 ),
                 onPressed: playAgain,
                 child: Text(
-                  context.l10n.playAgainCap,
+                  t.pages.playAgainCap,
                   style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Normal',
@@ -42,6 +43,7 @@ class Dialogs {
   }
 
   static void showCongratulations(BuildContext context) {
+    final t = Translations.of(context);
     showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -53,7 +55,7 @@ class Dialogs {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  context.l10n.congratulations,
+                  t.pages.congratulations,
                   style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Normal',
@@ -66,7 +68,7 @@ class Dialogs {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 100),
                   child: Text(
-                    context.l10n.thanks,
+                    t.pages.thanks,
                     style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'Normal',

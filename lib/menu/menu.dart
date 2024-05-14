@@ -4,7 +4,7 @@ import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:fafarunner/constrants/get.dart';
 import 'package:fafarunner/dialog/dialog.dart';
 import 'package:fafarunner/game/game.dart';
-import 'package:fafarunner/l10n/l10n.dart';
+import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
 import 'package:fafarunner/util/enemy_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';
@@ -59,8 +59,9 @@ class _MenuState extends State<Menu> with WindowListener {
   }
 
   Widget buildMenu() {
+    final t = Translations.of(context);
     return Title(
-      title: context.l10n.appName,
+      title: t.pages.appName,
       color: Colors.black,
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -70,7 +71,7 @@ class _MenuState extends State<Menu> with WindowListener {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  context.l10n.appName,
+                  t.pages.appName,
                   style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Normal',
@@ -102,7 +103,7 @@ class _MenuState extends State<Menu> with WindowListener {
                       minimumSize: const Size(100, 40), //////// HERE
                     ),
                     child: Text(
-                      context.l10n.playCap,
+                      t.pages.playCap,
                       style: const TextStyle(
                         color: Colors.white,
                         fontFamily: 'Normal',
@@ -169,10 +170,10 @@ class _MenuState extends State<Menu> with WindowListener {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: context.l10n.poweredByPrefix,
+                        text: t.pages.poweredByPrefix,
                       ),
                       TextSpan(
-                        text: context.l10n.author,
+                        text: t.pages.author,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             _launchURL('https://github.com/kjxbyz');
@@ -183,7 +184,7 @@ class _MenuState extends State<Menu> with WindowListener {
                         ),
                       ),
                       TextSpan(
-                        text: context.l10n.poweredBySuffix,
+                        text: t.pages.poweredBySuffix,
                       ),
                     ],
                   ),
@@ -197,7 +198,7 @@ class _MenuState extends State<Menu> with WindowListener {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: context.l10n.builtWithPrefix,
+                        text: t.pages.builtWithPrefix,
                       ),
                       TextSpan(
                         text: 'Bonfire',
@@ -213,7 +214,7 @@ class _MenuState extends State<Menu> with WindowListener {
                         ),
                       ),
                       TextSpan(
-                        text: context.l10n.builtWithSuffix,
+                        text: t.pages.builtWithSuffix,
                       ),
                     ],
                   ),
@@ -232,8 +233,9 @@ class _MenuState extends State<Menu> with WindowListener {
   }
 
   Widget buildSplash() {
+    final t = Translations.of(context);
     return Title(
-      title: context.l10n.appName,
+      title: t.pages.appName,
       color: Colors.black,
       child: FlameSplashScreen(
         theme: FlameSplashTheme(
