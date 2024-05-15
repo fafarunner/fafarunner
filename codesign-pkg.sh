@@ -13,11 +13,11 @@ signFile() {
 }
 
 export -f signFile
-if [ -d "build/macos/Build/Products/Release/FaFaRunner.app" ]; then
+if [ -d "build/macos/Build/Products/Release/FaFa Runner.app" ]; then
     cd build/macos/Build/Products/Release
-    find FaFaRunner.app -exec bash -c 'signFile "{}"' \;
+    find FaFa\ Runner.app -exec bash -c 'signFile "{}"' \;
 else
-  echo "Directory (build/macos/Build/Products/Release/FaFaRunner.app) does not exist!"
+  echo "Directory (build/macos/Build/Products/Release/FaFa Runner.app) does not exist!"
   exit 1
 fi
 

@@ -2,11 +2,11 @@
 
 set -e
 
-if [ -f "FaFaRunner.dmg" ]; then
-    echo "Delete FaFaRunner.dmg"
-    rm -f ./FaFaRunner.dmg
+if [ -f "FaFa Runner.dmg" ]; then
+    echo "Delete FaFa Runner.dmg"
+    rm -f ./FaFa\ Runner.dmg
 fi
 
-pnpm -c -s dlx appdmg ./appdmg.json ./FaFaRunner.dmg
+pnpm -c -s dlx appdmg ./appdmg.json ./FaFa\ Runner.dmg
 
 exit 0

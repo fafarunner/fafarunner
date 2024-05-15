@@ -78,8 +78,8 @@ jobs:
       - name: Build & Sign pkg
         run: |
           # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
-          xcrun pkgbuild --component "./FaFaRunner.app" --install-location /Applications --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFaRunner-unsigned.pkg
-          xcrun productbuild --package FaFaRunner-unsigned.pkg --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFaRunner.pkg
+          xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner-unsigned.pkg
+          xcrun productbuild --package FaFa\ Runner-unsigned.pkg --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner.pkg
         env:
           DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY }}
         working-directory: build/macos/Build/Products/Release
@@ -88,12 +88,12 @@ jobs:
         with:
           name: pkg-artifact
           path: |
-            ./build/macos/Build/Products/Release/FaFaRunner.pkg
+            ./build/macos/Build/Products/Release/FaFa\ Runner.pkg
 
 #      - name: Check sign status
 #        run: |
 #          # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
-#          pkgutil –-check-signature FaFaRunner.pkg
+#          pkgutil –-check-signature FaFa\ Runner.pkg
 #        working-directory: build/macos/Build/Products/Release
 
       - name: Notarize & Staple
@@ -103,12 +103,12 @@ jobs:
           # characteristics. Visit the Notarization docs for more information and strategies on how to optimize it if
           # you're curious
           echo "Notarize pkg"
-          xcrun notarytool submit "FaFaRunner.pkg" --apple-id "$APPLE_ID" --password "$APPLE_PASSWORD" --team-id "$APPLE_TEAM_ID" --output-format "json" --wait
+          xcrun notarytool submit "FaFa Runner.pkg" --apple-id "$APPLE_ID" --password "$APPLE_PASSWORD" --team-id "$APPLE_TEAM_ID" --output-format "json" --wait
 
           # Finally, we need to "attach the staple" to our executable, which will allow our app to be
           # validated by macOS even when an internet connection is not available.
           echo "Attach staple"
-          xcrun stapler staple "FaFaRunner.pkg"
+          xcrun stapler staple "FaFa Runner.pkg"
         working-directory: build/macos/Build/Products/Release
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -125,7 +125,7 @@ jobs:
         with:
           name: pkg2-artifact
           path: |
-            ./build/macos/Build/Products/Release/FaFaRunner.pkg
+            ./build/macos/Build/Products/Release/FaFa\ Runner.pkg
 
       - name: Clean up
         if: ${{ always() }}
