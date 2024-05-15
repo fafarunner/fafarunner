@@ -72,7 +72,7 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
       - name: Code Signing
-        run: /usr/bin/codesign --deep --force -s "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY" --options runtime FaFaRunner.app -v
+        run: /usr/bin/codesign --deep --force -s "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY" --options runtime FaFa\ Runner.app -v
         working-directory: build/macos/Build/Products/Release
         env:
           DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
@@ -83,19 +83,19 @@ jobs:
           # Therefore, we create a zip file containing our app bundle, so that we can send it to the
           # notarization service
           echo "Creating temp notarization archive"
-          ditto -c -k --keepParent "FaFaRunner.app" "FaFaRunner.zip"
+          ditto -c -k --keepParent "FaFa Runner.app" "FaFa Runner.zip"
 
           # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
           # This typically takes a few seconds inside a CI environment, but it might take more depending on the App
           # characteristics. Visit the Notarization docs for more information and strategies on how to optimize it if
           # you're curious
           echo "Notarize app"
-          xcrun notarytool submit "FaFaRunner.zip" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_PASSWORD" --wait
+          xcrun notarytool submit "FaFa Runner.zip" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_PASSWORD" --wait
 
           # Finally, we need to "attach the staple" to our executable, which will allow our app to be
           # validated by macOS even when an internet connection is not available.
           echo "Attach staple"
-          xcrun stapler staple "FaFaRunner.app"
+          xcrun stapler staple "FaFa Runner.app"
         working-directory: build/macos/Build/Products/Release
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -105,7 +105,7 @@ jobs:
 
       - name: Build zip
         run: |
-          7z a fafarunner.macos.zip ./FaFaRunner.app
+          7z a fafarunner.macos.zip ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
 
       # Package the build.
