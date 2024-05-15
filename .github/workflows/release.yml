@@ -1,4 +1,4 @@
-name: Release Flutter (Mobile & Desktop)
+name: Release
 on:
   # Enable manual run
   workflow_dispatch:
