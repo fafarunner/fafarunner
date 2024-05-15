@@ -1,0 +1,56 @@
+name: fafarunner
+version: 1.0.0
+summary: FaFa Runner.
+description: FaFa Runner.
+icon: snap/gui/fafarunner.png
+title: FaFa Runner
+contact: kjxbyz@163.com
+license: MIT
+source-code: https://github.com/fafarunner/fafarunner
+issues: https://github.com/fafarunner/fafarunner/issues
+website: https://www.chenyifaer.com/fafarunner
+architectures:
+  - build-on: [amd64]
+  - build-on: [arm64]
+confinement: strict
+base: core22
+grade: stable
+slots:
+  dbus-fafarunner: # adjust accordingly to your app name
+    interface: dbus
+    bus: session
+    name: com.chenyifaer.fafarunner # adjust accordingly to your app name and
+apps:
+  fafarunner:
+    command: fafarunner
+    extensions: [gnome] # gnome includes the libraries required by flutter
+    plugs:
+      - network
+    slots:
+      - dbus-fafarunner
+parts:
+  fafarunner:
+    source: .
+    plugin: flutter
+    # flutter-target: lib/main.dart # The main entry-point file of the application
+    build-environment:
+      - FLUTTER_REPO: https://github.com/flutter/flutter.git
+      - FLUTTER_VERSION: 3.19.6
+      - FLUTTER_TARGET: lib/main.dart
+      - TARGET_PLATFORM: linux-x64
+    override-build: |
+      # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+      apt install -y libunwind-dev
+      apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+      # https://github.com/canonical/snapcraft/blob/main/snapcraft/parts/plugins/flutter_plugin.py
+      PG_FLUTTER_BUILD_DIR="$CRAFT_PART_BUILD/flutter-distro"
+      if [ -d "$PG_FLUTTER_BUILD_DIR" ]; then
+        echo "$PG_FLUTTER_BUILD_DIR"
+        rm -rf $PG_FLUTTER_BUILD_DIR
+      fi
+      git clone --depth 1 -b $FLUTTER_VERSION $FLUTTER_REPO $PG_FLUTTER_BUILD_DIR
+      flutter doctor -v
+      flutter precache --linux
+      flutter pub get
+      flutter build linux --release --dart-define-from-file=.env --target-platform $TARGET_PLATFORM --target $FLUTTER_TARGET
+      cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/

@@ -1,0 +1,21 @@
+display_name: FaFa Runner
+icon: logo/logo_round.png
+summary: FaFa Runner.
+group: Application/Emulator
+vendor: kjxbyz
+packager: kjxbyz
+packagerEmail: kjxbyz@163.com
+license: MIT
+url: https://github.com/fafarunner/fafarunner
+
+keywords:
+  - FaFa Runner
+
+generic_name: FaFa Runner
+
+# https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#introduction
+# https://specifications.freedesktop.org/menu-spec/latest/apa.html
+categories:
+  - Game
+
+startup_notify: true

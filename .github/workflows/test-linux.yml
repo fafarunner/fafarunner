@@ -1,0 +1,246 @@
+name: Test Linux
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  appimage:
+    name: Create AppImage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install locate libfuse2
+          wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod +x appimagetool && mv appimagetool /usr/local/bin/
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build AppImage
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets appimage --artifact-name fafarunner.appimage
+
+      # Package the build.
+      - name: Copy build for AppImage
+        run: ls -laR
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: appimage-artifact
+          path: |
+            ./dist/**/*.AppImage
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  deb:
+    name: Create deb
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install rpm patchelf
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build deb
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets deb --artifact-name fafarunner.deb
+
+      # Package the build.
+      - name: Copy build for deb
+        run: ls -laR
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb-artifact
+          path: |
+            ./dist/**/*.deb
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  rpm:
+    name: Create rpm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build RPM
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets rpm --artifact-name fafarunner.rpm
+
+      # Package the build.
+      - name: Copy build for rpm
+        run: ls -laR
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rpm-artifact
+          path: |
+            ./dist/**/*.rpm
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  zip:
+    name: Create zip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install -y p7zip-full p7zip-rar
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets zip --artifact-name fafarunner.linux.zip
+
+      # Package the build.
+      - name: Copy build for zip
+        run: ls -laR
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-zip-artifact
+          path: |
+            ./dist/**/*.linux.zip
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
