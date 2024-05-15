@@ -1,6 +1,6 @@
 {
   "title": "FaFa Runner",
-  "icon": "assets/distribution/fafa-runner.icns",
+  "icon": "logo/fafa-runner.icns",
   "background-color": "white",
   "contents": [
     { "x": 448, "y": 180, "type": "link", "path": "/Applications" },
