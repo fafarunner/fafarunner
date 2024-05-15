@@ -1,0 +1,27 @@
+display_name: FaFa Runner
+package_name: fafarunner
+maintainer:
+  name: kjxbyz
+  email: kjxbyz@163.com
+priority: optional
+section: x11
+installed_size: 6604
+essential: false
+icon: logo/logo_round.png
+
+postinstall_scripts:
+  - echo "Installing FaFa Runner"
+postuninstall_scripts:
+  - echo "FaFa Runner installed"
+
+keywords:
+  - FaFa Runner
+
+generic_name: FaFa Runner
+
+# https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#introduction
+# https://specifications.freedesktop.org/menu-spec/latest/apa.html
+categories:
+  - Game
+
+startup_notify: true
