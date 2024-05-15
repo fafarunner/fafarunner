@@ -1,0 +1,116 @@
+name: Test macOS pkg(appstore)
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  pkg_appstore:
+    name: Create pkg appstore
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Resolving flutter dependencies
+        run: flutter pub get
+
+      - name: Resolving macos dependencies
+        run: cd macos && pod install --repo-update && cd ..
+
+      - name: Build macOS
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to mac app store..."
+          flutter build macos --dart-define-from-file=.env --flavor AppStore
+
+      - name: Install certificates
+        run: |
+          # create variables
+          # Mac Installer Distribution
+          THIRD_PARTY_MAC_DEVELOPER_INSTALLER_CERTIFICATE_PATH=$RUNNER_TEMP/build_mac_developer_installer_certificate.p12
+          # Mac App Distribution
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_mac_developer_application_certificate.p12
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH=$RUNNER_TEMP/fafa_runner_mac_appstore.provisionprofile
+          KEYCHAIN_PATH=$RUNNER_TEMP/pg-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC" | base64 --decode --output $THIRD_PARTY_MAC_DEVELOPER_INSTALLER_CERTIFICATE_PATH
+          echo -n "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC" | base64 --decode --output $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_CERTIFICATE_PATH
+          echo -n "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PROVISION_PROFILE_BASE64_MAC" | base64 --decode --output $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $THIRD_PARTY_MAC_DEVELOPER_INSTALLER_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          # security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          
+          # apply provisioning profile
+          # https://developer.apple.com/documentation/bundleresources/placing_content_in_a_bundle/
+          # security cms -D -i fafa_runner_mac_appstore.provisionprofile
+          mv $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH build/macos/Build/Products/AppStore-Release/FaFaRunnerAppStore.app/Contents/embedded.provisionprofile
+        env:
+          THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC }}
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC }}
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PROVISION_PROFILE_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PROVISION_PROFILE_BASE64_MAC }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - name: Code Signing
+        run: |
+          # https://stackoverflow.com/questions/70991268/how-to-sign-and-notarize-a-pkg-within-a-github-actions-macos-runner
+          # https://developer.apple.com/forums/thread/733942
+          # codesign -dvvv FaFaRunnerAppStore.app
+          /usr/bin/codesign --deep --force -s "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" --entitlements macos/Runner/AppStore-Release.entitlements --options runtime build/macos/Build/Products/AppStore-Release/FaFaRunnerAppStore.app -v
+        env:
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY }}
+
+      - name: Build & Sign pkg
+        run: |
+          # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
+          xcrun productbuild --sign "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY" --component FaFaRunnerAppStore.app /Applications FaFaRunnerAppStore.pkg
+        env:
+          THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY }}
+        working-directory: build/macos/Build/Products/AppStore-Release
+
+      # Package the build.
+      - name: Copy build for pkg
+        run: ls -la *.pkg
+        working-directory: build/macos/Build/Products/AppStore-Release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pkg-appstore-artifact
+          path: |
+            ./build/macos/Build/Products/AppStore-Release/FaFaRunnerAppStore.pkg
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if [ -f "$RUNNER_TEMP/pg-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/pg-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/pg-signing.keychain-db
+          fi
+          rm -f .env
