@@ -46,7 +46,7 @@ jobs:
           # create variables
           DEVELOPER_ID_INSTALLER_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_installer_certificate.p12
           DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_application_certificate.p12
-          KEYCHAIN_PATH=$RUNNER_TEMP/pg-signing.keychain-db
+          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
 
           # import certificate and provisioning profile from secrets
           echo -n "$DEVELOPER_ID_INSTALLER_P12_BASE64_MAC" | base64 --decode --output $DEVELOPER_ID_INSTALLER_CERTIFICATE_PATH
@@ -130,8 +130,8 @@ jobs:
       - name: Clean up
         if: ${{ always() }}
         run: |
-          if [ -f "$RUNNER_TEMP/pg-signing.keychain-db" ]; then
-            echo "$RUNNER_TEMP/pg-signing.keychain-db"
-            security delete-keychain $RUNNER_TEMP/pg-signing.keychain-db
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
           fi
           rm -f .env

@@ -49,7 +49,7 @@ jobs:
           # Mac App Distribution
           THIRD_PARTY_MAC_DEVELOPER_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_mac_developer_application_certificate.p12
           THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH=$RUNNER_TEMP/fafa_runner_mac_appstore.provisionprofile
-          KEYCHAIN_PATH=$RUNNER_TEMP/pg-signing.keychain-db
+          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
 
           # import certificate and provisioning profile from secrets
           echo -n "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC" | base64 --decode --output $THIRD_PARTY_MAC_DEVELOPER_INSTALLER_CERTIFICATE_PATH
@@ -109,8 +109,8 @@ jobs:
       - name: Clean up
         if: ${{ always() }}
         run: |
-          if [ -f "$RUNNER_TEMP/pg-signing.keychain-db" ]; then
-            echo "$RUNNER_TEMP/pg-signing.keychain-db"
-            security delete-keychain $RUNNER_TEMP/pg-signing.keychain-db
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
           fi
           rm -f .env
