@@ -110,10 +110,10 @@ sudo snap install ./fafarunner.snap --dangerous
 
 # build & sign pkg
 # developer id installer
-xcrun pkgbuild --component "./FaFaRunner.app" --install-location /Applications --sign "" FaFaRunner.pkg
+xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "" FaFa\ Runner.pkg
 
 # Notarize pkg
-xcrun notarytool submit --verbose FaFaRunner.pkg --apple-id "" --team-id "" --password ""
+xcrun notarytool submit --verbose FaFa\ Runner.pkg --apple-id "" --team-id "" --password ""
 xcrun notarytool info <id> --apple-id "" --team-id "" --password ""
 xcrun notarytool log <id> --apple-id "" --team-id "" --password ""
 ```
