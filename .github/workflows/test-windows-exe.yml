@@ -1,0 +1,101 @@
+name: Test Windows exe
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  exe:
+    name: Create exe
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $bytes = echo $env:ENV_KEY | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+
+#      - name: Compile .iss to .exe installer
+#        uses: Minionguyjpro/Inno-Setup-Action@v1.2.4
+#        with:
+#          path: windows/packaging/exe/inno_setup.iss
+#          options: /O+
+
+      - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
+        run: |
+          copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Update config
+        run: |
+          (get-content windows\packaging\exe\make_config.yaml) -replace 'APP_ID_PLACEHOLDER', $env:WINDOWS_APP_ID -replace 'PUBLISHER_NAME_PLACEHOLDER', $env:WINDOWS_PUBLISHER_NAME | Out-File -encoding utf8 windows\packaging\exe\make_config.yaml
+        env:
+          WINDOWS_APP_ID: ${{ secrets.WINDOWS_APP_ID }}
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+
+      - name: Build exe
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets exe --artifact-name fafarunner.exe
+
+      # Package the build.
+      - name: Copy build for exe
+        run: ls -R
+        working-directory: dist
+
+      - name: Signing
+        run: |
+          echo $env:RUNNER_TEMP
+          $certificate_path = "$env:RUNNER_TEMP\fafarunner.pfx"
+          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
+          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$certificate_path", $bytes)
+          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
+          & $signtool sign /f "$certificate_path" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\fafarunner.exe")
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe-artifact
+          path: |
+            .\dist\**\*.exe
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          ls
+          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
+            echo "$env:RUNNER_TEMP\fafarunner.pfx"
+            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
+          }
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }

@@ -1,0 +1,14 @@
+app_id: APP_ID_PLACEHOLDER
+publisher_name: PUBLISHER_NAME_PLACEHOLDER
+publisher_url: https://www.chenyifaer.com/fafarunner
+display_name: FaFa Runner
+create_desktop_icon: true
+privileges_required: admin
+# launch_at_startup: false
+# setup_icon_file:
+# See: https://jrsoftware.org/ishelp/index.php?topic=setup_defaultdirname
+# install_dir_name: "D:\\HELLO-WORLD"
+locales:
+  - en
+  - zh
+script_template: inno_setup.iss
