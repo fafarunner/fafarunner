@@ -3,61 +3,121 @@ on:
   # Enable manual run
   workflow_dispatch:
     inputs:
-      version:
-        description: "Tag to create (e.g. v2.10.0). Must include 'v' and must match pubspec"
-        required: true
-        default: "v1.0.0-alpha.0"
-        type: string
-      mode:
+      env:
         type: choice
-        description: "Which mode are you using? (iOS only)"
+        description: "Which environment are you using?"
         required: true
-        default: "debug"
+        default: "staging"
         options:
-          - debug
-          - release
-      prerelease:
-        description: "Prerelease"
-        required: false
-        default: false
-        type: boolean
+          - staging
+          - production
 
-# Declare default permissions as read only.
+# Declare default permissions as readonly.
 permissions: read-all
 
 jobs:
-  draft-release:
-    name: Draft Github release
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      sha_short: ${{ steps.sha_short_step.outputs.sha_short }}
+      timestamp: ${{ steps.timestamp_step.outputs.timestamp }}
+      version: ${{ steps.version_step.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set sha_short
+        id: sha_short_step
+        run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Check sha_short
+        run: echo ${{ steps.sha_short_step.outputs.sha_short }}
+
+      - name: Set timestamp
+        id: timestamp_step
+        run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
+
+      - name: Check timestamp
+        run: echo ${{ steps.timestamp_step.outputs.timestamp }}
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Set version
+        id: version_step
+        run: | 
+          PUB_VERSION=$(yq '.version' < pubspec.yaml)
+          echo "$PUB_VERSION"
+          VERSION=$(echo "$PUB_VERSION" | sed -e "s/+\(.*\)$//g")
+          echo "$VERSION"
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check version
+        run: echo ${{ steps.version_step.outputs.version }}
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Create a release
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          if [ "$ENV" == "production" ]; then
+            gh release create "$RELEASE" --latest --title "$RELEASE" --notes "Env: $ENV <br /> Version: $RELEASE"
+          else
+            gh release create "$RELEASE" --prerelease --title "$RELEASE" --notes "Env: $ENV <br /> Version: $RELEASE"
+          fi
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ steps.version_step.outputs.version }}+${{ steps.timestamp_step.outputs.timestamp }}-${{ steps.sha_short_step.outputs.sha_short }}"
+          VERSION: ${{ steps.version_step.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+  remove_release:
+      name: Remove release
+      if: ${{ cancelled() || failure() }}
+      runs-on: ubuntu-latest
+      needs:
+        - create_release
+        - apk
+        - aab
+        - ios
+        - macos_dmg
+        - macos_pkg
+        - macos_appstore
+        - macos_zip
+        - linux_appimage
+        - linux_deb
+        - linux_rpm
+        - linux_zip
+        - linux_snap
+        - windows_msix
+        - windows_exe
+      steps:
+        - uses: actions/checkout@v4
+
+        - name: Show gh info
+          run: gh --version
+
+        - name: Remove a release
+          run: |
+            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+            gh release delete -y --cleanup-tag "$RELEASE"
+          env:
+            ENV: ${{ github.event.inputs.env }}
+            VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+            VERSION: ${{ needs.create_release.outputs.version }}
+            GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+  apk:
+    name: Create apk
     runs-on: ubuntu-latest
     needs:
-      - apk-build
-      - aab-build
-      - ios-build
-      - windows-build
-      - linux-build
-      - linux-snap-build
-      - macos-build
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: build/
-
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: build/
-
-      - name: Push APK to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          name: ${{ github.event.inputs.version }}
-          artifacts: "./**/*.apk,./**/*.aab,./**/*.ipa,./**/*.tar.gz,./**/*.zip,./**/*.dmg,./**/*.snap"
-          tag: ${{ github.event.inputs.version }}
-          token: ${{ secrets.CYF_BOT_TOKEN }}
-          prerelease: ${{ github.event.inputs.prerelease == 'true' }}
-
-  apk-build:
-    name: Create apk build
-    runs-on: ubuntu-latest
+      - create_release
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -71,13 +131,14 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
-#      - name: Setup NDK
-#        uses: nttld/setup-ndk@v1
-#        with:
-#          ndk-version: 'r21e'
-#          add-to-path: true
-#        env:
-#          ANDROID_NDK_HOME: '/usr/local/lib/android/sdk/ndk'
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -100,21 +161,46 @@ jobs:
         working-directory: android
 
       # Build the application.
-      - run: flutter build apk --release --split-per-abi --no-tree-shake-icons
+      - name: Build apk
+        if: github.event.inputs.env == 'staging'
+        run: bash build-android.sh && flutter build apk --dart-define-from-file=.env --no-tree-shake-icons --flavor staging
+
+      - name: Build apk
+        if: github.event.inputs.env == 'production'
+        run: flutter build apk --dart-define-from-file=.env --no-tree-shake-icons --flavor production
 
       # Package the build.
       - name: Copy build for Android
-        run: cp *.apk $GITHUB_WORKSPACE/
+        run: |
+          ls -la
+          cp *.apk $GITHUB_WORKSPACE/FaFa\ Runner.apk
         working-directory: build/app/outputs/flutter-apk
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: apk-artifact
-          path: ./*.apk
+      - name: Show gh info
+        run: gh --version
 
-  aab-build:
-    name: Create appbundle build
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.apk
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f android/app/upload-keystore.jks
+          rm -f android/key.properties
+          rm -f .env
+
+  aab:
+    name: Create appbundle
     runs-on: ubuntu-latest
+    needs:
+      - create_release
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -128,13 +214,14 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
-      #      - name: Setup NDK
-      #        uses: nttld/setup-ndk@v1
-      #        with:
-      #          ndk-version: 'r21e'
-      #          add-to-path: true
-      #        env:
-      #          ANDROID_NDK_HOME: '/usr/local/lib/android/sdk/ndk'
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -157,21 +244,54 @@ jobs:
         working-directory: android
 
       # Build the application.
-      - run: flutter build appbundle --release --no-tree-shake-icons
+      - name: Build appbundle
+        if: github.event.inputs.env == 'staging'
+        run: bash build-android.sh && flutter build appbundle --dart-define-from-file=.env --no-tree-shake-icons --flavor staging
+
+      - name: Build appbundle
+        if: github.event.inputs.env == 'production'
+        run: flutter build appbundle --dart-define-from-file=.env --no-tree-shake-icons --flavor production
 
       # Package the build.
       - name: Copy build for Android
-        run: cp *.aab $GITHUB_WORKSPACE/
-        working-directory: build/app/outputs/bundle/release
+        if: github.event.inputs.env == 'staging'
+        run: |
+          ls -la
+          cp *.aab $GITHUB_WORKSPACE/FaFa\ Runner.aab
+        working-directory: build/app/outputs/bundle/stagingRelease
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: aab-artifact
-          path: ./*.aab
+      - name: Copy build for Android
+        if: github.event.inputs.env == 'production'
+        run: |
+          ls -la
+          cp *.aab $GITHUB_WORKSPACE/FaFa\ Runner.aab
+        working-directory: build/app/outputs/bundle/productionRelease
 
-  ios-build:
-    name: Create ios build
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.aab
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f android/app/upload-keystore.jks
+          rm -f android/key.properties
+          rm -f .env
+
+  ios:
+    name: Create ios
     runs-on: macos-latest
+    needs:
+      - create_release
     steps:
       - uses: actions/checkout@v4
 
@@ -181,39 +301,42 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
       - name: Flutter doctor -v
         run: flutter doctor -v
 
-      - name: Install Deps
+      - name: Resolving flutter dependencies
         run: flutter pub get
 
+      - name: Resolving ios dependencies
+        run: cd ios && pod install --repo-update && cd ..
+
       - name: Install the Apple certificate and provisioning profile
-        env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.P12_BASE64 }}
-          BUILD_CERTIFICATE_DEV_BASE64: ${{ secrets.P12_DEV_BASE64 }}
-          BUILD_CERT_BASE64: ${{ secrets.CERT_BASE64 }}
-          BUILD_CERT_DEV_BASE64: ${{ secrets.CERT_DEV_BASE64 }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          BUILD_PROVISION_PROFILE_DEV_BASE64: ${{ secrets.PROVISIONING_PROFILE_DEV_BASE64 }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           CERTIFICATE_DEV_PATH=$RUNNER_TEMP/build_certificate_dev.p12
           CERT_PATH=$RUNNER_TEMP/ios_distribution.cer
-          CERT_DEV_PATH=$RUNNER_TEMP/development.cer
+          CERT_DEV_PATH=$RUNNER_TEMP/ios_development.cer
           PP_PATH=$RUNNER_TEMP/fafa_runner_appstore.mobileprovision
           PP_DEV_PATH=$RUNNER_TEMP/fafa_runner_dev.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
           # import certificate and provisioning profile from secrets
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "$BUILD_CERTIFICATE_DEV_BASE64" | base64 --decode --output $CERTIFICATE_DEV_PATH
-          echo -n "$BUILD_CERT_BASE64" | base64 --decode --output $CERT_PATH
-          echo -n "$BUILD_CERT_DEV_BASE64" | base64 --decode --output $CERT_DEV_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_DEV_BASE64" | base64 --decode --output $PP_DEV_PATH
+          echo -n "$CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$CERTIFICATE_DEV_BASE64" | base64 --decode --output $CERTIFICATE_DEV_PATH
+          echo -n "$CERT_BASE64" | base64 --decode --output $CERT_PATH
+          echo -n "$CERT_DEV_BASE64" | base64 --decode --output $CERT_DEV_PATH
+          echo -n "$PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+          echo -n "$PROVISION_PROFILE_DEV_BASE64" | base64 --decode --output $PP_DEV_PATH
 
           # create temporary keychain
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
@@ -229,197 +352,1215 @@ jobs:
 
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_DEV_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          mv $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          mv $PP_DEV_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.P12_BASE64 }}
+          CERTIFICATE_DEV_BASE64: ${{ secrets.P12_DEV_BASE64 }}
+          CERT_BASE64: ${{ secrets.CERT_BASE64 }}
+          CERT_DEV_BASE64: ${{ secrets.CERT_DEV_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          PROVISION_PROFILE_DEV_BASE64: ${{ secrets.PROVISIONING_PROFILE_DEV_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      - name: Build
-        run: flutter build ipa --release --export-options-plist=ios/ExportOptions-${{ github.event.inputs.mode }}.plist
+      - name: Build ipa
+        if: github.event.inputs.env == 'staging'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd ios && xcodebuild clean && cd ..
+          echo "╠ Releasing to adhoc..."
+          bash build-ios.sh && flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-debug.plist
+
+      - name: Build ipa
+        if: github.event.inputs.env == 'production'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd ios && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-release.plist
 
       # Package the build.
       - name: Copy build for iOS
-        run: cp *.ipa $GITHUB_WORKSPACE/
+        run: |
+          ls -la
+          cp *.ipa $GITHUB_WORKSPACE/FaFa\ Runner.ipa
         working-directory: build/ios/ipa
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ios-artifact
-          path: ./*.ipa
+      - name: Show gh info
+        run: gh --version
 
-      - name: Clean up keychain and provisioning profile
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.ipa
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
         if: ${{ always() }}
         run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/fafa_runner_appstore.mobileprovision
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/fafa_runner_dev.mobileprovision
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
+          fi
+          rm -f ~/Library/MobileDevice/Provisioning\ Profiles/fafa_runner_*.mobileprovision
+          rm -f .env
 
-  windows-build:
-    name: Create windows build
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Install Deps
-        run: flutter pub get
-
-      # Build the application.
-      - run: flutter build windows --release --no-tree-shake-icons
-
-      - name: Copy VC redistributables to release directory for Windows
-        run: |
-          Copy-Item (vswhere -latest -find 'VC\Redist\MSVC\*\x64\*\msvcp140.dll') .
-          Copy-Item (vswhere -latest -find 'VC\Redist\MSVC\*\x64\*\vcruntime140.dll') .
-          Copy-Item (vswhere -latest -find 'VC\Redist\MSVC\*\x64\*\vcruntime140_1.dll') .
-        working-directory: build\windows\runner\Release
-
-      # Package the build.
-      - name: Compress build for Windows
-        run: compress-archive -Path * -DestinationPath ${env:GITHUB_WORKSPACE}\fafa_runner_windows.zip
-        working-directory: build\windows\runner\Release
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: windows-artifact
-          path: .\*.zip
-
-  linux-build:
-    name: Create linux build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Flutter requirements for Linux
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
-
-      - name: Install GStreamer
-        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-        run: |
-          sudo apt install -y libunwind-dev
-          sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Install Deps
-        run: flutter pub get
-
-      # Build the application.
-      - run: flutter build linux --release --no-tree-shake-icons
-
-      # Package the build.
-      - name: Compress build for Linux
-        run: tar czf $GITHUB_WORKSPACE/fafa_runner_linux.tar.gz *
-        working-directory: build/linux/x64/release/bundle
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: linux-artifact
-          path: ./*.tar.gz
-
-  linux-snap-build:
-    name: Create linux snap build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Flutter requirements for Linux
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
-
-      - name: Install GStreamer
-        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-        run: |
-          sudo apt install -y libunwind-dev
-          sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Update version
-        run: |
-          echo "version: $version" >> snapcraft.yaml
-        env:
-          version: ${{ github.event.inputs.version }}
-
-      - name: Install Snapcraft with LXD
-        uses: samuelmeuli/action-snapcraft@v2
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Install Deps
-        run: flutter pub get
-
-      - name: Build snap
-        run: sg lxd -c 'snapcraft --use-lxd'
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: linux-snap-artifact
-          path: ./*.snap
-
-  macos-build:
-    name: Create macos build
+  macos_dmg:
+    name: Create macos(dmg)
     runs-on: macos-latest
+    needs:
+      - create_release
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
-
-      - name: Setup Node
+      - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Resolving flutter dependencies
+        run: flutter pub get
+
+      - name: Resolving macos dependencies
+        run: cd macos && pod install --repo-update && cd ..
+
+      - name: Build macOS
+        if: github.event.inputs.env == 'staging'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          bash build-macos.sh && flutter build macos --dart-define-from-file=.env
+
+      - name: Build macOS
+        if: github.event.inputs.env == 'production'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          rm -f macos/Flutter/BuildConfig.xcconfig && flutter build macos --dart-define-from-file=.env
+
+      - name: Install certificates
+        env:
+          DEVELOPER_ID_APPLICATION_P12_BASE64_MAC: ${{ secrets.DEVELOPER_ID_APPLICATION_P12_BASE64_MAC }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_application_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
+          
+          # import certificate and provisioning profile from secrets
+          echo -n "$DEVELOPER_ID_APPLICATION_P12_BASE64_MAC" | base64 --decode --output $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH
+          
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          # security default-keychain -s $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          
+          # import certificate to keychain
+          security import $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+      - name: Code Signing
+        run: /usr/bin/codesign --deep --force -s "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY" --options runtime FaFa\ Runner.app -v
+        working-directory: build/macos/Build/Products/Release
+        env:
+          DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
+
+      - name: Notarize app
+        run: |
+          # We can't notarize an app bundle directly, but we need to compress it as an archive.
+          # Therefore, we create a zip file containing our app bundle, so that we can send it to the
+          # notarization service
+          echo "Creating temp notarization archive"
+          ditto -c -k --keepParent "FaFa Runner.app" "FaFa Runner.zip"
+
+          # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
+          # This typically takes a few seconds inside a CI environment, but it might take more depending on the App
+          # characteristics. Visit the Notarization docs for more information and strategies on how to optimize it if
+          # you're curious
+          echo "Notarize app"
+          xcrun notarytool submit "FaFa Runner.zip" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_PASSWORD" --wait
+
+          # Finally, we need to "attach the staple" to our executable, which will allow our app to be
+          # validated by macOS even when an internet connection is not available.
+          echo "Attach staple"
+          xcrun stapler staple "FaFa Runner.app"
+        working-directory: build/macos/Build/Products/Release
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - name: Install appdmg
         run: |
-          npm install -g appdmg
+          pnpm add -g appdmg
+
+      - name: Build DMG
+        run: |
+          bash build-dmg.sh
+
+      # Package the build.
+      - name: Copy build for snap
+        run: ls -la *.dmg
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.dmg
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
+          fi
+          rm -f .env
+
+
+  macos_pkg:
+    name: Create macos(pkg)
+    runs-on: macos-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
 
-      - name: Install Deps
+      - name: Resolving flutter dependencies
         run: flutter pub get
 
-      # Build the application.
-      - run: flutter build macos --release --no-tree-shake-icons
+      - name: Resolving macos dependencies
+        run: cd macos && pod install --repo-update && cd ..
 
-      # Package the build.
-      - name: Compress build for macOS
-        run: ditto -c -k --sequesterRsrc --keepParent FaFaRunner.app $GITHUB_WORKSPACE/fafa_runner_macos.zip
+      - name: Build macOS
+        if: github.event.inputs.env == 'staging'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          bash build-macos.sh && flutter build macos --dart-define-from-file=.env
+
+      - name: Build macOS
+        if: github.event.inputs.env == 'production'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          rm -f macos/Flutter/BuildConfig.xcconfig && flutter build macos --dart-define-from-file=.env
+
+      - name: Install certificates
+        run: |
+          # create variables
+          DEVELOPER_ID_INSTALLER_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_installer_certificate.p12
+          DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_application_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$DEVELOPER_ID_INSTALLER_P12_BASE64_MAC" | base64 --decode --output $DEVELOPER_ID_INSTALLER_CERTIFICATE_PATH
+          echo -n "$DEVELOPER_ID_APPLICATION_P12_BASE64_MAC" | base64 --decode --output $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $DEVELOPER_ID_INSTALLER_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          # security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+        env:
+          DEVELOPER_ID_INSTALLER_P12_BASE64_MAC: ${{ secrets.DEVELOPER_ID_INSTALLER_P12_BASE64_MAC }}
+          DEVELOPER_ID_APPLICATION_P12_BASE64_MAC: ${{ secrets.DEVELOPER_ID_APPLICATION_P12_BASE64_MAC }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - name: Code Signing
+        run: |
+          # https://stackoverflow.com/questions/70991268/how-to-sign-and-notarize-a-pkg-within-a-github-actions-macos-runner
+          bash codesign-pkg.sh "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY"
+        env:
+          DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
+
+      - name: Build & Sign pkg
+        run: |
+          # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
+          xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner-unsigned.pkg
+          xcrun productbuild --package FaFa\ Runner-unsigned.pkg --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner.pkg
+        env:
+          DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY }}
         working-directory: build/macos/Build/Products/Release
 
-      - name: Build dmg
+      - name: Notarize & Staple
         run: |
-          appdmg appdmg.json $GITHUB_WORKSPACE/FaFaRunner.dmg
+          # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
+          # This typically takes a few seconds inside a CI environment, but it might take more depending on the App
+          # characteristics. Visit the Notarization docs for more information and strategies on how to optimize it if
+          # you're curious
+          echo "Notarize pkg"
+          xcrun notarytool submit "FaFa Runner.pkg" --apple-id "$APPLE_ID" --password "$APPLE_PASSWORD" --team-id "$APPLE_TEAM_ID" --output-format "json" --wait
 
-      - uses: actions/upload-artifact@v4
+          # Finally, we need to "attach the staple" to our executable, which will allow our app to be
+          # validated by macOS even when an internet connection is not available.
+          echo "Attach staple"
+          xcrun stapler staple "FaFa Runner.pkg"
+        working-directory: build/macos/Build/Products/Release
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      # Package the build.
+      - name: Copy build for pkg
+        run: |
+          ls -la *.pkg
+          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/
+        working-directory: build/macos/Build/Products/Release
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.pkg
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
+          fi
+          rm -f .env
+
+
+  macos_appstore:
+    name: Create macos(appstore)
+    runs-on: macos-latest
+    if: github.event.inputs.env == 'production'
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          name: macos-artifact
-          path: |
-            ./*.zip
-            ./*.dmg
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env for production
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Resolving flutter dependencies
+        run: flutter pub get
+
+      - name: Resolving macos dependencies
+        run: cd macos && pod install --repo-update && cd ..
+
+      - name: Build macOS
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to mac app store..."
+          flutter build macos --dart-define-from-file=.env --flavor AppStore
+
+      - name: Install certificates
+        run: |
+          # create variables
+          # Mac Installer Distribution
+          THIRD_PARTY_MAC_DEVELOPER_INSTALLER_CERTIFICATE_PATH=$RUNNER_TEMP/build_mac_developer_installer_certificate.p12
+          # Mac App Distribution
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_mac_developer_application_certificate.p12
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH=$RUNNER_TEMP/fafa_runner_mac_appstore.provisionprofile
+          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC" | base64 --decode --output $THIRD_PARTY_MAC_DEVELOPER_INSTALLER_CERTIFICATE_PATH
+          echo -n "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC" | base64 --decode --output $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_CERTIFICATE_PATH
+          echo -n "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PROVISION_PROFILE_BASE64_MAC" | base64 --decode --output $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $THIRD_PARTY_MAC_DEVELOPER_INSTALLER_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          # security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          
+          # apply provisioning profile
+          # https://developer.apple.com/documentation/bundleresources/placing_content_in_a_bundle/
+          # security cms -D -i fafa_runner_mac_appstore.provisionprofile
+          mv $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH build/macos/Build/Products/AppStore-Release/FaFaRunnerAppStore.app/Contents/embedded.provisionprofile
+        env:
+          THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC }}
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC }}
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PROVISION_PROFILE_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PROVISION_PROFILE_BASE64_MAC }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - name: Code Signing
+        run: |
+          # https://stackoverflow.com/questions/70991268/how-to-sign-and-notarize-a-pkg-within-a-github-actions-macos-runner
+          # https://developer.apple.com/forums/thread/733942
+          # codesign -dvvv FaFaRunnerAppStore.app
+          /usr/bin/codesign --deep --force -s "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" --entitlements macos/Runner/AppStore-Release.entitlements --options runtime build/macos/Build/Products/AppStore-Release/FaFaRunnerAppStore.app -v
+        env:
+          THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY }}
+
+      - name: Build & Sign pkg
+        run: |
+          # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
+          xcrun productbuild --sign "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY" --component FaFaRunnerAppStore.app /Applications FaFaRunnerAppStore.pkg
+        env:
+          THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY }}
+        working-directory: build/macos/Build/Products/AppStore-Release
+
+      # Package the build.
+      - name: Copy build for pkg
+        run: ls -la *.pkg
+        working-directory: build/macos/Build/Products/AppStore-Release
+
+      # Package the build.
+      - name: Copy build for pkg
+        run: |
+          ls -la *.pkg
+          cp *.pkg $GITHUB_WORKSPACE/
+        working-directory: build/macos/Build/Products/AppStore-Release
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.pkg
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
+          fi
+          rm -f .env
+
+
+  macos_zip:
+    name: Create macos zip
+    runs-on: macos-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Install p7zip
+        run: brew install p7zip
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Resolving flutter dependencies
+        run: flutter pub get
+
+      - name: Resolving macos dependencies
+        run: cd macos && pod install --repo-update && cd ..
+
+      - name: Build macOS
+        if: github.event.inputs.env == 'staging'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          bash build-macos.sh && flutter build macos --dart-define-from-file=.env
+
+      - name: Build macOS
+        if: github.event.inputs.env == 'production'
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          rm -f macos/Flutter/BuildConfig.xcconfig && flutter build macos --dart-define-from-file=.env
+
+      - name: Install certificates
+        env:
+          DEVELOPER_ID_APPLICATION_P12_BASE64_MAC: ${{ secrets.DEVELOPER_ID_APPLICATION_P12_BASE64_MAC }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_application_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$DEVELOPER_ID_APPLICATION_P12_BASE64_MAC" | base64 --decode --output $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          # security default-keychain -s $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+      - name: Code Signing
+        run: /usr/bin/codesign --deep --force -s "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY" --options runtime FaFa\ Runner.app -v
+        working-directory: build/macos/Build/Products/Release
+        env:
+          DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
+
+      - name: Notarize app
+        run: |
+          # We can't notarize an app bundle directly, but we need to compress it as an archive.
+          # Therefore, we create a zip file containing our app bundle, so that we can send it to the
+          # notarization service
+          echo "Creating temp notarization archive"
+          ditto -c -k --keepParent "FaFa Runner.app" "FaFa Runner.zip"
+
+          # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
+          # This typically takes a few seconds inside a CI environment, but it might take more depending on the App
+          # characteristics. Visit the Notarization docs for more information and strategies on how to optimize it if
+          # you're curious
+          echo "Notarize app"
+          xcrun notarytool submit "FaFa Runner.zip" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_PASSWORD" --wait
+
+          # Finally, we need to "attach the staple" to our executable, which will allow our app to be
+          # validated by macOS even when an internet connection is not available.
+          echo "Attach staple"
+          xcrun stapler staple "FaFa Runner.app"
+        working-directory: build/macos/Build/Products/Release
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - name: Build zip
+        run: |
+          7z a fafarunner.macos.zip ./FaFa\ Runner.app
+        working-directory: build/macos/Build/Products/Release
+
+      # Package the build.
+      - name: Copy build for zip
+        run: |
+          ls -la *.zip
+          cp *.macos.zip $GITHUB_WORKSPACE/
+        working-directory: build/macos/Build/Products/Release
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.macos.zip
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
+          fi
+          rm -f .env
+
+
+  linux_appimage:
+    name: Create AppImage
+    runs-on: ubuntu-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install locate libfuse2
+          wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod +x appimagetool && mv appimagetool /usr/local/bin/
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build AppImage
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets appimage --artifact-name fafarunner.appimage
+
+      # Package the build.
+      - name: Copy build for AppImage
+        run: |
+          ls -laR
+          cp ./**/*.AppImage $GITHUB_WORKSPACE/
+        working-directory: dist
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.AppImage
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  linux_deb:
+    name: Create deb
+    runs-on: ubuntu-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install rpm patchelf
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build deb
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets deb --artifact-name fafarunner.deb
+
+      # Package the build.
+      - name: Copy build for deb
+        run: |
+          ls -laR
+          cp ./**/*.deb $GITHUB_WORKSPACE/
+        working-directory: dist
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.deb
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  linux_rpm:
+    name: Create rpm
+    runs-on: ubuntu-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build RPM
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets rpm --artifact-name fafarunner.rpm
+
+      # Package the build.
+      - name: Copy build for rpm
+        run: |
+          ls -laR
+          cp ./**/*.rpm $GITHUB_WORKSPACE/
+        working-directory: dist
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.rpm
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  linux_zip:
+    name: Create zip
+    runs-on: ubuntu-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install -y p7zip-full p7zip-rar
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets zip --artifact-name fafarunner.linux.zip
+
+      # Package the build.
+      - name: Copy build for zip
+        run: |
+          ls -laR
+          cp ./**/*.linux.zip $GITHUB_WORKSPACE/
+        working-directory: dist
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.linux.zip
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  linux_snap:
+    name: Create snap
+    runs-on: ubuntu-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+
+      - name: Setup LXD
+        uses: canonical/setup-lxd@v0.1.1
+        with:
+          channel: latest/stable
+
+      - name: Install GStreamer
+        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+        run: |
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Install snapcraft
+        run: |
+          sudo snap install snapcraft --classic
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update snapcraft.yaml
+        run: |
+          yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.19.6"' snap/snapcraft.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      - name: Build snap
+        run: |
+          # https://snapcraft.io/docs/flutter-applications
+          snapcraft --output fafarunner.snap
+
+      # Package the build.
+      - name: Copy build for snap
+        run: ls -la *.snap
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$RELEASE" ./*.snap
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+          snapcraft clean
+
+  windows_msix:
+    name: Create msix
+    runs-on: windows-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $env_base64 = $(If ($env:ENV -eq "staging") {"$env:ENV_STG_BASE64"} Else {"$env:ENV_PROD_BASE64"})
+          $bytes = echo $env_base64 | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install certificates
+        run: |
+          echo $env:RUNNER_TEMP
+          $certificate_path = "$env:RUNNER_TEMP\fafarunner.pfx"
+          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
+          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$certificate_path", $bytes)
+          (get-content pubspec.yaml) -replace 'PUBLISHER_NAME_PLACEHOLDER', $env:WINDOWS_PUBLISHER_NAME -replace 'IDENTITY_NAME_PLACEHOLDER', $env:WINDOWS_IDENTITY_NAME -replace 'CERTIFICATE_PATH_PLACEHOLDER', $certificate_path -replace 'CERTIFICATE_PASSWORD_PLACEHOLDER', $env:WINDOWS_CERTIFICATE_PASSWORD -replace 'PUBLISHER_PLACEHOLDER', $env:WINDOWS_PUBLISHER | Out-File -encoding utf8 pubspec.yaml
+        env:
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+          WINDOWS_IDENTITY_NAME: ${{ secrets.WINDOWS_IDENTITY_NAME }}
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build windows
+        run: flutter build windows --dart-define-from-file=.env
+
+      - name: Crate msix
+        run: dart run msix:create --build-windows false
+
+      # Package the build.
+      - name: Copy build for msix
+        run: |
+          ls
+          cp .\*.msix "$env:GITHUB_WORKSPACE\"
+        working-directory: build\windows\x64\runner\Release
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          $env:RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX"} Else {"$env:VERSION"})
+          # https://github.com/cli/cli/issues/5099
+          gh release upload "$env:RELEASE" (get-item .\*.msix)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
+            echo "$env:RUNNER_TEMP\fafarunner.pfx"
+            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
+          }
+          
+          if (test-path -Path "windows\packaging\msix\make_config.yaml") {
+            echo "windows\packaging\msix\make_config.yaml"
+            remove-item -Path "windows\packaging\msix\make_config.yaml" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File(windows\packaging\msix\make_config.yaml) doesn't exist."
+          }
+          
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }
+
+  windows_exe:
+    name: Create exe
+    runs-on: windows-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $env_base64 = $(If ($env:ENV -eq "staging") {"$env:ENV_STG_BASE64"} Else {"$env:ENV_PROD_BASE64"})
+          $bytes = echo $env_base64 | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
+
+      #      - name: Compile .iss to .exe installer
+      #        uses: Minionguyjpro/Inno-Setup-Action@v1.2.4
+      #        with:
+      #          path: windows/packaging/exe/inno_setup.iss
+      #          options: /O+
+
+      - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
+        run: |
+          copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Update config
+        run: |
+          (get-content windows\packaging\exe\make_config.yaml) -replace 'APP_ID_PLACEHOLDER', $env:WINDOWS_APP_ID -replace 'PUBLISHER_NAME_PLACEHOLDER', $env:WINDOWS_PUBLISHER_NAME | Out-File -encoding utf8 windows\packaging\exe\make_config.yaml
+        env:
+          WINDOWS_APP_ID: ${{ secrets.WINDOWS_APP_ID }}
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+
+      - name: Build exe
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets exe --artifact-name fafarunner.exe
+
+      - name: Signing
+        run: |
+          echo $env:RUNNER_TEMP
+          $certificate_path = "$env:RUNNER_TEMP\fafarunner.pfx"
+          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
+          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$certificate_path", $bytes)
+          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
+          & $signtool sign /f "$certificate_path" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\fafarunner.exe")
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+        working-directory: dist
+
+      # Package the build.
+      - name: Copy build for exe
+        run: |
+          ls -R
+          cp .\**\*.exe "$env:GITHUB_WORKSPACE\"
+        working-directory: dist
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          $env:RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX"} Else {"$env:VERSION"})
+          # https://github.com/cli/cli/issues/5099
+          gh release upload "$env:RELEASE" (get-item .\*.exe)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
+            echo "$env:RUNNER_TEMP\fafarunner.pfx"
+            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
+          }
+          
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }
