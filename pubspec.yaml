@@ -120,8 +120,15 @@ flutter:
 
 msix_config:
   display_name: FaFa Runner
-  publisher_display_name: Qingdao INSCO Network Technology Co., Ltd.
-  identity_name: QingdaoINSCONetworkTechno.FaFaRunner
-  publisher: CN=5585C59A-AF21-4C4B-B1BE-407391662EF6
-  msix_version: 1.0.0.1
+  publisher_display_name: PUBLISHER_NAME_PLACEHOLDER
+  identity_name: IDENTITY_NAME_PLACEHOLDER
+  #  msix_version: 1.0.0.0 # If not set, the value of `version` is used
+  logo_path: snap\gui\fafarunner.png
+  languages: zh, en
   store: true
+  architecture: x64
+  certificate_path: CERTIFICATE_PATH_PLACEHOLDER
+  certificate_password: CERTIFICATE_PASSWORD_PLACEHOLDER
+  install_certificate: false
+  publisher: PUBLISHER_PLACEHOLDER
+  capabilities: "internetClient"
