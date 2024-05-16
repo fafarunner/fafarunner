@@ -21,13 +21,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:window_manager/window_manager.dart';
 
-Future<void> collectLog(String line) async {
-  log(line);
-  await Sentry.captureMessage(line);
-}
-
 Future<void> reportErrorAndLog(FlutterErrorDetails details) async {
-  log(details.exceptionAsString(), stackTrace: details.stack);
+  printErrorLog(details.exceptionAsString(), stackTrace: details.stack);
   if (AppEnv.sentryEnabled) {
     await Sentry.captureException(details.exception, stackTrace: details.stack);
   }
