@@ -43,8 +43,7 @@ Future<void> main() async {
   // app version / build number
   await initApp();
 
-  // defaults to Level.INFO
-  Logger.root.level = kReleaseMode ? Level.OFF : Level.ALL;
+  Logger.root.level = kReleaseMode ? Level.OFF : Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
     log('${record.level.name}: ${record.time}: ${record.message}');
   });
