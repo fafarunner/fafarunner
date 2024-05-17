@@ -17,3 +17,11 @@ bool get isMobile {
     TargetPlatform.android,
   ].contains(defaultTargetPlatform);
 }
+
+bool get isSplashSupported {
+  if (kIsWeb) return true;
+  return [
+    TargetPlatform.iOS,
+    TargetPlatform.android,
+  ].contains(defaultTargetPlatform);
+}
