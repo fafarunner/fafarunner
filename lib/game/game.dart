@@ -6,7 +6,7 @@ import 'package:fafarunner/decoration/key.dart';
 import 'package:fafarunner/decoration/potion_life.dart';
 import 'package:fafarunner/decoration/spikes.dart';
 import 'package:fafarunner/decoration/torch.dart';
-import 'package:fafarunner/dialog/dialog.dart';
+import 'package:fafarunner/dialogs/dialogs.dart';
 import 'package:fafarunner/enemies/boss.dart';
 import 'package:fafarunner/enemies/goblin.dart';
 import 'package:fafarunner/enemies/imp.dart';
@@ -18,7 +18,6 @@ import 'package:fafarunner/npc/wizard_npc.dart';
 import 'package:fafarunner/player/knight.dart';
 import 'package:fafarunner/util/sounds.dart';
 import 'package:fafarunner/widgets/game_controller.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:window_manager/window_manager.dart';
@@ -162,14 +161,7 @@ class _GameState extends State<Game>
   Future<void> onWindowClose() async {
     final isPreventClose = await windowManager.isPreventClose();
     if (isDesktop && isPreventClose) {
-      if (!mounted) return;
-      if (defaultTargetPlatform == TargetPlatform.windows) {
-        await showWindowDialog(context);
-      } else if (defaultTargetPlatform == TargetPlatform.macOS) {
-        await showMacosDialog(context);
-      } else if (defaultTargetPlatform == TargetPlatform.linux) {
-        await showLinuxDialog(context);
-      }
+      await showExitDialog();
     }
   }
 }

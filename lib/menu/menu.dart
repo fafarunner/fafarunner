@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:fafarunner/constrants/get.dart';
-import 'package:fafarunner/dialog/dialog.dart';
+import 'package:fafarunner/dialogs/dialogs.dart';
 import 'package:fafarunner/game/game.dart';
 import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
@@ -11,7 +11,6 @@ import 'package:fafarunner/util/player_sprite_sheet.dart';
 import 'package:fafarunner/util/sounds.dart';
 import 'package:fafarunner/widgets/custom_radio.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -278,14 +277,7 @@ class _MenuState extends State<Menu> with WindowListener {
   Future<void> onWindowClose() async {
     final isPreventClose = await windowManager.isPreventClose();
     if (isDesktop && isPreventClose) {
-      if (!mounted) return;
-      if (defaultTargetPlatform == TargetPlatform.windows) {
-        await showWindowDialog(context);
-      } else if (defaultTargetPlatform == TargetPlatform.macOS) {
-        await showMacosDialog(context);
-      } else if (defaultTargetPlatform == TargetPlatform.linux) {
-        await showLinuxDialog(context);
-      }
+      await showExitDialog();
     }
   }
 
