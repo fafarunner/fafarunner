@@ -26,6 +26,8 @@ jobs:
       version: ${{ steps.version_step.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set sha_short
         id: sha_short_step
@@ -39,6 +41,8 @@ jobs:
         run: |
           echo "Current ref name: $BRANCH"
           echo "commit_count=$(git rev-list --count $BRANCH)" >> $GITHUB_OUTPUT
+        env:
+          BRANCH: ${{ github.ref_name }}
 
       - name: Check commit_count
         run: echo ${{ steps.commit_count_step.outputs.commit_count }}
