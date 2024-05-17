@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 52 (26 per locale)
+/// Strings: 50 (25 per locale)
 ///
-/// Built on 2024-05-14 at 13:11 UTC
+/// Built on 2024-05-17 at 07:27 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -169,8 +169,7 @@ class _StringsPagesEn {
 	String get poweredByPrefix => 'Powered by ';
 	String get poweredBySuffix => '';
 	String get author => 'KJXBYZ';
-	String get builtWithPrefix => 'Built with ';
-	String get builtWithSuffix => '';
+	String version({required Object version}) => 'Version: ${version}';
 	String get talkWizard1 => 'Hello my young knight!\nWhat are you doing here?';
 	String get talkPlayer1 => 'Hello!\nI was sent to rescue a child who was kidnapped by creatures that live in those neighborhoods.';
 	String get talkWizard2 => 'Humm...\nI don\'t want to demotivate you, but you are the fifth knight sent for this task. So far, none have returned alive and their bodies are hanging from the walls like trophies.';
@@ -233,8 +232,7 @@ class _StringsPagesZh implements _StringsPagesEn {
 	@override String get poweredByPrefix => '由 ';
 	@override String get poweredBySuffix => ' 开发';
 	@override String get author => '科技小白英仔';
-	@override String get builtWithPrefix => '基于 ';
-	@override String get builtWithSuffix => ' 构建';
+	@override String version({required Object version}) => '版本号: ${version}';
 	@override String get talkWizard1 => '你好, 我年轻的骑士! \n你在这里做什么?';
 	@override String get talkPlayer1 => '你好! \n我被派去营救一个被生活在这些街区的生物绑架的孩子.';
 	@override String get talkWizard2 => '嗯……\n我不想打击你, 但你是第五个被派来执行这项任务的骑士. 到目前为止, 没有人活着回来, 他们的尸体像战利品一样挂在墙上.';
@@ -265,8 +263,7 @@ extension on Translations {
 			case 'pages.poweredByPrefix': return 'Powered by ';
 			case 'pages.poweredBySuffix': return '';
 			case 'pages.author': return 'KJXBYZ';
-			case 'pages.builtWithPrefix': return 'Built with ';
-			case 'pages.builtWithSuffix': return '';
+			case 'pages.version': return ({required Object version}) => 'Version: ${version}';
 			case 'pages.talkWizard1': return 'Hello my young knight!\nWhat are you doing here?';
 			case 'pages.talkPlayer1': return 'Hello!\nI was sent to rescue a child who was kidnapped by creatures that live in those neighborhoods.';
 			case 'pages.talkWizard2': return 'Humm...\nI don\'t want to demotivate you, but you are the fifth knight sent for this task. So far, none have returned alive and their bodies are hanging from the walls like trophies.';
@@ -299,8 +296,7 @@ extension on _StringsZh {
 			case 'pages.poweredByPrefix': return '由 ';
 			case 'pages.poweredBySuffix': return ' 开发';
 			case 'pages.author': return '科技小白英仔';
-			case 'pages.builtWithPrefix': return '基于 ';
-			case 'pages.builtWithSuffix': return ' 构建';
+			case 'pages.version': return ({required Object version}) => '版本号: ${version}';
 			case 'pages.talkWizard1': return '你好, 我年轻的骑士! \n你在这里做什么?';
 			case 'pages.talkPlayer1': return '你好! \n我被派去营救一个被生活在这些街区的生物绑架的孩子.';
 			case 'pages.talkWizard2': return '嗯……\n我不想打击你, 但你是第五个被派来执行这项任务的骑士. 到目前为止, 没有人活着回来, 他们的尸体像战利品一样挂在墙上.';

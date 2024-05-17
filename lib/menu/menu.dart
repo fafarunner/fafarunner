@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bonfire/bonfire.dart' hide Timer;
+import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/constrants/get.dart';
 import 'package:fafarunner/dialogs/dialogs.dart';
 import 'package:fafarunner/game/game.dart';
@@ -60,6 +61,8 @@ class _MenuState extends State<Menu> with WindowListener {
 
   Widget buildMenu() {
     final t = Translations.of(context);
+    final version = AppManager.instance.version;
+    final buildNumber = AppManager.instance.buildNumber;
     return Title(
       title: t.pages.appName,
       color: Colors.black,
@@ -198,23 +201,17 @@ class _MenuState extends State<Menu> with WindowListener {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: t.pages.builtWithPrefix,
-                      ),
-                      TextSpan(
-                        text: 'Bonfire',
+                        text: t.pages.version(version: '$version+$buildNumber'),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             _launchURL(
-                              'https://github.com/RafaelBarbosatec/bonfire',
+                              'https://github.com/fafarunner/fafarunner/releases',
                             );
                           },
                         style: const TextStyle(
                           decoration: TextDecoration.underline,
                           color: Colors.blue,
                         ),
-                      ),
-                      TextSpan(
-                        text: t.pages.builtWithSuffix,
                       ),
                     ],
                   ),
