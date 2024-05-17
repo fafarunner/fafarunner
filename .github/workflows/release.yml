@@ -129,7 +129,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -212,7 +212,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -299,7 +299,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -431,7 +431,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -570,7 +570,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -712,7 +712,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env for production
         run: |
@@ -837,7 +837,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -996,7 +996,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -1068,7 +1068,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -1144,7 +1144,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -1216,7 +1216,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -1292,7 +1292,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -1324,7 +1324,7 @@ jobs:
       - name: Update snapcraft.yaml
         run: |
           yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
-          yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.19.6"' snap/snapcraft.yaml
+          yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.22.0"' snap/snapcraft.yaml
         env:
           VERSION: ${{ needs.create_release.outputs.version }}
 
@@ -1368,7 +1368,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
@@ -1469,7 +1469,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.0'
 
       - name: Configure .env
         run: |
