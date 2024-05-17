@@ -105,7 +105,7 @@ class _MenuState extends State<Menu> with WindowListener {
                     child: Text(
                       t.pages.playCap,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.blue,
                         fontFamily: 'Normal',
                         fontSize: 17,
                       ),
