@@ -14,6 +14,7 @@ import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -253,6 +254,9 @@ class _MenuState extends State<Menu> with WindowListener {
           setState(() {
             showSplash = false;
           });
+          if (isSplashSupported) {
+            FlutterNativeSplash.remove();
+          }
           startTimer();
         },
       ),
