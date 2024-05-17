@@ -21,7 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       sha_short: ${{ steps.sha_short_step.outputs.sha_short }}
-      timestamp: ${{ steps.timestamp_step.outputs.timestamp }}
+      commit_count: ${{ steps.commit_count_step.outputs.commit_count }}
+#      timestamp: ${{ steps.timestamp_step.outputs.timestamp }}
       version: ${{ steps.version_step.outputs.version }}
     steps:
       - uses: actions/checkout@v4
@@ -33,12 +34,21 @@ jobs:
       - name: Check sha_short
         run: echo ${{ steps.sha_short_step.outputs.sha_short }}
 
-      - name: Set timestamp
-        id: timestamp_step
-        run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
+      - name: Set commit_count
+        id: commit_count_step
+        run: |
+          echo "Current ref name: $BRANCH"
+          echo "commit_count=$(git rev-list --count $BRANCH)" >> $GITHUB_OUTPUT
 
-      - name: Check timestamp
-        run: echo ${{ steps.timestamp_step.outputs.timestamp }}
+      - name: Check commit_count
+        run: echo ${{ steps.commit_count_step.outputs.commit_count }}
+
+#      - name: Set timestamp
+#        id: timestamp_step
+#        run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
+#
+#      - name: Check timestamp
+#        run: echo ${{ steps.timestamp_step.outputs.timestamp }}
 
       - name: Install yq
         run: |
@@ -65,15 +75,19 @@ jobs:
 
       - name: Create a release
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          RELEASE_NOTES="Env: $ENV <br /> Branch: $BRANCH <br /> Commit: $COMMIT_REF"
           if [ "$ENV" == "production" ]; then
-            gh release create "$RELEASE" --latest --title "$RELEASE" --notes "Env: $ENV <br /> Version: $RELEASE"
+            gh release create "$VERSION_SUFFIX" --latest --title "$VERSION_SUFFIX" --notes "$RELEASE_NOTES"
           else
-            gh release create "$RELEASE" --prerelease --title "$RELEASE" --notes "Env: $ENV <br /> Version: $RELEASE"
+            gh release create "$VERSION_SUFFIX" --prerelease --title "$VERSION_SUFFIX" --notes "$RELEASE_NOTES"
           fi
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ steps.version_step.outputs.version }}+${{ steps.timestamp_step.outputs.timestamp }}-${{ steps.sha_short_step.outputs.sha_short }}"
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_REF: ${{ steps.sha_short_step.outputs.sha_short }}
+          COMMIT_COUNT: ${{ steps.commit_count_step.outputs.commit_count }}
+          VERSION_SUFFIX: "${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
           VERSION: ${{ steps.version_step.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -105,11 +119,11 @@ jobs:
 
         - name: Remove a release
           run: |
-            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-            gh release delete -y --cleanup-tag "$RELEASE"
+            # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+            gh release delete -y --cleanup-tag "$VERSION_SUFFIX"
           env:
             ENV: ${{ github.event.inputs.env }}
-            VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+            VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
             VERSION: ${{ needs.create_release.outputs.version }}
             GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -163,11 +177,15 @@ jobs:
       # Build the application.
       - name: Build apk
         if: github.event.inputs.env == 'staging'
-        run: bash build-android.sh && flutter build apk --dart-define-from-file=.env --no-tree-shake-icons --flavor staging
+        run: flutter build apk --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor staging
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Build apk
         if: github.event.inputs.env == 'production'
-        run: flutter build apk --dart-define-from-file=.env --no-tree-shake-icons --flavor production
+        run: flutter build apk --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor production
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for Android
@@ -181,11 +199,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.apk
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.apk
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -246,11 +264,15 @@ jobs:
       # Build the application.
       - name: Build appbundle
         if: github.event.inputs.env == 'staging'
-        run: bash build-android.sh && flutter build appbundle --dart-define-from-file=.env --no-tree-shake-icons --flavor staging
+        run: flutter build appbundle --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor staging
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Build appbundle
         if: github.event.inputs.env == 'production'
-        run: flutter build appbundle --dart-define-from-file=.env --no-tree-shake-icons --flavor production
+        run: flutter build appbundle --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor production
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for Android
@@ -272,11 +294,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.aab
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.aab
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -370,7 +392,9 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to adhoc..."
-          bash build-ios.sh && flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-debug.plist
+          flutter build ipa --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --export-options-plist=ios/ExportOptions-debug.plist
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Build ipa
         if: github.event.inputs.env == 'production'
@@ -378,7 +402,9 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-release.plist
+          flutter build ipa --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --export-options-plist=ios/ExportOptions-release.plist
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for iOS
@@ -392,11 +418,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.ipa
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.ipa
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -452,20 +478,13 @@ jobs:
         run: cd macos && pod install --repo-update && cd ..
 
       - name: Build macOS
-        if: github.event.inputs.env == 'staging'
         run: |
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          bash build-macos.sh && flutter build macos --dart-define-from-file=.env
-
-      - name: Build macOS
-        if: github.event.inputs.env == 'production'
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
-          echo "╠ Releasing to app store..."
-          rm -f macos/Flutter/BuildConfig.xcconfig && flutter build macos --dart-define-from-file=.env
+          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Install certificates
         env:
@@ -540,11 +559,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.dmg
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.dmg
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -591,20 +610,13 @@ jobs:
         run: cd macos && pod install --repo-update && cd ..
 
       - name: Build macOS
-        if: github.event.inputs.env == 'staging'
         run: |
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          bash build-macos.sh && flutter build macos --dart-define-from-file=.env
-
-      - name: Build macOS
-        if: github.event.inputs.env == 'production'
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
-          echo "╠ Releasing to app store..."
-          rm -f macos/Flutter/BuildConfig.xcconfig && flutter build macos --dart-define-from-file=.env
+          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Install certificates
         run: |
@@ -681,11 +693,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.pkg
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.pkg
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -702,7 +714,6 @@ jobs:
   macos_appstore:
     name: Create macos(appstore)
     runs-on: macos-latest
-    if: github.event.inputs.env == 'production'
     needs:
       - create_release
     steps:
@@ -714,11 +725,14 @@ jobs:
           channel: 'stable'
           flutter-version: '3.22.0'
 
-      - name: Configure .env for production
+      - name: Configure .env
         run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
           echo "$ENV_KEY" | base64 --decode > .env
         env:
-          ENV_KEY: ${{ secrets.ENV_PROD_BASE64 }}
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -734,7 +748,9 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to mac app store..."
-          flutter build macos --dart-define-from-file=.env --flavor AppStore
+          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --flavor AppStore
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Install certificates
         run: |
@@ -807,11 +823,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.pkg
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.pkg
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -864,20 +880,13 @@ jobs:
         run: cd macos && pod install --repo-update && cd ..
 
       - name: Build macOS
-        if: github.event.inputs.env == 'staging'
         run: |
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          bash build-macos.sh && flutter build macos --dart-define-from-file=.env
-
-      - name: Build macOS
-        if: github.event.inputs.env == 'production'
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
-          echo "╠ Releasing to app store..."
-          rm -f macos/Flutter/BuildConfig.xcconfig && flutter build macos --dart-define-from-file=.env
+          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Install certificates
         env:
@@ -952,11 +961,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.macos.zip
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.macos.zip
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -1017,7 +1026,9 @@ jobs:
         run: flutter pub get
 
       - name: Build AppImage
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets appimage --artifact-name fafarunner.appimage
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets appimage --artifact-name fafarunner.appimage
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for AppImage
@@ -1031,11 +1042,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.AppImage
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.AppImage
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -1089,7 +1100,9 @@ jobs:
         run: flutter pub get
 
       - name: Build deb
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets deb --artifact-name fafarunner.deb
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets deb --artifact-name fafarunner.deb
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for deb
@@ -1103,11 +1116,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.deb
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.deb
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -1165,7 +1178,9 @@ jobs:
         run: flutter pub get
 
       - name: Build RPM
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets rpm --artifact-name fafarunner.rpm
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets rpm --artifact-name fafarunner.rpm
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for rpm
@@ -1179,11 +1194,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.rpm
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.rpm
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -1237,7 +1252,9 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets zip --artifact-name fafarunner.linux.zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets zip --artifact-name fafarunner.linux.zip
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for zip
@@ -1251,11 +1268,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.linux.zip
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.linux.zip
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -1342,11 +1359,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
-          gh release upload "$RELEASE" ./*.snap
+          # RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX" || echo "$VERSION")"
+          gh release upload "$VERSION_SUFFIX" ./*.snap
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -1407,7 +1424,9 @@ jobs:
         run: flutter pub get
 
       - name: Build windows
-        run: flutter build windows --dart-define-from-file=.env
+        run: flutter build windows --dart-define-from-file=.env --build-number "$env:COMMIT_COUNT"
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Crate msix
         run: dart run msix:create --build-windows false
@@ -1424,12 +1443,12 @@ jobs:
 
       - name: Upload assets
         run: |
-          $env:RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX"} Else {"$env:VERSION"})
+          # $env:RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX"} Else {"$env:VERSION"})
           # https://github.com/cli/cli/issues/5099
-          gh release upload "$env:RELEASE" (get-item .\*.msix)
+          gh release upload "$env:VERSION_SUFFIX" (get-item .\*.msix)
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -1509,7 +1528,9 @@ jobs:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
       - name: Build exe
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets exe --artifact-name fafarunner.exe
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets exe --artifact-name fafarunner.exe
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Signing
         run: |
@@ -1539,12 +1560,12 @@ jobs:
 
       - name: Upload assets
         run: |
-          $env:RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX"} Else {"$env:VERSION"})
+          # $env:RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX"} Else {"$env:VERSION"})
           # https://github.com/cli/cli/issues/5099
-          gh release upload "$env:RELEASE" (get-item .\*.exe)
+          gh release upload "$env:VERSION_SUFFIX" (get-item .\*.exe)
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.timestamp }}-${{ needs.create_release.outputs.sha_short }}"
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
           VERSION: ${{ needs.create_release.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 

@@ -48,7 +48,7 @@ build_runner: ## Build the files for changes
 
 apk: ## Release Apk
 	echo "╠ Releasing Apk..."
-	bash build-android.sh && flutter build apk --no-tree-shake-icons --dart-define-from-file=".env.$(ENV).local" --flavor staging
+	flutter build apk --no-tree-shake-icons --dart-define-from-file=".env.$(ENV).local" --flavor staging
 
 appbundle: ## Release Appbundle
 	echo "╠ Releasing Appbundle..."
@@ -58,13 +58,11 @@ adhoc:
 	echo "╠ Removing build products and intermediate files from the build root..."
 	cd ios && xcodebuild clean && cd ..
 	echo "╠ Releasing to adhoc..."
-	bash build-ios.sh && flutter build ipa --dart-define-from-file=".env.$(ENV).local" --export-options-plist=ios/ExportOptions-debug.plist
+	flutter build ipa --dart-define-from-file=".env.$(ENV).local" --export-options-plist=ios/ExportOptions-debug.plist
 
 appstore:
 	echo "╠ Removing build products and intermediate files from the build root..."
 	cd ios && xcodebuild clean && cd ..
-	echo "╠ Removing BuildConfig.xcconfig..."
-	rm -f ios/Flutter/BuildConfig.xcconfig
 	echo "╠ Releasing to app store..."
 	flutter build ipa --dart-define-from-file=".env.$(ENV).local" --export-options-plist=ios/ExportOptions-release.plist
 
@@ -72,12 +70,10 @@ macos_adhoc:
 	echo "╠ Removing build products and intermediate files from the build root..."
 	cd macos && xcodebuild clean && cd ..
 	echo "╠ Releasing bundle..."
-	bash build-macos.sh && flutter build macos --dart-define-from-file=".env.$(ENV).local"
+	flutter build macos --dart-define-from-file=".env.$(ENV).local"
 
 macos_appstore:
 	echo "╠ Removing build products and intermediate files from the build root..."
 	cd macos && xcodebuild clean && cd ..
-	echo "╠ Removing BuildConfig.xcconfig..."
-	rm -f macos/Flutter/BuildConfig.xcconfig
 	echo "╠ Releasing bundle..."
 	flutter build macos --dart-define-from-file=".env.$(ENV).local"

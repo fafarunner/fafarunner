@@ -3,8 +3,6 @@
     <option name="additionalArgs" value="--dart-define-from-file=.env.dev.local" />
     <option name="buildFlavor" value="staging" />
     <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
-    <method v="2">
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="build-android" run_configuration_type="ShConfigurationType" />
-    </method>
+    <method v="2" />
   </configuration>
 </component>

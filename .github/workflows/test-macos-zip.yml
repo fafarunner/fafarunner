@@ -45,7 +45,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          bash build-macos.sh && flutter build macos --dart-define-from-file=.env
+          flutter build macos --dart-define-from-file=.env
 
       - name: Install certificates
         env:

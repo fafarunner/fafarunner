@@ -4,7 +4,6 @@ class AppManager {
   AppManager._();
 
   String? version;
-  String? prodVersion;
   String? buildNumber;
 
   /// 静态变量指向自身
