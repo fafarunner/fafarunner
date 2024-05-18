@@ -14,19 +14,6 @@ clean: ## Cleans the environment
 	flutter pub get
 
 install:
-	make npm_install
-	make ios_install
-	make macos_install
-
-dev:
-	echo "╠ Start app..."
-	cd docs && pnpm dev && cd ..
-
-npm_install:
-	echo "╠ Resolving npm dependencies..."
-	cd docs && pnpm i && cd ..
-
-pub_install:
 	make ios_install
 	make macos_install
 
