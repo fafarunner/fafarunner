@@ -785,7 +785,7 @@ jobs:
           # apply provisioning profile
           # https://developer.apple.com/documentation/bundleresources/placing_content_in_a_bundle/
           # security cms -D -i fafa_runner_mac_appstore.provisionprofile
-          mv $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH build/macos/Build/Products/AppStore-Release/FaFaRunnerAppStore.app/Contents/embedded.provisionprofile
+          mv $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app/Contents/embedded.provisionprofile
         env:
           THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC }}
           THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC }}
@@ -797,15 +797,31 @@ jobs:
         run: |
           # https://stackoverflow.com/questions/70991268/how-to-sign-and-notarize-a-pkg-within-a-github-actions-macos-runner
           # https://developer.apple.com/forums/thread/733942
-          # codesign -dvvv FaFaRunnerAppStore.app
-          /usr/bin/codesign --deep --force -s "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" --entitlements macos/Runner/AppStore-Release.entitlements --options runtime build/macos/Build/Products/AppStore-Release/FaFaRunnerAppStore.app -v
+          # codesign -dvvv FaFa\ Runner.app
+          # https://lessons.livecode.com/a/876834-signing-and-uploading-apps-to-the-mac-app-store
+          
+          # 1. Code sign executables
+          echo "Code sign executables"
+          /usr/bin/codesign --deep --force --sign "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app
+          
+          # 2. Code sign entitlements.plist
+          echo "Code sign entitlements.plist"
+          /usr/bin/codesign --force --sign "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" --entitlements macos/Runner/AppStore-Release.entitlements build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app
+          
+          # 3. Just to confirm all is well, verify the code signing
+          # No response means that there were no errors and it is code signed.
+          # /usr/bin/codesign --verify build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app
         env:
           THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY }}
 
-      - name: Build & Sign pkg
+      - name: Create pkg
         run: |
           # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
-          xcrun productbuild --sign "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY" --component FaFaRunnerAppStore.app /Applications FaFaRunnerAppStore.pkg
+          # [Test the installer].  (Note the "-target /" that comes after the path to the pkg file)
+          # It will go through the installation process to confirm that the installer package is OK.
+          # NOTE: If the app is signed for distribution to the Mac App Store the resulting app will not run locally.
+          # sudo installer -store -package <path_to_app_pkg_file> -target /
+          xcrun productbuild --sign "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY" --component FaFa\ Runner.app /Applications FaFa\ Runner.pkg
         env:
           THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY }}
         working-directory: build/macos/Build/Products/AppStore-Release
@@ -819,7 +835,7 @@ jobs:
       - name: Copy build for pkg
         run: |
           ls -la *.pkg
-          cp *.pkg $GITHUB_WORKSPACE/
+          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFa\ Runner-AppStore.pkg
         working-directory: build/macos/Build/Products/AppStore-Release
 
       - name: Show gh info

@@ -80,7 +80,7 @@
 		09ABE1E307770CF6FDEE1135 /* Pods-FaFaRunnerMacAppStore.appstore-profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaFaRunnerMacAppStore.appstore-profile.xcconfig"; path = "Target Support Files/Pods-FaFaRunnerMacAppStore/Pods-FaFaRunnerMacAppStore.appstore-profile.xcconfig"; sourceTree = "<group>"; };
 		0D1C04BB36F6A289525254F0 /* Pods-FaFaRunnerMacAppStore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaFaRunnerMacAppStore.debug.xcconfig"; path = "Target Support Files/Pods-FaFaRunnerMacAppStore/Pods-FaFaRunnerMacAppStore.debug.xcconfig"; sourceTree = "<group>"; };
 		0F20C805D33C38705BE02581 /* Pods-FaFaRunnerMac.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaFaRunnerMac.profile.xcconfig"; path = "Target Support Files/Pods-FaFaRunnerMac/Pods-FaFaRunnerMac.profile.xcconfig"; sourceTree = "<group>"; };
-		2ECE32222BF4F12000D83222 /* FaFaRunnerAppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaFaRunnerAppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2ECE32222BF4F12000D83222 /* FaFa Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FaFa Runner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ECE481F2BF4F2FF00D83222 /* AppStore-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppStore-Info.plist"; path = "Runner/AppStore-Info.plist"; sourceTree = "<group>"; };
 		2ECE48212BF4F3EB00D83222 /* AppStore-Release.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AppStore-Release.entitlements"; sourceTree = "<group>"; };
 		2ECE48302BF4F5E300D83222 /* Flutter-AppStore-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Flutter-AppStore-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				33CC10ED2044A3C60003C045 /* FaFa Runner.app */,
-				2ECE32222BF4F12000D83222 /* FaFaRunnerAppStore.app */,
+				2ECE32222BF4F12000D83222 /* FaFa Runner.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,7 +259,7 @@
 			);
 			name = FaFaRunnerMacAppStore;
 			productName = Runner;
-			productReference = 2ECE32222BF4F12000D83222 /* FaFaRunnerAppStore.app */;
+			productReference = 2ECE32222BF4F12000D83222 /* FaFa Runner.app */;
 			productType = "com.apple.product-type.application";
 		};
 		33CC10EC2044A3C60003C045 /* FaFaRunnerMac */ = {
@@ -557,7 +557,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner.mac;
-				PRODUCT_NAME = FaFaRunnerAppStore;
+				PRODUCT_NAME = "FaFa Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -570,9 +570,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Runner/Release.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Runner/AppStore-Release.entitlements";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 2;
@@ -587,7 +587,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner.mac;
-				PRODUCT_NAME = FaFaRunnerAppStore;
+				PRODUCT_NAME = "FaFa Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = fafa_runner_mac_appstore;
 				SWIFT_VERSION = 5.0;
@@ -617,7 +617,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner.mac;
-				PRODUCT_NAME = FaFaRunnerAppStore;
+				PRODUCT_NAME = "FaFa Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = fafa_runner_mac_appstore;
 				SWIFT_VERSION = 5.0;
@@ -736,7 +736,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner.mac;
-				PRODUCT_NAME = FaFaRunnerAppStore;
+				PRODUCT_NAME = "FaFa Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -832,9 +832,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = Runner/Release.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Runner/AppStore-Release.entitlements";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 2;
@@ -849,7 +849,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner.mac;
-				PRODUCT_NAME = FaFaRunnerAppStore;
+				PRODUCT_NAME = "FaFa Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = fafa_runner_mac_appstore;
 				SWIFT_VERSION = 5.0;
@@ -962,7 +962,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner.mac;
-				PRODUCT_NAME = FaFaRunnerAppStore;
+				PRODUCT_NAME = "FaFa Runner";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = fafa_runner_mac_appstore;
 				SWIFT_VERSION = 5.0;
