@@ -38,10 +38,11 @@ parts:
       - FLUTTER_VERSION: 3.19.6
       - FLUTTER_TARGET: lib/main.dart
       - TARGET_PLATFORM: linux-x64
+    build-packages:
+      - libunwind-dev
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
     override-build: |
-      # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-      apt install -y libunwind-dev
-      apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
       # https://github.com/canonical/snapcraft/blob/main/snapcraft/parts/plugins/flutter_plugin.py
       PG_FLUTTER_BUILD_DIR="$CRAFT_PART_BUILD/flutter-distro"
       if [ -d "$PG_FLUTTER_BUILD_DIR" ]; then
