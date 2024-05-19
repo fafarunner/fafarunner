@@ -102,6 +102,7 @@ Future<void> main() async {
     await WindowManager.instance.ensureInitialized();
     await windowManager.waitUntilReadyToShow().then((_) async {
       await windowManager.center();
+      await windowManager.setSize(const Size(1200, 800));
       await windowManager.show();
       await windowManager.setPreventClose(true);
       await windowManager.setSkipTaskbar(false);
