@@ -16,14 +16,14 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt update
-          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
           sudo apt install locate libfuse2
           wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           chmod +x appimagetool && mv appimagetool /usr/local/bin/
 
       - name: Install GStreamer
-        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
         run: |
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
           sudo apt install -y libunwind-dev
           sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
@@ -76,12 +76,12 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt update
-          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
           sudo apt install rpm patchelf
 
       - name: Install GStreamer
-        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
         run: |
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
           sudo apt install -y libunwind-dev
           sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
@@ -139,11 +139,11 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt update
-          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
 
       - name: Install GStreamer
-        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
         run: |
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
           sudo apt install -y libunwind-dev
           sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
@@ -196,12 +196,12 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt update
-          sudo apt install -y libgtk-3-dev libx11-dev pkg-config cmake clang ninja-build libblkid-dev liblzma-dev
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
           sudo apt install -y p7zip-full p7zip-rar
 
       - name: Install GStreamer
-        # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
         run: |
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
           sudo apt install -y libunwind-dev
           sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
