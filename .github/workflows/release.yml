@@ -95,42 +95,42 @@ jobs:
           VERSION: ${{ steps.version_step.outputs.version }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
-  remove_release:
-      name: Remove release
-      if: ${{ cancelled() || failure() }}
-      runs-on: ubuntu-latest
-      needs:
-        - create_release
-        - apk
-        - aab
-        - ios
-        - macos_dmg
-        - macos_pkg
-        - macos_appstore
-        - macos_zip
-        - linux_appimage
-        - linux_deb
-        - linux_rpm
-        - linux_zip
-        - linux_snap
-        - windows_msix
-        - windows_exe
-        - windows_zip
-      steps:
-        - uses: actions/checkout@v4
-
-        - name: Show gh info
-          run: gh --version
-
-        - name: Remove a release
-          run: |
-            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
-            gh release delete -y --cleanup-tag "$RELEASE"
-          env:
-            ENV: ${{ github.event.inputs.env }}
-            VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-            VERSION: ${{ needs.create_release.outputs.version }}
-            GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+#  remove_release:
+#      name: Remove release
+#      if: ${{ cancelled() || failure() }}
+#      runs-on: ubuntu-latest
+#      needs:
+#        - create_release
+#        - apk
+#        - aab
+#        - ios
+#        - macos_dmg
+#        - macos_pkg
+#        - macos_appstore
+#        - macos_zip
+#        - linux_appimage
+#        - linux_deb
+#        - linux_rpm
+#        - linux_zip
+#        - linux_snap
+#        - windows_msix
+#        - windows_exe
+#        - windows_zip
+#      steps:
+#        - uses: actions/checkout@v4
+#
+#        - name: Show gh info
+#          run: gh --version
+#
+#        - name: Remove a release
+#          run: |
+#            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+#            gh release delete -y --cleanup-tag "$RELEASE"
+#          env:
+#            ENV: ${{ github.event.inputs.env }}
+#            VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
+#            VERSION: ${{ needs.create_release.outputs.version }}
+#            GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   apk:
     name: Create apk
