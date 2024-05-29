@@ -115,6 +115,7 @@ jobs:
         - linux_snap
         - windows_msix
         - windows_exe
+        - windows_zip
       steps:
         - uses: actions/checkout@v4
 
@@ -1595,6 +1596,78 @@ jobs:
             echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
           }
           
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }
+
+
+  windows_zip:
+    name: Create zip
+    runs-on: windows-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $env_base64 = $(If ($env:ENV -eq "staging") {"$env:ENV_STG_BASE64"} Else {"$env:ENV_PROD_BASE64"})
+          $bytes = echo $env_base64 | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets zip --artifact-name picguard.windows.zip
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+
+      # Package the build.
+      - name: Copy build for zip
+        run: |
+          ls -R
+          cp .\**\*.windows.zip "$env:GITHUB_WORKSPACE\"
+        working-directory: dist
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX.pre"} Else {"$env:VERSION_SUFFIX"})
+          # https://github.com/cli/cli/issues/5099
+          gh release upload "$RELEASE" (get-item .\*.windows.zip)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          ls
           if (test-path -Path "$pwd\.env") {
             echo "Remove file($pwd\.env)"
             remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue

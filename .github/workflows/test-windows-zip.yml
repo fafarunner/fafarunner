@@ -1,0 +1,62 @@
+name: Test Windows zip
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  zip:
+    name: Create zip
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $bytes = echo $env:ENV_KEY | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+
+      - name: Install flutter_distributor
+        run: dart pub global activate flutter_distributor
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name picguard.windows.zip
+
+      # Package the build.
+      - name: Copy build for zip
+        run: ls -R
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-zip-artifact
+          path: |
+            .\dist\**\*.windows.zip
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          ls
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }
