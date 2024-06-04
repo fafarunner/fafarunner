@@ -120,7 +120,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dmg-artifact
+          name: macos-dmg-artifact
           path: |
             ./*.dmg
 

@@ -1,4 +1,4 @@
-name: Test Linux(arm64)
+name: Test Linux (arm64)
 
 on:
   workflow_dispatch:
@@ -49,7 +49,7 @@ jobs:
         run: flutter pub get
 
       - name: Build AppImage
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets appimage --artifact-name picguard.aarch64.appimage
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets appimage --artifact-name fafarunner.aarch64.appimage
 
       # Package the build.
       - name: Copy build for AppImage
@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: appimage-artifact
+          name: linux-appimage-arm64-artifact
           path: |
             ./dist/**/*.AppImage
 
@@ -107,7 +107,7 @@ jobs:
         run: flutter pub get
 
       - name: Build deb
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets deb --artifact-name picguard.aarch64.deb
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets deb --artifact-name fafarunner.aarch64.deb
 
       # Package the build.
       - name: Copy build for deb
@@ -116,7 +116,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: deb-artifact
+          name: linux-deb-arm64-artifact
           path: |
             ./dist/**/*.deb
 
@@ -169,7 +169,7 @@ jobs:
         run: flutter pub get
 
       - name: Build RPM
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets rpm --artifact-name picguard.aarch64.rpm
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets rpm --artifact-name fafarunner.aarch64.rpm
 
       # Package the build.
       - name: Copy build for rpm
@@ -178,7 +178,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: rpm-artifact
+          name: linux-rpm-arm64-artifact
           path: |
             ./dist/**/*.rpm
 
@@ -227,7 +227,7 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets zip --artifact-name picguard.aarch64.linux.zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets zip --artifact-name fafarunner.aarch64.linux.zip
 
       # Package the build.
       - name: Copy build for zip
@@ -236,9 +236,100 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-zip-artifact
+          name: linux-zip-arm64-artifact
           path: |
             ./dist/**/*.linux.zip
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  tar:
+    name: Create tar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Show linux info
+        run: uname --all
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/grimbough/bioc-with-tinytex:devel-arm64
+          options: |
+            --platform linux/arm64
+            -v ${{ github.workspace }}:/work
+            --workdir /work
+          shell: bash
+          run: |
+            set -x
+            # Show linux info
+            echo "Show linux info"
+            uname --all
+
+            # Install dependencies for Linux
+            echo "Install dependencies for Linux"
+            sudo apt update
+            sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+            sudo apt install -y p7zip-full p7zip-rar
+            
+            # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+            sudo apt install -y libunwind-dev
+            sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+            # Setup Flutter
+            echo "Setup Flutter"
+            bash ./install-flutter-ubuntu.sh
+
+            if [ -d "/home/linux-arm64/flutter" ]; then
+              echo "🟩 ls -la"
+              ls -la /home/linux-arm64/flutter
+            fi
+            echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
+            source ~/.zshrc
+            echo $PATH
+
+            # Flutter doctor
+            echo "Flutter doctor -v"
+            flutter doctor -v
+
+            # Install flutter dependencies
+            echo "Install flutter dependencies"
+            flutter pub get
+
+            # Build flutter
+            echo "Build flutter"
+            flutter build linux --dart-define-from-file=.env --target-platform=linux-arm64
+
+            # Build tar
+            echo "Build tar"
+            baseDir=$(pwd)
+            archiveName="fafarunner.aarch64.tar.gz"
+            cd build/linux/arm64/release/bundle
+            tar -czaf $archiveName ./*
+            mv $archiveName "$baseDir/"
+
+      # Package the build.
+      - name: Copy build for tar
+        run: ls -la *.tar.gz
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-tar-arm64-artifact
+          path: |
+            ./*.tar.gz
 
       - name: Clean up
         if: ${{ always() }}

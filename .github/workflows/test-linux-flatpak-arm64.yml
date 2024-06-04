@@ -1,0 +1,53 @@
+name: Test Linux Flatpak (arm64)
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  flatpak:
+    name: Create flatpak
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install QEMU deps
+        run: |
+          dnf -y install docker
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Build .flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@master
+        with:
+          bundle: FaFaRunner.flatpak
+          manifest-path: flatpak/com.chenyifaer.FaFaRunner.json
+          cache: false
+          restore-cache: false
+          cache-key: flatpak-builder-${{ github.sha }}-no-cache-restored
+          arch: aarch64
+          upload-artifact: false
+
+      # Package the build.
+      - name: Copy build for flatpak
+        run: |
+          ls -la
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-flatpak-arm64-artifact
+          path: |
+            ./*.flatpak
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env

@@ -1,4 +1,4 @@
-name: Test Snapcraft(arm64)
+name: Test Linux Snapcraft
 
 on:
   workflow_dispatch:
@@ -41,10 +41,6 @@ jobs:
       - name: Install flutter dependencies
         run: flutter pub get
 
-      - name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
-
       - name: Install yq
         run: |
           if ! command -v yq >/dev/null 2>&1; then
@@ -55,8 +51,12 @@ jobs:
 
       - name: Update snapcraft.yaml
         run: |
+          rm -f snap/snapcraft-arm64.yaml
           yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.19.6"' snap/snapcraft.yaml
-          yq -i '.parts.fafarunner.build-environment[3].TARGET_PLATFORM = "linux-arm64"' snap/snapcraft.yaml
+
+      - name: Install snapcraft
+        run: |
+          sudo snap install snapcraft --classic
 
       - name: Build snap
         run: |
@@ -69,7 +69,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: snap-artifact
+          name: linux-snap-artifact
           path: |
             ./*.snap
 

@@ -37,7 +37,7 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name picguard.windows.zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name fafarunner.windows.zip
 
       # Package the build.
       - name: Copy build for zip
