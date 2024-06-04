@@ -1,0 +1,139 @@
+name: Test Linux Snapcraft (arm64)
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  snap:
+    name: Create snap(arm64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/grimbough/bioc-with-tinytex:devel-arm64
+          options: |
+            --platform linux/arm64
+            -v ${{ github.workspace }}:/work
+            --workdir /work
+          shell: bash
+          run: |
+            set -x
+            # Show linux info
+            echo "Show linux info"
+            uname --all
+            
+            # Installing snap on Ubuntu
+            echo "Installing snap on Ubuntu"
+            sudo apt update
+            sudo apt install -y snapd
+            # sudo apt install -y iptables
+            
+            sudo systemctl restart snapd snapd.socket
+            sudo systemctl unmask snapd.service
+            sudo systemctl enable snapd.service
+            sudo systemctl start snapd.service
+            
+            # sudo systemctl enable iptables.service
+            # sudo systemctl start iptables.service
+            
+            export PATH=$PATH:/sbin
+            export PATH=$PATH:/snap/bin
+            source ~/.bashrc
+            
+            sudo snap install notes
+            snap --version
+            # iptables --version
+            
+            # Install/refresh LXD snap
+            echo "Install/refresh LXD snap"
+            if snap list lxd; then
+              sudo snap refresh lxd --channel=latest/stable
+            else
+              sudo snap install lxd --channel=latest/stable
+            fi
+            
+            # Setup permissions for socket
+            echo "Setup permissions for socket"
+            while [ -n "$(snap changes lxd 2>/dev/null | awk '/^[0-9]+/ {if ($2 != "Done") print $2 }')" ]; do
+              echo "Waiting for snap changes on LXD to finish"
+              sleep 1
+            done
+            sudo snap set lxd daemon.group=lxd
+            
+            # Initialise LXD
+            echo "Initialise LXD"
+            sudo lxd waitready
+            sudo lxd init --auto
+            
+            # Configure firewall
+            # echo "Configure firewall"
+            # sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
+            # sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+            
+            # Add user to the LXD (lxd) group
+            echo "Add user to the LXD (lxd) group"
+            sudo usermod -a -G lxd ${USER}
+            newgrp lxd
+            
+            # Check LXD status
+            echo "Check LXD status"
+            lxc launch ubuntu:22.04 testlxd
+            
+            # Install snapcraft
+            echo "Install snapcraft"
+            sudo snap install snapcraft --classic
+            
+            # Update snapcraft.yaml
+            echo "Update snapcraft.yaml"
+            rm -f snap/snapcraft.yaml
+            mv snap/snapcraft-arm64.yaml snap/snapcraft.yaml
+            
+            # Install yq
+            if ! command -v yq >/dev/null 2>&1; then
+              echo "yq not exists"
+              sudo add-apt-repository ppa:rmescandon/yq
+              sudo apt update
+              sudo apt install -y yq
+            fi
+            yq --version
+            
+            # Get version
+            echo "Get version"
+            version=$(yq '.version' pubspec.yaml)
+            
+            # Build snap
+            # https://snapcraft.io/docs/flutter-applications
+            echo "Build snap"
+            snapcraft --use-lxd --output "fafarunner.aarch64.snap"
+
+      # Package the build.
+      - name: Copy build for snap
+        run: ls -la *.snap
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-snap-arm64-artifact
+          path: |
+            ./*.snap
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+          snapcraft clean

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:logging/logging.dart';
 
-final logger = Logger('PicGuard');
+final logger = Logger('FaFaRunner');
 
 void printDebugLog(Object? object) {
   logger.shout(object);

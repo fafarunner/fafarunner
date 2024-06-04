@@ -118,7 +118,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: pkg-appstore-artifact
+          name: macos-pkg-appstore-artifact
           path: |
             ./build/macos/Build/Products/AppStore-Release/FaFa\ Runner.pkg
 

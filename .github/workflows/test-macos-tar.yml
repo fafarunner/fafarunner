@@ -1,4 +1,4 @@
-name: Test macOS zip
+name: Test macOS tar
 
 on:
   workflow_dispatch:
@@ -7,18 +7,11 @@ on:
 permissions: read-all
 
 jobs:
-  zip:
-    name: Create macos zip
+  tar:
+    name: Create macos tar
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install p7zip
-        run: |
-          if ! command -v 7z >/dev/null 2>&1; then
-            echo "7z not exists"
-            brew install p7zip
-          fi
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -104,21 +97,21 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      - name: Build zip
+      - name: Build tar
         run: |
-          7z a fafarunner.macos.zip ./FaFa\ Runner.app
+          tar -czaf fafarunner.tar.gz ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
 
       # Package the build.
-      - name: Copy build for zip
-        run: ls -la *.macos.zip
+      - name: Copy build for tar
+        run: ls -la *.tar.gz
         working-directory: build/macos/Build/Products/Release
 
       - uses: actions/upload-artifact@v4
         with:
-          name: macos-zip-artifact
+          name: macos-tar-artifact
           path: |
-            ./build/macos/Build/Products/Release/*.macos.zip
+            ./build/macos/Build/Products/Release/*.tar.gz
 
       - name: Clean up
         if: ${{ always() }}

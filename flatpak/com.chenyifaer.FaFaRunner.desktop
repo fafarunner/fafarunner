@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+
+Name=FaFa Runner
+Comment=FaFa Runner.
+Categories=Game;
+
+Icon=com.chenyifaer.FaFaRunner
+Exec=fafarunner
+Terminal=false
+StartupWMClass=fafarunner

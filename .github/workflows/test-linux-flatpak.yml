@@ -1,0 +1,44 @@
+name: Test Linux Flatpak
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  flatpak:
+    name: Create flatpak
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build .flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@master
+        with:
+          bundle: FaFaRunner.flatpak
+          manifest-path: flatpak/com.chenyifaer.FaFaRunner.json
+          cache: true
+          restore-cache: true
+          cache-key: flatpak-builder-${{ github.sha }}-cache-restored
+          arch: x86_64
+          upload-artifact: false
+
+      # Package the build.
+      - name: Copy build for flatpak
+        run: |
+          ls -la
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-flatpak-artifact
+          path: |
+            ./*.flatpak
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env

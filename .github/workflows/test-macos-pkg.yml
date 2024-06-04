@@ -123,7 +123,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: pkg2-artifact
+          name: macos-pkg-artifact
           path: |
             ./build/macos/Build/Products/Release/FaFa\ Runner.pkg
 

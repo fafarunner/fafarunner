@@ -108,10 +108,12 @@ jobs:
 #        - macos_pkg
 #        - macos_appstore
 #        - macos_zip
+#        - macos_tar
 #        - linux_appimage
 #        - linux_deb
 #        - linux_rpm
 #        - linux_zip
+#        - linux_tar
 #        - linux_snap
 #        - windows_msix
 #        - windows_exe
@@ -870,6 +872,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install p7zip
+        run: |
+          if ! command -v 7z >/dev/null 2>&1; then
+            echo "7z not exists"
+            brew install p7zip
+          fi
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -884,12 +893,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
-
-      - name: Install p7zip
-        run: brew install p7zip
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1639,7 +1642,7 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets zip --artifact-name picguard.windows.zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets zip --artifact-name fafarunner.windows.zip
         env:
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
