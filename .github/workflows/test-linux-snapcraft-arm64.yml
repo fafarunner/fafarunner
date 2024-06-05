@@ -120,7 +120,7 @@ jobs:
             # Build snap
             # https://snapcraft.io/docs/flutter-applications
             echo "Build snap"
-            snapcraft --use-lxd --output "fafarunner.aarch64.snap"
+            snapcraft --use-lxd --output "fafarunner_"$version"_linux_aarch64.snap"
 
       # Package the build.
       - name: Copy build for snap

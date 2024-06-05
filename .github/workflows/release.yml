@@ -23,7 +23,7 @@ jobs:
       sha_short: ${{ steps.sha_short_step.outputs.sha_short }}
       commit_count: ${{ steps.commit_count_step.outputs.commit_count }}
 #      timestamp: ${{ steps.timestamp_step.outputs.timestamp }}
-      version: ${{ steps.version_step.outputs.version }}
+      version: "${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -79,7 +79,7 @@ jobs:
 
       - name: Create a release
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE_NOTES="Env: $ENV <br /> Branch: $BRANCH <br /> Commit: $COMMIT_REF"
           if [ "$ENV" == "production" ]; then
             gh release create "$RELEASE" --latest --title "$RELEASE" --notes "$RELEASE_NOTES"
@@ -90,9 +90,7 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           BRANCH: ${{ github.ref_name }}
           COMMIT_REF: ${{ steps.sha_short_step.outputs.sha_short }}
-          COMMIT_COUNT: ${{ steps.commit_count_step.outputs.commit_count }}
-          VERSION_SUFFIX: "${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
-          VERSION: ${{ steps.version_step.outputs.version }}
+          TAG_NAME: "${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
 #  remove_release:
@@ -126,12 +124,11 @@ jobs:
 #
 #        - name: Remove a release
 #          run: |
-#            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+#            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
 #            gh release delete -y --cleanup-tag "$RELEASE"
 #          env:
 #            ENV: ${{ github.event.inputs.env }}
-#            VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-#            VERSION: ${{ needs.create_release.outputs.version }}
+#            TAG_NAME: "v${{ needs.create_release.outputs.version }}"
 #            GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   apk:
@@ -198,20 +195,23 @@ jobs:
       - name: Copy build for Android
         run: |
           ls -la
-          cp *.apk $GITHUB_WORKSPACE/FaFa\ Runner.apk
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          cp *.apk $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.apk
         working-directory: build/app/outputs/flutter-apk
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Show gh info
         run: gh --version
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.apk
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -286,27 +286,34 @@ jobs:
         if: github.event.inputs.env == 'staging'
         run: |
           ls -la
-          cp *.aab $GITHUB_WORKSPACE/FaFa\ Runner.aab
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          cp *.aab $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.aab
         working-directory: build/app/outputs/bundle/stagingRelease
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Copy build for Android
         if: github.event.inputs.env == 'production'
         run: |
           ls -la
-          cp *.aab $GITHUB_WORKSPACE/FaFa\ Runner.aab
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          cp *.aab $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.aab
         working-directory: build/app/outputs/bundle/productionRelease
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Show gh info
         run: gh --version
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.aab
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -417,20 +424,23 @@ jobs:
       - name: Copy build for iOS
         run: |
           ls -la
-          cp *.ipa $GITHUB_WORKSPACE/FaFa\ Runner.ipa
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          cp *.ipa $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.ipa
         working-directory: build/ios/ipa
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Show gh info
         run: gh --version
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.ipa
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -556,9 +566,14 @@ jobs:
       - name: Build DMG
         run: |
           bash build-dmg.sh
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          mv FaFa\ Runner.dmg FaFaRunner_"$RELEASE".dmg
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       # Package the build.
-      - name: Copy build for snap
+      - name: Copy build for dmg
         run: ls -la *.dmg
 
       - name: Show gh info
@@ -566,12 +581,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.dmg
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -691,21 +705,25 @@ jobs:
       # Package the build.
       - name: Copy build for pkg
         run: |
+          rm -f FaFa\ Runner-unsigned.pkg
           ls -la *.pkg
-          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          mv FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE".pkg
         working-directory: build/macos/Build/Products/Release
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Show gh info
         run: gh --version
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.pkg
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -831,27 +849,25 @@ jobs:
 
       # Package the build.
       - name: Copy build for pkg
-        run: ls -la *.pkg
-        working-directory: build/macos/Build/Products/AppStore-Release
-
-      # Package the build.
-      - name: Copy build for pkg
         run: |
           ls -la *.pkg
-          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFa\ Runner-AppStore.pkg
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunnerAppStore_"$RELEASE".pkg
         working-directory: build/macos/Build/Products/AppStore-Release
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Show gh info
         run: gh --version
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.pkg
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -970,14 +986,18 @@ jobs:
 
       - name: Build zip
         run: |
-          7z a fafarunner.macos.zip ./FaFa\ Runner.app
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          7z a FaFaRunner_"$RELEASE"_macos_x86_64.zip ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       # Package the build.
       - name: Copy build for zip
         run: |
           ls -la *.zip
-          cp *.macos.zip $GITHUB_WORKSPACE/
+          mv FaFaRunner_*_macos_x86_64.zip $GITHUB_WORKSPACE/
         working-directory: build/macos/Build/Products/Release
 
       - name: Show gh info
@@ -985,12 +1005,153 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
-          gh release upload "$RELEASE" ./*.macos.zip
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          gh release upload "$RELEASE" ./*.zip
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
+            echo "$RUNNER_TEMP/fr-signing.keychain-db"
+            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
+          fi
+          rm -f .env
+          
+
+  macos_tar:
+    name: Create macos zip
+    runs-on: macos-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install p7zip
+        run: |
+          if ! command -v 7z >/dev/null 2>&1; then
+            echo "7z not exists"
+            brew install p7zip
+          fi
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Resolving flutter dependencies
+        run: flutter pub get
+
+      - name: Resolving macos dependencies
+        run: cd macos && pod install --repo-update && cd ..
+
+      - name: Build macOS
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          cd macos && xcodebuild clean && cd ..
+          echo "╠ Releasing to app store..."
+          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+
+      - name: Install certificates
+        env:
+          DEVELOPER_ID_APPLICATION_P12_BASE64_MAC: ${{ secrets.DEVELOPER_ID_APPLICATION_P12_BASE64_MAC }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_application_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$DEVELOPER_ID_APPLICATION_P12_BASE64_MAC" | base64 --decode --output $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          # security default-keychain -s $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+      - name: Code Signing
+        run: /usr/bin/codesign --deep --force -s "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY" --options runtime FaFa\ Runner.app -v
+        working-directory: build/macos/Build/Products/Release
+        env:
+          DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
+
+      - name: Notarize app
+        run: |
+          # We can't notarize an app bundle directly, but we need to compress it as an archive.
+          # Therefore, we create a zip file containing our app bundle, so that we can send it to the
+          # notarization service
+          echo "Creating temp notarization archive"
+          ditto -c -k --keepParent "FaFa Runner.app" "FaFa Runner.zip"
+
+          # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
+          # This typically takes a few seconds inside a CI environment, but it might take more depending on the App
+          # characteristics. Visit the Notarization docs for more information and strategies on how to optimize it if
+          # you're curious
+          echo "Notarize app"
+          xcrun notarytool submit "FaFa Runner.zip" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_PASSWORD" --wait
+
+          # Finally, we need to "attach the staple" to our executable, which will allow our app to be
+          # validated by macOS even when an internet connection is not available.
+          echo "Attach staple"
+          xcrun stapler staple "FaFa Runner.app"
+        working-directory: build/macos/Build/Products/Release
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+
+      - name: Build tar
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          tar -czaf FaFaRunner_"$RELEASE"_macos_x86_64.tar.gz ./FaFa\ Runner.app
+        working-directory: build/macos/Build/Products/Release
+        env:
+          ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
+
+      # Package the build.
+      - name: Copy build for tar
+        run: |
+          ls -la *.tar.gz
+          mv *.tar.gz $GITHUB_WORKSPACE/
+        working-directory: build/macos/Build/Products/Release
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          gh release upload "$RELEASE" ./*.tar.gz
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1050,8 +1211,12 @@ jobs:
         run: flutter pub get
 
       - name: Build AppImage
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets appimage --artifact-name fafarunner.appimage
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets appimage --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
         env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
@@ -1066,12 +1231,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.AppImage
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1124,8 +1288,12 @@ jobs:
         run: flutter pub get
 
       - name: Build deb
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets deb --artifact-name fafarunner.deb
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets deb --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
         env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
@@ -1140,12 +1308,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.deb
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1202,8 +1369,12 @@ jobs:
         run: flutter pub get
 
       - name: Build RPM
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets rpm --artifact-name fafarunner.rpm
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets rpm --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
         env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
@@ -1218,12 +1389,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.rpm
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1276,15 +1446,19 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets zip --artifact-name fafarunner.linux.zip
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets zip --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
         env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for zip
         run: |
           ls -laR
-          cp ./**/*.linux.zip $GITHUB_WORKSPACE/
+          cp ./**/*.zip $GITHUB_WORKSPACE/
         working-directory: dist
 
       - name: Show gh info
@@ -1292,18 +1466,180 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
-          gh release upload "$RELEASE" ./*.linux.zip
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          gh release upload "$RELEASE" ./*.zip
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
         if: ${{ always() }}
         run: |
           rm -f .env
+
+  linux_tar:
+    name: Create tar
+    runs-on: ubuntu-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+          sudo apt install -y p7zip-full p7zip-rar
+
+      - name: Install GStreamer
+        run: |
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build flutter
+        run: flutter build linux --dart-define-from-file=.env --build-number=$COMMIT_COUNT --target-platform=linux-x64
+        env:
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+
+      - name: Build tar
+        run: |
+          baseDir=$(pwd)
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          archiveName="fafarunner_"$RELEASE"_linux_x86_64.tar.gz"
+          cd build/linux/x64/release/bundle
+          tar -czaf $archiveName ./*
+          mv $archiveName $GITHUB_WORKSPACE/
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      # Package the build.
+      - name: Copy build for tar
+        run: ls -la
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          gh release upload "$RELEASE" ./*.tar.gz
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+
+  linux_flatpak:
+    name: Create flatpak
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
+      options: --privileged
+    needs:
+      - create_release
+      - linux_tar
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            if ! command -v wget >/dev/null 2>&1; then
+              echo "wget not exists"
+              sudo dnf -y install wget
+            fi
+            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+            chmod +x /usr/bin/yq
+          fi
+          yq --version
+
+      - name: Update version
+        run: |
+          TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_x86_64.tar.gz
+          wget -O downloaded.tar.gz "$url"
+          sha256=$(sha256sum downloaded.tar.gz | awk '{print $1}')
+          rm -f downloaded.tar.gz
+          url=$url yq -i '.modules[3].sources[0].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.json
+          sha256=$sha256 yq -i '.modules[3].sources[0].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      - name: Show config
+        run: cat flatpak/com.chenyifaer.FaFaRunner.json
+
+      - name: Build flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@master
+        with:
+          bundle: FaFaRunner.flatpak
+          manifest-path: flatpak/com.chenyifaer.FaFaRunner.json
+          cache: true
+          restore-cache: true
+          cache-key: flatpak-builder-${{ github.sha }}-cache-restored
+          arch: x86_64
+          upload-artifact: false
+
+      # Package the build.
+      - name: Copy build for flatpak
+        run: |
+          ls -la
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          mv ./FaFaRunner.flatpak $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_linux_x86_64.flatpak
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: "${{ needs.create_release.outputs.version }}"
+
+      - name: Install gh
+        run: |
+          sudo dnf -y install git
+          sudo dnf -y install 'dnf-command(config-manager)'
+          sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+          sudo dnf -y install gh --repo gh-cli
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          gh release upload "$RELEASE" ./*.flatpak
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   linux_snap:
     name: Create snap
@@ -1358,7 +1694,9 @@ jobs:
 
       - name: Update snapcraft.yaml
         run: |
-          yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          rm -f snap/snapcraft-arm64.yaml
+          SNAP_VERSION=$(echo "$VERSION" | sed -e "s/+\(.*\)$//g")
+          yq -i '.version = strenv(SNAP_VERSION)' snap/snapcraft.yaml
           yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.19.6"' snap/snapcraft.yaml
         env:
           VERSION: ${{ needs.create_release.outputs.version }}
@@ -1366,7 +1704,11 @@ jobs:
       - name: Build snap
         run: |
           # https://snapcraft.io/docs/flutter-applications
-          snapcraft --output fafarunner.snap
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          snapcraft --output fafarunner_"$RELEASE"_linux_x86_64.snap
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       # Package the build.
       - name: Copy build for snap
@@ -1377,12 +1719,11 @@ jobs:
 
       - name: Upload assets
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION_SUFFIX.pre" || echo "$VERSION_SUFFIX")"
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./*.snap
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1465,7 +1806,12 @@ jobs:
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Create msix
-        run: dart run msix:create --build-windows false
+        run: |
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION.pre"} Else {"$env:VERSION"})
+          dart run msix:create --build-windows false --output-name "fafarunner_$RELEASE`_windows_x86_64"
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       # Package the build.
       - name: Copy build for msix
@@ -1479,13 +1825,12 @@ jobs:
 
       - name: Upload assets
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX.pre"} Else {"$env:VERSION_SUFFIX"})
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
           # https://github.com/cli/cli/issues/5099
           gh release upload "$RELEASE" (get-item .\*.msix)
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1585,8 +1930,12 @@ jobs:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
       - name: Build exe
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets exe --artifact-name fafarunner.exe
+        run: |
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION.pre"} Else {"$env:VERSION"})
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets exe --artifact-name "{{name}}_$RELEASE`_{{platform}}_x86_64.{{ext}}"
         env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Signing
@@ -1598,7 +1947,7 @@ jobs:
           $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
           [IO.File]::WriteAllBytes("$certificatePath", $bytes)
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\fafarunner.exe")
+          & $signtool sign /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\*.exe")
         env:
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
@@ -1617,13 +1966,12 @@ jobs:
 
       - name: Upload assets
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX.pre"} Else {"$env:VERSION_SUFFIX"})
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
           # https://github.com/cli/cli/issues/5099
           gh release upload "$RELEASE" (get-item .\*.exe)
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1679,15 +2027,19 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets zip --artifact-name fafarunner.windows.zip
+        run: |
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION.pre"} Else {"$env:VERSION"})
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets zip --artifact-name "{{name}}_$RELEASE`_{{platform}}_x86_64.{{ext}}"
         env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
           COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for zip
         run: |
           ls -R
-          cp .\**\*.windows.zip "$env:GITHUB_WORKSPACE\"
+          cp .\**\*.zip "$env:GITHUB_WORKSPACE\"
         working-directory: dist
 
       - name: Show gh info
@@ -1695,13 +2047,12 @@ jobs:
 
       - name: Upload assets
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION_SUFFIX.pre"} Else {"$env:VERSION_SUFFIX"})
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
           # https://github.com/cli/cli/issues/5099
-          gh release upload "$RELEASE" (get-item .\*.windows.zip)
+          gh release upload "$RELEASE" (get-item .\*.zip)
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION_SUFFIX: "${{ needs.create_release.outputs.version }}+${{ needs.create_release.outputs.commit_count }}"
-          VERSION: ${{ needs.create_release.outputs.version }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up

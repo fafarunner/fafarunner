@@ -49,7 +49,7 @@ jobs:
         run: flutter pub get
 
       - name: Build AppImage
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets appimage --artifact-name fafarunner.appimage
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets appimage --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x86_64.{{ext}}'
 
       # Package the build.
       - name: Copy build for AppImage
@@ -107,7 +107,7 @@ jobs:
         run: flutter pub get
 
       - name: Build deb
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets deb --artifact-name fafarunner.deb
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets deb --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x86_64.{{ext}}'
 
       # Package the build.
       - name: Copy build for deb
@@ -169,7 +169,7 @@ jobs:
         run: flutter pub get
 
       - name: Build RPM
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets rpm --artifact-name fafarunner.rpm
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets rpm --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x86_64.{{ext}}'
 
       # Package the build.
       - name: Copy build for rpm
@@ -227,7 +227,7 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets zip --artifact-name fafarunner.linux.zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets zip --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x86_64.{{ext}}'
 
       # Package the build.
       - name: Copy build for zip
@@ -238,7 +238,7 @@ jobs:
         with:
           name: linux-zip-artifact
           path: |
-            ./dist/**/*.linux.zip
+            ./dist/**/*.zip
 
       - name: Clean up
         if: ${{ always() }}
@@ -284,10 +284,25 @@ jobs:
       - name: Build flutter
         run: flutter build linux --dart-define-from-file=.env --target-platform=linux-x64
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            if ! command -v wget >/dev/null 2>&1; then
+              echo "wget not exists"
+              sudo apt install -y wget
+            fi
+            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+            chmod +x /usr/bin/yq
+          fi
+          yq --version
+
       - name: Build tar
         run: |
           baseDir=$(pwd)
-          archiveName="fafarunner.tar.gz"
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          archiveName="fafarunner_"$VERSION"_linux_x86_64.tar.gz"
           cd build/linux/x64/release/bundle
           tar -czaf $archiveName ./*
           mv $archiveName "$baseDir/"

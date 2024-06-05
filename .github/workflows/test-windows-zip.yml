@@ -37,7 +37,7 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name fafarunner.windows.zip
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x86_64.{{ext}}'
 
       # Package the build.
       - name: Copy build for zip
@@ -48,7 +48,7 @@ jobs:
         with:
           name: windows-zip-artifact
           path: |
-            .\dist\**\*.windows.zip
+            .\dist\**\*.zip
 
       - name: Clean up
         if: ${{ always() }}

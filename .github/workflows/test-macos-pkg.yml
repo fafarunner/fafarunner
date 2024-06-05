@@ -116,16 +116,38 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Set version
+        id: version_step
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       # Package the build.
       - name: Copy build for pkg
-        run: ls -la *.pkg
+        run: |
+          echo "$VERSION"
+          ls -la *.pkg
+          rm -f FaFa\ Runner-unsigned.pkg
+          mv FaFa\ Runner.pkg FaFaRunner_"$VERSION".pkg
+          ls -la *.pkg
         working-directory: build/macos/Build/Products/Release
+        env:
+          VERSION: ${{ steps.version_step.outputs.version }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: macos-pkg-artifact
           path: |
-            ./build/macos/Build/Products/Release/FaFa\ Runner.pkg
+            ./build/macos/Build/Products/Release/*.pkg
 
       - name: Clean up
         if: ${{ always() }}
