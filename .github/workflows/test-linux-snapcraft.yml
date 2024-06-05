@@ -61,7 +61,8 @@ jobs:
       - name: Build snap
         run: |
           # https://snapcraft.io/docs/flutter-applications
-          snapcraft --output fafarunner.snap
+          version=$(yq '.version' pubspec.yaml)
+          snapcraft --output "fafarunner_"$version"_linux_x86_64.snap"
 
       # Package the build.
       - name: Copy build for snap

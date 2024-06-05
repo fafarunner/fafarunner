@@ -16,6 +16,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            if ! command -v wget >/dev/null 2>&1; then
+              echo "wget not exists"
+              sudo dnf -y install wget
+            fi
+            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+            chmod +x /usr/bin/yq
+          fi
+          yq --version
+
+      - name: Set version
+        id: version_step
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Install QEMU deps
         run: |
           dnf -y install docker
@@ -28,7 +48,7 @@ jobs:
       - name: Build .flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@master
         with:
-          bundle: FaFaRunner.flatpak
+          bundle: FaFaRunner_${{ steps.version_step.outputs.version }}_linux_aarch64.flatpak
           manifest-path: flatpak/com.chenyifaer.FaFaRunner.json
           cache: false
           restore-cache: false

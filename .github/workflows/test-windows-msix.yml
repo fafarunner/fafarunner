@@ -7,9 +7,37 @@ on:
 permissions: read-all
 
 jobs:
+  get_version:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version_step.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Set version
+        id: version_step
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check version
+        run: echo ${{ steps.version_step.outputs.version }}
+
   msix:
     name: Create msix
     runs-on: windows-latest
+    needs:
+      - get_version
     steps:
       - uses: actions/checkout@v4
 
@@ -73,8 +101,10 @@ jobs:
       - name: Build windows
         run: flutter build windows --dart-define-from-file=.env
 
-      - name: Crate msix
-        run: dart run msix:create --build-windows false
+      - name: Create msix
+        run: dart run msix:create --build-windows false  --output-name "fafarunner_$env:VERSION`_windows_x86_64"
+        env:
+          VERSION: ${{ needs.get_version.outputs.version }}
 
       # Package the build.
       - name: Copy build for msix

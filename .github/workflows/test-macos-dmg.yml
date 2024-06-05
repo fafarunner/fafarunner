@@ -114,9 +114,22 @@ jobs:
         run: |
           bash build-dmg.sh
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
       # Package the build.
-      - name: Copy build for snap
-        run: ls -la *.dmg
+      - name: Copy build for dmg
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          ls -la *.dmg
+          mv FaFa\ Runner.dmg FaFaRunner_"$VERSION".dmg
+          ls -la *.dmg
 
       - uses: actions/upload-artifact@v4
         with:

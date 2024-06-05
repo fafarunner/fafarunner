@@ -104,21 +104,41 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Set version
+        id: version_step
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Build zip
         run: |
-          7z a fafarunner.macos.zip ./FaFa\ Runner.app
+          echo "$VERSION"
+          7z a FaFaRunner_"$VERSION"_macos.zip ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
+        env:
+          VERSION: ${{ steps.version_step.outputs.version }}
 
       # Package the build.
       - name: Copy build for zip
-        run: ls -la *.macos.zip
+        run: |
+          rm -f "FaFa Runner.zip"
+          ls -la *.zip
         working-directory: build/macos/Build/Products/Release
 
       - uses: actions/upload-artifact@v4
         with:
           name: macos-zip-artifact
           path: |
-            ./build/macos/Build/Products/Release/*.macos.zip
+            ./build/macos/Build/Products/Release/*.zip
 
       - name: Clean up
         if: ${{ always() }}

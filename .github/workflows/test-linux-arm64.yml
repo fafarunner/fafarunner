@@ -13,25 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies for Linux
-        run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install locate libfuse2
-          wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-          chmod +x appimagetool && mv appimagetool /usr/local/bin/
-
-      - name: Install GStreamer
-        run: |
-          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
         with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
+          platforms: arm64
+
+      - name: Show linux info
+        run: uname --all
 
       - name: Configure .env
         run: |
@@ -39,17 +27,59 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/grimbough/bioc-with-tinytex:devel-arm64
+          options: |
+            --platform linux/arm64
+            -v ${{ github.workspace }}:/work
+            --workdir /work
+          shell: bash
+          run: |
+            set -x
+            # Show linux info
+            echo "Show linux info"
+            uname --all
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Install flutter dependencies
-        run: flutter pub get
-
-      - name: Build AppImage
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets appimage --artifact-name fafarunner.aarch64.appimage
+            # Install dependencies for Linux
+            echo "Install dependencies for Linux"
+            sudo apt update
+            sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+            sudo apt install locate libfuse2
+            wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage"
+            chmod +x appimagetool && mv appimagetool /usr/local/bin/
+            
+            # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+            sudo apt install -y libunwind-dev
+            sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+            
+            # Setup Flutter
+            echo "Setup Flutter"
+            bash ./install-flutter-ubuntu.sh
+            
+            if [ -d "/home/linux-arm64/flutter" ]; then
+              echo "🟩 ls -la"
+              ls -la /home/linux-arm64/flutter
+            fi
+            echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
+            source ~/.zshrc
+            echo $PATH
+            
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate flutter_distributor
+            
+            # Flutter doctor
+            echo "Flutter doctor -v"
+            flutter doctor -v
+            
+            # Install flutter dependencies
+            echo "Install flutter dependencies"
+            flutter pub get
+            
+            # Build AppImage
+            echo "Build AppImage"
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets appimage --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
 
       # Package the build.
       - name: Copy build for AppImage
@@ -73,23 +103,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies for Linux
-        run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install rpm patchelf
-
-      - name: Install GStreamer
-        run: |
-          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
         with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
+          platforms: arm64
+
+      - name: Show linux info
+        run: uname --all
 
       - name: Configure .env
         run: |
@@ -97,17 +117,56 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/grimbough/bioc-with-tinytex:devel-arm64
+          options: |
+            --platform linux/arm64
+            -v ${{ github.workspace }}:/work
+            --workdir /work
+          shell: bash
+          run: |
+            set -x
+            # Show linux info
+            echo "Show linux info"
+            uname --all
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+            # Install dependencies for Linux
+            echo "Install dependencies for Linux"
+            sudo apt update
+            sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+            
+            # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+            sudo apt install -y libunwind-dev
+            sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
-      - name: Install flutter dependencies
-        run: flutter pub get
+            # Setup Flutter
+            echo "Setup Flutter"
+            bash ./install-flutter-ubuntu.sh
+            
+            if [ -d "/home/linux-arm64/flutter" ]; then
+              echo "🟩 ls -la"
+              ls -la /home/linux-arm64/flutter
+            fi
+            echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
+            source ~/.zshrc
+            echo $PATH
 
-      - name: Build deb
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets deb --artifact-name fafarunner.aarch64.deb
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate flutter_distributor
+
+            # Flutter doctor
+            echo "Flutter doctor -v"
+            flutter doctor -v
+
+            # Install flutter dependencies
+            echo "Install flutter dependencies"
+            flutter pub get
+
+            # Build deb
+            echo "Build deb"
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets deb --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
 
       # Package the build.
       - name: Copy build for deb
@@ -130,28 +189,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Java
-        uses: actions/setup-java@v4
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
         with:
-          java-version: "17.x"
-          distribution: 'temurin'
+          platforms: arm64
 
-      - name: Install dependencies for Linux
-        run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-
-      - name: Install GStreamer
-        run: |
-          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
+      - name: Show linux info
+        run: uname --all
 
       - name: Configure .env
         run: |
@@ -159,17 +204,77 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/grimbough/bioc-with-tinytex:devel-arm64
+          options: |
+            --platform linux/arm64
+            -v ${{ github.workspace }}:/work
+            --workdir /work
+          shell: bash
+          run: |
+            set -x
+            # Show linux info
+            echo "Show linux info"
+            uname --all
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+            # Install dependencies for Linux
+            echo "Install dependencies for Linux"
+            sudo apt update
+            sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+            sudo apt install -y rpm patchelf
+            
+            # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+            sudo apt install -y libunwind-dev
+            sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+            
+            # Install JDK
+            echo "Install JDK"
+            sudo apt install -y wget apt-transport-https gnupg
+            wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | apt-key add -
+            echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
+            sudo apt update
+            sudo apt install -y temurin-17-jdk
 
-      - name: Install flutter dependencies
-        run: flutter pub get
+            # Setup Flutter
+            echo "Setup Flutter"
+            bash ./install-flutter-ubuntu.sh
+            
+            if [ -d "/home/linux-arm64/flutter" ]; then
+              echo "🟩 ls -la"
+              ls -la /home/linux-arm64/flutter
+            fi
+            echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
+            source ~/.zshrc
+            echo $PATH
 
-      - name: Build RPM
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets rpm --artifact-name fafarunner.aarch64.rpm
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate flutter_distributor
+
+            # Flutter doctor
+            echo "Flutter doctor -v"
+            flutter doctor -v
+
+            # Install flutter dependencies
+            echo "Install flutter dependencies"
+            flutter pub get
+            
+            if ! command -v yq >/dev/null 2>&1; then
+              echo "yq not exists"
+              sudo add-apt-repository ppa:rmescandon/yq
+              sudo apt update
+              sudo apt install -y yq
+            fi
+            yq --version
+            
+            # Update make_config.yaml
+            echo "Update make_config.yaml"
+            yq -i '.build_arch = "aarch64"' linux/packaging/rpm/make_config.yaml
+
+            # Build RPM
+            echo "Build RPM"
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets rpm --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
 
       # Package the build.
       - name: Copy build for rpm
@@ -193,23 +298,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies for Linux
-        run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y p7zip-full p7zip-rar
-
-      - name: Install GStreamer
-        run: |
-          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
         with:
-          channel: 'stable'
-          flutter-version: '3.19.6'
+          platforms: arm64
+
+      - name: Show linux info
+        run: uname --all
 
       - name: Configure .env
         run: |
@@ -217,17 +312,57 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/grimbough/bioc-with-tinytex:devel-arm64
+          options: |
+            --platform linux/arm64
+            -v ${{ github.workspace }}:/work
+            --workdir /work
+          shell: bash
+          run: |
+            set -x
+            # Show linux info
+            echo "Show linux info"
+            uname --all
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+            # Install dependencies for Linux
+            echo "Install dependencies for Linux"
+            sudo apt update
+            sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+            sudo apt install -y p7zip-full p7zip-rar
+            
+            # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+            sudo apt install -y libunwind-dev
+            sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
-      - name: Install flutter dependencies
-        run: flutter pub get
+            # Setup Flutter
+            echo "Setup Flutter"
+            bash ./install-flutter-ubuntu.sh
+            
+            if [ -d "/home/linux-arm64/flutter" ]; then
+              echo "🟩 ls -la"
+              ls -la /home/linux-arm64/flutter
+            fi
+            echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
+            source ~/.zshrc
+            echo $PATH
 
-      - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets zip --artifact-name fafarunner.aarch64.linux.zip
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate flutter_distributor
+
+            # Flutter doctor
+            echo "Flutter doctor -v"
+            flutter doctor -v
+
+            # Install flutter dependencies
+            echo "Install flutter dependencies"
+            flutter pub get
+
+            # Build zip
+            echo "Build zip"
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets zip --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
 
       # Package the build.
       - name: Copy build for zip
@@ -238,7 +373,7 @@ jobs:
         with:
           name: linux-zip-arm64-artifact
           path: |
-            ./dist/**/*.linux.zip
+            ./dist/**/*.zip
 
       - name: Clean up
         if: ${{ always() }}
@@ -308,15 +443,31 @@ jobs:
             # Install flutter dependencies
             echo "Install flutter dependencies"
             flutter pub get
-
+            
             # Build flutter
             echo "Build flutter"
             flutter build linux --dart-define-from-file=.env --target-platform=linux-arm64
+            
+            # Install yq
+            if ! command -v yq >/dev/null 2>&1; then
+              echo "yq not exists"
+              if ! command -v wget >/dev/null 2>&1; then
+                echo "wget not exists"
+                sudo apt install -y wget
+              fi
+              wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64 -O /usr/bin/yq &&\
+              chmod +x /usr/bin/yq
+            fi
+            yq --version
+            
+            # Get version
+            echo "Get version"
+            version=$(yq '.version' pubspec.yaml)
 
             # Build tar
             echo "Build tar"
             baseDir=$(pwd)
-            archiveName="fafarunner.aarch64.tar.gz"
+            archiveName="fafarunner_"$version"_linux_aarch64.tar.gz"
             cd build/linux/arm64/release/bundle
             tar -czaf $archiveName ./*
             mv $archiveName "$baseDir/"
