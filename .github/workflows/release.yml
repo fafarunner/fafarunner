@@ -69,7 +69,7 @@ jobs:
           echo "$PUB_VERSION"
           VERSION=$(echo "$PUB_VERSION" | sed -e "s/+\(.*\)$//g")
           echo "$VERSION"
-          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Check version
         run: echo ${{ steps.version_step.outputs.version }}
@@ -90,7 +90,7 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           BRANCH: ${{ github.ref_name }}
           COMMIT_REF: ${{ steps.sha_short_step.outputs.sha_short }}
-          TAG_NAME: "${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
+          TAG_NAME: "v${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
 #  remove_release:
@@ -1695,8 +1695,7 @@ jobs:
       - name: Update snapcraft.yaml
         run: |
           rm -f snap/snapcraft-arm64.yaml
-          SNAP_VERSION=$(echo "$VERSION" | sed -e "s/+\(.*\)$//g")
-          yq -i '.version = strenv(SNAP_VERSION)' snap/snapcraft.yaml
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
           yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.19.6"' snap/snapcraft.yaml
         env:
           VERSION: ${{ needs.create_release.outputs.version }}
