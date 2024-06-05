@@ -46,11 +46,30 @@ jobs:
       - name: Install flutter dependencies
         run: flutter pub get
 
+      - name: Install yq
+        shell: pwsh
+        run: |
+          choco install yq
+          yq --version
+
       - name: Update config
+        shell: pwsh
         run: |
           $SETUP_ICON_FILE = "$pwd\windows\runner\resources\app_icon.ico"
           echo $SETUP_ICON_FILE
-          (get-content windows\packaging\exe\make_config.yaml) -replace 'APP_ID_PLACEHOLDER', $env:WINDOWS_APP_ID -replace 'PUBLISHER_NAME_PLACEHOLDER', $env:WINDOWS_PUBLISHER_NAME -replace 'SETUP_ICON_FILE_PLACEHOLDER', $SETUP_ICON_FILE | Out-File -encoding utf8 windows\packaging\exe\make_config.yaml
+
+          $yamlFile = ".\windows\packaging\exe\make_config.yaml"
+          $yamlContent = Get-Content -Raw -Path $yamlFile
+
+          # 获取环境变量的值
+          $appId = (Get-Item -Path Env:WINDOWS_APP_ID).Value
+          $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
+
+          # 使用 yq 更新多个字段
+          $updatedYamlContent = echo $yamlContent | yq e ".app_id = `"$appId`" | .publisher_name = `"$publisherName`" | .setup_icon_file = `"$SETUP_ICON_FILE`"" -
+
+          # 将更新后的内容写回文件
+          Set-Content -Path $yamlFile -Value $updatedYamlContent
         env:
           WINDOWS_APP_ID: ${{ secrets.WINDOWS_APP_ID }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
@@ -66,13 +85,13 @@ jobs:
       - name: Signing
         run: |
           echo $env:RUNNER_TEMP
-          $certificate_path = "$env:RUNNER_TEMP\fafarunner.pfx"
+          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
           # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
           # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
           $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
-          [IO.File]::WriteAllBytes("$certificate_path", $bytes)
+          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /f "$certificate_path" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\fafarunner.exe")
+          & $signtool sign /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\fafarunner.exe")
         env:
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
