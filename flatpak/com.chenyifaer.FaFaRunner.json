@@ -88,9 +88,9 @@
           "only-arches": [
             "x86_64"
           ],
-          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+264/fafarunner_1.0.0+264_linux_x86_64.tar.gz",
+          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+300/fafarunner_1.0.0+300_linux_x86_64.tar.gz",
           "dest": "fafarunner",
-          "sha256": "da1d1bca87f551f0d44852ba7e8e1e6d292141c73f8b193428381904d26c15f0",
+          "sha256": "8d8435147e6e96ade49bad2ba5350fa48ee3741f472ea8f73a86af1842bcc0e4",
           "x-checker-data": {
             "type": "json",
             "url": "https://api.github.com/repos/fafarunner/fafarunner/releases/latest",
@@ -103,9 +103,9 @@
           "only-arches": [
             "aarch64"
           ],
-          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+264/fafarunner_1.0.0+264_linux_aarch64.tar.gz",
+          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+300/fafarunner_1.0.0+300_linux_aarch64.tar.gz",
           "dest": "fafarunner",
-          "sha256": "44874db33121ae8fb366d0aedfbea39a5e127bfc6efb2459b8222fa6ee9b4696",
+          "sha256": "8d8435147e6e96ade49bad2ba5350fa48ee3741f472ea8f73a86af1842bcc0e4",
           "x-checker-data": {
             "type": "json",
             "url": "https://api.github.com/repos/fafarunner/fafarunner/releases/latest",
