@@ -2,36 +2,34 @@
 
 [![Test](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml)
 [![Release](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/releases/latest)
+[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/issues/new)
+[![GitHub License](https://img.shields.io/github/license/fafarunner/fafarunner)](https://raw.githubusercontent.com/fafarunner/fafarunner/main/LICENSE)
 
 ## Requirements
 
 ### iOS
 
-1. 导入证书
 ```shell
+# 1. 导入证书
 security import ./<name>.cer -P <password> -A -t cert
-```
 
-2. 导入.p12私钥
-```shell
+# 2. 导入.p12私钥
 security import ./<name>.p12 -P <password> -A -t cert -f pkcs12
+
+# 3. 双击导入mobileprovision文件
 ```
 
-3. 双击导入mobileprovision文件
-4. 手动安装模拟器运行时
-- 已安装列表
 ```shell
+# 手动安装模拟器运行时
+# 已安装列表
 xcrun simctl runtime list
-```
 
-- 安装
-```shell
+# 安装
 xcrun simctl runtime add "~/iOS_17.0.1_Simulator_Runtime.dmg"
 ```
 
 ## Release
-
-app打包发生变化，这样发布到蒲公英的版本号，会带有commit信息，方便排查；发布到Google play或app store的版本号和之前一个样。
 
 以下脚本都在`Makefile`文件下，JetBrains / Android Studio可能需要安装`Makefile Language`插件。
 
@@ -43,13 +41,13 @@ app打包发生变化，这样发布到蒲公英的版本号，会带有commit�
 
 >如果发布到生产环境, 请在`android/app/build.gradle`文件修改`versionCode`
 
-- 如果发布到测试环境, 运行
 ```shell
+# 如果发布到测试环境
 make ENV=<dev|stg|prod> apk
 ```
 
-- 如果发布到生产环境, 运行
 ```shell
+# 如果发布到生产环境
 make ENV=<dev|stg|prod> appbundle
 ```
 
@@ -57,13 +55,13 @@ make ENV=<dev|stg|prod> appbundle
 
 >如果发布到生产环境, 请修改`build`号
 
-- 如果发布到测试环境, 运行
 ```shell
+# 如果发布到测试环境
 make ENV=<dev|stg|prod> adhoc
 ```
 
-- 如果发布到生产环境, 运行
 ```shell
+# 如果发布到生产环境
 make ENV=<dev|stg|prod> appstore
 ```
 
@@ -71,13 +69,13 @@ make ENV=<dev|stg|prod> appstore
 
 >如果发布到生产环境, 请修改`build`号
 
-- 如果发布到测试环境, 运行
 ```shell
+# 如果发布到测试环境
 make ENV=<dev|stg|prod> macos_adhoc
 ```
 
-- 如果发布到生产环境, 运行
 ```shell
+# 如果发布到生产环境
 make ENV=<dev|stg|prod> macos_appstore
 ```
 
@@ -133,4 +131,3 @@ adb shell am start -a android.intent.action.VIEW -d "fr://debug"
 ```shell
 /usr/bin/xcrun simctl openurl booted "fr://debug"
 ```
-
