@@ -13,7 +13,6 @@
     "--share=network",
     "--device=all",
     "--filesystem=xdg-download",
-    "--own-name=com.chenyifaer.fafarunner",
     "--talk-name=org.freedesktop.secrets"
   ],
   "modules": [
