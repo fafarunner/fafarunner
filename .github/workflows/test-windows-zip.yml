@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   zip:
-    name: Create zip
+    name: Create windows zip
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4

@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   exe:
-    name: Create exe
+    name: Create windows exe
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4

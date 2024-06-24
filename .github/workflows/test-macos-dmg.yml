@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   dmg:
-    name: Create dmg
+    name: Create macos dmg
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4

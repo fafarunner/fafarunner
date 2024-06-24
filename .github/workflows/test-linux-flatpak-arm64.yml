@@ -1,4 +1,4 @@
-name: Test Linux Flatpak (arm64)
+name: Test Linux Flatpak (aarch64)
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   flatpak:
-    name: Create flatpak
+    name: Create linux flatpak (aarch64)
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08

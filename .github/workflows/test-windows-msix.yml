@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   get_version:
-    name: Create release
+    name: Get version
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version_step.outputs.version }}
@@ -34,7 +34,7 @@ jobs:
         run: echo ${{ steps.version_step.outputs.version }}
 
   msix:
-    name: Create msix
+    name: Create windows msix
     runs-on: windows-latest
     needs:
       - get_version

@@ -454,7 +454,7 @@ jobs:
           rm -f .env
 
   macos_dmg:
-    name: Create macos(dmg)
+    name: Create macos dmg
     runs-on: macos-latest
     needs:
       - create_release
@@ -599,7 +599,7 @@ jobs:
 
 
   macos_pkg:
-    name: Create macos(pkg)
+    name: Create macos pkg
     runs-on: macos-latest
     needs:
       - create_release
@@ -737,7 +737,7 @@ jobs:
 
 
   macos_appstore:
-    name: Create macos(appstore)
+    name: Create macos pkg (appstore)
     runs-on: macos-latest
     needs:
       - create_release
@@ -1023,7 +1023,7 @@ jobs:
           
 
   macos_tar:
-    name: Create macos zip
+    name: Create macos tar
     runs-on: macos-latest
     needs:
       - create_release
@@ -1165,7 +1165,7 @@ jobs:
 
 
   linux_appimage:
-    name: Create AppImage
+    name: Create linux AppImage
     runs-on: ubuntu-latest
     needs:
       - create_release
@@ -1244,7 +1244,7 @@ jobs:
           rm -f .env
 
   linux_deb:
-    name: Create deb
+    name: Create linux deb
     runs-on: ubuntu-latest
     needs:
       - create_release
@@ -1321,7 +1321,7 @@ jobs:
           rm -f .env
 
   linux_rpm:
-    name: Create rpm
+    name: Create linux rpm
     runs-on: ubuntu-latest
     needs:
       - create_release
@@ -1402,7 +1402,7 @@ jobs:
           rm -f .env
 
   linux_zip:
-    name: Create zip
+    name: Create linux zip
     runs-on: ubuntu-latest
     needs:
       - create_release
@@ -1479,7 +1479,7 @@ jobs:
           rm -f .env
 
   linux_tar:
-    name: Create tar
+    name: Create linux tar
     runs-on: ubuntu-latest
     needs:
       - create_release
@@ -1558,7 +1558,7 @@ jobs:
           rm -f .env
 
   linux_flatpak:
-    name: Create flatpak
+    name: Create linux flatpak
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
@@ -1642,7 +1642,7 @@ jobs:
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   linux_snap:
-    name: Create snap
+    name: Create linux snap
     runs-on: ubuntu-latest
     needs:
       - create_release
@@ -1732,7 +1732,7 @@ jobs:
           snapcraft clean
 
   windows_msix:
-    name: Create msix
+    name: Create windows msix
     runs-on: windows-latest
     needs:
       - create_release
@@ -1857,7 +1857,7 @@ jobs:
           }
 
   windows_exe:
-    name: Create exe
+    name: Create windows exe
     runs-on: windows-latest
     needs:
       - create_release
@@ -1992,7 +1992,7 @@ jobs:
 
 
   windows_zip:
-    name: Create zip
+    name: Create windows zip
     runs-on: windows-latest
     needs:
       - create_release

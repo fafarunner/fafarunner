@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   flatpak:
-    name: Create flatpak
+    name: Create linux flatpak
     runs-on: ubuntu-latest
     container:
       image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08

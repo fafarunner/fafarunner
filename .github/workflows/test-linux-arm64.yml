@@ -1,4 +1,4 @@
-name: Test Linux (arm64)
+name: Test Linux (aarch64)
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   appimage:
-    name: Create AppImage
+    name: Create linux AppImage (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -98,7 +98,7 @@ jobs:
           rm -f .env
 
   deb:
-    name: Create deb
+    name: Create linux deb (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -185,7 +185,7 @@ jobs:
           rm -f .env
 
   rpm:
-    name: Create rpm
+    name: Create linux rpm (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -297,7 +297,7 @@ jobs:
           rm -f .env
 
   zip:
-    name: Create zip
+    name: Create linux zip (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -385,7 +385,7 @@ jobs:
           rm -f .env
 
   tar:
-    name: Create tar
+    name: Create linux tar (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

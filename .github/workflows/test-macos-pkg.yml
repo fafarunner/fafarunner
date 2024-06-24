@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   pkg:
-    name: Create pkg
+    name: Create macos pkg
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4

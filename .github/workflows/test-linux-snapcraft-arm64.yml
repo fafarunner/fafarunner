@@ -1,4 +1,4 @@
-name: Test Linux Snapcraft (arm64)
+name: Test Linux Snapcraft (aarch64)
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions: read-all
 
 jobs:
   snap:
-    name: Create snap(arm64)
+    name: Create linux snap (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
