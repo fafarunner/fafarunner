@@ -7,6 +7,11 @@ if ! command -v wget >/dev/null 2>&1; then
    sudo apt install wget -y
 fi
 
+if ! command -v git >/dev/null 2>&1; then
+   echo "🟩 Installing git"
+   sudo apt install git -y
+fi
+
 PG_FLUTTER_BUILD_DIR="$CRAFT_PART_BUILD/flutter-distro"
 
 if [ ! -f "$CRAFT_PART_BUILD/flutter-3.19.6-aarch64.tar.xz" ]; then

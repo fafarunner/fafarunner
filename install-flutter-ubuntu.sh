@@ -7,6 +7,11 @@ if ! command -v wget >/dev/null 2>&1; then
    sudo apt install wget xz-utils -y
 fi
 
+if ! command -v git >/dev/null 2>&1; then
+   echo "🟩 Installing git"
+   sudo apt install git -y
+fi
+
 FLUTTER_DIR="/home/linux-arm64"
 
 if [ ! -d "$FLUTTER_DIR" ]; then
