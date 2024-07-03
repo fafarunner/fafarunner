@@ -6,6 +6,6 @@ Comment=FaFa Runner.
 Categories=Game;
 
 Icon=com.chenyifaer.FaFaRunner
-Exec=fafarunner
+Exec=fafarunner %U
 Terminal=false
 StartupWMClass=fafarunner

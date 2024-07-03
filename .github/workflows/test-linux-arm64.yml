@@ -108,7 +108,7 @@ jobs:
           rm -f .env
 
   deb:
-    name: Create linux deb
+    name: Create deb
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -200,7 +200,7 @@ jobs:
           rm -f .env
 
   rpm:
-    name: Create linux rpm
+    name: Create rpm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -313,7 +313,7 @@ jobs:
           rm -f .env
 
   zip:
-    name: Create linux zip
+    name: Create zip
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -406,7 +406,7 @@ jobs:
           rm -f .env
 
   tar:
-    name: Create linux tar
+    name: Create tar
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
