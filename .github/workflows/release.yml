@@ -2264,8 +2264,8 @@ jobs:
           wget -O downloaded.tar.gz "$url"
           sha256=$(sha256sum downloaded.tar.gz | awk '{print $1}')
           rm -f downloaded.tar.gz
-          url=$url yq -i '.modules[3].sources[0].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.json
-          sha256=$sha256 yq -i '.modules[3].sources[0].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+          url=$url yq -i '.modules[3].sources[1].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.json
+          sha256=$sha256 yq -i '.modules[3].sources[1].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.json
         env:
           ENV: ${{ github.event.inputs.env }}
           TAG_NAME: "v${{ needs.create_release.outputs.version }}"
