@@ -575,7 +575,7 @@ jobs:
         run: |
           bash build-dmg.sh
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          mv FaFa\ Runner.dmg FaFaRunner_"$RELEASE".dmg
+          mv FaFa\ Runner.dmg FaFaRunner_"$RELEASE"_macos_universal.dmg
         env:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
@@ -715,7 +715,7 @@ jobs:
           rm -f FaFa\ Runner-unsigned.pkg
           ls -la *.pkg
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          mv FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE".pkg
+          mv FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_macos_universal.pkg
         working-directory: build/macos/Build/Products/Release
         env:
           ENV: ${{ github.event.inputs.env }}
@@ -858,7 +858,7 @@ jobs:
         run: |
           ls -la *.pkg
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunnerAppStore_"$RELEASE".pkg
+          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_macos_appstore_universal.pkg
         working-directory: build/macos/Build/Products/AppStore-Release
         env:
           ENV: ${{ github.event.inputs.env }}
@@ -992,7 +992,7 @@ jobs:
       - name: Build zip
         run: |
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          7z a FaFaRunner_"$RELEASE"_macos_x86_64.zip ./FaFa\ Runner.app
+          7z a FaFaRunner_"$RELEASE"_macos_universal.zip ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
         env:
           ENV: ${{ github.event.inputs.env }}
@@ -1133,7 +1133,7 @@ jobs:
       - name: Build tar
         run: |
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          tar -czaf FaFaRunner_"$RELEASE"_macos_x86_64.tar.gz ./FaFa\ Runner.app
+          tar -czaf FaFaRunner_"$RELEASE"_macos_universal.tar.gz ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
         env:
           ENV: ${{ github.event.inputs.env }}
