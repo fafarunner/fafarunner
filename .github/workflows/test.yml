@@ -344,6 +344,76 @@ jobs:
           fi
           rm -f .env
 
+  linux:
+    name: Create linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+          sudo apt install -y p7zip-full p7zip-rar
+
+      - name: Install GStreamer
+        run: |
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build flutter
+        run: flutter build linux --dart-define-from-file=.env --target-platform=linux-x64
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            if ! command -v wget >/dev/null 2>&1; then
+              echo "wget not exists"
+              sudo apt install -y wget
+            fi
+            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+            chmod +x /usr/bin/yq
+          fi
+          yq --version
+
+      - name: Build tar
+        run: |
+          baseDir=$(pwd)
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          archiveName="fafarunner_"$VERSION".tar.gz"
+          cd build/linux/x64/release/bundle
+          tar -czaf $archiveName ./*
+          mv $archiveName "$baseDir/"
+
+      # Package the build.
+      - name: Copy build for tar
+        run: ls -la *.tar.gz
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
 
   msix:
     name: Create msix
