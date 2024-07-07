@@ -1002,7 +1002,7 @@ jobs:
       - name: Copy build for zip
         run: |
           ls -la *.zip
-          mv FaFaRunner_*_macos_x86_64.zip $GITHUB_WORKSPACE/
+          mv FaFaRunner_*_macos_universal.zip $GITHUB_WORKSPACE/
         working-directory: build/macos/Build/Products/Release
 
       - name: Show gh info
