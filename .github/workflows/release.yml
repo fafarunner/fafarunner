@@ -65,7 +65,7 @@ jobs:
       - name: Set version
         id: version_step
         run: | 
-          PUB_VERSION=$(yq '.version' < pubspec.yaml)
+          PUB_VERSION=$(yq '.version' pubspec.yaml)
           echo "$PUB_VERSION"
           VERSION=$(echo "$PUB_VERSION" | sed -e "s/+\(.*\)$//g")
           echo "$VERSION"
@@ -157,6 +157,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -166,8 +169,19 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install Deps
         run: flutter pub get
@@ -188,16 +202,11 @@ jobs:
 
       # Build the application.
       - name: Build apk
-        if: github.event.inputs.env == 'staging'
-        run: flutter build apk --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor staging
+        run: |
+          FLAVOR="$([[ "$ENV" == "staging" ]] && echo "staging" || echo "production")"
+          flutter build apk --dart-define-from-file=.env --no-tree-shake-icons --flavor $FLAVOR
         env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
-
-      - name: Build apk
-        if: github.event.inputs.env == 'production'
-        run: flutter build apk --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor production
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          ENV: ${{ github.event.inputs.env }}
 
       # Package the build.
       - name: Copy build for Android
@@ -247,6 +256,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -256,8 +268,19 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install Deps
         run: flutter pub get
@@ -278,16 +301,11 @@ jobs:
 
       # Build the application.
       - name: Build appbundle
-        if: github.event.inputs.env == 'staging'
-        run: flutter build appbundle --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor staging
+        run: |
+          FLAVOR="$([[ "$ENV" == "staging" ]] && echo "staging" || echo "production")"
+          flutter build appbundle --dart-define-from-file=.env --no-tree-shake-icons --flavor $FLAVOR
         env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
-
-      - name: Build appbundle
-        if: github.event.inputs.env == 'production'
-        run: flutter build appbundle --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --no-tree-shake-icons --flavor production
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          ENV: ${{ github.event.inputs.env }}
 
       # Package the build.
       - name: Copy build for Android
@@ -345,6 +363,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -354,8 +375,19 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -364,6 +396,15 @@ jobs:
         run: cd ios && pod install --repo-update && cd ..
 
       - name: Install the Apple certificate and provisioning profile
+        env:
+          CERT_BASE64: ${{ secrets.CERT_BASE64 }}
+          CERT_DEV_BASE64: ${{ secrets.CERT_DEV_BASE64 }}
+          P12_BASE64: ${{ secrets.P12_BASE64 }}
+          P12_DEV_BASE64: ${{ secrets.P12_DEV_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          PROVISION_PROFILE_DEV_BASE64: ${{ secrets.PROVISIONING_PROFILE_DEV_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -375,8 +416,8 @@ jobs:
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
           # import certificate and provisioning profile from secrets
-          echo -n "$CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "$CERTIFICATE_DEV_BASE64" | base64 --decode --output $CERTIFICATE_DEV_PATH
+          echo -n "$P12_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$P12_DEV_BASE64" | base64 --decode --output $CERTIFICATE_DEV_PATH
           echo -n "$CERT_BASE64" | base64 --decode --output $CERT_PATH
           echo -n "$CERT_DEV_BASE64" | base64 --decode --output $CERT_DEV_PATH
           echo -n "$PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
@@ -398,15 +439,6 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           mv $PP_DEV_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-        env:
-          CERTIFICATE_BASE64: ${{ secrets.P12_BASE64 }}
-          CERTIFICATE_DEV_BASE64: ${{ secrets.P12_DEV_BASE64 }}
-          CERT_BASE64: ${{ secrets.CERT_BASE64 }}
-          CERT_DEV_BASE64: ${{ secrets.CERT_DEV_BASE64 }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          PROVISION_PROFILE_DEV_BASE64: ${{ secrets.PROVISIONING_PROFILE_DEV_BASE64 }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - name: Build ipa
         if: github.event.inputs.env == 'staging'
@@ -414,9 +446,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to adhoc..."
-          flutter build ipa --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --export-options-plist=ios/ExportOptions-debug.plist
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-debug.plist
 
       - name: Build ipa
         if: github.event.inputs.env == 'production'
@@ -424,9 +454,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build ipa --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --export-options-plist=ios/ExportOptions-release.plist
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-release.plist
 
       # Package the build.
       - name: Copy build for iOS
@@ -484,6 +512,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -493,8 +524,19 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -507,9 +549,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          flutter build macos --dart-define-from-file=.env
 
       - name: Install certificates
         env:
@@ -619,6 +659,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -628,8 +671,19 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -642,9 +696,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          flutter build macos --dart-define-from-file=.env
 
       - name: Install certificates
         run: |
@@ -756,6 +808,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -765,8 +820,19 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -779,9 +845,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to mac app store..."
-          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT" --flavor AppStore
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          flutter build macos --dart-define-from-file=.env --flavor AppStore
 
       - name: Install certificates
         run: |
@@ -824,6 +888,7 @@ jobs:
         run: |
           # https://stackoverflow.com/questions/70991268/how-to-sign-and-notarize-a-pkg-within-a-github-actions-macos-runner
           # https://developer.apple.com/forums/thread/733942
+          # https://stackoverflow.com/questions/60384835/dyld-library-not-loaded-code-signature-invalid
           # codesign -dvvv FaFa\ Runner.app
           # https://lessons.livecode.com/a/876834-signing-and-uploading-apps-to-the-mac-app-store
           
@@ -893,18 +958,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install p7zip
-        run: |
-          if ! command -v 7z >/dev/null 2>&1; then
-            echo "7z not exists"
-            brew install p7zip
-          fi
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           flutter-version: '3.19.6'
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
 
       - name: Configure .env
         run: |
@@ -915,8 +976,26 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install p7zip
+        run: |
+          if ! command -v 7z >/dev/null 2>&1; then
+            echo "7z not exists"
+            brew install p7zip
+          fi
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -929,9 +1008,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          flutter build macos --dart-define-from-file=.env
 
       - name: Install certificates
         env:
@@ -1025,7 +1102,7 @@ jobs:
             security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
           fi
           rm -f .env
-          
+
   macos_tar:
     name: Create macos tar
     runs-on: macos-latest
@@ -1034,18 +1111,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install p7zip
-        run: |
-          if ! command -v 7z >/dev/null 2>&1; then
-            echo "7z not exists"
-            brew install p7zip
-          fi
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           flutter-version: '3.19.6'
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
 
       - name: Configure .env
         run: |
@@ -1056,8 +1129,19 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -1070,9 +1154,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build macos --dart-define-from-file=.env --build-number "$COMMIT_COUNT"
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          flutter build macos --dart-define-from-file=.env
 
       - name: Install certificates
         env:
@@ -1195,6 +1277,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -1207,20 +1292,29 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
 
       - name: Build AppImage
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets appimage --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
+          VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets appimage --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_x86_64.{{ext}}
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION: ${{ needs.create_release.outputs.version }}
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for AppImage
@@ -1268,10 +1362,25 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
       - name: Install qemu-user-static
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
+      # https://github.com/s3fs-fuse/s3fs-fuse/issues/647#issuecomment-637458150
       - uses: addnab/docker-run-action@v3
         with:
           image: arm64v8/ubuntu:22.04
@@ -1283,8 +1392,6 @@ jobs:
             -v ${{ github.workspace }}:/work
             --workdir /work
             -e ENV=${{ github.event.inputs.env }}
-            -e VERSION=${{ needs.create_release.outputs.version }}
-            -e COMMIT_COUNT=${{ needs.create_release.outputs.commit_count }}
           shell: bash
           run: |
             set -x
@@ -1321,25 +1428,25 @@ jobs:
             echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
             source ~/.zshrc
             echo $PATH
+
+            # Flutter doctor
+            echo "Flutter doctor -v"
+            flutter doctor -v
             
             # Install flutter_distributor
             echo "Install flutter_distributor"
             dart pub global activate --source git https://github.com/kjxbyz/flutter_distributor --git-ref appimage --git-path packages/flutter_distributor
             
-            # Flutter doctor
-            echo "Flutter doctor -v"
-            flutter doctor -v
-            
             # Install flutter dependencies
             echo "Install flutter dependencies"
             flutter pub get
 
-            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-            echo "RELEASE: $RELEASE"
+            VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+            echo "VERSION_SUFFIX: $VERSION_SUFFIX"
             
             # Build AppImage
             echo "Build AppImage"
-            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64,build-number=$COMMIT_COUNT" --platform linux --targets appimage --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets appimage --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_aarch64.{{ext}}
 
       # Package the build.
       - name: Copy build for AppImage
@@ -1391,6 +1498,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -1403,20 +1513,29 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
 
       - name: Build deb
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets deb --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
+          VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets deb --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_x86_64.{{ext}}
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION: ${{ needs.create_release.outputs.version }}
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for deb
@@ -1464,6 +1583,20 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
       - name: Install qemu-user-static
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -1479,8 +1612,6 @@ jobs:
             -v ${{ github.workspace }}:/work
             --workdir /work
             -e ENV=${{ github.event.inputs.env }}
-            -e VERSION=${{ needs.create_release.outputs.version }}
-            -e COMMIT_COUNT=${{ needs.create_release.outputs.commit_count }}
           shell: bash
           run: |
             set -x
@@ -1510,24 +1641,24 @@ jobs:
             source ~/.zshrc
             echo $PATH
 
-            # Install flutter_distributor
-            echo "Install flutter_distributor"
-            dart pub global activate flutter_distributor
-
             # Flutter doctor
             echo "Flutter doctor -v"
             flutter doctor -v
+
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate flutter_distributor
 
             # Install flutter dependencies
             echo "Install flutter dependencies"
             flutter pub get
 
-            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-            echo "RELEASE: $RELEASE"
+            VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+            echo "VERSION_SUFFIX: $VERSION_SUFFIX"
 
             # Build deb
             echo "Build deb"
-            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64,build-number=$COMMIT_COUNT" --platform linux --targets deb --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets deb --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_aarch64.{{ext}}
 
       # Package the build.
       - name: Copy build for deb
@@ -1583,6 +1714,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -1595,20 +1729,29 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
 
       - name: Build RPM
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets rpm --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
+          VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets rpm --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_x86_64.{{ext}}
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION: ${{ needs.create_release.outputs.version }}
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for rpm
@@ -1656,6 +1799,20 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
       - name: Install qemu-user-static
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -1671,8 +1828,6 @@ jobs:
             -v ${{ github.workspace }}:/work
             --workdir /work
             -e ENV=${{ github.event.inputs.env }}
-            -e VERSION=${{ needs.create_release.outputs.version }}
-            -e COMMIT_COUNT=${{ needs.create_release.outputs.commit_count }}
           shell: bash
           run: |
             set -x
@@ -1711,21 +1866,25 @@ jobs:
             source ~/.zshrc
             echo $PATH
 
-            # Install flutter_distributor
-            echo "Install flutter_distributor"
-            dart pub global activate flutter_distributor
-
             # Flutter doctor
             echo "Flutter doctor -v"
             flutter doctor -v
 
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate flutter_distributor
+
             # Install flutter dependencies
             echo "Install flutter dependencies"
             flutter pub get
-            
+
             # Install yq
             if ! command -v yq >/dev/null 2>&1; then
               echo "yq not exists"
+              if ! command -v wget >/dev/null 2>&1; then
+                echo "wget not exists"
+                sudo apt install -y wget
+              fi
               wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64 -O /usr/bin/yq &&\
               chmod +x /usr/bin/yq
             fi
@@ -1735,12 +1894,12 @@ jobs:
             echo "Update make_config.yaml"
             yq -i '.build_arch = "aarch64"' linux/packaging/rpm/make_config.yaml
 
-            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-            echo "RELEASE: $RELEASE"
+            VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+            echo "VERSION_SUFFIX: $VERSION_SUFFIX"
 
             # Build RPM
             echo "Build RPM"
-            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64,build-number=$COMMIT_COUNT" --platform linux --targets rpm --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets rpm --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_aarch64.{{ext}}
 
       # Package the build.
       - name: Copy build for rpm
@@ -1792,6 +1951,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -1803,21 +1965,30 @@ jobs:
 
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
+        
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
 
       - name: Build zip
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$COMMIT_COUNT,target-platform=linux-x64" --platform linux --targets zip --artifact-name {{name}}_"$RELEASE"_{{platform}}_x86_64.{{ext}}
+          VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets zip --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_x86_64.{{ext}}
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION: ${{ needs.create_release.outputs.version }}
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for zip
@@ -1865,6 +2036,20 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
       - name: Install qemu-user-static
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -1880,8 +2065,6 @@ jobs:
             -v ${{ github.workspace }}:/work
             --workdir /work
             -e ENV=${{ github.event.inputs.env }}
-            -e VERSION=${{ needs.create_release.outputs.version }}
-            -e COMMIT_COUNT=${{ needs.create_release.outputs.commit_count }}
           shell: bash
           run: |
             set -x
@@ -1912,24 +2095,25 @@ jobs:
             source ~/.zshrc
             echo $PATH
 
-            # Install flutter_distributor
-            echo "Install flutter_distributor"
-            dart pub global activate flutter_distributor
-
             # Flutter doctor
             echo "Flutter doctor -v"
             flutter doctor -v
+
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate flutter_distributor
 
             # Install flutter dependencies
             echo "Install flutter dependencies"
             flutter pub get
 
-            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-            echo "RELEASE: $RELEASE"
+            VERSION_SUFFIX="$([[ "$ENV" == "staging" ]] && echo ".pre" || echo "")"
+            echo "VERSION_SUFFIX: $VERSION_SUFFIX"
 
             # Build zip
             echo "Build zip"
-            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64,build-number=$COMMIT_COUNT" --platform linux --targets zip --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets zip --artifact-name {{name}}_{{build_name}}+{{build_number}}"$VERSION_SUFFIX"_{{platform}}_aarch64.{{ext}}
+
 
       # Package the build.
       - name: Copy build for zip
@@ -1981,6 +2165,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -1990,16 +2177,25 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
 
       - name: Build flutter
-        run: flutter build linux --dart-define-from-file=.env --build-number=$COMMIT_COUNT --target-platform=linux-x64
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+        run: flutter build linux --dart-define-from-file=.env --target-platform=linux-x64
 
       - name: Build tar
         run: |
@@ -2055,6 +2251,20 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install qemu-user-static
         run: |
@@ -2113,7 +2323,7 @@ jobs:
             
             # Build flutter
             echo "Build flutter"
-            flutter build linux --dart-define-from-file=.env --build-number=$COMMIT_COUNT --target-platform=linux-arm64
+            flutter build linux --dart-define-from-file=.env --target-platform=linux-arm64
             
             RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
             echo "RELEASE: $RELEASE"
@@ -2174,6 +2384,10 @@ jobs:
 
       - name: Update version
         run: |
+          # Update pubspec.yaml
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+
+          # Update flatpak/com.chenyifaer.FaFaRunner.json
           TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
           url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_x86_64.tar.gz
@@ -2258,6 +2472,10 @@ jobs:
 
       - name: Update version
         run: |
+          # Update pubspec.yaml
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+
+          # Update flatpak/com.chenyifaer.FaFaRunner.json
           TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
           url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_aarch64.tar.gz
@@ -2348,6 +2566,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
@@ -2357,16 +2578,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Install flutter dependencies
-        run: flutter pub get
-
-      - name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
-
       - name: Install yq
         run: |
           if ! command -v yq >/dev/null 2>&1; then
@@ -2374,6 +2585,19 @@ jobs:
             brew install yq
           fi
           yq --version
+
+      - name: Update pubspec.yaml
+        run: |
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Install snapcraft
+        run: |
+          sudo snap install snapcraft --classic
 
       - name: Update snapcraft.yaml
         run: |
@@ -2431,6 +2655,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           echo "$pwd"
@@ -2441,9 +2668,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
 
       - name: Install yq
         shell: pwsh
@@ -2465,13 +2689,14 @@ jobs:
           $yamlContent = Get-Content -Raw -Path $yamlFile
 
           # 获取环境变量的值
+          $version = (Get-Item -Path Env:VERSION).Value
           $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
           $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
           $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
           $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
 
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.publisher_display_name = `"$publisherName`" | .msix_config.identity_name = `"$identityName`" | .msix_config.certificate_path = `"$certificatePath`" | .msix_config.certificate_password = `"$certificatePassword`" | .msix_config.publisher = `"$publisher`"" -
+          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`" | .msix_config.publisher_display_name = `"$publisherName`" | .msix_config.identity_name = `"$identityName`" | .msix_config.certificate_path = `"$certificatePath`" | .msix_config.certificate_password = `"$certificatePassword`" | .msix_config.publisher = `"$publisher`"" -
 
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
@@ -2481,14 +2706,13 @@ jobs:
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
           WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
 
       - name: Build windows
-        run: flutter build windows --dart-define-from-file=.env --build-number "$env:COMMIT_COUNT"
-        env:
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+        run: flutter build windows --dart-define-from-file=.env
 
       - name: Create msix
         run: |
@@ -2556,6 +2780,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           echo "$pwd"
@@ -2580,9 +2807,6 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -2591,6 +2815,23 @@ jobs:
         run: |
           choco install yq
           yq --version
+
+      - name: Update pubspec.yml
+        shell: pwsh
+        run: |
+          $yamlFile = ".\pubspec.yaml"
+          $yamlContent = Get-Content -Raw -Path $yamlFile
+
+          # 获取环境变量的值
+          $version = (Get-Item -Path Env:VERSION).Value
+
+          # 使用 yq 更新多个字段
+          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`"" -
+
+          # 将更新后的内容写回文件
+          Set-Content -Path $yamlFile -Value $updatedYamlContent
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Update config
         shell: pwsh
@@ -2616,12 +2857,10 @@ jobs:
 
       - name: Build exe
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION.pre"} Else {"$env:VERSION"})
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets exe --artifact-name "{{name}}_$RELEASE`_{{platform}}_x86_64.{{ext}}"
+          $VERSION_SUFFIX = $(If ($env:ENV -eq "staging") {".pre"} Else {""})
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets exe --artifact-name "{{name}}_{{build_name}}+{{build_number}}$VERSION_SUFFIX`_{{platform}}_x86_64.{{ext}}"
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION: ${{ needs.create_release.outputs.version }}
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Signing
         run: |
@@ -2691,6 +2930,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.19.6'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           echo "$pwd"
@@ -2705,20 +2947,38 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        shell: pwsh
+        run: |
+          choco install yq
+          yq --version
+
+      - name: Update pubspec.yml
+        shell: pwsh
+        run: |
+          $yamlFile = ".\pubspec.yaml"
+          $yamlContent = Get-Content -Raw -Path $yamlFile
+
+          # 获取环境变量的值
+          $version = (Get-Item -Path Env:VERSION).Value
+
+          # 使用 yq 更新多个字段
+          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`"" -
+
+          # 将更新后的内容写回文件
+          Set-Content -Path $yamlFile -Value $updatedYamlContent
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
 
       - name: Build zip
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION.pre"} Else {"$env:VERSION"})
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env,build-number=$env:COMMIT_COUNT" --platform windows --targets zip --artifact-name "{{name}}_$RELEASE`_{{platform}}_x86_64.{{ext}}"
+          $VERSION_SUFFIX = $(If ($env:ENV -eq "staging") {".pre"} Else {""})
+          flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name "{{name}}_{{build_name}}+{{build_number}}$VERSION_SUFFIX`_{{platform}}_x86_64.{{ext}}"
         env:
           ENV: ${{ github.event.inputs.env }}
-          VERSION: ${{ needs.create_release.outputs.version }}
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       # Package the build.
       - name: Copy build for zip
