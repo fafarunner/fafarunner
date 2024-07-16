@@ -121,6 +121,7 @@ jobs:
 #        - linux_flatpak_aarch64
 #        - linux_snap
 #        - linux_snap_aarch64
+#        - windows_msi
 #        - windows_msix
 #        - windows_exe
 #        - windows_zip
@@ -2640,6 +2641,145 @@ jobs:
             echo "snapcraft exists"
             snapcraft clean
           fi
+
+  windows_msi:
+    name: Create windows msi
+    runs-on: windows-latest
+    needs:
+      - create_release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check msvc
+        run: |
+          $directories = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC" -Directory | Where-Object { $_.Name -match '^[0-9]{1,}' }
+
+          # 如果目录列表不为空，则找到最后一个目录
+          if ($directories.Count -gt 0) {
+              $lastDirectory = $directories[-1]
+              Write-Output "最后一个以数字开头的目录是: $($lastDirectory.FullName)"
+          } else {
+              Write-Output "未找到以数字开头的目录"
+          }
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install wix toolset
+        shell: pwsh
+        run: |
+          dotnet tool install --global wix
+          wix --version
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $env_base64 = $(If ($env:ENV -eq "staging") {"$env:ENV_STG_BASE64"} Else {"$env:ENV_PROD_BASE64"})
+          $bytes = echo $env_base64 | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
+
+      - name: Install yq
+        shell: pwsh
+        run: |
+          choco install yq
+          yq --version
+
+      - name: Update pubspec.yml
+        shell: pwsh
+        run: |
+          $yamlFile = ".\pubspec.yaml"
+          $yamlContent = Get-Content -Raw -Path $yamlFile
+
+          # 获取环境变量的值
+          $version = (Get-Item -Path Env:VERSION).Value
+
+          # 使用 yq 更新多个字段
+          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`"" -
+
+          # 将更新后的内容写回文件
+          Set-Content -Path $yamlFile -Value $updatedYamlContent
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build windows
+        run: flutter build windows --dart-define-from-file=.env
+
+      - name: Create msi
+        shell: pwsh
+        run: |
+          echo $env:RUNNER_TEMP
+          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
+          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
+          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
+
+          $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\x64\runner\Release"
+          $env:VISUAL_STUDIO_REDIST_DIR = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC\14.40.33807\x64\Microsoft.VC143.CRT"
+          dotnet build .\msi\fafarunner\fafarunner.wixproj --arch x64 --configuration Release
+
+          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
+          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\bin\Release\*\*.msi")
+        env:
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+
+      # Package the build.
+      - name: Copy build for msi
+        shell: pwsh
+        run: |
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION.pre"} Else {"$env:VERSION"})
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\Release\en-US\fafarunner.msi" -NewName "fafarunner_$RELEASE`_windows_x64_en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$RELEASE`_windows_x64_zh-CN.msi"
+          ls -R .\msi\fafarunner\bin\Release
+          cp .\msi\fafarunner\bin\Release\*\*.msi "$env:GITHUB_WORKSPACE\"
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
+          # https://github.com/cli/cli/issues/5099
+          gh release upload "$RELEASE" (get-item .\*.msi)
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          ls
+          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
+            echo "$env:RUNNER_TEMP\fafarunner.pfx"
+            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
+          }
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }
 
   windows_msix:
     name: Create windows msix
