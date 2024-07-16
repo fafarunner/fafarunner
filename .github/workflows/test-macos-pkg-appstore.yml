@@ -131,7 +131,7 @@ jobs:
         run: |
           echo "$VERSION"
           ls -la *.pkg
-          mv FaFa\ Runner.pkg FaFaRunnerAppStore_"$VERSION".pkg
+          mv FaFa\ Runner.pkg FaFaRunner_"$VERSION"_macos_appstore_universal.pkg
           ls -la *.pkg
         working-directory: build/macos/Build/Products/AppStore-Release
         env:

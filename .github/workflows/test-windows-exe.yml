@@ -75,7 +75,7 @@ jobs:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
       - name: Build exe
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets exe --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x86_64.{{ext}}'
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets exe --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x64.{{ext}}'
 
       # Package the build.
       - name: Copy build for exe

@@ -37,7 +37,7 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x86_64.{{ext}}'
+        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x64.{{ext}}'
 
       # Package the build.
       - name: Copy build for zip

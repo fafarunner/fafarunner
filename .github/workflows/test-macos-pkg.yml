@@ -137,7 +137,7 @@ jobs:
           echo "$VERSION"
           ls -la *.pkg
           rm -f FaFa\ Runner-unsigned.pkg
-          mv FaFa\ Runner.pkg FaFaRunner_"$VERSION".pkg
+          mv FaFa\ Runner.pkg FaFaRunner_"$VERSION"_macos_universal.pkg
           ls -la *.pkg
         working-directory: build/macos/Build/Products/Release
         env:

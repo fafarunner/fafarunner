@@ -39,7 +39,7 @@ jobs:
       - name: Build .flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@master
         with:
-          bundle: FaFaRunner_${{ steps.version_step.outputs.version }}_linux_x86_64.flatpak
+          bundle: FaFaRunner_${{ steps.version_step.outputs.version }}_linux_amd64.flatpak
           manifest-path: flatpak/com.chenyifaer.FaFaRunner.json
           cache: true
           restore-cache: true
