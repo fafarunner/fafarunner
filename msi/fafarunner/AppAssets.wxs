@@ -1,0 +1,294 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <?define FlutterBuildOutputDir = "$(env.FLUTTER_BUILD_OUTPUT_DIR)" ?>
+    <Fragment>
+        <DirectoryRef Id="ASSETSFOLDER">
+            <Directory Id="dir3E2540AF12E50DC5024026EF5D0C4548" Name="assets" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="AssetComponents">
+            <Component Id="cmp11ADF4C240535F9CBFA0B7375E6E1A39" Directory="dir3E2540AF12E50DC5024026EF5D0C4548" Guid="{B2FDF790-02D7-472D-AACF-8E4185C173B3}">
+                <File Id="filCF3DCD6E56B55EF93F8F602B5E14C555" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\game_over.png" />
+            </Component>
+            <Component Id="cmpF53FB4A12B8BEDA0DDF31F2BDD6BDB76" Directory="dir3E2540AF12E50DC5024026EF5D0C4548" Guid="{32EBE0CD-C5A1-4F30-AD69-37B695C2B335}">
+                <File Id="fil00DD209B5F83710170E9A465EE0D67B9" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\play_again.png" />
+            </Component>
+            <Component Id="cmp5DC3AEC85D69CB7AA9DAB2F59DFE6BD5" Directory="dirD93E477722FDABE276CCA9C6FB3F7321" Guid="{ED660B6A-8F87-4413-8636-C2BF5D86C7C4}">
+                <File Id="fil54DEE09B6B7B0C2F4A81A402F44D306A" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\audio\attack_enemy.mp3" />
+            </Component>
+            <Component Id="cmp158251D536859012ED37794F46C80722" Directory="dirD93E477722FDABE276CCA9C6FB3F7321" Guid="{AE263FDB-2E87-4BA0-95CB-B06C0BB5A60C}">
+                <File Id="fil49C34F4AE06D29D31497575A5D2E76FE" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\audio\attack_fire_ball.wav" />
+            </Component>
+            <Component Id="cmp10B27E94E667EA875883975AB6D1E7F5" Directory="dirD93E477722FDABE276CCA9C6FB3F7321" Guid="{83C1B77F-25A4-499C-B1E5-A722C175AF03}">
+                <File Id="filF9AB2FA0C130FD40E159067541379AC4" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\audio\attack_player.mp3" />
+            </Component>
+            <Component Id="cmpF6CC8EBF732939D77C2B0BC6AA070C70" Directory="dirD93E477722FDABE276CCA9C6FB3F7321" Guid="{C5BB1B85-F09C-4B89-865D-D030BD17CB08}">
+                <File Id="filD23FA46A3D5916BE0974306E9EBF1C28" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\audio\battle_boss.mp3" />
+            </Component>
+            <Component Id="cmp7B2DDD538DCD24E29903D98F00BB10AE" Directory="dirD93E477722FDABE276CCA9C6FB3F7321" Guid="{4B1599B8-EC3B-458B-BA44-A6518B7DAEC8}">
+                <File Id="fil2FB02AFDD91D18813B9E8B10E571264D" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\audio\explosion.wav" />
+            </Component>
+            <Component Id="cmpCC65CF72125EDB18CA293B23DA94456D" Directory="dirD93E477722FDABE276CCA9C6FB3F7321" Guid="{3EEC6CF5-6A43-4356-BE7A-02B4C3D67FDA}">
+                <File Id="fil27EE6C75C28B1411875679074120BF99" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\audio\sound_bg.mp3" />
+            </Component>
+            <Component Id="cmpE184B23E78338730C8BDAA1DDF07F6A6" Directory="dirD93E477722FDABE276CCA9C6FB3F7321" Guid="{16E8C5D6-5A2B-4047-B490-E2B946335F9F}">
+                <File Id="fil87698CDAB41629BF1E14B61B380DE1F2" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\audio\sound_interaction.wav" />
+            </Component>
+            <Component Id="cmp76B6F37B1B7AD2F8260A2F0F6CBCEACC" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{8DFC70DD-9630-435D-8E0E-7698241E2A83}">
+                <File Id="fil6E21B701C36159F66FADB95EB345871F" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\crypt.png" />
+            </Component>
+            <Component Id="cmp3D74A2913BDF40B361711CF13AC374C4" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{5FC5AE7B-13A7-4B7E-B53F-36247D2CD54D}">
+                <File Id="fil743EE7A66EBE78DEDFEC4572923A9A2C" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\explosion.png" />
+            </Component>
+            <Component Id="cmp9F18085208A5C5E3063F4D9EF17D6226" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{E4BA3A41-9458-403B-875F-01DD4AE00655}">
+                <File Id="filE5F8DF260B5BA64DEE9F5430A5C29F5A" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\health_ui.png" />
+            </Component>
+            <Component Id="cmp95E450F8BD7089EBEF75E09CE884E09D" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{8EEA9883-9EDE-4CE7-B014-678FCE58CEF0}">
+                <File Id="filAA647A5B7DED160158E1AA6D9620E43F" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\joystick_atack.png" />
+            </Component>
+            <Component Id="cmp58B06D6F536CA4897915F191E2DEBAEB" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{0BCE2EA5-352C-4E0C-9C61-C61D40BB5336}">
+                <File Id="fil650CA9F045C550F7A5ECF5BB56AC34EC" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\joystick_atack_range.png" />
+            </Component>
+            <Component Id="cmp2F669BA6CF4491594F29CB48309128E0" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{257A47A9-70B1-483A-8412-99FFEBB7638C}">
+                <File Id="filAE31E6829F4429297BB047D1B744C5FA" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\joystick_atack_range_selected.png" />
+            </Component>
+            <Component Id="cmpBF49B837207381E1F061265201F62E2A" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{4A987CD8-A38E-4A5A-9DC4-B5EB47D85CBA}">
+                <File Id="filAE4933F3C8DB574E6D8DC31EDEFA001F" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\joystick_atack_selected.png" />
+            </Component>
+            <Component Id="cmp8CD917D178DE6A242204655A68CD9C80" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{D1FF5750-D9CE-4272-8EA5-65F8D7E5D727}">
+                <File Id="filF4C5BE95FC3C60CB31AA77FB1467DD02" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\joystick_background.png" />
+            </Component>
+            <Component Id="cmp5F0164BC9E88639CE9445D770BC2236C" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{EA1DD805-6418-4428-A504-0C1764041985}">
+                <File Id="fil41311F2A3B34E68881EF7C42488A5729" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\joystick_knob.png" />
+            </Component>
+            <Component Id="cmp875B191E80B602AA0681B33B3450FBAB" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{7120AA9E-B300-434C-AD1A-7189EAB9A33C}">
+                <File Id="filAD3B4F3C1895EA4BC71BB428A3D968CC" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\keyboard_tip.png" />
+            </Component>
+            <Component Id="cmp0DB3EC3FC1B8E370F5AD26B729967B29" Directory="dirABAA53DADE131444682DE79B23FF92E8" Guid="{C143A216-CE6C-4CA2-B05C-2733BC86527C}">
+                <File Id="fil258D6B40787D38B9839A2BBCE390041E" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\smoke_explosin.png" />
+            </Component>
+            <Component Id="cmpB9FAA1C823248630E6844F1E101ADAD9" Directory="dir8DB3712155EACB9DA50F0E5190093F35" Guid="{D8FD68EB-E35B-41DD-8E8E-BE4665B11C19}">
+                <File Id="fil5C90F3ACAA28D2034CE9BB89D4622F5D" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\emote\emote_dots.png" />
+            </Component>
+            <Component Id="cmp4E8644917A6884F6057CF9C8A05BB284" Directory="dir8DB3712155EACB9DA50F0E5190093F35" Guid="{F9DCD2AB-928B-40F0-BD45-18297922CEBD}">
+                <File Id="fil27BA51753C073C375715A96F3F8787E6" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\emote\emote_exclamacao.png" />
+            </Component>
+            <Component Id="cmp35A88AC99D28090FEBBF0C344E27EE67" Directory="dir8DB3712155EACB9DA50F0E5190093F35" Guid="{5E141482-02A3-439F-B198-F0F77EDE4618}">
+                <File Id="filAF40457842169A893DBBD6C5A49DC4A2" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\emote\emote_interregacao.png" />
+            </Component>
+            <Component Id="cmpAA4E638054B0B59984FAD221476A2F4D" Directory="dir8DB3712155EACB9DA50F0E5190093F35" Guid="{55787064-B6A1-4F56-A7DD-4A5FFB5905FB}">
+                <File Id="fil18BD4D0A51CAE3330A01F29C5B17AEAE" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\emote\emote_love.png" />
+            </Component>
+            <Component Id="cmp65ABBC0464BEF983D3B7C59FFB8E7EF3" Directory="dirB5C79D63A9EA4B83DE5B0087ACD9DB39" Guid="{F5DC6581-65E9-4A3E-B515-942069D22402}">
+                <File Id="fil33D24679D625DB713C84D9039F8B394B" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\atack_effect_bottom.png" />
+            </Component>
+            <Component Id="cmp9156FD55B09CEA27238A1E5A806E7BA2" Directory="dirB5C79D63A9EA4B83DE5B0087ACD9DB39" Guid="{9C920CB3-590A-4BD2-961A-B84B9A02DB72}">
+                <File Id="fil3888796FF0E1A8940717CEF991F1105F" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\atack_effect_left.png" />
+            </Component>
+            <Component Id="cmpB45012FD62C3B3836DB403022270600C" Directory="dirB5C79D63A9EA4B83DE5B0087ACD9DB39" Guid="{166CA4E2-4D66-4F80-AFA1-D5C87316B167}">
+                <File Id="fil166B0B2434E86A61174390ABEB891AC1" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\atack_effect_right.png" />
+            </Component>
+            <Component Id="cmpF5BCB3A5A40F58924B408EC37482CEC9" Directory="dirB5C79D63A9EA4B83DE5B0087ACD9DB39" Guid="{F6CD1A61-BBB3-407F-BB4A-8DEB96E8C3DA}">
+                <File Id="fil56A47577F34B698B1BA5B90358010FB9" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\atack_effect_top.png" />
+            </Component>
+            <Component Id="cmp37900C2A8428ABA0D7AA0FC8911006A3" Directory="dir30056FC913BC707163E39866AE0AE0B2" Guid="{C37E75D5-7D93-4565-9477-D8BEC1214BDC}">
+                <File Id="filC81ADFF5695F771CA97E54702CED1F38" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\boss\boss_idle.png" />
+            </Component>
+            <Component Id="cmpC99B2AC3107BFB2C810FDC74184BFC13" Directory="dir30056FC913BC707163E39866AE0AE0B2" Guid="{371CD003-0780-45F4-B567-8985A59DD992}">
+                <File Id="filB9D4E65C10ABB6246DC1986628DB3756" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\boss\boss_idle_left.png" />
+            </Component>
+            <Component Id="cmpCC043384DCE66B7B183A0A9B082AD5DE" Directory="dir30056FC913BC707163E39866AE0AE0B2" Guid="{B35BC72B-6B4B-466E-9D3F-1FA202F3B1CB}">
+                <File Id="fil4A9636066DAAEC8698ED3E7E42BE971A" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\boss\boss_run_left.png" />
+            </Component>
+            <Component Id="cmp8509DF777D12058DDF7806354599A5A8" Directory="dir30056FC913BC707163E39866AE0AE0B2" Guid="{78F5DD67-C9FE-4AFE-838C-28D5A54D2F32}">
+                <File Id="fil547820AFCA40E604580A3D824D752806" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\boss\boss_run_right.png" />
+            </Component>
+            <Component Id="cmpA165307A1FE6C6E58EBD0F8A468695FA" Directory="dir922DBD0450E6BA651A4C3457A5E8BA80" Guid="{D3D07271-01E6-4A02-8793-F98A17DCBDF7}">
+                <File Id="fil974C7AE57FA121DC15A177A424CAAAA4" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\goblin\goblin_idle.png" />
+            </Component>
+            <Component Id="cmpE61A51A741ABF45F7D455FF32037DAAC" Directory="dir922DBD0450E6BA651A4C3457A5E8BA80" Guid="{5B2B6235-12F3-40E2-A83D-F1244D137CAD}">
+                <File Id="fil841D7FD8017FDB681426B1B7FFF8B53B" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\goblin\goblin_idle_left.png" />
+            </Component>
+            <Component Id="cmp44125D59F0049D126D5F0B7011499097" Directory="dir922DBD0450E6BA651A4C3457A5E8BA80" Guid="{A3381FC6-3388-47E6-96FA-E7A4F6529059}">
+                <File Id="filA6A323BCE8F5F1EE7CBFFECD22EC10E8" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\goblin\goblin_run_left.png" />
+            </Component>
+            <Component Id="cmp9DD5AF3938CC916B25753606346C0C6F" Directory="dir922DBD0450E6BA651A4C3457A5E8BA80" Guid="{C2A08AB4-0CC6-4E0F-81C0-B4B58AEA0AB3}">
+                <File Id="filA4CEDE83DEE5B41819C8E5FF27CF5E53" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\goblin\goblin_run_right.png" />
+            </Component>
+            <Component Id="cmp129543E75F84478F4F7680AD16E8963D" Directory="dir5899EB5B3BBA73F5E318E98A7DAFE849" Guid="{D8BE09E4-326F-472A-98C6-990C16CF3377}">
+                <File Id="fil76F3A7B38024987946C9106E0FAC6F38" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\imp\imp_idle.png" />
+            </Component>
+            <Component Id="cmp647958EB198041D9BCFF137F3A953931" Directory="dir5899EB5B3BBA73F5E318E98A7DAFE849" Guid="{140527BB-F869-465F-B981-B5FD7993A512}">
+                <File Id="fil5080F7EFA4B7DB88256B9ED9A465F001" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\imp\imp_idle_left.png" />
+            </Component>
+            <Component Id="cmpD8814D55AFF385FEEA9A9813543E1B91" Directory="dir5899EB5B3BBA73F5E318E98A7DAFE849" Guid="{60270467-1639-493D-9B3C-6DC309D8927D}">
+                <File Id="fil0DA1662BBDD8BE1C48D60854B21587D7" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\imp\imp_run_left.png" />
+            </Component>
+            <Component Id="cmp128AF2241CB035EE80A311DCBB8D10D4" Directory="dir5899EB5B3BBA73F5E318E98A7DAFE849" Guid="{6280F5B3-0B5E-47A1-9D9C-F401F0509B32}">
+                <File Id="fil7C5E08107B46E23DB2B84A2792E0D630" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\imp\imp_run_right.png" />
+            </Component>
+            <Component Id="cmpB4F5B0B3DC9F17A83F2716A7D256B8B9" Directory="dir884BF6B18BC62238B2F9274D52918E97" Guid="{EC52B8C1-8545-4A0A-AB4F-CBBA1F7FFD8E}">
+                <File Id="filFABFE6FC76A0FE8B275B94D72BC8574D" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\mini_boss\mini_boss_idle.png" />
+            </Component>
+            <Component Id="cmp85136518763F7F8DEF52C01971FDB483" Directory="dir884BF6B18BC62238B2F9274D52918E97" Guid="{0C15CBB0-28AA-4EE9-B302-175186F8D4C8}">
+                <File Id="filD032F6518FE82FB8A9E926A9FB0EFD6D" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\mini_boss\mini_boss_idle_left.png" />
+            </Component>
+            <Component Id="cmp600CF812F235A86A9C411068E9BE6189" Directory="dir884BF6B18BC62238B2F9274D52918E97" Guid="{F9FE643B-81FE-4B4F-9931-673C16B5D643}">
+                <File Id="fil9ABA681D0BA24A7AED735209D11F1BE0" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\mini_boss\mini_boss_run_left.png" />
+            </Component>
+            <Component Id="cmpD0C1DBDD26F346FD87CA67BBB403464A" Directory="dir884BF6B18BC62238B2F9274D52918E97" Guid="{4241C0E6-A024-48E2-8E61-6C4C54B43F10}">
+                <File Id="fil93AC90D33FECB6162590A228EB76FE0B" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\enemy\mini_boss\mini_boss_run_right.png" />
+            </Component>
+            <Component Id="cmp7C468B8FF1D1EA16B5E96833843252C3" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{DD1E0172-7F29-4F32-A76E-F12B47EF5BCC}">
+                <File Id="fil4C3C447390E554A351FEC0B0E293FEB2" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\bomb_anim_spritesheet.png" />
+            </Component>
+            <Component Id="cmp30053ACB53820BE5778042E12F288158" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{BFCB91A9-17FE-40D3-967F-1BB3D66F2D24}">
+                <File Id="fil4A6C95D909B5D870606647335B9EDD13" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\chest_spritesheet.png" />
+            </Component>
+            <Component Id="cmpF3F7BE792DF65BF53287E64CE48C727D" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{CDB10E25-994D-460E-AFC7-9365B6EC62F1}">
+                <File Id="fil0C5E94E42AE7801B5C37D20FD0475061" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\door_closed.png" />
+            </Component>
+            <Component Id="cmp52FB11A9000B38B60E2850467361BEEF" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{A80680A0-754B-46F4-BD03-0D93E39FF8F5}">
+                <File Id="fil99D75EE3061C381C1995B49B0B862DD8" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\door_open.png" />
+            </Component>
+            <Component Id="cmp6EE449104165FA184A67C860425F3F74" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{E50FBEEA-3AE5-4EC2-93C9-63C982F446B3}">
+                <File Id="filDF3CD2D601413D615E033FED8AC589B6" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\key_silver.png" />
+            </Component>
+            <Component Id="cmpC73FF55294A238382FD3621184350E37" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{87D21888-1837-4C29-B196-4E7AD7803AE1}">
+                <File Id="fil13DD4BA5A405FAFF4C41D976AEB23064" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\potion_red.png" />
+            </Component>
+            <Component Id="cmp8FD90EE19DBF8A62A05D6E967E21448C" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{ED4F866E-E0D9-4487-AAD9-24EAC9785FBE}">
+                <File Id="fil49E55245A50B629735789448DC459073" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\spikes.png" />
+            </Component>
+            <Component Id="cmpD9FCBD61A0777C960225A795BBCEDB58" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{C51068C9-09AC-47B6-877F-278AE09EEC18}">
+                <File Id="filBEF3D4CA2F1349DBE23C590DF84D60F6" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\stair_nextlevel.png" />
+            </Component>
+            <Component Id="cmp0FD60A12C06523858520AF31C537AFA4" Directory="dir3DF3C5C163F2807B9F301F8FEF89574F" Guid="{F6E8996E-0A4A-4CA9-B9B0-B3E30B023EDC}">
+                <File Id="filF0C840A40120FC616DE3F9F5E43FE87E" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\items\torch_spritesheet.png" />
+            </Component>
+            <Component Id="cmpAF726B1F26B1ED51F97C632EACD5357F" Directory="dirEF2318FC5778E819982F5072E4149E97" Guid="{38659A9A-0DBE-49F4-A025-32A8E6E9B068}">
+                <File Id="filBF409151B547C46E99947333E65AF8E5" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\npc\kid_idle_left.png" />
+            </Component>
+            <Component Id="cmp690A9E7EF845F8FF370426C73BA35F39" Directory="dirEF2318FC5778E819982F5072E4149E97" Guid="{C605D2C9-3E81-4D8C-AC76-B97DDE050BAD}">
+                <File Id="fil66FAFED90B34FDF6E010298E164AF9E1" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\npc\kid_idle_right.png" />
+            </Component>
+            <Component Id="cmpA976A73A4ACE87856CEBE7C7B45E609E" Directory="dirEF2318FC5778E819982F5072E4149E97" Guid="{EBE1DE23-CB21-4483-B893-E96F47150C50}">
+                <File Id="fil81D78BF476EEE69C26C1EA8BFC1D597B" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\npc\wizard.png" />
+            </Component>
+            <Component Id="cmp1EA2938845A85976CEE3299B5FD6FE4D" Directory="dirEF2318FC5778E819982F5072E4149E97" Guid="{AB976F1A-B97C-4D05-96AE-38BED2391F88}">
+                <File Id="fil319A5288F226748C4DDA55D00CBBDB8F" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\npc\wizard_idle_left.png" />
+            </Component>
+            <Component Id="cmp346AF3D9DAC2DCA95AE268E6C3405FC3" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{430A5351-30E5-4472-90FA-D9FC4B8662C1}">
+                <File Id="fil254A4691D58167C4BC933170AE0CC5E9" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\explosion_fire.png" />
+            </Component>
+            <Component Id="cmpEB4C4F5DB1D3B69A48F585FF6F0D4DE7" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{723C81CF-1B47-4D84-9ABC-E4ED4C9F1DEF}">
+                <File Id="fil63A1920BF8B0DF138C50B365D1A02D23" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\fireball_bottom.png" />
+            </Component>
+            <Component Id="cmpFA0780AB14EF20D7A69B897178A32354" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{55F8507A-BCD9-4FA2-B7F6-61A4906BCAC3}">
+                <File Id="filD06DE56D33B35AC0A8D825FF831E76EC" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\fireball_left.png" />
+            </Component>
+            <Component Id="cmp52D0F5A87E2C91F965BC1DE3D854EA11" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{61E165CC-C374-4803-9420-6D9F0FC7135A}">
+                <File Id="fil222C35B74023BA727D88D0D8E5815E68" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\fireball_right.png" />
+            </Component>
+            <Component Id="cmp6FBB3B3F99CE17CA3FCD8C6B07384D6B" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{308CD9FF-D738-45B5-A880-2C88980EDE71}">
+                <File Id="fil5C8203320ED7E44A6AB2740D583CC211" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\fireball_top.png" />
+            </Component>
+            <Component Id="cmp80CF0D64C6BD8775A7A2715BF778B6B4" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{7754BCB6-99DB-4B53-9018-DF8E757EAFBE}">
+                <File Id="fil368B326C0F4C64380F7CB9E26C5591CD" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\knight_idle.png" />
+            </Component>
+            <Component Id="cmp2022F13BE93E06E289F71AEEAF74B7E1" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{E80E8BEE-858A-4C45-B950-02E9BE36CA3F}">
+                <File Id="fil7E3F8A9F6063053183EF06786379E529" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\knight_idle_left.png" />
+            </Component>
+            <Component Id="cmpB339C7EE5D0B58AA9227638C94716F77" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{196FE7F2-EFA8-43DC-9E5D-A3BEE510759E}">
+                <File Id="fil5C498839400C44FAF699D844EC9A5060" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\knight_run.png" />
+            </Component>
+            <Component Id="cmp961EF53EDECEE0C504870DCEE6D7903B" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{1A713E78-99EC-40AE-904C-15362BE44196}">
+                <File Id="fil05DA124E8AA09166BB16EBFD23592127" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\knight_run_left.png" />
+            </Component>
+            <Component Id="cmp9F6C848924D211C2D0953710D764C8D2" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{AE3A92A8-A1A0-4657-B9AE-92A2C1C4EC53}">
+                <File Id="fil4D8E85D71B70DADC7DAE5FD850950AEC" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\player_atack_effect_bottom.png" />
+            </Component>
+            <Component Id="cmpB878F1C7CD4C4B5E27E75299FC5D1863" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{E066F8C5-6213-4F99-9C15-B564224B29CD}">
+                <File Id="filA39A94249D4B356EE6603D3044BAF80B" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\player_atack_effect_left.png" />
+            </Component>
+            <Component Id="cmp1AEEB08BFD26AD202FCA5B6272DA0283" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{2AAD8F5D-23E1-4E78-BFC1-FDFDB2E8ED3E}">
+                <File Id="filA82733BE8176E9C0E798AEEA8A9A18A0" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\player_atack_effect_right.png" />
+            </Component>
+            <Component Id="cmp367F64C3F466C91A7FF8B8DAC03EC287" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{32CC0CB5-623D-4BD8-B023-84BC8251EFC6}">
+                <File Id="filB486F2D3A56EF30CABA7D3CBB7E53F3B" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\player_atack_effect_top.png" />
+            </Component>
+            <Component Id="cmp2FEF80C2A29F8232A330F1FAB415D182" Directory="dirFCE7432647E53826C52C7E1E2B8D6CD1" Guid="{A586D924-CA68-4B38-9415-D26CA40082AB}">
+                <File Id="fil67E09929C76637801312C38E6D53F762" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\player\player_crypt.png" />
+            </Component>
+            <Component Id="cmp6858B382600E38C20ACAC15A96091FE1" Directory="dir7F0D257C100A4AC57B2D3673A679C837" Guid="{42BA82F3-5F84-4286-9ED1-17BA7C4CB142}">
+                <File Id="filE23BEA92EDD3A4351B7574A01E11F503" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\tiled\map.json" />
+            </Component>
+            <Component Id="cmpEEB58B65ACCA7479A0589327346F92A6" Directory="dir7F0D257C100A4AC57B2D3673A679C837" Guid="{CBFEA32C-5441-482F-AC96-159897EC104B}">
+                <File Id="fil8A292E5B945F3FE5EBB24486601172B3" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\tiled\tileSet.json" />
+            </Component>
+            <Component Id="cmpF5027A74F7E8E6DF8C94636B03D718F2" Directory="dir7F0D257C100A4AC57B2D3673A679C837" Guid="{8E3DBED9-7ECA-4D15-8D08-7BF26B591CA1}">
+                <File Id="filA4FF34F307A86041A491C7474CDD94B9" KeyPath="yes" Source="$(FlutterBuildOutputDir)\data\flutter_assets\assets\images\tiled\tile_set.png" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB5C79D63A9EA4B83DE5B0087ACD9DB39">
+            <Directory Id="dir30056FC913BC707163E39866AE0AE0B2" Name="boss" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirABAA53DADE131444682DE79B23FF92E8">
+            <Directory Id="dir3DF3C5C163F2807B9F301F8FEF89574F" Name="items" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB5C79D63A9EA4B83DE5B0087ACD9DB39">
+            <Directory Id="dir5899EB5B3BBA73F5E318E98A7DAFE849" Name="imp" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirABAA53DADE131444682DE79B23FF92E8">
+            <Directory Id="dir7F0D257C100A4AC57B2D3673A679C837" Name="tiled" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB5C79D63A9EA4B83DE5B0087ACD9DB39">
+            <Directory Id="dir884BF6B18BC62238B2F9274D52918E97" Name="mini_boss" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirABAA53DADE131444682DE79B23FF92E8">
+            <Directory Id="dir8DB3712155EACB9DA50F0E5190093F35" Name="emote" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirB5C79D63A9EA4B83DE5B0087ACD9DB39">
+            <Directory Id="dir922DBD0450E6BA651A4C3457A5E8BA80" Name="goblin" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir3E2540AF12E50DC5024026EF5D0C4548">
+            <Directory Id="dirABAA53DADE131444682DE79B23FF92E8" Name="images" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirABAA53DADE131444682DE79B23FF92E8">
+            <Directory Id="dirB5C79D63A9EA4B83DE5B0087ACD9DB39" Name="enemy" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir3E2540AF12E50DC5024026EF5D0C4548">
+            <Directory Id="dirD93E477722FDABE276CCA9C6FB3F7321" Name="audio" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirABAA53DADE131444682DE79B23FF92E8">
+            <Directory Id="dirEF2318FC5778E819982F5072E4149E97" Name="npc" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dirABAA53DADE131444682DE79B23FF92E8">
+            <Directory Id="dirFCE7432647E53826C52C7E1E2B8D6CD1" Name="player" />
+        </DirectoryRef>
+    </Fragment>
+</Wix>

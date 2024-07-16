@@ -1,0 +1,50 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="FaFaRunner" Manufacturer="INSCO LLC" Version="1.0.0.0" UpgradeCode="9e97bd2c-5329-45e7-ad77-34d60acae691">
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+    <!-- Set an icon for Windows Settings > Apps -->
+    <Property Id="ARPPRODUCTICON" Value="FaFaRunner.exe" />
+
+    <!-- Block 64-bit Win8/WinServer2012 (or earlier) and all 32-bit from installing -->
+    <Launch Message="FaFaRunner only supports 64-bit Windows 10/11!" Condition="Installed OR VersionNT64 >= 603"/>
+
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Feature
+        Id="Main"
+        Title="FaFaRunner"
+        Description="A game developed using flame and bonfire."
+        AllowAbsent="no"
+        AllowAdvertise="no">
+      <!-- Flutter output -->
+      <ComponentGroupRef Id="BaseComponents" />
+      <ComponentGroupRef Id="DataComponents" />
+      <ComponentGroupRef Id="AssetComponents" />
+      <ComponentGroupRef Id="FlutterAssetComponents" />
+      <ComponentGroupRef Id="FlutterFontComponents" />
+      <ComponentGroupRef Id="FlutterLogoComponents" />
+      <ComponentGroupRef Id="FlutterPackageComponents" />
+      <ComponentGroupRef Id="ShaderComponents" />
+    </Feature>
+    <Feature
+        Id="VCredist"
+        Title="Visual C++ Redistributable Libraries"
+        Description="Libraries that FaFaRunner uses. You may not need this if you already have vc_redist installed. You should install these if you're unsure of what this means."
+        AllowAbsent="yes"
+        AllowAdvertise="no">
+      <!-- Visual C++ Redustributable libraries -->
+      <ComponentGroupRef Id="VCredist" />
+    </Feature>
+    <!-- -->
+    <Feature
+      Id="Shortcut"
+      Title="FaFaRunner"
+      Description="A game developed using flame and bonfire."
+      AllowAbsent="yes"
+      AllowAdvertise="no"
+      Level="1">
+        <ComponentGroupRef Id="BaseComponents" />
+        <ComponentRef Id="DesktopShortcutComponent"/>
+    </Feature>
+  </Package>
+</Wix>

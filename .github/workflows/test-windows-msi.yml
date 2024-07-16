@@ -1,0 +1,142 @@
+name: Test Windows msi
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  get_version:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version_step.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            brew install yq
+          fi
+          yq --version
+
+      - name: Set version
+        id: version_step
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check version
+        run: echo ${{ steps.version_step.outputs.version }}
+
+  msi:
+    name: Create msi
+    runs-on: windows-latest
+    needs:
+      - get_version
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check msvc
+        run: |
+          $directories = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC" -Directory | Where-Object { $_.Name -match '^[0-9]{1,}' }
+
+          # 如果目录列表不为空，则找到最后一个目录
+          if ($directories.Count -gt 0) {
+              $lastDirectory = $directories[-1]
+              Write-Output "最后一个以数字开头的目录是: $($lastDirectory.FullName)"
+          } else {
+              Write-Output "未找到以数字开头的目录"
+          }
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.19.6'
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install yq
+        shell: pwsh
+        run: |
+          choco install yq
+          yq --version
+
+      - name: Install wix toolset
+        shell: pwsh
+        run: |
+          dotnet tool install --global wix
+          wix --version
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $bytes = echo $env:ENV_KEY | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build windows
+        run: flutter build windows --dart-define-from-file=.env
+
+      - name: Create msi
+        shell: pwsh
+        run: |
+          echo $env:RUNNER_TEMP
+          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
+          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
+          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
+
+          $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\x64\runner\Release"
+          $env:VISUAL_STUDIO_REDIST_DIR = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC\14.40.33807\x64\Microsoft.VC143.CRT"
+          dotnet build .\msi\fafarunner\fafarunner.wixproj --arch x64 --configuration Release
+
+          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
+          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\bin\Release\*\*.msi")
+        env:
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+
+      # Package the build.
+      - name: Copy build for msi
+        shell: pwsh
+        run: |
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_x64_en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_x64_zh-CN.msi"
+        env:
+          VERSION: ${{ needs.get_version.outputs.version }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-msi-artifact
+          path: |
+            .\msi\fafarunner\bin\Release\*\*.msi
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          ls
+          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
+            echo "$env:RUNNER_TEMP\fafarunner.pfx"
+            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
+          }
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }

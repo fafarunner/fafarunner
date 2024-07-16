@@ -1,0 +1,121 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <?define FlutterBuildOutputDir = "$(env.FLUTTER_BUILD_OUTPUT_DIR)" ?>
+
+  <Fragment>
+    <!-- Define the icon to use for all shortcuts -->
+    <Icon Id="FaFaRunner.exe" SourceFile="..\..\windows\runner\resources\app_icon.ico"/>
+
+    <ComponentGroup Id="BaseComponents" Directory="INSTALLFOLDER">
+      <Component>
+        <!-- We wrap single files in components to let the linker generate the GUIDs -->
+        <File Id="FaFaRunner.exe" Source="$(FlutterBuildOutputDir)\FaFaRunner.exe" KeyPath="yes" />
+        <Shortcut Name="FaFaRunner" Description="A game developed using flame and bonfire." Directory="ProgramMenuFolder" Advertise="yes" Icon="FaFaRunner.exe" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\audioplayers_windows_plugin.dll" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\flutter_windows.dll" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\screen_retriever_plugin.dll" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\sentry_flutter_plugin.dll" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\url_launcher_windows_plugin.dll" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\window_manager_plugin.dll" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\LICENSE" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="DataComponents" Directory="DATAFOLDER">
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\app.so" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\icudtl.dat" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="FlutterAssetComponents" Directory="FLUTTERASSETSFOLDER">
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\AssetManifest.bin" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\AssetManifest.json" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\FontManifest.json" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\NOTICES.Z" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="FlutterFontComponents" Directory="FLUTTERFONTSFOLDER">
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\fonts\font_pixel.ttf" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\fonts\MaterialIcons-Regular.otf" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="FlutterLogoComponents" Directory="FLUTTERLOGOFOLDER">
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\fafa-runner.icns" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo_round.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo.png" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="FlutterPackageComponents" Directory="FLUTTERPACKAGEFOLDER">
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\cupertino_icons\assets\CupertinoIcons.ttf" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\flame_splash_screen\assets\layer1.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\flame_splash_screen\assets\layer2.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\flame_splash_screen\assets\layer3.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_close.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_maximize.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_minimize.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_unmaximize.png" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="ShaderComponents" Directory="SHADERSFOLDER">
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\shaders\ink_sparkle.frag" />
+      </Component>
+    </ComponentGroup>
+
+    <!-- Desktop shortcut (user's choice) -->
+    <Component Id="DesktopShortcutComponent" Directory="DesktopFolder">
+      <RegistryValue Root="HKCU" Key="SOFTWARE\INSCO LLC\FaFaRunner" Name="EnableDesktopShortcut" Value="1" />
+      <Shortcut Name="FaFaRunner" Description="A game developed using flame and bonfire." Directory="DesktopFolder" Target="[#FaFaRunner.exe]" />
+    </Component>
+  </Fragment>
+</Wix>

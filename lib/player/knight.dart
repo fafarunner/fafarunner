@@ -77,7 +77,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
     removeFromParent();
     gameRef.add(
       GameDecoration.withSprite(
-        sprite: Sprite.load('player/crypt.png'),
+        sprite: Sprite.load('player/player_crypt.png'),
         position: Vector2(
           position.x,
           position.y,

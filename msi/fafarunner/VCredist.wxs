@@ -1,0 +1,18 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <?define VisualStudioRedistDir = "$(env.VISUAL_STUDIO_REDIST_DIR)" ?>
+  
+  <Fragment>
+    <ComponentGroup Id="VCredist" Directory="INSTALLFOLDER">
+      <Component>
+        <!-- We wrap single files in components to let the linker generate the GUIDs -->
+        <File Source="$(VisualStudioRedistDir)\msvcp140.dll" />
+      </Component>
+      <Component>
+        <File Source="$(VisualStudioRedistDir)\vcruntime140.dll" />
+      </Component>
+      <Component>
+        <File Source="$(VisualStudioRedistDir)\vcruntime140_1.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
