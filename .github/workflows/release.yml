@@ -2645,6 +2645,8 @@ jobs:
   windows_msi:
     name: Create windows msi
     runs-on: windows-latest
+    env:
+      Platform: x64
     needs:
       - create_release
     steps:
@@ -2727,12 +2729,12 @@ jobs:
           $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
           [IO.File]::WriteAllBytes("$certificatePath", $bytes)
 
-          $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\x64\runner\Release"
-          $env:VISUAL_STUDIO_REDIST_DIR = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC\14.40.33807\x64\Microsoft.VC143.CRT"
-          dotnet build .\msi\fafarunner\fafarunner.wixproj --arch x64 --configuration Release
+          $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\$env:Platform\runner\Release"
+          $env:VISUAL_STUDIO_REDIST_DIR = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC\14.40.33807\$env:Platform\Microsoft.VC143.CRT"
+          dotnet build .\msi\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration Release
 
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\bin\Release\*\*.msi")
+          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\bin\$env:Platform\Release\*\*.msi")
         env:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
@@ -2743,10 +2745,10 @@ jobs:
         shell: pwsh
         run: |
           $RELEASE = $(If ($env:ENV -eq "staging") {"$env:VERSION.pre"} Else {"$env:VERSION"})
-          Rename-Item -Path "$pwd\msi\fafarunner\bin\Release\en-US\fafarunner.msi" -NewName "fafarunner_$RELEASE`_windows_x64_en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\bin\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$RELEASE`_windows_x64_zh-CN.msi"
-          ls -R .\msi\fafarunner\bin\Release
-          cp .\msi\fafarunner\bin\Release\*\*.msi "$env:GITHUB_WORKSPACE\"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$RELEASE`_windows_$env:Platform`_en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$RELEASE`_windows_$env:Platform`_zh-CN.msi"
+          ls -R ".\msi\fafarunner\bin\$env:Platform\Release"
+          cp ".\msi\fafarunner\bin\$env:Platform\Release\*\*.msi" "$env:GITHUB_WORKSPACE\"
         env:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
