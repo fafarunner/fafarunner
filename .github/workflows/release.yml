@@ -93,6 +93,77 @@ jobs:
           TAG_NAME: "v${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
+  gen_shasum:
+    name: Gen Shasum
+    runs-on: ubuntu-latest
+    needs:
+      - create_release
+      - apk
+      - aab
+      - ios
+      - macos_dmg
+      - macos_pkg
+      - macos_appstore
+      - macos_zip
+      - macos_tar
+      - linux_appimage
+      - linux_appimage_aarch64
+      - linux_deb
+      - linux_deb_aarch64
+      - linux_rpm
+      - linux_rpm_aarch64
+      - linux_zip
+      - linux_zip_aarch64
+      - linux_tar
+      - linux_tar_aarch64
+      - linux_flatpak
+      - linux_flatpak_aarch64
+      - linux_snap
+      - windows_msi
+      - windows_msix
+      - windows_exe
+      - windows_zip
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install ts-shasum
+        run: pnpm add --global ts-shasum
+
+      - name: Download assets
+        uses: robinraju/release-downloader@v1
+        with:
+          tag: "v${{ needs.create_release.outputs.version }}${{ github.event.inputs.env == 'staging' && '.pre' || '' }}"
+          fileName: '*'
+          tarBall: true
+          zipBall: true
+          out-file-path: 'fr-downloads'
+      
+      - name: Gen SHASUMS256.txt
+        run: shasum create "$GITHUB_WORKSPACE/SHASUMS256.txt" *
+        working-directory: ${{ github.workspace }}/fr-downloads
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          gh release upload "$RELEASE" ./SHASUMS256.txt
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
 #  remove_release:
 #      name: Remove release
 #      if: ${{ cancelled() || failure() }}
