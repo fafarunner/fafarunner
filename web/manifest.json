@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "FaFa Runner.",
+    "description": "A game developed using flame and bonfire.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
