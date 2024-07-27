@@ -1,0 +1,79 @@
+# the name used to display in the OS. Specifically desktop
+# entry name
+display_name: FaFa Runner
+
+# package name for arch repository
+# the name should be all lowercase with -+.
+package_name: fafarunner
+
+licenses:
+  - MIT
+
+maintainer:
+  name: kjxbyz
+  email: kjxbyz888@outlook.com
+
+# the size of binary in kilobyte
+# installed_size: 24400
+
+# direct dependencies required by the application
+# refer: https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
+# dependencies:
+#   - mysupercooldep
+
+# optional dependencies not so much required by the application
+# refer: https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
+# optional_dependencies:
+#   - iamalwaysoptional
+
+# refer: https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
+options:
+  - zipman
+
+# refer: https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
+# conflicts:
+#   - libwhatsup
+
+# refer: https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
+# replaces:
+#   - yourdep
+
+# refer: https://man.archlinux.org/man/PKGBUILD.5#OPTIONS_AND_DIRECTIVES
+provides:
+  - libx11
+
+# postinstall_scripts:
+#   - echo `Installed my awesome app`
+# postupgrade_scripts:
+#   - echo `Supercharger my awesome app`
+# postuninstall_scripts:
+#   - echo `Surprised Pickachu face`
+
+
+# application icon path relative to project url
+icon: logo/logo.png
+
+keywords:
+  - FaFa Runner
+
+# a name to categorize the app into a section of application
+generic_name: FaFa Runner
+
+# supported mime types that can be opened using this application
+# supported_mime_type:
+#   - audio/mpeg
+
+# shown when right clicked the desktop entry icons
+# actions:
+#   - Gallery
+#   - Create
+
+# the categories the application belong to
+# refer: https://specifications.freedesktop.org/menu-spec/latest/
+categories:
+  - Game
+
+# let OS know if the application can be run on start_up. If it's false 
+# the application will deny to the OS if it was added as a start_up 
+# application
+startup_notify: true
