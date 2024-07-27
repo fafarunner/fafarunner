@@ -27,11 +27,11 @@ macos_install: ## Installing ios dependencies
 
 build_watch: ## Watches the files for changes
 	echo "╠ Watching the project..."
-	fvm dart pub run build_runner watch --delete-conflicting-outputs
+	fvm dart run build_runner watch --delete-conflicting-outputs
 
 build_runner: ## Build the files for changes
 	echo "╠ Building the project..."
-	fvm dart pub run build_runner build --delete-conflicting-outputs
+	fvm dart run build_runner build --delete-conflicting-outputs
 
 apk: ## Release Apk
 	echo "╠ Releasing Apk..."
