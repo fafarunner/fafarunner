@@ -39,7 +39,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to mac app store..."
-          flutter build macos --dart-define-from-file=.env --flavor AppStore
+          flutter build macos --dart-define-from-file=.env
 
       - name: Install certificates
         run: |
@@ -70,7 +70,7 @@ jobs:
           # apply provisioning profile
           # https://developer.apple.com/documentation/bundleresources/placing_content_in_a_bundle/
           # security cms -D -i fafa_runner_mac_appstore.provisionprofile
-          mv $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app/Contents/embedded.provisionprofile
+          mv $THIRD_PARTY_MAC_DEVELOPER_APPLICATION_PP_PATH build/macos/Build/Products/Release/FaFa\ Runner.app/Contents/embedded.provisionprofile
         env:
           THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_P12_BASE64_MAC }}
           THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_P12_BASE64_MAC }}
@@ -87,15 +87,15 @@ jobs:
           
           # 1. Code sign executables
           echo "Code sign executables"
-          /usr/bin/codesign --deep --force --sign "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app
+          /usr/bin/codesign --deep --force --sign "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" build/macos/Build/Products/Release/FaFa\ Runner.app
           
           # 2. Code sign entitlements.plist
           echo "Code sign entitlements.plist"
-          /usr/bin/codesign --force --sign "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" --entitlements macos/Runner/AppStore-Release.entitlements build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app
+          /usr/bin/codesign --force --sign "$THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY" --entitlements macos/Runner/AppStore-Release.entitlements build/macos/Build/Products/Release/FaFa\ Runner.app
           
           # 3. Just to confirm all is well, verify the code signing
           # No response means that there were no errors and it is code signed.
-          # /usr/bin/codesign --verify build/macos/Build/Products/AppStore-Release/FaFa\ Runner.app
+          # /usr/bin/codesign --verify build/macos/Build/Products/Release/FaFa\ Runner.app
         env:
           THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_APPLICATION_SIGNING_IDENTITY }}
 
@@ -109,7 +109,7 @@ jobs:
           xcrun productbuild --sign "$THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY" --component FaFa\ Runner.app /Applications FaFa\ Runner.pkg
         env:
           THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY }}
-        working-directory: build/macos/Build/Products/AppStore-Release
+        working-directory: build/macos/Build/Products/Release
 
       - name: Install yq
         run: |
@@ -133,7 +133,7 @@ jobs:
           ls -la *.pkg
           mv FaFa\ Runner.pkg FaFaRunner_"$VERSION"_macos_appstore_universal.pkg
           ls -la *.pkg
-        working-directory: build/macos/Build/Products/AppStore-Release
+        working-directory: build/macos/Build/Products/Release
         env:
           VERSION: ${{ steps.version_step.outputs.version }}
 
@@ -141,7 +141,7 @@ jobs:
         with:
           name: macos-pkg-appstore-artifact
           path: |
-            ./build/macos/Build/Products/AppStore-Release/*.pkg
+            ./build/macos/Build/Products/Release/*.pkg
 
       - name: Clean up
         if: ${{ always() }}
