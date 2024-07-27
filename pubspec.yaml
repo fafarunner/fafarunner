@@ -34,7 +34,7 @@ dependencies:
   bonfire: 3.4.0
   cupertino_icons: ^1.0.8
   flame: 1.15.0
-  flame_audio: 2.1.8
+  flame_audio: 2.10.2
   flame_splash_screen: 0.3.0
   flutter:
     sdk: flutter
