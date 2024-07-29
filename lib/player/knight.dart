@@ -1,13 +1,19 @@
+// Dart imports:
 import 'dart:async' as async;
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 import 'package:fafarunner/util/functions.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';
 import 'package:fafarunner/util/sounds.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
   Knight(Vector2 position)

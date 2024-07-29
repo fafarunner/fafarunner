@@ -1,6 +1,9 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/menu/menu.dart';
-import 'package:flutter/material.dart';
 
 class Dialogs {
   static void showGameOver(BuildContext context, VoidCallback playAgain) {

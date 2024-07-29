@@ -1,6 +1,18 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart' hide Timer;
+import 'package:flame_splash_screen/flame_splash_screen.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:window_manager/window_manager.dart';
+
+// Project imports:
 import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/constrants/get.dart';
 import 'package:fafarunner/dialogs/dialogs.dart';
@@ -11,12 +23,6 @@ import 'package:fafarunner/util/enemy_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';
 import 'package:fafarunner/util/sounds.dart';
 import 'package:fafarunner/widgets/custom_radio.dart';
-import 'package:flame_splash_screen/flame_splash_screen.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:window_manager/window_manager.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});

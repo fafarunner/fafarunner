@@ -1,6 +1,14 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 import 'package:fafarunner/enemies/imp.dart';
 import 'package:fafarunner/enemies/mini_boss.dart';
@@ -12,8 +20,6 @@ import 'package:fafarunner/util/game_sprite_sheet.dart';
 import 'package:fafarunner/util/npc_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';
 import 'package:fafarunner/util/sounds.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   Boss(this.initPosition)

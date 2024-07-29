@@ -1,3 +1,4 @@
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
 /// Checks if the current environment is a desktop environment.

@@ -1,8 +1,13 @@
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/player/knight.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';
-import 'package:flutter/cupertino.dart';
 
 class Door extends GameDecoration {
   Door(Vector2 position, Vector2 size)

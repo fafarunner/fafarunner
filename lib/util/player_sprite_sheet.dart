@@ -1,3 +1,4 @@
+// Package imports:
 import 'package:bonfire/bonfire.dart';
 
 class PlayerSpriteSheet {

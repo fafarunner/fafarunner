@@ -1,4 +1,11 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/enemies/boss.dart';
 import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
@@ -7,8 +14,6 @@ import 'package:fafarunner/util/functions.dart';
 import 'package:fafarunner/util/npc_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';
 import 'package:fafarunner/util/sounds.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Kid extends GameDecoration {
   Kid(

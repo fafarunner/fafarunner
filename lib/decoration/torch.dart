@@ -1,7 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';
-import 'package:flutter/material.dart';
 
 class Torch extends GameDecoration {
   Torch(Vector2 position, {this.empty = false})

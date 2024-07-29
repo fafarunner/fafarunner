@@ -1,4 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+import 'package:window_manager/window_manager.dart';
+
+// Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 import 'package:fafarunner/constrants/get.dart';
 import 'package:fafarunner/decoration/door.dart';
@@ -18,9 +26,6 @@ import 'package:fafarunner/npc/wizard_npc.dart';
 import 'package:fafarunner/player/knight.dart';
 import 'package:fafarunner/util/sounds.dart';
 import 'package:fafarunner/widgets/game_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:window_manager/window_manager.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});

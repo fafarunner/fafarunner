@@ -1,7 +1,12 @@
-import 'package:fafarunner/i18n/i18n.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
+import 'package:fafarunner/i18n/i18n.dart';
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(

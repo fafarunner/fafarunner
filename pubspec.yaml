@@ -58,6 +58,9 @@ dev_dependencies:
   build_runner: ^2.4.11
   flutter_test:
     sdk: flutter
+  husky: ^0.1.7
+  import_sorter: ^4.6.0
+  lint_staged: ^0.5.1
   mockingjay: ^0.5.0
   mocktail: ^1.0.4
   msix: ^3.16.7
@@ -130,3 +133,11 @@ msix_config:
   install_certificate: false
   publisher: PUBLISHER_PLACEHOLDER
   capabilities: "internetClient"
+
+import_sorter:
+  ignored_files: # Optional, defaults to []
+    - \/lib\/gen\/*
+    - \/lib\/i18n\/*
+
+lint_staged:
+  'lib/**.dart': fvm dart run import_sorter:main lib\/* test\/* && git add --all

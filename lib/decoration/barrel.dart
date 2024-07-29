@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 
 class Barrel extends GameDecoration {

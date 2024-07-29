@@ -1,7 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:window_manager/window_manager.dart';
+
+// Project imports:
 import 'package:fafarunner/config/navigator.dart';
 import 'package:fafarunner/logger/logger.dart';
-import 'package:flutter/material.dart';
-import 'package:window_manager/window_manager.dart';
 
 Future<void> showExitDialog() async {
   final context = AppNavigator.key.currentContext!;

@@ -1,7 +1,12 @@
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart' hide BarLifeComponent;
+
+// Project imports:
 import 'package:fafarunner/interface/bar_life_component.dart';
 import 'package:fafarunner/player/knight.dart';
-import 'package:flutter/foundation.dart';
 
 class KnightInterface extends GameInterface {
   late Sprite sprite;

@@ -1,10 +1,15 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 import 'package:fafarunner/util/enemy_sprite_sheet.dart';
 import 'package:fafarunner/util/functions.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';
 import 'package:fafarunner/util/sounds.dart';
-import 'package:flutter/material.dart';
 
 class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   Goblin(this.initPosition)

@@ -1,5 +1,8 @@
-import 'package:bonfire/bonfire.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:bonfire/bonfire.dart';
 
 class CustomSpriteAnimationWidget extends StatelessWidget {
   const CustomSpriteAnimationWidget({required this.animation, super.key});

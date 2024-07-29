@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:bonfire/bonfire.dart';
+
+// Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 import 'package:fafarunner/player/knight.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';

@@ -1,7 +1,12 @@
-import 'package:bonfire/bonfire.dart';
-import 'package:fafarunner/player/knight.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:bonfire/bonfire.dart';
+
+// Project imports:
+import 'package:fafarunner/player/knight.dart';
 
 class BarLifeComponent extends InterfaceComponent {
   BarLifeComponent()
