@@ -681,10 +681,10 @@ packages:
     dependency: "direct main"
     description:
       name: path_provider
-      sha256: c9e7d3a4cd1410877472158bee69963a4579f78b68c65a2b7d40d1a7a88bb161
+      sha256: fec0d61223fba3154d87759e3cc27fe2c8dc498f6386c6d6fc80d1afdd1bf378
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.3"
+    version: "2.1.4"
   path_provider_android:
     dependency: transitive
     description:
@@ -785,26 +785,26 @@ packages:
     dependency: "direct main"
     description:
       name: sentry
-      sha256: "60756499f09c3ed944640d7993ac527a89f7c3033f13ec12ae145706b269b5c8"
+      sha256: "76ad4fab90ff82427c26939bd79dc4df345a081e2b1cd5954b947e340b9af9a5"
       url: "https://pub.dev"
     source: hosted
-    version: "8.5.0"
+    version: "8.6.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "26cfe89cb08a60d9bc0c4e748a0508e223ae378265aec8ed2a2b48f0d2c936b9"
+      sha256: a7c92014701093a7c0a373e1a47c54ec428d8468d8bf2b793fee7ea1b085c21b
       url: "https://pub.dev"
     source: hosted
-    version: "8.5.0"
+    version: "8.6.0"
   sentry_logging:
     dependency: "direct main"
     description:
       name: sentry_logging
-      sha256: "5dc8d19c4dd82723b5f8ce9469416effe337a6efb8c4c9cb4584f5b1bf467cb7"
+      sha256: e381684f55c6b780df0ad030677fe6eb69582034f68291b5336c6a1b89195762
       url: "https://pub.dev"
     source: hosted
-    version: "8.5.0"
+    version: "8.6.0"
   shelf:
     dependency: transitive
     description:
