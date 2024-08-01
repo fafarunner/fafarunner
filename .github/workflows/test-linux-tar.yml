@@ -1,4 +1,4 @@
-name: Test Linux AppImage
+name: Test Linux tar
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ on:
 permissions: read-all
 
 jobs:
-  appimage:
-    name: Create linux appimage
+  tar:
+    name: Create linux tar
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,9 +17,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y locate libfuse2
-          wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
-          chmod +x appimagetool && mv appimagetool /usr/local/bin/
+          sudo apt install -y p7zip-full p7zip-rar
 
       - name: Install GStreamer
         run: |
@@ -42,25 +40,44 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
-
       - name: Install flutter dependencies
         run: flutter pub get
 
-      - name: Build AppImage
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets appimage --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_amd64.{{ext}}'
+      - name: Build flutter
+        run: flutter build linux --dart-define-from-file=.env --target-platform=linux-x64
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            if ! command -v wget >/dev/null 2>&1; then
+              echo "wget not exists"
+              sudo apt install -y wget
+            fi
+            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
+            chmod +x /usr/bin/yq
+          fi
+          yq --version
+
+      - name: Build tar
+        run: |
+          baseDir=$(pwd)
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          archiveName="fafarunner_"$VERSION"_linux_amd64.tar.gz"
+          cd build/linux/x64/release/bundle
+          tar -czaf $archiveName ./*
+          mv $archiveName "$baseDir/"
 
       # Package the build.
-      - name: Copy build for AppImage
-        run: ls -laR
-        working-directory: dist
+      - name: Copy build for tar
+        run: ls -la *.tar.gz
 
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-appimage-artifact
+          name: linux-tar-artifact
           path: |
-            ./dist/**/*.AppImage
+            ./*.tar.gz
 
       - name: Clean up
         if: ${{ always() }}

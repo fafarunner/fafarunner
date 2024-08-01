@@ -7,8 +7,8 @@ on:
 permissions: read-all
 
 jobs:
-  snap_arm64:
-    name: Create snap
+  snap:
+    name: Create linux snap (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

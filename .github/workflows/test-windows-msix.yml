@@ -47,6 +47,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.22.3'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           echo "$pwd"
@@ -54,9 +57,6 @@ jobs:
           [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
 
       - name: Install yq
         shell: pwsh

@@ -1,4 +1,4 @@
-name: Test Linux Pacman (arm64)
+name: Test Linux tar (arm64)
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ on:
 permissions: read-all
 
 jobs:
-  pacman:
-    name: Create linux pacman (aarch64)
+  tar:
+    name: Create linux tar (aarch64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +16,7 @@ jobs:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: all
+          platforms: arm64
 
       - name: Configure .env
         run: |
@@ -28,7 +28,6 @@ jobs:
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
-      # https://github.com/s3fs-fuse/s3fs-fuse/issues/647#issuecomment-637458150
       - uses: addnab/docker-run-action@v3
         with:
           image: arm64v8/ubuntu:22.04
@@ -51,9 +50,8 @@ jobs:
             apt update && apt install -y sudo
             sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
             sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-            sudo apt install -y locate libfuse2
-            sudo apt install -y libarchive-tools
-
+            sudo apt install -y p7zip-full p7zip-rar
+            
             # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
             sudo apt install -y libunwind-dev
             sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
@@ -61,7 +59,7 @@ jobs:
             # Setup Flutter
             echo "Setup Flutter"
             bash ./install-flutter-ubuntu.sh
-            
+
             if [ -d "/home/linux-arm64/flutter" ]; then
               echo "🟩 ls -la"
               ls -la /home/linux-arm64/flutter
@@ -73,29 +71,44 @@ jobs:
             # Flutter doctor
             echo "Flutter doctor -v"
             flutter doctor -v
-            
-            # Install flutter_distributor
-            echo "Install flutter_distributor"
-            dart pub global activate --source git https://github.com/kjxbyz/flutter_distributor --git-ref pacman --git-path packages/flutter_distributor
-            
+
             # Install flutter dependencies
             echo "Install flutter dependencies"
             flutter pub get
             
-            # Build Pacman
-            echo "Build Pacman"
-            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets pacman --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
+            # Build flutter
+            echo "Build flutter"
+            flutter build linux --dart-define-from-file=.env --target-platform=linux-arm64
+            
+            # Install yq
+            if ! command -v yq >/dev/null 2>&1; then
+              echo "yq not exists"
+              wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64 -O /usr/bin/yq &&\
+              chmod +x /usr/bin/yq
+            fi
+            yq --version
+            
+            # Get version
+            echo "Get version"
+            version=$(yq '.version' pubspec.yaml)
+
+            # Build tar
+            echo "Build tar"
+            baseDir=$(pwd)
+            archiveName="fafarunner_"$version"_linux_aarch64.tar.gz"
+            cd build/linux/arm64/release/bundle
+            tar -czaf $archiveName ./*
+            mv $archiveName "$baseDir/"
 
       # Package the build.
-      - name: Copy build for Pacman
-        run: ls -laR
-        working-directory: dist
+      - name: Copy build for tar
+        run: ls -la *.tar.gz
 
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-pacman-arm64-artifact
+          name: linux-tar-arm64-artifact
           path: |
-            ./dist/**/*.pacman
+            ./*.tar.gz
 
       - name: Clean up
         if: ${{ always() }}

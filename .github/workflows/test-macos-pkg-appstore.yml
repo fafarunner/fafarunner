@@ -19,14 +19,14 @@ jobs:
           channel: 'stable'
           flutter-version: '3.22.3'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           echo "$ENV_KEY" | base64 --decode > .env
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
 
       - name: Resolving flutter dependencies
         run: flutter pub get

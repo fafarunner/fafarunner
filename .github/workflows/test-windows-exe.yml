@@ -19,6 +19,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.22.3'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           echo "$pwd"
@@ -39,9 +42,6 @@ jobs:
 
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
 
       - name: Install flutter dependencies
         run: flutter pub get
