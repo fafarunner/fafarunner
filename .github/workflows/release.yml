@@ -2879,9 +2879,6 @@ jobs:
         env:
           VERSION: ${{ needs.create_release.outputs.version }}
 
-      - name: Install flutter dependencies
-        run: flutter pub get
-
       - name: Install snapcraft
         run: |
           sudo snap install snapcraft --classic
