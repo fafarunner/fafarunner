@@ -67,6 +67,14 @@ make ENV=<dev|stg|prod> appstore
 
 ### macOS
 
+1. The build target is in `dmg` format and the certificate type is `Developer ID Application`
+
+2. The build target is in `pkg` format and the certificate types are `Developer ID Application` and `Developer ID Installer`
+
+3. The build target is in `pkg` format, distributed to Mac App Store, and the certificate types are `Mac App Distribution` and `Mac Installer Distribution`
+
+4. The build target is in `zip` format and the certificate type is `Developer ID Application`
+
 >如果发布到生产环境, 请修改`build`号
 
 ```shell
@@ -79,33 +87,7 @@ make ENV=<dev|stg|prod> macos_adhoc
 make ENV=<dev|stg|prod> macos_appstore
 ```
 
-### Linux
-
 ```shell
-# https://distributor.leanflutter.dev/makers/appimage/
-dart run flutter_distributor:main package --platform linux --targets appimage
-
-# https://distributor.leanflutter.dev/makers/deb/
-dart run flutter_distributor:main package --platform linux --targets deb
-
-# https://distributor.leanflutter.dev/makers/rpm/
-dart run flutter_distributor:main package --platform linux --targets rpm
-
-# https://jrsoftware.org/isinfo.php
-# https://distributor.leanflutter.dev/zh-hans/makers/exe/
-flutter_distributor package --platform windows --targets exe
-
-# https://flutter.cn/docs/platform-integration/windows/building#msix-packaging
-# https://distributor.leanflutter.dev/zh-hans/makers/msix/
-flutter_distributor package --platform windows --targets msix
-
-# https://flutter.cn/docs/deployment/linux
-# https://snapcraft.io/docs/snapcraft-yaml-reference
-snapcraft
-
-# Test snap
-sudo snap install ./fafarunner.snap --dangerous
-
 # build & sign pkg
 # developer id installer
 xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "" FaFa\ Runner.pkg
@@ -114,6 +96,42 @@ xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications 
 xcrun notarytool submit --verbose FaFa\ Runner.pkg --apple-id "" --team-id "" --password ""
 xcrun notarytool info <id> --apple-id "" --team-id "" --password ""
 xcrun notarytool log <id> --apple-id "" --team-id "" --password ""
+```
+
+### Linux
+
+```shell
+# https://distributor.leanflutter.dev/makers/appimage/
+dart run flutter_distributor:main package --platform linux --targets appimage
+
+# https://flutter.cn/docs/deployment/linux
+# https://snapcraft.io/docs/snapcraft-yaml-reference
+snapcraft
+
+# Test snap
+sudo snap install ./fafarunner.snap --dangerous
+```
+
+### Windows
+
+```powershell
+$PFX_FILE = get-content 'C:\temp\cert.pfx' -Encoding Byte
+$base64 = [System.Convert]::ToBase64String($PFX_FILE) | Out-File 'C:\temp\certBase64.txt'
+
+$BASE64_STR = get-content 'C:\temp\certBase64.txt'
+$filename = 'C:\temp\dummy-3.pfx'
+$bytes = [Convert]::FromBase64String($BASE64_STR)
+[IO.File]::WriteAllBytes($filename, $bytes)
+```
+
+```powershell
+# https://jrsoftware.org/isinfo.php
+# https://distributor.leanflutter.dev/zh-hans/makers/exe/
+flutter_distributor package --platform windows --targets exe
+
+# https://flutter.cn/docs/platform-integration/windows/building#msix-packaging
+# https://distributor.leanflutter.dev/zh-hans/makers/msix/
+flutter_distributor package --platform windows --targets msix
 ```
 
 ## Tests
