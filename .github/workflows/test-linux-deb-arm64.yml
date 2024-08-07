@@ -57,7 +57,7 @@ jobs:
 
             # Setup Flutter
             echo "Setup Flutter"
-            bash ./install-flutter-ubuntu.sh
+            bash ./scripts/install-flutter-ubuntu.sh
             
             if [ -d "/home/linux-arm64/flutter" ]; then
               echo "🟩 ls -la"

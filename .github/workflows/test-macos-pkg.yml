@@ -71,7 +71,7 @@ jobs:
       - name: Code Signing
         run: |
           # https://stackoverflow.com/questions/70991268/how-to-sign-and-notarize-a-pkg-within-a-github-actions-macos-runner
-          bash codesign-pkg.sh "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY"
+          bash scripts/codesign-pkg.sh "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY"
         env:
           DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
 

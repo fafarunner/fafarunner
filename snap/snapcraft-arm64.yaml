@@ -42,7 +42,7 @@ parts:
       - libgstreamer-plugins-base1.0-dev
     override-build: |
       # https://github.com/canonical/snapcraft/blob/main/snapcraft/parts/plugins/flutter_plugin.py
-      chmod +x install-flutter-ubuntu-lxd.sh && ./install-flutter-ubuntu-lxd.sh
+      chmod +x scripts/install-flutter-ubuntu-lxd.sh && ./scripts/install-flutter-ubuntu-lxd.sh
       flutter doctor -v
       flutter precache --linux
       flutter pub get

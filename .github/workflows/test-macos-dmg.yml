@@ -111,8 +111,7 @@ jobs:
           pnpm add -g appdmg
 
       - name: Build DMG
-        run: |
-          bash build-dmg.sh
+        run: bash scripts/build-dmg.sh
 
       - name: Install yq
         run: |
