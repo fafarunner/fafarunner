@@ -92,18 +92,6 @@
       <Component>
         <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\flame_splash_screen\assets\layer3.png" />
       </Component>
-      <Component>
-        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_close.png" />
-      </Component>
-      <Component>
-        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_maximize.png" />
-      </Component>
-      <Component>
-        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_minimize.png" />
-      </Component>
-      <Component>
-        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\packages\window_manager\images\ic_chrome_unmaximize.png" />
-      </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="ShaderComponents" Directory="SHADERSFOLDER">

@@ -52,7 +52,7 @@ dependencies:
   slang: ^3.31.1
   slang_flutter: ^3.31.0
   url_launcher: ^6.3.0
-  window_manager: ^0.3.9
+  window_manager: ^0.4.0
 
 dev_dependencies:
   build_runner: ^2.4.11
