@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:bonfire/bonfire.dart';
+import 'package:bonfire/map/tiled/reader/tiled_asset_reader.dart';
 import 'package:window_manager/window_manager.dart';
 
 // Project imports:
@@ -63,41 +64,6 @@ class _GameState extends State<Game>
   Widget build(BuildContext context) {
     final t = Translations.of(context);
 
-    var joystick = Joystick(
-      directional: JoystickDirectional(
-        spriteBackgroundDirectional: Sprite.load('joystick_background.png'),
-        spriteKnobDirectional: Sprite.load('joystick_knob.png'),
-        size: 100,
-        isFixed: false,
-      ),
-      actions: [
-        JoystickAction(
-          actionId: 0,
-          sprite: Sprite.load('joystick_atack.png'),
-          spritePressed: Sprite.load('joystick_atack_selected.png'),
-          size: 80,
-          margin: const EdgeInsets.only(bottom: 50, right: 50),
-        ),
-        JoystickAction(
-          actionId: 1,
-          sprite: Sprite.load('joystick_atack_range.png'),
-          spritePressed: Sprite.load('joystick_atack_range_selected.png'),
-          margin: const EdgeInsets.only(bottom: 50, right: 160),
-        ),
-      ],
-    );
-    if (!Game.useJoystick) {
-      joystick = Joystick(
-        keyboardConfig: KeyboardConfig(
-          directionalKeys: KeyboardDirectionalKeys.arrows(),
-          acceptedKeys: [
-            LogicalKeyboardKey.space,
-            LogicalKeyboardKey.keyZ,
-          ],
-        ),
-      );
-    }
-
     return Title(
       title: t.pages.appName,
       color: Colors.black,
@@ -118,12 +84,49 @@ class _GameState extends State<Game>
             FadeTransition(
               opacity: _controller,
               child: BonfireWidget(
-                joystick: joystick,
+                playerControllers: [
+                  Joystick(
+                    directional: JoystickDirectional(
+                      spriteBackgroundDirectional:
+                          Sprite.load('joystick_background.png'),
+                      spriteKnobDirectional: Sprite.load('joystick_knob.png'),
+                      size: 100,
+                      isFixed: false,
+                    ),
+                    actions: [
+                      JoystickAction(
+                        actionId: 0,
+                        sprite: Sprite.load('joystick_atack.png'),
+                        spritePressed:
+                            Sprite.load('joystick_atack_selected.png'),
+                        size: 80,
+                        margin: const EdgeInsets.only(bottom: 50, right: 50),
+                      ),
+                      JoystickAction(
+                        actionId: 1,
+                        sprite: Sprite.load('joystick_atack_range.png'),
+                        spritePressed:
+                            Sprite.load('joystick_atack_range_selected.png'),
+                        margin: const EdgeInsets.only(bottom: 50, right: 160),
+                      ),
+                    ],
+                  ),
+                  Keyboard(
+                    config: KeyboardConfig(
+                      enable: !Game.useJoystick,
+                      directionalKeys: [KeyboardDirectionalKeys.arrows()],
+                      acceptedKeys: [
+                        LogicalKeyboardKey.space,
+                        LogicalKeyboardKey.keyZ,
+                      ],
+                    ),
+                  ),
+                ],
                 player: Knight(
                   Vector2(2 * tileSize, 3 * tileSize),
                 ),
                 map: WorldMapByTiled(
-                  TiledReader.asset('tiled/map.json'),
+                  TiledAssetReader(asset: 'tiled/map.json'),
                   forceTileSize: Vector2(tileSize, tileSize),
                   objectsBuilder: {
                     'door': (p) => Door(p.position, p.size),

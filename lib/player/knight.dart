@@ -79,7 +79,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
   }
 
   @override
-  void die() {
+  void onDie() {
     removeFromParent();
     gameRef.add(
       GameDecoration.withSprite(
@@ -91,7 +91,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
         size: Vector2.all(30),
       ),
     );
-    super.die();
+    super.onDie();
   }
 
   void actionAttack() {
@@ -176,7 +176,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, dynamic identify) {
+  void onReceiveDamage(AttackOriginEnum attacker, double damage, dynamic identify) {
     if (isDead) return;
     showDamage(
       damage,
@@ -186,7 +186,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
         fontFamily: 'Normal',
       ),
     );
-    super.receiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, damage, identify);
   }
 
   void _showEmote({String emote = 'emote/emote_exclamacao.png'}) {

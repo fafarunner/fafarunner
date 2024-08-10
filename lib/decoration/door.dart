@@ -8,6 +8,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/player/knight.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';
+import 'package:fafarunner/util/player_sprite_sheet.dart';
 
 class Door extends GameDecoration {
   Door(Vector2 position, Vector2 size)
@@ -68,11 +69,7 @@ class Door extends GameDecoration {
               text: t.pages.doorWithoutKey,
             ),
           ],
-          person: (gameRef.player as SimplePlayer?)
-                  ?.animation
-                  ?.idleRight
-                  ?.asWidget() ??
-              const SizedBox.shrink(),
+          person: PlayerSpriteSheet.idleRight().asWidget(),
         ),
       ],
       onClose: () {

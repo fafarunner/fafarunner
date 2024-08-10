@@ -20,8 +20,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.4 <4.0.0'
-  flutter: '>=3.22.3'
+  sdk: '>=3.5.0 <4.0.0'
+  flutter: '>=3.24.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,11 +30,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  audioplayers: 5.2.1
-  bonfire: 3.4.0
+  audioplayers: 6.0.0
+  bonfire: 3.10.0
   cupertino_icons: ^1.0.8
-  flame: 1.15.0
-  flame_audio: 2.1.8
+  flame: 1.18.0
+  flame_audio: 2.10.2
   flame_splash_screen: 0.3.0
   flutter:
     sdk: flutter
@@ -44,18 +44,18 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   logging: ^1.2.0
-  package_info_plus: ^8.0.1
+  package_info_plus: ^8.0.2
   path_provider: ^2.1.4
-  sentry: ^8.6.0
-  sentry_flutter: ^8.6.0
-  sentry_logging: ^8.6.0
+  sentry: ^8.7.0
+  sentry_flutter: ^8.7.0
+  sentry_logging: ^8.7.0
   slang: ^3.31.1
   slang_flutter: ^3.31.0
   url_launcher: ^6.3.0
   window_manager: ^0.4.0
 
 dev_dependencies:
-  build_runner: ^2.4.11
+  build_runner: ^2.4.12
   flutter_test:
     sdk: flutter
   husky: ^0.1.7

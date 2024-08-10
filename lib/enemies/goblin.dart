@@ -50,7 +50,7 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void die() {
+  void onDie() {
     gameRef.add(
       AnimatedGameObject(
         animation: GameSpriteSheet.smokeExplosion(),
@@ -60,7 +60,7 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
       ),
     );
     removeFromParent();
-    super.die();
+    super.onDie();
   }
 
   void execAttack() {
@@ -74,7 +74,7 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void receiveDamage(AttackFromEnum attacker, double damage, dynamic identify) {
+  void onReceiveDamage(AttackOriginEnum attacker, double damage, dynamic identify) {
     showDamage(
       damage,
       config: TextStyle(
@@ -83,6 +83,6 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
         fontFamily: 'Normal',
       ),
     );
-    super.receiveDamage(attacker, damage, identify);
+    super.onReceiveDamage(attacker, damage, identify);
   }
 }
