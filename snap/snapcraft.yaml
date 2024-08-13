@@ -4,7 +4,7 @@ summary: FaFa Runner.
 description: FaFa Runner.
 icon: snap/gui/fafarunner.png
 title: FaFa Runner
-contact: kjxbyz@163.com
+contact: kjxbyz888@outlook.com
 license: MIT
 source-code: https://github.com/fafarunner/fafarunner
 issues: https://github.com/fafarunner/fafarunner/issues
@@ -39,6 +39,19 @@ parts:
       - FLUTTER_TARGET: lib/main.dart
       - TARGET_PLATFORM: linux-x64
     build-packages:
+      - curl
+      - git
+      - unzip
+      - xz-utils
+      - zip
+      - libglu1-mesa
+      - clang
+      - cmake
+      - ninja-build
+      - pkg-config
+      - libgtk-3-dev
+      - liblzma-dev
+      - libstdc++-12-dev
       - libunwind-dev
       - libgstreamer1.0-dev
       - libgstreamer-plugins-base1.0-dev
