@@ -23,6 +23,7 @@ jobs:
       sha_short: ${{ steps.sha_short_step.outputs.sha_short }}
       commit_count: ${{ steps.commit_count_step.outputs.commit_count }}
 #      timestamp: ${{ steps.timestamp_step.outputs.timestamp }}
+      version_short: ${{ steps.version_step.outputs.version }}
       version: "${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
     steps:
       - uses: actions/checkout@v4
@@ -2996,6 +2997,24 @@ jobs:
 
       - name: Build windows
         run: flutter build windows --dart-define-from-file=.env
+
+      - name: Update msi version
+        shell: pwsh
+        run: |
+          # 文件路径
+          $filePath = "msi\fafarunner\Package.wxs"
+
+          # 读取文件内容
+          $content = Get-Content -Path $filePath -Raw
+
+          # 替换使用正则表达式
+          $newContent = $content -replace "\b\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}\b", "$env:VERSION_SHORT.$env:COMMIT_COUNT"
+
+          # 写回文件
+          Set-Content -Path $filePath -Value $newContent -NoNewline
+        env:
+          VERSION_SHORT: ${{ needs.create_release.outputs.version_short }}
+          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
 
       - name: Create msi
         shell: pwsh

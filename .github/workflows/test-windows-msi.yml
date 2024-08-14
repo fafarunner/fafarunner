@@ -12,8 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version_step.outputs.version }}
+      commit_count: ${{ steps.commit_count_step.outputs.commit_count }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install yq
         run: |
@@ -23,10 +26,23 @@ jobs:
           fi
           yq --version
 
+      - name: Set commit_count
+        id: commit_count_step
+        run: |
+          echo "Current ref name: $BRANCH"
+          echo "commit_count=$(git rev-list --count $BRANCH)" >> $GITHUB_OUTPUT
+        env:
+          BRANCH: ${{ github.ref_name }}
+  
+      - name: Check commit_count
+        run: echo ${{ steps.commit_count_step.outputs.commit_count }}
+
       - name: Set version
         id: version_step
         run: |
-          VERSION=$(yq '.version' pubspec.yaml)
+          PUB_VERSION=$(yq '.version' pubspec.yaml)
+          echo "$PUB_VERSION"
+          VERSION=$(echo "$PUB_VERSION" | sed -e "s/+\(.*\)$//g")
           echo "$VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -90,6 +106,24 @@ jobs:
       - name: Build windows
         run: flutter build windows --dart-define-from-file=.env
 
+      - name: Update msi version
+        shell: pwsh
+        run: |
+          # 文件路径
+          $filePath = "msi\fafarunner\Package.wxs"
+
+          # 读取文件内容
+          $content = Get-Content -Path $filePath -Raw
+
+          # 替换使用正则表达式
+          $newContent = $content -replace "\b\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}\b", "$env:VERSION.$env:COMMIT_COUNT"
+
+          # 写回文件
+          Set-Content -Path $filePath -Value $newContent -NoNewline
+        env:
+          VERSION: ${{ needs.get_version.outputs.version }}
+          COMMIT_COUNT: ${{ needs.get_version.outputs.commit_count }}
+
       - name: Create msi
         shell: pwsh
         run: |
@@ -115,10 +149,10 @@ jobs:
       - name: Copy build for msi
         shell: pwsh
         run: |
-          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_zh-CN.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:VERSION_SUFFIX`_windows_$env:Platform`_en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:VERSION_SUFFIX`_windows_$env:Platform`_zh-CN.msi"
         env:
-          VERSION: ${{ needs.get_version.outputs.version }}
+          VERSION_SUFFIX: ${{ needs.get_version.outputs.version }}+${{ needs.get_version.outputs.commit_count }}
 
       - uses: actions/upload-artifact@v4
         with:
