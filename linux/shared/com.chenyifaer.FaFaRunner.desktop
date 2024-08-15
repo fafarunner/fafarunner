@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0.0+351
+Name=FaFa Runner
+GenericName=FaFa Runner
+Comment=A game developed using flame and bonfire.
+Icon=com.chenyifaer.FaFaRunner
+Exec=fafarunner %U
+Categories=Utility;
+Keywords=FaFa Runner;FaFa;Runner;
+StartupNotify=true
+Terminal=false

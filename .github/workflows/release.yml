@@ -20,15 +20,11 @@ jobs:
     name: Create release
     runs-on: ubuntu-latest
     outputs:
-      sha_short: ${{ steps.sha_short_step.outputs.sha_short }}
-      commit_count: ${{ steps.commit_count_step.outputs.commit_count }}
-#      timestamp: ${{ steps.timestamp_step.outputs.timestamp }}
-      version_short: ${{ steps.version_step.outputs.version }}
-      version: "${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
+      version: ${{ steps.version_step.outputs.version }}
+      version_short: ${{ steps.version_step.outputs.version_short }}
+      build_number: ${{ steps.version_step.outputs.build_number }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set sha_short
         id: sha_short_step
@@ -36,24 +32,6 @@ jobs:
 
       - name: Check sha_short
         run: echo ${{ steps.sha_short_step.outputs.sha_short }}
-
-      - name: Set commit_count
-        id: commit_count_step
-        run: |
-          echo "Current ref name: $BRANCH"
-          echo "commit_count=$(git rev-list --count $BRANCH)" >> $GITHUB_OUTPUT
-        env:
-          BRANCH: ${{ github.ref_name }}
-
-      - name: Check commit_count
-        run: echo ${{ steps.commit_count_step.outputs.commit_count }}
-
-#      - name: Set timestamp
-#        id: timestamp_step
-#        run: echo "timestamp=$(date +%s)" >> $GITHUB_OUTPUT
-#
-#      - name: Check timestamp
-#        run: echo ${{ steps.timestamp_step.outputs.timestamp }}
 
       - name: Install yq
         run: |
@@ -66,14 +44,28 @@ jobs:
       - name: Set version
         id: version_step
         run: | 
-          PUB_VERSION=$(yq '.version' pubspec.yaml)
-          echo "$PUB_VERSION"
-          VERSION=$(echo "$PUB_VERSION" | sed -e "s/+\(.*\)$//g")
+          VERSION=$(yq '.version' pubspec.yaml)
           echo "$VERSION"
+
+          VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
+          echo "$VERSION_SHORT"
+
+          BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
+          echo "$BUILD_NUMBER"
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Check version
-        run: echo ${{ steps.version_step.outputs.version }}
+        run: |
+          echo "version: $VERSION"
+          echo "version_short: $VERSION_SHORT"
+          echo "build_number: $BUILD_NUMBER"
+        env:
+          VERSION: ${{ steps.version_step.outputs.version }}
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
 
       - name: Show gh info
         run: gh --version
@@ -91,7 +83,7 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           BRANCH: ${{ github.ref_name }}
           COMMIT_REF: ${{ steps.sha_short_step.outputs.sha_short }}
-          TAG_NAME: "v${{ steps.version_step.outputs.version }}+${{ steps.commit_count_step.outputs.commit_count }}"
+          TAG_NAME: "v${{ steps.version_step.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   gen_shasum:
@@ -246,20 +238,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install Deps
         run: flutter pub get
 
@@ -344,20 +322,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install Deps
         run: flutter pub get
@@ -451,20 +415,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -601,20 +551,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Resolving flutter dependencies
         run: flutter pub get
 
@@ -747,20 +683,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -896,20 +818,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -1060,20 +968,6 @@ jobs:
             brew install p7zip
           fi
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Resolving flutter dependencies
         run: flutter pub get
 
@@ -1205,20 +1099,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Resolving flutter dependencies
         run: flutter pub get
@@ -1369,20 +1249,6 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -1438,20 +1304,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install qemu-user-static
         run: |
@@ -1592,20 +1444,6 @@ jobs:
         run: |
           dart pub global activate flutter_distributor
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-  
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -1664,20 +1502,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-  
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install qemu-user-static
         run: |
@@ -1810,20 +1634,6 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -1879,20 +1689,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install qemu-user-static
         run: |
@@ -2026,20 +1822,6 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -2095,20 +1877,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install qemu-user-static
         run: |
@@ -2262,20 +2030,6 @@ jobs:
 
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
-        
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
@@ -2332,20 +2086,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install qemu-user-static
         run: |
@@ -2474,20 +2214,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -2549,20 +2275,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install qemu-user-static
         run: |
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -2579,7 +2291,6 @@ jobs:
             --workdir /work
             -e ENV=${{ github.event.inputs.env }}
             -e VERSION=${{ needs.create_release.outputs.version }}
-            -e COMMIT_COUNT=${{ needs.create_release.outputs.commit_count }}
           shell: bash
           run: |
             set -x
@@ -2681,9 +2392,6 @@ jobs:
 
       - name: Update version
         run: |
-          # Update pubspec.yaml
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-
           # Update flatpak/com.chenyifaer.FaFaRunner.json
           TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
@@ -2769,9 +2477,6 @@ jobs:
 
       - name: Update version
         run: |
-          # Update pubspec.yaml
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-
           # Update flatpak/com.chenyifaer.FaFaRunner.json
           TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
@@ -2869,12 +2574,6 @@ jobs:
           fi
           yq --version
 
-      - name: Update pubspec.yaml
-        run: |
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' pubspec.yaml
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install snapcraft
         run: |
           sudo snap install snapcraft --classic
@@ -2969,29 +2668,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
-      - name: Install yq
-        shell: pwsh
-        run: |
-          choco install yq
-          yq --version
-
-      - name: Update pubspec.yml
-        shell: pwsh
-        run: |
-          $yamlFile = ".\pubspec.yaml"
-          $yamlContent = Get-Content -Raw -Path $yamlFile
-
-          # 获取环境变量的值
-          $version = (Get-Item -Path Env:VERSION).Value
-
-          # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`"" -
-
-          # 将更新后的内容写回文件
-          Set-Content -Path $yamlFile -Value $updatedYamlContent
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
-
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -3008,13 +2684,13 @@ jobs:
           $content = Get-Content -Path $filePath -Raw
 
           # 替换使用正则表达式
-          $newContent = $content -replace "\b\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}\b", "$env:VERSION_SHORT.$env:COMMIT_COUNT"
+          $newContent = $content -replace "\b\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}\b", "$env:VERSION_SHORT.$env:BUILD_NUMBER"
 
           # 写回文件
           Set-Content -Path $filePath -Value $newContent -NoNewline
         env:
           VERSION_SHORT: ${{ needs.create_release.outputs.version_short }}
-          COMMIT_COUNT: ${{ needs.create_release.outputs.commit_count }}
+          BUILD_NUMBER: ${{ needs.create_release.outputs.build_number }}
 
       - name: Create msi
         shell: pwsh
@@ -3128,14 +2804,13 @@ jobs:
           $yamlContent = Get-Content -Raw -Path $yamlFile
 
           # 获取环境变量的值
-          $version = (Get-Item -Path Env:VERSION).Value
           $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
           $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
           $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
           $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
 
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`" | .msix_config.publisher_display_name = `"$publisherName`" | .msix_config.identity_name = `"$identityName`" | .msix_config.certificate_path = `"$certificatePath`" | .msix_config.certificate_password = `"$certificatePassword`" | .msix_config.publisher = `"$publisher`"" -
+          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.publisher_display_name = `"$publisherName`" | .msix_config.identity_name = `"$identityName`" | .msix_config.certificate_path = `"$certificatePath`" | .msix_config.certificate_password = `"$certificatePassword`" | .msix_config.publisher = `"$publisher`"" -
 
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
@@ -3145,7 +2820,6 @@ jobs:
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
           WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
@@ -3254,23 +2928,6 @@ jobs:
         run: |
           choco install yq
           yq --version
-
-      - name: Update pubspec.yml
-        shell: pwsh
-        run: |
-          $yamlFile = ".\pubspec.yaml"
-          $yamlContent = Get-Content -Raw -Path $yamlFile
-
-          # 获取环境变量的值
-          $version = (Get-Item -Path Env:VERSION).Value
-
-          # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`"" -
-
-          # 将更新后的内容写回文件
-          Set-Content -Path $yamlFile -Value $updatedYamlContent
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Update config
         shell: pwsh
@@ -3384,29 +3041,6 @@ jobs:
 
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
-
-      - name: Install yq
-        shell: pwsh
-        run: |
-          choco install yq
-          yq --version
-
-      - name: Update pubspec.yml
-        shell: pwsh
-        run: |
-          $yamlFile = ".\pubspec.yaml"
-          $yamlContent = Get-Content -Raw -Path $yamlFile
-
-          # 获取环境变量的值
-          $version = (Get-Item -Path Env:VERSION).Value
-
-          # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".version = `"$version`"" -
-
-          # 将更新后的内容写回文件
-          Set-Content -Path $yamlFile -Value $updatedYamlContent
-        env:
-          VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Install flutter dependencies
         run: flutter pub get
