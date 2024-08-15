@@ -63,7 +63,7 @@ dev_dependencies:
   lint_staged: ^0.5.1
   mockingjay: ^0.5.0
   mocktail: ^1.0.4
-  msix: ^3.16.7
+  msix: ^3.16.8
   slang_build_runner: ^3.31.0
   very_good_analysis: ^6.0.0
 
