@@ -78,7 +78,7 @@
         "if [ ! -e '/app/lib/libsqlite3.so' ]; then ln -s -f /usr/lib/aarch64-linux-gnu/libsqlite3.so.0 /app/lib/libsqlite3.so; fi",
         "ln -s /app/fafarunner/fafarunner /app/bin/fafarunner",
         "install -Dm644 com.chenyifaer.FaFaRunner.desktop /app/share/applications/com.chenyifaer.FaFaRunner.desktop",
-        "install -Dm644 com.chenyifaer.FaFaRunner.metainfo.xml /app/share/appdata/com.chenyifaer.FaFaRunner.metainfo.xml"
+        "install -Dm644 com.chenyifaer.FaFaRunner.appdata.xml /app/share/appdata/com.chenyifaer.FaFaRunner.appdata.xml"
       ],
       "sources": [
         {
@@ -86,7 +86,7 @@
           "only-arches": [
             "x86_64"
           ],
-          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+300/fafarunner_1.0.0+300_linux_amd64.tar.gz",
+          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+352/fafarunner_1.0.0+352_linux_amd64.tar.gz",
           "dest": "fafarunner",
           "sha256": "8d8435147e6e96ade49bad2ba5350fa48ee3741f472ea8f73a86af1842bcc0e4",
           "x-checker-data": {
@@ -101,7 +101,7 @@
           "only-arches": [
             "aarch64"
           ],
-          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+300/fafarunner_1.0.0+300_linux_aarch64.tar.gz",
+          "url": "https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+352/fafarunner_1.0.0+352_linux_aarch64.tar.gz",
           "dest": "fafarunner",
           "sha256": "8d8435147e6e96ade49bad2ba5350fa48ee3741f472ea8f73a86af1842bcc0e4",
           "x-checker-data": {
@@ -113,11 +113,15 @@
         },
         {
           "type": "file",
-          "path": "com.chenyifaer.FaFaRunner.metainfo.xml"
+          "url": "https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+352/linux/shared/com.chenyifaer.FaFaRunner.desktop",
+          "dest-filename": "com.chenyifaer.FaFaRunner.desktop",
+          "sha256": "eefde8dc8a139ae8102a43bebaea7f2334076cbf685ae1b5243f0b3496cff252"
         },
         {
           "type": "file",
-          "path": "com.chenyifaer.FaFaRunner.desktop"
+          "url": "https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+352/linux/shared/com.chenyifaer.FaFaRunner.appdata.xml",
+          "dest-filename": "com.chenyifaer.FaFaRunner.appdata.xml",
+          "sha256": "13f1d76f761b23cf2790aea0e1aed0a2681be3f27ffdf5afac4ee656f4ab8ed3"
         },
         {
           "type": "file",
