@@ -7,7 +7,7 @@ priority: optional
 section: x11
 installed_size: 6604
 essential: false
-icon: logo/logo_round512.png
+icon: logo/logo512.png
 
 postinstall_scripts:
   - echo "Installing FaFa Runner"
