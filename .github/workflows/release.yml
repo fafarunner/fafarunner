@@ -2369,7 +2369,7 @@ jobs:
     name: Create linux flatpak
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-23.08
       options: --privileged
     needs:
       - create_release
@@ -2392,43 +2392,43 @@ jobs:
 
       - name: Update version
         run: |
-          # Update flatpak/com.chenyifaer.FaFaRunner.json
+          # Update flatpak/com.chenyifaer.FaFaRunner.yml
           TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
 
-          url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_amd64.tar.gz
-          wget -O downloaded.tar.gz "$url"
-          sha256=$(sha256sum downloaded.tar.gz | awk '{print $1}')
-          rm -f downloaded.tar.gz
-          url=$url yq -i '.modules[3].sources[0].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.json
-          sha256=$sha256 yq -i '.modules[3].sources[0].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+          url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_amd64.deb
+          wget -O fafarunner.deb "$url"
+          sha256=$(sha256sum fafarunner.deb | awk '{print $1}')
+          rm -f fafarunner.deb
+          url=$url yq -i '.modules[0].sources[0].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.yml
+          sha256=$sha256 yq -i '.modules[0].sources[0].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
 
           desktop_url=https://raw.githubusercontent.com/fafarunner/fafarunner/"$TAG"/linux/shared/com.chenyifaer.FaFaRunner.desktop
           wget -O com.chenyifaer.FaFaRunner.desktop "$desktop_url"
           desktop_sha256=$(sha256sum com.chenyifaer.FaFaRunner.desktop | awk '{print $1}')
           rm -f com.chenyifaer.FaFaRunner.desktop
-          desktop_url=$desktop_url yq -i '.modules[3].sources[2].url = strenv(desktop_url)' flatpak/com.chenyifaer.FaFaRunner.json
-          desktop_sha256=$desktop_sha256 yq -i '.modules[3].sources[2].sha256 = strenv(desktop_sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+          desktop_url=$desktop_url yq -i '.modules[0].sources[2].url = strenv(desktop_url)' flatpak/com.chenyifaer.FaFaRunner.yml
+          desktop_sha256=$desktop_sha256 yq -i '.modules[0].sources[2].sha256 = strenv(desktop_sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
 
           appdata_url=https://raw.githubusercontent.com/fafarunner/fafarunner/"$TAG"/linux/shared/com.chenyifaer.FaFaRunner.appdata.xml
           wget -O com.chenyifaer.FaFaRunner.appdata.xml "$appdata_url"
           appdata_sha256=$(sha256sum com.chenyifaer.FaFaRunner.appdata.xml | awk '{print $1}')
           rm -f com.chenyifaer.FaFaRunner.appdata.xml
-          appdata_url=$appdata_url yq -i '.modules[3].sources[3].url = strenv(appdata_url)' flatpak/com.chenyifaer.FaFaRunner.json
-          appdata_sha256=$appdata_sha256 yq -i '.modules[3].sources[3].sha256 = strenv(appdata_sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+          appdata_url=$appdata_url yq -i '.modules[0].sources[3].url = strenv(appdata_url)' flatpak/com.chenyifaer.FaFaRunner.yml
+          appdata_sha256=$appdata_sha256 yq -i '.modules[0].sources[3].sha256 = strenv(appdata_sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
         env:
           ENV: ${{ github.event.inputs.env }}
           TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Show config
-        run: cat flatpak/com.chenyifaer.FaFaRunner.json
+        run: cat flatpak/com.chenyifaer.FaFaRunner.yml
 
       - name: Build flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@master
         with:
           bundle: FaFaRunner.flatpak
-          manifest-path: flatpak/com.chenyifaer.FaFaRunner.json
+          manifest-path: flatpak/com.chenyifaer.FaFaRunner.yml
           cache: true
           restore-cache: true
           cache-key: flatpak-builder-${{ github.sha }}-cache-restored
@@ -2469,7 +2469,7 @@ jobs:
     name: Create linux flatpak (aarch64)
     runs-on: ubuntu-latest
     container:
-      image: bilelmoussaoui/flatpak-github-actions:freedesktop-22.08
+      image: bilelmoussaoui/flatpak-github-actions:freedesktop-23.08
       options: --privileged
     needs:
       - create_release
@@ -2492,37 +2492,37 @@ jobs:
 
       - name: Update version
         run: |
-          # Update flatpak/com.chenyifaer.FaFaRunner.json
+          # Update flatpak/com.chenyifaer.FaFaRunner.yml
           TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
           
-          url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_aarch64.tar.gz
-          wget -O downloaded.tar.gz "$url"
-          sha256=$(sha256sum downloaded.tar.gz | awk '{print $1}')
-          rm -f downloaded.tar.gz
-          url=$url yq -i '.modules[3].sources[1].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.json
-          sha256=$sha256 yq -i '.modules[3].sources[1].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+          url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_aarch64.deb
+          wget -O fafarunner.deb "$url"
+          sha256=$(sha256sum fafarunner.deb | awk '{print $1}')
+          rm -f fafarunner.deb
+          url=$url yq -i '.modules[0].sources[1].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.yml
+          sha256=$sha256 yq -i '.modules[0].sources[1].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
 
           desktop_url=https://raw.githubusercontent.com/fafarunner/fafarunner/"$TAG"/linux/shared/com.chenyifaer.FaFaRunner.desktop
           wget -O com.chenyifaer.FaFaRunner.desktop "$desktop_url"
           desktop_sha256=$(sha256sum com.chenyifaer.FaFaRunner.desktop | awk '{print $1}')
           rm -f com.chenyifaer.FaFaRunner.desktop
-          desktop_url=$desktop_url yq -i '.modules[3].sources[2].url = strenv(desktop_url)' flatpak/com.chenyifaer.FaFaRunner.json
-          desktop_sha256=$desktop_sha256 yq -i '.modules[3].sources[2].sha256 = strenv(desktop_sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+          desktop_url=$desktop_url yq -i '.modules[0].sources[2].url = strenv(desktop_url)' flatpak/com.chenyifaer.FaFaRunner.yml
+          desktop_sha256=$desktop_sha256 yq -i '.modules[0].sources[2].sha256 = strenv(desktop_sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
 
           appdata_url=https://raw.githubusercontent.com/fafarunner/fafarunner/"$TAG"/linux/shared/com.chenyifaer.FaFaRunner.appdata.xml
           wget -O com.chenyifaer.FaFaRunner.appdata.xml "$appdata_url"
           appdata_sha256=$(sha256sum com.chenyifaer.FaFaRunner.appdata.xml | awk '{print $1}')
           rm -f com.chenyifaer.FaFaRunner.appdata.xml
-          appdata_url=$appdata_url yq -i '.modules[3].sources[3].url = strenv(appdata_url)' flatpak/com.chenyifaer.FaFaRunner.json
-          appdata_sha256=$appdata_sha256 yq -i '.modules[3].sources[3].sha256 = strenv(appdata_sha256)' flatpak/com.chenyifaer.FaFaRunner.json
+          appdata_url=$appdata_url yq -i '.modules[0].sources[3].url = strenv(appdata_url)' flatpak/com.chenyifaer.FaFaRunner.yml
+          appdata_sha256=$appdata_sha256 yq -i '.modules[0].sources[3].sha256 = strenv(appdata_sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
         env:
           ENV: ${{ github.event.inputs.env }}
           TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           VERSION: ${{ needs.create_release.outputs.version }}
 
       - name: Show config
-        run: cat flatpak/com.chenyifaer.FaFaRunner.json
+        run: cat flatpak/com.chenyifaer.FaFaRunner.yml
 
       - name: Install QEMU deps
         run: |
@@ -2537,7 +2537,7 @@ jobs:
         uses: flatpak/flatpak-github-actions/flatpak-builder@master
         with:
           bundle: FaFaRunner.flatpak
-          manifest-path: flatpak/com.chenyifaer.FaFaRunner.json
+          manifest-path: flatpak/com.chenyifaer.FaFaRunner.yml
           cache: true
           restore-cache: true
           cache-key: flatpak-builder-${{ github.sha }}-cache-restored
