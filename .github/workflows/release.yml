@@ -122,6 +122,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Delay execution
+        run: sleep 15
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -2377,6 +2380,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Delay execution
+        run: sleep 15
+
       - name: Install yq
         run: |
           if ! command -v yq >/dev/null 2>&1; then
@@ -2476,6 +2482,9 @@ jobs:
       - linux_tar_aarch64
     steps:
       - uses: actions/checkout@v4
+
+      - name: Delay execution
+        run: sleep 15
 
       - name: Install yq
         run: |
