@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths-ignore:
+      - '.github/FUNDING.yml'
       - 'CHANGELOG.md'
       - 'DEVELOPMENT.md'
       - 'LICENSE'
@@ -13,6 +14,7 @@ on:
       - main
   push:
     paths-ignore:
+      - '.github/FUNDING.yml'
       - 'CHANGELOG.md'
       - 'DEVELOPMENT.md'
       - 'LICENSE'
