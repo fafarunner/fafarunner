@@ -19,9 +19,9 @@ if [ ! -d "$FLUTTER_DIR" ]; then
    mkdir -p "$FLUTTER_DIR"
 fi
 
-if [ ! -f "$FLUTTER_DIR/flutter-3.24.0-aarch64.tar.xz" ]; then
+if [ ! -f "$FLUTTER_DIR/flutter-3.24.1-aarch64.tar.xz" ]; then
    echo "🟩 Downloading Flutter"
-   wget https://github.com/containerbase/flutter-prebuild/releases/download/3.24.0/flutter-3.24.0-aarch64.tar.xz -P "$FLUTTER_DIR"
+   wget https://github.com/containerbase/flutter-prebuild/releases/download/3.24.1/flutter-3.24.1-aarch64.tar.xz -P "$FLUTTER_DIR"
 fi
 
 if [ -d "$FLUTTER_DIR/flutter" ]; then
@@ -30,7 +30,7 @@ if [ -d "$FLUTTER_DIR/flutter" ]; then
 fi
 
 echo "🟩 Unzipping"
-mkdir "$FLUTTER_DIR/flutter" && tar -xf "$FLUTTER_DIR/flutter-3.24.0-aarch64.tar.xz" -C "$FLUTTER_DIR/flutter" --strip-components 1
+mkdir "$FLUTTER_DIR/flutter" && tar -xf "$FLUTTER_DIR/flutter-3.24.1-aarch64.tar.xz" -C "$FLUTTER_DIR/flutter" --strip-components 1
 
 echo "🟩 Config $FLUTTER_DIR/flutter"
 git config --global --add safe.directory "$FLUTTER_DIR/flutter"

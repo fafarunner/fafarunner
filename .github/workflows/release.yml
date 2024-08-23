@@ -225,7 +225,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -310,7 +310,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -403,7 +403,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -538,7 +538,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -671,7 +671,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -806,7 +806,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -948,7 +948,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1087,7 +1087,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1233,7 +1233,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1427,7 +1427,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1618,7 +1618,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1806,7 +1806,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2015,7 +2015,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2201,7 +2201,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2613,7 +2613,7 @@ jobs:
         run: |
           rm -f snap/snapcraft-arm64.yaml
           VERSION=$VERSION yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
-          yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.24.0"' snap/snapcraft.yaml
+          yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.24.1"' snap/snapcraft.yaml
         env:
           VERSION: ${{ needs.create_release.outputs.version }}
 
@@ -2763,7 +2763,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2885,7 +2885,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -3008,7 +3008,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -3140,7 +3140,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
