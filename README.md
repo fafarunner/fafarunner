@@ -1,14 +1,139 @@
 # FaFa Runner
 
+>A game developed using flame and bonfire.
+
 [![Test](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml)
 [![Release](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/releases/latest)
 [![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/issues/new)
 [![GitHub License](https://img.shields.io/github/license/fafarunner/fafarunner)](https://raw.githubusercontent.com/fafarunner/fafarunner/main/LICENSE)
 
-## 📜 ⬇️ Installation guide
+## 🛍️ Get It On Stores
 
-This handy table lists all the methods you can use to install FaFa Runner:
+<table>
+  <tr>
+    <th>Platform</th>
+    <th style="text-align: center">App Store</th>
+  </tr>
+  <tr>
+    <td>Android</td>
+    <td>
+      <a href="https://play.google.com/store/apps/details?id=com.chenyifaer.fafrunner">
+        <img width="220" alt="Get it on Google Play" src="./docs/assets/Download_on_the_Google_Play.png">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>iOS</td>
+    <td>
+      <a href="https://apps.apple.com/us/app/id6446263696">
+        <img width="220" alt="Get it on App Store" src="./docs/assets/Download_on_the_App_Store.svg">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>MacOS</td>
+    <td>
+      <a href="https://apps.apple.com/us/app/id6448848303">
+        <img width="220" alt="Get it on Mac App Store" src="./docs/assets/Download_on_the_Mac_App_Store.svg">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>Windows</td>
+    <td>
+      <a href="https://apps.microsoft.com/detail/9PDN5V0ZMF20?mode=full">
+       <img width="220" alt="Get it on Microsoft Store" src="https://get.microsoft.com/images/en-us%20dark.svg"/>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>Snap Store</td>
+    <td colspan="2">
+      <a href="https://snapcraft.io/fafarunner">
+        <img width="220" alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>Flathub</td>
+    <td colspan="2">
+      <a href="https://flathub.org/apps/details/com.chenyifaer.FaFaRunner">
+        <img width="220" alt="Get it on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.png">
+      </a>
+    </td>
+  </tr>
+</table>
+
+## 📥 Direct Download
+
+<div align=left>
+<table>
+    <thead align=left>
+        <tr>
+            <th>OS</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody align=left>
+        <tr>
+        <td>iOS</td>
+            <td>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353-free.ipa"><img src="https://img.shields.io/badge/IPA-Universal-A3D9A5.svg?logo=ios"></a>
+            </td>
+        </tr>
+        <tr>
+        <td>Android</td>
+            <td>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353-universal.apk"><img src="https://img.shields.io/badge/APK-Universal-044d29.svg?logo=android"></a>
+            </td>
+        </tr>
+        <tr>
+            <td>Windows</td>
+            <td>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_windows_x64.msix"><img src="https://img.shields.io/badge/Msix-x64-FF6F61.svg?logo=windows"></a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_windows_x64.exe"><img src="https://img.shields.io/badge/Exe-x64-FF9A8B.svg?logo=windows"></a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_windows_x64.zip"><img src="https://img.shields.io/badge/Zip-x64-FFB347.svg?logo=windows"></a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_windows_x64_en-US.msi"><img src="https://img.shields.io/badge/Msi_(en--US)-x64-6BFF66.svg?logo=windows"></a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_windows_x64_zh-CN.msi"><img src="https://img.shields.io/badge/Msi_(zh--CN)-x64-66B2FF.svg?logo=windows"></a>
+            </td>
+        </tr>
+        <tr>
+            <td>macOS</td>
+            <td>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_macos_universal.dmg"><img src="https://img.shields.io/badge/DMG-Universal-FF5733.svg?logo=apple"></a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_macos_universal.pkg"><img src="https://img.shields.io/badge/PKG-Universal-FFBD33.svg?logo=apple" /></a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_macos_universal.tar.gz"><img src="https://img.shields.io/badge/Tarball-Universal-33FF57.svg?logo=apple"></a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_macos_universal.zip"><img src="https://img.shields.io/badge/Zip-Universal-3357FF.svg?logo=apple"></a>
+            </td>
+        </tr>
+        <tr>
+            <td>Linux</td>
+            <td>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.AppImage"><img src="https://img.shields.io/badge/AppImage-x64-FF5733.svg?logo=linux"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_aarch64.AppImage"><img src="https://img.shields.io/badge/AppImage-aarch64-FF5733.svg?logo=linux"> </a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.deb"><img src="https://img.shields.io/badge/Deb-x64-FF8D1A.svg?logo=debian"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_aarch64.deb"><img src="https://img.shields.io/badge/Deb-aarch64-FF8D1A.svg?logo=debian"> </a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_linux_amd64.flatpak"><img src="https://img.shields.io/badge/Flatpak-x64-FFC300.svg?logo=linux"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_linux_aarch64.flatpak"><img src="https://img.shields.io/badge/Flatpak-aarch64-FFC300.svg?logo=linux"> </a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_linux_amd64.pacman"><img src="https://img.shields.io/badge/Pacman-x64-0080FF.svg?logo=archlinux"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_linux_aarch64.pacman"><img src="https://img.shields.io/badge/Pacman-aarch64-0080FF.svg?logo=archlinux"> </a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.rpm"><img src="https://img.shields.io/badge/Rpm-x64-FFEB3B.svg?logo=redhat"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_aarch64.rpm"><img src="https://img.shields.io/badge/Rpm-aarch64-FFEB3B.svg?logo=redhat"> </a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.snap"><img src="https://img.shields.io/badge/Snap-x64-D4E157.svg?logo=ubuntu"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_aarch64.snap"><img src="https://img.shields.io/badge/Snap-aarch64-D4E157.svg?logo=ubuntu"> </a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.tar.gz"><img src="https://img.shields.io/badge/Tarball-x64-66BB6A.svg?logo=7zip"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_aarch64.tar.gz"><img src="https://img.shields.io/badge/Tarball-aarch64-66BB6A.svg?logo=7zip"> </a><br>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.zip"><img src="https://img.shields.io/badge/Zip-x64-4FC3F7.svg?logo=7zip"> </a>
+                <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_aarch64.zip"><img src="https://img.shields.io/badge/Zip-aarch64-4FC3F7.svg?logo=7zip"> </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+
+## 📜 Get It On Package Manager
 
 <table>
   <tr>
@@ -16,58 +141,9 @@ This handy table lists all the methods you can use to install FaFa Runner:
     <th>Package/Installation Method</th>
   </tr>
   <tr>
-    <td>Windows</td>
-    <td>
-      <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_windows_x64.exe">
-        <img width="220" alt="Windows Download" src="https://get.todoist.help/hc/article_attachments/4403191721234/WindowsButton.svg">
-      </a>
-  </tr>
-  <tr>
-    <td>MacOS</td>
-    <td>
-      <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353_macos_universal.dmg">
-        <img width="220" alt="MacOS Download" src="https://reachify.io/wp-content/uploads/2018/09/mac-download-button-1.png">
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>Android</td>
-    <td>
-      <a href="https://play.google.com/store/apps/details?id=com.chenyifaer.fafarunner">
-        <img width="220" alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
-      </a>
-      <br>
-      <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/FaFaRunner_1.0.0+353.apk">
-        <img width="220" alt="APK download" src="https://user-images.githubusercontent.com/114044633/223920025-83687de0-e463-4c5d-8122-e06e4bb7d40c.png">
-      </a>
-    </td>
-  </tr>
-  <tr>
     <td>Flatpak</td>
     <td>
       <p><code>flatpak install com.chenyifaer.FaFaRunner</code></p>
-      <a href="https://flathub.org/apps/details/com.chenyifaer.FaFaRunner">
-        <img width="220" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.png">
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>AppImage</td>
-    <td>
-      <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.AppImage">
-        <img width="220" alt="Fedora/OpenSuse Download" src="https://user-images.githubusercontent.com/61944859/223638350-5926b9da-04d6-4edd-931d-ad533e4ff058.png">
-      </a>
-      <p><code>chmod a+x fafarunner_1.0.0+353_linux_amd64.AppImage</code></p>
-      <p><code>./fafarunner_1.0.0+353_linux_amd64.AppImage</code></p>
-    </td>
-  </tr>
-  <tr>
-    <td>Debian/Ubuntu</td>
-    <td>
-      <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.deb">
-        <img width="220" alt="Debian/Ubuntu Download" src="https://user-images.githubusercontent.com/61944859/169097994-e92aff78-fd75-4c93-b6e4-f072a4b5a7ed.png">
-      </a>
-      <p>Then run: <code>sudo apt install ./fafarunner_1.0.0+353_linux_amd64.deb</code></p>
     </td>
   </tr>
   <tr>
@@ -78,30 +154,9 @@ This handy table lists all the methods you can use to install FaFa Runner:
     </td>
   </tr>
   <tr>
-    <td>Fedora/OpenSuse</td>
-    <td>
-      <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.rpm">
-        <img width="220" alt="Fedora/OpenSuse Download" src="https://user-images.githubusercontent.com/61944859/223638350-5926b9da-04d6-4edd-931d-ad533e4ff058.png">
-      </a>
-      <p>For Fedora: <code>sudo dnf install ./fafarunner_1.0.0+353_linux_amd64.rpm</code></p>
-      <p>For OpenSuse: <code>sudo zypper in ./fafarunner_1.0.0+353_linux_amd64.rpm</code></p>
-    </td>
-  </tr>
-  <tr>
-    <td>Linux (tarball)</td>
-    <td>
-      <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+353/fafarunner_1.0.0+353_linux_amd64.tar.gz">
-        <img width="220" alt="Tarball Download" src="https://user-images.githubusercontent.com/61944859/169456985-e0ba1fd4-10e8-4cc0-ab94-337acc6e0295.png">
-      </a>
-    </td>
-  </tr>
-  <tr>
     <td>Macos - <a href="https://brew.sh">Homebrew</a></td>
     <td>
-<pre lang="bash">
-brew tap fafarunner/fafarunner
-brew install fafarunner
-</pre>
+     <p><code>brew install fafarunner/fafarunner/fafarunner</code></p>
     </td>
   </tr>
   <tr>
