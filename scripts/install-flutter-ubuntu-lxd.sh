@@ -2,6 +2,11 @@
 
 set -e
 
+if ! command -v sudo >/dev/null 2>&1; then
+   echo "🟩 Installing sudo"
+   apt install sudo -y
+fi
+
 if ! command -v wget >/dev/null 2>&1; then
    echo "🟩 Installing wget"
    sudo apt install wget -y

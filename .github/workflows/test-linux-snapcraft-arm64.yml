@@ -9,14 +9,19 @@ permissions: read-all
 jobs:
   snap:
     name: Create linux snap (aarch64)
-    runs-on: ubuntu-latest
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    env:
+      LXD_GROUP: lxd
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            sudo snap install -y yq
+          fi
+          yq --version
 
       - name: Configure .env
         run: |
@@ -24,119 +29,33 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install qemu-user-static
-        run: |
-          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-
-      # https://github.com/s3fs-fuse/s3fs-fuse/issues/647#issuecomment-637458150
-      - uses: addnab/docker-run-action@v3
+      - name: Setup LXD
+        uses: canonical/setup-lxd@main
         with:
-          image: arm64v8/ubuntu:22.04
-          options: |
-            --rm
-            --cap-add SYS_ADMIN
-            --device /dev/fuse
-            --security-opt apparmor:unconfined
-            -v ${{ github.workspace }}:/work
-            --workdir /work
-          shell: bash
-          run: |
-            set -e
-            # Show linux info
-            echo "Show linux info"
-            uname --all
-            ps -p 1 -o comm=
-            
-            # Install dependencies for Linux
-            echo "Install dependencies for Linux"
-            apt update && apt install -y sudo
-            sudo apt install -y snapd wget curl git unzip xz-utils zip libglu1-mesa file
-            # sudo apt install -y iptables
+          group: ${{ env.LXD_GROUP }}
+          channel: latest/stable
 
-            # Verify that the following tools are installed
-            echo "Verify that the following tools are installed"
-            which bash file mkdir rm which
-            
-            # start snapd
-            sudo systemctl status snapd
-            # sudo systemctl unmask snapd
-            # sudo systemctl start snapd
-            # sudo systemctl enable snapd
+      - name: Add user to the LXD (lxd) group
+        run: |
+          sudo usermod -a -G $LXD_GROUP $USER
+          newgrp $LXD_GROUP
 
-            # start snapd.socket
-            sudo systemctl status snapd.socket
-            # sudo systemctl start snapd.socket
-            # sudo systemctl enable snapd.socket
-            
-            # sudo systemctl enable iptables
-            # sudo systemctl start iptables
-            
-            export PATH=$PATH:/sbin
-            export PATH=$PATH:/snap/bin
-            source ~/.bashrc
-            
-            sudo snap install notes
-            snap --version
-            # iptables --version
-            
-            # Install/refresh LXD snap
-            echo "Install/refresh LXD snap"
-            if snap info lxd | grep "installed"; then
-              sudo snap refresh lxd --channel=latest/stable
-            else
-              sudo snap install lxd --channel=latest/stable
-            fi
-            
-            # Initialise LXD
-            echo "Initialise LXD"
-            sudo lxd waitready
-            sudo lxd init --auto
+      - name: Restart lxd
+        run: sudo snap restart lxd
 
-            # Setup permissions for socket
-            echo "Setup permissions for socket"
-            sudo snap set lxd daemon.group=adm
-            sudo snap restart lxd
-            
-            # Configure firewall
-            echo "Configure firewall"
-            sudo iptables -I DOCKER-USER -i lxdbr0 -j ACCEPT
-            sudo iptables -I DOCKER-USER -o lxdbr0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-            
-            # Add user to the LXD (adm) group
-            echo "Add user to the LXD (adm) group"
-            sudo usermod -a -G adm ${USER}
-            newgrp adm
-            
-            # Check LXD status
-            echo "Check LXD status"
-            lxc launch ubuntu:22.04 testlxd
-            
-            # Install snapcraft
-            echo "Install snapcraft"
-            sudo snap install snapcraft --classic
-            
-            # Update snapcraft.yaml
-            echo "Update snapcraft.yaml"
-            rm -f snap/snapcraft.yaml
-            mv snap/snapcraft-arm64.yaml snap/snapcraft.yaml
-            
-            # Install yq
-            if ! command -v yq >/dev/null 2>&1; then
-              echo "yq not exists"
-              wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64 -O /usr/bin/yq &&\
-              chmod +x /usr/bin/yq
-            fi
-            yq --version
-            
-            # Get version
-            echo "Get version"
-            version=$(yq '.version' pubspec.yaml)
-            echo "version: $version"
-            
-            # Build snap
-            # https://snapcraft.io/docs/flutter-applications
-            echo "Build snap"
-            snapcraft --use-lxd --output "fafarunner_"$version"_linux_aarch64.snap"
+      - name: Update snapcraft.yaml
+        run: |
+          rm -f snap/snapcraft.yaml
+          mv snap/snapcraft-arm64.yaml snap/snapcraft.yaml
+
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Build snap
+        run: |
+          # https://snapcraft.io/docs/flutter-applications
+          version=$(yq '.version' pubspec.yaml)
+          sudo snapcraft --output "fafarunner_"$version"_linux_aarch64.snap"
 
       # Package the build.
       - name: Copy build for snap
@@ -154,5 +73,5 @@ jobs:
           rm -f .env
           if which snapcraft >/dev/null 2>&1; then
             echo "snapcraft exists"
-            snapcraft clean
+            sudo snapcraft clean
           fi

@@ -114,6 +114,7 @@ jobs:
       - linux_flatpak
       - linux_flatpak_aarch64
       - linux_snap
+      - linux_snap_aarch64
       - windows_msi
       - windows_msix
       - windows_exe
@@ -2648,6 +2649,92 @@ jobs:
           if which snapcraft >/dev/null 2>&1; then
             echo "snapcraft exists"
             snapcraft clean
+          fi
+
+  linux_snap_aarch64:
+    name: Create linux snap (aarch64)
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    needs:
+      - create_release
+    env:
+      LXD_GROUP: lxd
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            sudo snap install -y yq
+          fi
+          yq --version
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Setup LXD
+        uses: canonical/setup-lxd@main
+        with:
+          group: ${{ env.LXD_GROUP }}
+          channel: latest/stable
+
+      - name: Add user to the LXD (lxd) group
+        run: |
+          sudo usermod -a -G $LXD_GROUP $USER
+          newgrp $LXD_GROUP
+
+      - name: Restart lxd
+        run: sudo snap restart lxd
+
+      - name: Update snapcraft.yaml
+        run: |
+          rm -f snap/snapcraft.yaml
+          mv snap/snapcraft-arm64.yaml snap/snapcraft.yaml
+          VERSION=$VERSION yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+        env:
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Build snap
+        run: |
+          # https://snapcraft.io/docs/flutter-applications
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
+          sudo snapcraft --output "fafarunner_"$RELEASE"_linux_aarch64.snap"
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          VERSION: ${{ needs.create_release.outputs.version }}
+
+      # Package the build.
+      - name: Copy build for snap
+        run: ls -la *.snap
+
+      - name: Show gh info
+        run: gh --version
+
+      - name: Upload assets
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          gh release upload "$RELEASE" ./*.snap
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+          if which snapcraft >/dev/null 2>&1; then
+            echo "snapcraft exists"
+            sudo snapcraft clean
           fi
 
   windows_msi:
