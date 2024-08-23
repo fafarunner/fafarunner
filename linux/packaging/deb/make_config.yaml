@@ -2,12 +2,13 @@ display_name: FaFa Runner
 package_name: fafarunner
 maintainer:
   name: kjxbyz
-  email: kjxbyz@163.com
+  email: kjxbyz888@outlook.com
 priority: optional
 section: x11
 installed_size: 6604
 essential: false
 icon: logo/logo512.png
+metainfo: linux/shared/fafarunner.metainfo.xml
 
 postinstall_scripts:
   - echo "Installing FaFa Runner"

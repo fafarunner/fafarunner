@@ -53,6 +53,8 @@ provides:
 # application icon path relative to project url
 icon: logo/logo512.png
 
+metainfo: linux/shared/fafarunner.metainfo.xml
+
 keywords:
   - FaFa Runner
 

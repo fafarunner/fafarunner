@@ -4,9 +4,12 @@ summary: FaFa Runner.
 group: Application/Emulator
 vendor: kjxbyz
 packager: kjxbyz
-packagerEmail: kjxbyz@163.com
+packagerEmail: kjxbyz888@outlook.com
 license: MIT
 url: https://github.com/fafarunner/fafarunner
+build_arch: x86_64
+
+metainfo: linux/shared/fafarunner.metainfo.xml
 
 keywords:
   - FaFa Runner

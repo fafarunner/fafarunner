@@ -4,7 +4,7 @@
     https://www.freedesktop.org/software/appstream/metainfocreator/#/
 -->
 <component type="desktop-application">
-    <id>com.chenyifaer.FaFaRunner</id>
+    <id>fafarunner</id>
     <name>FaFa Runner</name>
     <summary>A game developed using flame and bonfire</summary>
     <developer_name>INSCO LLC</developer_name>
@@ -21,7 +21,7 @@
     <description>
         <p>A game developed using flame and bonfire.</p>
     </description>
-    <launchable type="desktop-id">com.chenyifaer.FaFaRunner.desktop</launchable>
+    <launchable type="desktop-id">fafarunner.desktop</launchable>
     <screenshots>
         <screenshot type="default">
             <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+353/screenshots/desktop.png</image>

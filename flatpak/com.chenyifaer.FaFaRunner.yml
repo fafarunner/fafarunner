@@ -57,8 +57,18 @@ modules:
         url: https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+353/linux/shared/com.chenyifaer.FaFaRunner.desktop
         dest-filename: com.chenyifaer.FaFaRunner.desktop
         sha256: 8e13c1b75103f39a3f57f72c36537e18e01cfdaf50ba888c5524717cc3fefd12
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/fafarunner/fafarunner/releases/latest
+          version-query: .tag_name
+          url-query: '"https://raw.githubusercontent.com/fafarunner/fafarunner/" + $version + "/linux/shared/com.chenyifaer.FaFaRunner.desktop"'
 
       - type: file
         url: https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+353/linux/shared/com.chenyifaer.FaFaRunner.appdata.xml
         dest-filename: com.chenyifaer.FaFaRunner.appdata.xml
         sha256: 105d52fc72641f023f5155f69f6bba8baee05b4e4daf87234517130a5e94f28a
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/fafarunner/fafarunner/releases/latest
+          version-query: .tag_name
+          url-query: '"https://raw.githubusercontent.com/fafarunner/fafarunner/" + $version + "/linux/shared/com.chenyifaer.FaFaRunner.appdata.xml"'

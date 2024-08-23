@@ -24,6 +24,8 @@ generic_name: FaFa Runner
 categories:
   - Game
 
+metainfo: linux/shared/fafarunner.metainfo.xml
+
 startup_notify: true
 
 # You can specify the shared libraries that you want to bundle with your app
