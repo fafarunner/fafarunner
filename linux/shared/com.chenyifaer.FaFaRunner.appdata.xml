@@ -24,25 +24,25 @@
     <launchable type="desktop-id">com.chenyifaer.FaFaRunner.desktop</launchable>
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+353/screenshots/desktop.png</image>
+            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+354/screenshots/desktop.png</image>
             <caption>Default screenshot for desktop</caption>
         </screenshot>
         <screenshot>
-            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+353/screenshots/desktop-zh.png</image>
+            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+354/screenshots/desktop-zh.png</image>
             <caption>Support Chinese</caption>
         </screenshot>
         <screenshot>
-            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+353/screenshots/desktop-dark.png</image>
+            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+354/screenshots/desktop-dark.png</image>
             <caption>Dark Mode</caption>
         </screenshot>
     </screenshots>
     <releases>
-        <release version="v1.0.0+353" date="2024-08-17">
+        <release version="v1.0.0+354" date="2024-08-23">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/main/CHANGELOG.md</url>
             <description>
                 <p>Release description</p>
                 <ul>
-                    <li>chore: v1.0.0+353</li>
+                    <li>chore: v1.0.0+354</li>
                 </ul>
             </description>
         </release>
