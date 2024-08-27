@@ -18,7 +18,7 @@
   <tr>
     <td>Android</td>
     <td>
-      <a href="https://play.google.com/store/apps/details?id=com.chenyifaer.fafrunner">
+      <a href="https://play.google.com/store/apps/details?id=com.chenyifaer.fafarunner">
         <img width="220" alt="Get it on Google Play" src="./docs/assets/Download_on_the_Google_Play.png">
       </a>
     </td>
