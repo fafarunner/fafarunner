@@ -61,7 +61,7 @@ dev_dependencies:
   husky: ^0.1.7
   import_sorter: ^4.6.0
   lint_staged: ^0.5.1
-  mockingjay: ^0.5.0
+  mockingjay: ^0.6.0
   mocktail: ^1.0.4
   msix: ^3.16.8
   slang_build_runner: ^3.31.0
