@@ -1,0 +1,77 @@
+name: Test Android
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  apk:
+    name: Create apk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          flutter-version: '3.24.1'
+
+      #      - name: Setup NDK
+      #        uses: nttld/setup-ndk@v1
+      #        with:
+      #          ndk-version: 'r21e'
+      #          add-to-path: true
+      #        env:
+      #          ANDROID_NDK_HOME: '/usr/local/lib/android/sdk/ndk'
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Install Deps
+        run: flutter pub get
+
+      - name: Configure Keystore for Android
+        run: |
+          echo "$PLAY_STORE_UPLOAD_KEY" | base64 --decode > app/upload-keystore.jks
+          echo "storeFile=upload-keystore.jks" >> key.properties
+          echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> key.properties
+          echo "storePassword=$KEYSTORE_STORE_PASSWORD" >> key.properties
+          echo "keyPassword=$KEYSTORE_KEY_PASSWORD" >> key.properties
+        env:
+          PLAY_STORE_UPLOAD_KEY: ${{ secrets.PLAY_STORE_UPLOAD_KEY }}
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+          KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          KEYSTORE_STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+        working-directory: android
+
+      # Build the application.
+      - name: Build apk
+        run: flutter build apk --release --no-tree-shake-icons --flavor staging
+
+      # Package the build.
+      - name: Copy build for Android
+        run: |
+          ls -la
+          cp *.apk $GITHUB_WORKSPACE/
+        working-directory: build/app/outputs/apk/staging/release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-artifact
+          path: |
+            ./*.apk
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f android/app/upload-keystore.jks
+          rm -f android/key.properties
+          rm -f .env

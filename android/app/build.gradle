@@ -48,6 +48,16 @@ android {
         versionCode flutterVersionCode.toInteger()
     }
 
+    // https://developer.android.com/build/configure-apk-splits
+    splits {
+        abi {
+            enable true
+            reset()
+            universalApk true  // If true, also generate a universal APK
+            include "armeabi-v7a", "arm64-v8a", "x86_64"
+        }
+    }
+
     flavorDimensions "default"
     productFlavors {
         staging {
@@ -101,6 +111,17 @@ flutter {
     source '../..'
 }
 
-dependencies {
+dependencies {}
 
+import com.android.build.OutputFile
+
+android.applicationVariants.all { variant ->
+  variant.outputs.each { output ->
+        def flavorName = variant.flavorName
+        def suffix = flavorName.contains("staging") ? ".pre" : ""
+        def abi = output.getFilter(OutputFile.ABI)
+        def arch = abi == null ? "universal" : abi
+        def outputFileName = "FaFaRunner_${variant.versionName}+${variant.versionCode}${suffix}_${arch}.apk"
+        output.outputFileName = outputFileName
+    }
 }

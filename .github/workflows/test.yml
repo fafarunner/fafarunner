@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-java@v4
         with:
           java-version: "17.x"
@@ -78,7 +79,7 @@ jobs:
       # Package the build.
       - name: Copy build for Android
         run: cp *.apk $GITHUB_WORKSPACE/
-        working-directory: build/app/outputs/flutter-apk
+        working-directory: build/app/outputs/apk/staging/release
 
       - name: Clean up
         if: ${{ always() }}
