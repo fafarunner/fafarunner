@@ -2,13 +2,22 @@
 <!--
     Generator for metainfo & .desktop files:
     https://www.freedesktop.org/software/appstream/metainfocreator/#/
+    https://docs.flathub.org/banner-preview/
+    https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html#sect-Quickstart-DesktopApps
 -->
 <component type="desktop-application">
     <id>fafarunner</id>
     <name>FaFa Runner</name>
     <summary>A game developed using flame and bonfire</summary>
-    <developer_name>INSCO LLC</developer_name>
+    <summary xml:lang="zh">一款使用Flame和Bonfire开发的游戏</summary>
+    <developer id="com.kjxbyz">
+        <name>kjxbyz</name>
+        <name xml:lang="zh">科技小白英仔</name>
+    </developer>
+    <url type="bugtracker">https://github.com/fafarunner/fafarunner/issues</url>
     <url type="homepage">https://www.fafarunner.com</url>
+    <url type="donation">https://buymeacoffee.com/wangying</url>
+    <url type="vcs-browser">https://github.com/fafarunner/fafarunner</url>
     <metadata_license>MIT</metadata_license>
     <project_license>MIT</project_license>
     <supports>
@@ -20,6 +29,7 @@
     </recommends>
     <description>
         <p>A game developed using flame and bonfire.</p>
+        <p xml:lang="zh">一款使用Flame和Bonfire开发的游戏。</p>
     </description>
     <launchable type="desktop-id">fafarunner.desktop</launchable>
     <screenshots>
@@ -41,6 +51,7 @@
             <url type="details">https://github.com/fafarunner/fafarunner/blob/main/CHANGELOG.md</url>
             <description>
                 <p>Release description</p>
+                <p xml:lang="zh">发布说明</p>
                 <ul>
                     <li>chore: v1.0.0+354</li>
                 </ul>
