@@ -46,7 +46,7 @@ dependencies:
   logging: ^1.2.0
   package_info_plus: ^8.0.2
   path_provider: ^2.1.4
-  sentry: ^8.7.0
+  sentry: ^8.8.0
   sentry_flutter: ^8.7.0
   sentry_logging: ^8.7.0
   slang: ^3.31.1
