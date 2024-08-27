@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0+355
+
+1. Update metainfo
+2. Configure multiple APKs for ABIs
+3. Update deps
+
+## 1.0.0+354
+
+1. Added metainfo on linux
+2. add arm64 support for snapcraft
+3. Update deps
+
 ## 1.0.0+353
 
 1. Update logo for linux
