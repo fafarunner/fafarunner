@@ -48,7 +48,7 @@ dependencies:
   path_provider: ^2.1.4
   sentry: ^8.7.0
   sentry_flutter: ^8.7.0
-  sentry_logging: ^8.7.0
+  sentry_logging: ^8.8.0
   slang: ^3.31.1
   slang_flutter: ^3.31.0
   url_launcher: ^6.3.0
