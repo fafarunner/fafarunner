@@ -378,10 +378,10 @@ packages:
     dependency: "direct main"
     description:
       name: flame_splash_screen
-      sha256: "64e733b2df309638be908c2f699bd9b4ec1a580f33ac64050cf1740b8d60caf2"
+      sha256: b43811701df4cb426cc2204463f91888b7d164b9823e619c38abd7cbd777efbc
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.3.1"
   flutter:
     dependency: "direct main"
     description: flutter
