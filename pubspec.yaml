@@ -33,7 +33,7 @@ dependencies:
   audioplayers: 6.1.0
   bonfire: 3.10.0
   cupertino_icons: ^1.0.8
-  flame: 1.18.0
+  flame: 1.19.0
   flame_audio: 2.10.2
   flame_splash_screen: 0.3.0
   flutter:
