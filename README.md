@@ -85,10 +85,10 @@
       <tr>
         <td>Android</td>
         <td>
-          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_universal.apk"><img src="https://img.shields.io/badge/APK-universal-FF0000.svg?logo=android"></a><br>
-          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_arm64-v8a.apk"><img src="https://img.shields.io/badge/APK-arm64--v8a-FFA500.svg?logo=android"></a><br>
-          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_armeabi-v7a.apk"><img src="https://img.shields.io/badge/APK-armeabi--v7a-00FF00.svg?logo=android"></a><br>
-          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_x86_64.apk"><img src="https://img.shields.io/badge/APK-x86--64-0000FF.svg?logo=android"></a>
+          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_universal.apk"><img src="https://img.shields.io/badge/APK-Universal-FF0000.svg?logo=android"></a><br>
+          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_arm64-v8a.apk"><img src="https://img.shields.io/badge/APK-ARMv8-FFA500.svg?logo=android"></a><br>
+          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_armeabi-v7a.apk"><img src="https://img.shields.io/badge/APK-ARMv7-00FF00.svg?logo=android"></a><br>
+          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_x86_64.apk"><img src="https://img.shields.io/badge/APK-x64-0000FF.svg?logo=android"></a>
         </td>
       </tr>
       <tr>
