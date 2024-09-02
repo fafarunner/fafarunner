@@ -1,6 +1,7 @@
 include: package:very_good_analysis/analysis_options.yaml
 linter:
   rules:
+    depend_on_referenced_packages: false
     directives_ordering: false
     public_member_api_docs: false
     lines_longer_than_80_chars: false
