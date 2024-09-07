@@ -74,11 +74,7 @@ jobs:
         run: |
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE_NOTES="Env: $ENV <br /> Branch: $BRANCH <br /> Commit: $COMMIT_REF"
-          if [ "$ENV" == "production" ]; then
-            gh release create "$RELEASE" --latest --title "$RELEASE" --notes "$RELEASE_NOTES"
-          else
-            gh release create "$RELEASE" --prerelease --title "$RELEASE" --notes "$RELEASE_NOTES"
-          fi
+          gh release create "$RELEASE" --draft --latest=false --prerelease=false --title "$RELEASE" --notes "$RELEASE_NOTES"
         env:
           ENV: ${{ github.event.inputs.env }}
           BRANCH: ${{ github.ref_name }}
@@ -155,6 +151,19 @@ jobs:
         run: |
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           gh release upload "$RELEASE" ./SHASUMS256.txt
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Publish a release
+        run: |
+          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
+          if [ "$ENV" == "production" ]; then
+            gh release edit "$RELEASE" --latest --draft=false
+          else
+            gh release edit "$RELEASE" --prerelease --draft=false
+          fi
         env:
           ENV: ${{ github.event.inputs.env }}
           TAG_NAME: "v${{ needs.create_release.outputs.version }}"
