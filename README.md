@@ -125,8 +125,6 @@
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/fafarunner_1.0.0+355_linux_aarch64.AppImage"><img src="https://img.shields.io/badge/AppImage-aarch64-FF5733.svg?logo=linux"> </a><br>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/fafarunner_1.0.0+355_linux_amd64.deb"><img src="https://img.shields.io/badge/Deb-x64-FF8D1A.svg?logo=debian"> </a>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/fafarunner_1.0.0+355_linux_aarch64.deb"><img src="https://img.shields.io/badge/Deb-aarch64-FF8D1A.svg?logo=debian"> </a><br>
-          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_linux_amd64.flatpak"><img src="https://img.shields.io/badge/Flatpak-x64-FFC300.svg?logo=linux"> </a>
-          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_linux_aarch64.flatpak"><img src="https://img.shields.io/badge/Flatpak-aarch64-FFC300.svg?logo=linux"> </a><br>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_linux_amd64.pacman"><img src="https://img.shields.io/badge/Pacman-x64-0080FF.svg?logo=archlinux"> </a>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/FaFaRunner_1.0.0+355_linux_aarch64.pacman"><img src="https://img.shields.io/badge/Pacman-aarch64-0080FF.svg?logo=archlinux"> </a><br>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.0+355/fafarunner_1.0.0+355_linux_amd64.rpm"><img src="https://img.shields.io/badge/Rpm-x64-FFEB3B.svg?logo=redhat"> </a>
