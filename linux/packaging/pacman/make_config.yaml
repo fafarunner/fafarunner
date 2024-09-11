@@ -51,7 +51,7 @@ provides:
 
 
 # application icon path relative to project url
-icon: logo/logo512.png
+icon: logo/logo-512.png
 
 metainfo: linux/shared/fafarunner.metainfo.xml
 

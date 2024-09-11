@@ -21,9 +21,6 @@
         <File Source="$(FlutterBuildOutputDir)\screen_retriever_plugin.dll" />
       </Component>
       <Component>
-        <File Source="$(FlutterBuildOutputDir)\sentry_flutter_plugin.dll" />
-      </Component>
-      <Component>
         <File Source="$(FlutterBuildOutputDir)\url_launcher_windows_plugin.dll" />
       </Component>
       <Component>
@@ -72,10 +69,25 @@
         <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\fafa-runner.icns" />
       </Component>
       <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo-32.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo-128.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo-256.png" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo-512.png" />
+      </Component>
+      <Component>
         <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo_round.png" />
       </Component>
       <Component>
-        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo.png" />
+        <File Source="$(FlutterBuildOutputDir)\data\flutter_assets\logo\logo_round512.png" />
       </Component>
     </ComponentGroup>
 
