@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0+356
+
+1. Update metainfo
+2. Update deps
+
 ## 1.0.0+355
 
 1. Update metainfo
