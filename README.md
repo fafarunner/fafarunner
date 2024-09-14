@@ -32,6 +32,14 @@
     </td>
   </tr>
   <tr>
+    <td>Amazon (TODO)</td>
+    <td>
+      <a href="https://www.amazon.com/dp/XXXXXXXXXX">
+        <img width="220" src="./docs/assets/Download-on-the-Amazon-App-Store.png" alt="Get it on Amazon App Store">
+      </a>
+    </td>
+  </tr>
+  <tr>
     <td>iOS</td>
     <td>
       <a href="https://apps.apple.com/us/app/id6446263696">
