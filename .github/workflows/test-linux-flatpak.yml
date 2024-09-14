@@ -57,20 +57,6 @@ jobs:
           rm -f fafarunner.deb
           url=$url yq -i '.modules[0].sources[0].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.yml
           sha256=$sha256 yq -i '.modules[0].sources[0].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
-
-          desktop_url=https://raw.githubusercontent.com/fafarunner/fafarunner/"$TAG"/linux/shared/com.chenyifaer.FaFaRunner.desktop
-          wget -O com.chenyifaer.FaFaRunner.desktop "$desktop_url"
-          desktop_sha256=$(sha256sum com.chenyifaer.FaFaRunner.desktop | awk '{print $1}')
-          rm -f com.chenyifaer.FaFaRunner.desktop
-          desktop_url=$desktop_url yq -i '.modules[0].sources[2].url = strenv(desktop_url)' flatpak/com.chenyifaer.FaFaRunner.yml
-          desktop_sha256=$desktop_sha256 yq -i '.modules[0].sources[2].sha256 = strenv(desktop_sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
-
-          appdata_url=https://raw.githubusercontent.com/fafarunner/fafarunner/"$TAG"/linux/shared/com.chenyifaer.FaFaRunner.metainfo.xml
-          wget -O com.chenyifaer.FaFaRunner.metainfo.xml "$appdata_url"
-          appdata_sha256=$(sha256sum com.chenyifaer.FaFaRunner.metainfo.xml | awk '{print $1}')
-          rm -f com.chenyifaer.FaFaRunner.metainfo.xml
-          appdata_url=$appdata_url yq -i '.modules[0].sources[3].url = strenv(appdata_url)' flatpak/com.chenyifaer.FaFaRunner.yml
-          appdata_sha256=$appdata_sha256 yq -i '.modules[0].sources[3].sha256 = strenv(appdata_sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
         env:
           ENV: ${{ github.event.inputs.env }}
           TAG_NAME: "v${{ steps.version_step.outputs.version }}"
