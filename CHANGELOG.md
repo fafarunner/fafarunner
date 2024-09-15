@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0+358
+
+1. Fix metainfo
+
 ## 1.0.0+357
 
 1. Update metainfo
