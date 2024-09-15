@@ -34,7 +34,7 @@
         <p>A game developed using flame and bonfire.</p>
         <p xml:lang="zh">一款使用Flame和Bonfire开发的游戏。</p>
     </description>
-    <launchable type="desktop-id">fafarunner.desktop</launchable>
+    <launchable type="desktop-id">com.chenyifaer.FaFaRunner.desktop</launchable>
     <screenshots>
         <screenshot type="default">
             <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.0+357/screenshots/1.png</image>
