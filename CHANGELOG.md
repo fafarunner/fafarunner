@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0+359
+
+1. Update entitlements
+
 ## 1.0.0+358
 
 1. Fix metainfo

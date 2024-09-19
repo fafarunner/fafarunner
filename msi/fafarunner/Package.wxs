@@ -1,5 +1,5 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="FaFaRunner" Manufacturer="INSCO LLC" Version="1.0.0.358" UpgradeCode="9e97bd2c-5329-45e7-ad77-34d60acae691">
+  <Package Name="FaFaRunner" Manufacturer="INSCO LLC" Version="1.0.0.359" UpgradeCode="9e97bd2c-5329-45e7-ad77-34d60acae691">
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
     <!-- Set an icon for Windows Settings > Apps -->
