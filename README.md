@@ -15,23 +15,23 @@
     <th>Platform</th>
     <th style="text-align: center">App Store</th>
   </tr>
-  <tr>
+  <!-- <tr>
     <td>Android</td>
     <td>
       <a href="https://play.google.com/store/apps/details?id=com.chenyifaer.fafarunner">
         <img width="220" alt="Get it on Google Play" src="./docs/assets/Download-on-the-Google-Play.png">
       </a>
     </td>
-  </tr>
+  </tr> -->
   <tr>
-    <td>F-Droid (TODO)</td>
+    <td>F-Droid (In progress)</td>
     <td>
       <a href="https://f-droid.org/packages/com.chenyifaer.fafarunner">
         <img width="220" alt="Get it on Google Play" src="./docs/assets/Download-on-the-F-Droid.svg">
       </a>
     </td>
   </tr>
-  <tr>
+  <!-- <tr>
     <td>Amazon (TODO)</td>
     <td>
       <a href="https://www.amazon.com/dp/XXXXXXXXXX">
@@ -62,7 +62,7 @@
        <img width="220" alt="Get it on Microsoft Store" src="https://get.microsoft.com/images/en-us%20dark.svg"/>
       </a>
     </td>
-  </tr>
+  </tr> -->
   <tr>
     <td>Snap Store</td>
     <td colspan="2">
