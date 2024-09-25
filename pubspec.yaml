@@ -120,18 +120,21 @@ flutter:
 
 msix_config:
   display_name: FaFa Runner
-  publisher_display_name: PUBLISHER_NAME_PLACEHOLDER
-  identity_name: IDENTITY_NAME_PLACEHOLDER
-  #  msix_version: 1.0.0.0 # If not set, the value of `version` is used
   logo_path: snap\gui\fafarunner.png
-  languages: zh, en
-  store: true
+  languages: en-us, zh-cn
   architecture: x64
+  capabilities: "internetClient"
+  install_certificate: false
+
+  # msix_version: 1.0.0.0 # If not set, the value of `version` is used
+  # With Your Own Certificate 
   certificate_path: CERTIFICATE_PATH_PLACEHOLDER
   certificate_password: CERTIFICATE_PASSWORD_PLACEHOLDER
-  install_certificate: false
+
+  # For Publish To Windows Store
+  identity_name: IDENTITY_NAME_PLACEHOLDER
   publisher: PUBLISHER_PLACEHOLDER
-  capabilities: "internetClient"
+  publisher_display_name: PUBLISHER_NAME_PLACEHOLDER
 
 import_sorter:
   ignored_files: # Optional, defaults to []

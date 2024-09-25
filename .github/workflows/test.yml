@@ -373,6 +373,9 @@ jobs:
           channel: 'stable'
           flutter-version: '3.24.3'
 
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       - name: Configure .env
         run: |
           echo "$pwd"
@@ -384,24 +387,41 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Flutter doctor -v
-        run: flutter doctor -v
+      - name: Install yq
+        shell: pwsh
+        run: |
+          choco install yq
+          yq --version
 
       - name: Install certificates
         run: |
           echo $env:RUNNER_TEMP
-          $certificate_path = "$env:RUNNER_TEMP\fafarunner.pfx"
           # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
           # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
           $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
-          [IO.File]::WriteAllBytes("$certificate_path", $bytes)
-          (get-content pubspec.yaml) -replace 'PUBLISHER_NAME_PLACEHOLDER', $env:WINDOWS_PUBLISHER_NAME -replace 'IDENTITY_NAME_PLACEHOLDER', $env:WINDOWS_IDENTITY_NAME -replace 'CERTIFICATE_PATH_PLACEHOLDER', $certificate_path -replace 'CERTIFICATE_PASSWORD_PLACEHOLDER', $env:WINDOWS_CERTIFICATE_PASSWORD -replace 'PUBLISHER_PLACEHOLDER', $env:WINDOWS_PUBLISHER | Out-File -encoding utf8 pubspec.yaml
+          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
+
+          $yamlFile = ".\pubspec.yaml"
+          $yamlContent = Get-Content -Raw -Path $yamlFile
+
+          # 获取环境变量的值
+          # $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
+          # $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
+          # $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
+          $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
+
+          # 使用 yq 更新多个字段
+          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.certificate_path = `"$certificatePath`" | .msix_config.certificate_password = `"$certificatePassword`" | del(.msix_config.identity_name) | del(.msix_config.publisher) | del(.msix_config.publisher_display_name)" -
+
+          # 将更新后的内容写回文件
+          Set-Content -Path $yamlFile -Value $updatedYamlContent
         env:
-          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
-          WINDOWS_IDENTITY_NAME: ${{ secrets.WINDOWS_IDENTITY_NAME }}
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_IDENTITY_NAME: ${{ secrets.WINDOWS_IDENTITY_NAME }}
           WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
       - name: Install flutter dependencies
         run: flutter pub get
