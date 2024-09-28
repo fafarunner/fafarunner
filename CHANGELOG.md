@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0+360
+
+1. fix: No certificate is required when publishing to the Microsoft Store.
+2. Update metainfo
+3. Update deps
+
 ## 1.0.0+359
 
 1. Update entitlements
