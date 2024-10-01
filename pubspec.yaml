@@ -63,7 +63,7 @@ dev_dependencies:
   mockingjay: ^0.6.0
   mocktail: ^1.0.4
   msix: ^3.16.8
-  slang_build_runner: ^3.31.0
+  slang_build_runner: ^3.32.0
   very_good_analysis: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
