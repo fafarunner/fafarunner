@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1+361
+
+1. Update developer
+2. Update deps
+3. Update msi
+
 ## 1.0.0+360
 
 1. fix: No certificate is required when publishing to the Microsoft Store.
