@@ -112,7 +112,7 @@ jobs:
         shell: pwsh
         run: |
           # 文件路径
-          $filePath = "msi\fafarunner\Package.wxs"
+          $filePath = "msi\fafarunner\fafarunner\Package.wxs"
 
           # 读取文件内容
           $content = Get-Content -Path $filePath -Raw
@@ -136,12 +136,13 @@ jobs:
           $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
           [IO.File]::WriteAllBytes("$certificatePath", $bytes)
 
+          $env:IconPath = "$pwd\windows\runner\resources\app_icon.ico"
           $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\$env:Platform\runner\Release"
           $env:VISUAL_STUDIO_REDIST_DIR = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC\14.40.33807\$env:Platform\Microsoft.VC143.CRT"
-          dotnet build .\msi\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration Release
+          dotnet build .\msi\fafarunner\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration Release
 
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\bin\$env:Platform\Release\*\*.msi")
+          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release\*\*.msi")
         env:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
@@ -151,8 +152,8 @@ jobs:
       - name: Copy build for msi
         shell: pwsh
         run: |
-          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_zh-CN.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_zh-CN.msi"
         env:
           VERSION: ${{ needs.get_version.outputs.version }}
 
@@ -160,7 +161,7 @@ jobs:
         with:
           name: windows-msi-artifact
           path: |
-            .\msi\fafarunner\bin\${{ env.Platform }}\Release\*\*.msi
+            .\msi\fafarunner\fafarunner\bin\${{ env.Platform }}\Release\*\*.msi
 
       - name: Clean up
         if: ${{ always() }}

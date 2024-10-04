@@ -9,7 +9,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'"></PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'"></PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\windows\runner\resources\app_icon.ico" />
+    <Content Include="$(IconPath)" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppAssets.wxs" />

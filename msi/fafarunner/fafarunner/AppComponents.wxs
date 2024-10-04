@@ -1,9 +1,10 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <?define FlutterBuildOutputDir = "$(env.FLUTTER_BUILD_OUTPUT_DIR)" ?>
+  <?define ShortcutsIconPath = "$(env.IconPath)" ?>
 
   <Fragment>
     <!-- Define the icon to use for all shortcuts -->
-    <Icon Id="FaFaRunner.exe" SourceFile="..\..\windows\runner\resources\app_icon.ico"/>
+    <Icon Id="FaFaRunner.exe" SourceFile="$(ShortcutsIconPath)"/>
 
     <ComponentGroup Id="BaseComponents" Directory="INSTALLFOLDER">
       <Component>
