@@ -113,15 +113,18 @@ flutter {
 
 dependencies {}
 
+// To comply with F-Droid version code schema
+ext.abiCodes = ["x86_64": 1, "armeabi-v7a": 2, "arm64-v8a": 3]
 import com.android.build.OutputFile
-
 android.applicationVariants.all { variant ->
   variant.outputs.each { output ->
         def flavorName = variant.flavorName
         def suffix = flavorName.contains("staging") ? ".pre" : ""
         def abi = output.getFilter(OutputFile.ABI)
+        def abiVersionCode = project.ext.abiCodes.get(abi)
         def arch = abi == null ? "universal" : abi
-        def outputFileName = "FaFaRunner_${variant.versionName}+${variant.versionCode}${suffix}_${arch}.apk"
-        output.outputFileName = outputFileName
+        def versionCode = abiVersionCode == null ? variant.versionCode : variant.versionCode * 10 + abiVersionCode
+        output.outputFileName = "FaFaRunner_${variant.versionName}+${versionCode}${suffix}_${arch}.apk"
+        output.versionCodeOverride = versionCode
     }
 }
