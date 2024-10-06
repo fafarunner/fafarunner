@@ -23,14 +23,14 @@
       </a>
     </td>
   </tr>
-  <tr>
+  <!-- <tr>
     <td>F-Droid (TODO)</td>
     <td>
       <a href="https://f-droid.org/packages/com.chenyifaer.fafarunner">
         <img width="220" alt="Get it on Google Play" src="./docs/assets/Download-on-the-F-Droid.svg">
       </a>
     </td>
-  </tr>
+  </tr> -->
   <tr>
     <td>Amazon</td>
     <td>
