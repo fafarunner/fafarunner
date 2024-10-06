@@ -7,21 +7,23 @@ if ! command -v wget >/dev/null 2>&1; then
    yum install wget xz -y
 fi
 
-if [ ! -f "flutter_linux_3.24.3-stable.tar.xz" ]; then
+FLUTTER_DIR="$PWD"
+
+if [ ! -f "$FLUTTER_DIR/flutter_linux_3.24.3-stable.tar.xz" ]; then
    echo "🟩 Downloading Flutter"
-   wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.3-stable.tar.xz
+   wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.3-stable.tar.xz -P "$FLUTTER_DIR"
 fi
 
-if [ -d "flutter" ]; then
+if [ -d "$FLUTTER_DIR/flutter" ]; then
    echo "🟩 Removing flutter directory"
-   rm -rf flutter;
+   rm -rf "$FLUTTER_DIR/flutter"
 fi
 
 echo "🟩 Unzipping"
-mkdir flutter && tar -xf flutter_linux_3.24.3-stable.tar.xz -C flutter --strip-components 1
+mkdir "$FLUTTER_DIR/flutter" && tar -xf "$FLUTTER_DIR/flutter_linux_3.24.3-stable.tar.xz" -C "$FLUTTER_DIR/flutter" --strip-components 1
 
-echo "🟩 Config $PWD/flutter"
-git config --global --add safe.directory "$PWD/flutter"
+echo "🟩 Config $FLUTTER_DIR/flutter"
+git config --global --add safe.directory "$FLUTTER_DIR/flutter"
 
 echo "🟩 Running ls"
 ls

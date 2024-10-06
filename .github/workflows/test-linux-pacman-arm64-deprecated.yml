@@ -1,0 +1,103 @@
+name: Test Linux Pacman (arm64 deprecated)
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  pacman:
+    name: Create linux pacman (aarch64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Configure .env
+        run: |
+          echo "$ENV_KEY" | base64 --decode > .env
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+
+      - name: Install qemu-user-static
+        run: |
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+      # https://github.com/s3fs-fuse/s3fs-fuse/issues/647#issuecomment-637458150
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arm64v8/ubuntu:22.04
+          options: |
+            --rm
+            --cap-add SYS_ADMIN
+            --device /dev/fuse
+            --security-opt apparmor:unconfined
+            -v ${{ github.workspace }}:/work
+            --workdir /work
+          shell: bash
+          run: |
+            set -x
+            # Show linux info
+            echo "Show linux info"
+            uname --all
+
+            # Install dependencies for Linux
+            echo "Install dependencies for Linux"
+            apt update && apt install -y sudo
+            sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
+            sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+            sudo apt install -y locate libfuse2
+            sudo apt install -y libarchive-tools
+
+            # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+            sudo apt install -y libunwind-dev
+            sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+            # Setup Flutter
+            echo "Setup Flutter"
+            bash ./scripts/install-flutter-ubuntu.sh
+            
+            if [ -d "/home/linux-arm64/flutter" ]; then
+              echo "🟩 ls -la"
+              ls -la /home/linux-arm64/flutter
+            fi
+            echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
+            source ~/.zshrc
+            echo $PATH
+
+            # Flutter doctor
+            echo "Flutter doctor -v"
+            flutter doctor -v
+            
+            # Install flutter_distributor
+            echo "Install flutter_distributor"
+            dart pub global activate --source git https://github.com/kjxbyz/flutter_distributor --git-ref pacman --git-path packages/flutter_distributor
+            
+            # Install flutter dependencies
+            echo "Install flutter dependencies"
+            flutter pub get
+            
+            # Build Pacman
+            echo "Build Pacman"
+            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets pacman --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
+
+      # Package the build.
+      - name: Copy build for Pacman
+        run: ls -laR
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-pacman-arm64-artifact
+          path: |
+            ./dist/**/*.pacman
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env

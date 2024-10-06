@@ -9,14 +9,38 @@ permissions: read-all
 jobs:
   appimage:
     name: Create linux appimage (aarch64)
-    runs-on: ubuntu-latest
+    runs-on: buildjet-4vcpu-ubuntu-2204-arm
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt update
+          sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+          sudo apt install -y locate libfuse2
+
+      - name: Install libunwind-dev
+        run: |
+          # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+          sudo apt install -y libunwind-dev
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Install appimagetool
+        run: |
+          wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage"
+          # https://github.com/AppImage/AppImageKit/issues/1056#issuecomment-643382397
+          # sed -i 's|AI\x02|\x00\x00\x00|' appimagetool
+          chmod +x appimagetool && mv appimagetool /usr/local/bin/
+
+      - name: Setup Flutter
+        shell: bash
+        run: |
+          chmod +x ./scripts/install-flutter-ubuntu-actions.sh
+          ./scripts/install-flutter-ubuntu-actions.sh
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
 
       - name: Configure .env
         run: |
@@ -24,72 +48,23 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install qemu-user-static
+      - name: Install flutter_distributor
         run: |
-          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+          dart pub global activate \
+            --source git https://github.com/kjxbyz/flutter_distributor \
+            --git-ref pacman \
+            --git-path packages/flutter_distributor
+  
+      - name: Install flutter dependencies
+        run: flutter pub get
 
-      - uses: addnab/docker-run-action@v3
-        with:
-          image: arm64v8/ubuntu:22.04
-          options: |
-            --rm
-            --cap-add SYS_ADMIN
-            --device /dev/fuse
-            --security-opt apparmor:unconfined
-            -v ${{ github.workspace }}:/work
-            --workdir /work
-          shell: bash
-          run: |
-            set -x
-            # Show linux info
-            echo "Show linux info"
-            uname --all
-
-            # Install dependencies for Linux
-            echo "Install dependencies for Linux"
-            apt update && apt install -y sudo
-            sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
-            sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-            sudo apt install -y locate libfuse2
-
-            # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-            sudo apt install -y libunwind-dev
-            sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-            # Install appimagetool
-            echo "Install appimagetool"
-            wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage"
-            # https://github.com/AppImage/AppImageKit/issues/1056#issuecomment-643382397
-            sed -i 's|AI\x02|\x00\x00\x00|' appimagetool
-            chmod +x appimagetool && mv appimagetool /usr/local/bin/
-            
-            # Setup Flutter
-            echo "Setup Flutter"
-            bash ./scripts/install-flutter-ubuntu.sh
-            
-            if [ -d "/home/linux-arm64/flutter" ]; then
-              echo "🟩 ls -la"
-              ls -la /home/linux-arm64/flutter
-            fi
-            echo 'export PATH="$PATH:/home/linux-arm64/flutter/bin:/home/linux-arm64/flutter/.pub-cache/bin:$HOME/.pub-cache/bin"' >> ~/.zshrc
-            source ~/.zshrc
-            echo $PATH
-
-            # Flutter doctor
-            echo "Flutter doctor -v"
-            flutter doctor -v
-            
-            # Install flutter_distributor
-            echo "Install flutter_distributor"
-            dart pub global activate --source git https://github.com/kjxbyz/flutter_distributor --git-ref pacman --git-path packages/flutter_distributor
-            
-            # Install flutter dependencies
-            echo "Install flutter dependencies"
-            flutter pub get
-            
-            # Build AppImage
-            echo "Build AppImage"
-            flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" --platform linux --targets appimage --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
+      - name: Build AppImage
+        run: |
+          flutter_distributor package \
+            --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" \
+            --platform linux \
+            --targets appimage \
+            --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
 
       # Package the build.
       - name: Copy build for AppImage
