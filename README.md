@@ -67,7 +67,7 @@
     <td>Snap Store</td>
     <td colspan="2">
       <a href="https://snapcraft.io/fafarunner">
-        <img width="220" alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
+        <img width="220" alt="Get it from the Snap Store" src="./docs/assets/Download-on-the-Snap-Store.svg" />
       </a>
     </td>
   </tr>
