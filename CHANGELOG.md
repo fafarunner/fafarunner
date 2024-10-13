@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1+362
+
+1. fix: comply with F-Droid version code schema
+2. Added metadata to F-Droid
+3. Fix Android Compilation issues
+4. Migrating to Linux ARM64
+5. fix: Macs with Apple silicon support issue
+6. Update deps
+7. Update company name
+
 ## 1.0.1+361
 
 1. Update developer
