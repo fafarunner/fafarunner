@@ -859,26 +859,26 @@ packages:
     dependency: "direct main"
     description:
       name: slang
-      sha256: a466773de768eb95bdf681e0a92e7c8010d44bb247b62130426c83ece33aeaed
+      sha256: f1da602c879fe7f2ea399faff1003a540c6adb745b5f603a9ab0c7275cd0b428
       url: "https://pub.dev"
     source: hosted
-    version: "3.32.0"
+    version: "4.0.0"
   slang_build_runner:
     dependency: "direct dev"
     description:
       name: slang_build_runner
-      sha256: b2e0c63f3c801a4aa70b4ca43173893d6eb7d5a421fc9d97ad983527397631b3
+      sha256: "9120c69f934895ba3d743e2c01f05d33103e85a944fc453d45306d85f40f9f69"
       url: "https://pub.dev"
     source: hosted
-    version: "3.32.0"
+    version: "4.0.0"
   slang_flutter:
     dependency: "direct main"
     description:
       name: slang_flutter
-      sha256: "1a98e878673996902fa5ef0b61ce5c245e41e4d25640d18af061c6aab917b0c7"
+      sha256: cc5d079107365e04842419d24bda6e22d1576331a5ac877734efd3b9e926860d
       url: "https://pub.dev"
     source: hosted
-    version: "3.32.0"
+    version: "4.0.0"
   source_map_stack_trace:
     dependency: transitive
     description:
@@ -1171,10 +1171,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "2294c64768987ea280b43a3d8357d42d5679f3e2b5b69b602be45b2abbd165b0"
+      sha256: "2735daae5150e8b1dfeb3eb0544b4d3af0061e9e82cef063adcd583bdae4306a"
       url: "https://pub.dev"
     source: hosted
-    version: "5.6.1"
+    version: "5.7.0"
   window_manager:
     dependency: "direct main"
     description:
