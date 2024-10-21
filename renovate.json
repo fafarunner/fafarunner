@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
   "rangeStrategy": "bump",
   "prHourlyLimit": 0,
   "ignoreDeps": [
@@ -14,6 +12,10 @@
     {
       "matchPackageNames": ["flutter", "dart"],
       "groupName": "flutter"
+    },
+    {
+      "matchPackageNames": ["slang", "slang_flutter", "slang_build_runner"],
+      "groupName": "slang"
     }
   ]
 }
