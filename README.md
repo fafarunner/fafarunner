@@ -1,12 +1,8 @@
 # FaFa Runner
 
->A game developed using flame and bonfire.
-
 [![Test](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml)
 [![Release](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/releases/latest)
-[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/issues/new)
-[![GitHub License](https://img.shields.io/github/license/fafarunner/fafarunner)](https://raw.githubusercontent.com/fafarunner/fafarunner/main/LICENSE)
 
 ## 🛍️ Get It On Stores
 
@@ -113,7 +109,7 @@
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.1+362/fafarunner_1.0.1+362_windows_x64.msix"><img src="https://img.shields.io/badge/Msix-x64-FF6F61.svg?logo=windows"></a><br>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.1+362/fafarunner_1.0.1+362_windows_x64.exe"><img src="https://img.shields.io/badge/Exe-x64-FF9A8B.svg?logo=windows"></a><br>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.1+362/fafarunner_1.0.1+362_windows_x64.zip"><img src="https://img.shields.io/badge/Zip-x64-FFB347.svg?logo=windows"></a><br>
-          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.1+362/fafarunner_1.0.1+362_windows_x64_en-US.msi"><img src="https://img.shields.io/badge/Msi_(en--US)-x64-6BFF66.svg?logo=windows"></a><br>
+          <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.1+362/fafarunner_1.0.1+362_windows_x64_en-US.msi"><img src="https://img.shields.io/badge/Msi_(en--US)-x64-6BFF66.svg?logo=windows"></a>
           <a href="https://github.com/fafarunner/fafarunner/releases/download/v1.0.1+362/fafarunner_1.0.1+362_windows_x64_zh-CN.msi"><img src="https://img.shields.io/badge/Msi_(zh--CN)-x64-66B2FF.svg?logo=windows"></a>
         </td>
       </tr>
