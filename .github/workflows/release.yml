@@ -20,6 +20,7 @@ jobs:
     name: Create release
     runs-on: ubuntu-latest
     outputs:
+      sha: ${{ steps.sha_step.outputs.sha }}
       version: ${{ steps.version_step.outputs.version }}
       version_short: ${{ steps.version_step.outputs.version_short }}
       build_number: ${{ steps.version_step.outputs.build_number }}
@@ -32,6 +33,13 @@ jobs:
 
       - name: Check sha_short
         run: echo ${{ steps.sha_short_step.outputs.sha_short }}
+
+      - name: Set sha
+        id: sha_step
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Check sha
+        run: echo ${{ steps.sha_step.outputs.sha }}
 
       - name: Install yq
         run: |
@@ -74,11 +82,12 @@ jobs:
         run: |
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           RELEASE_NOTES="Env: $ENV <br /> Branch: $BRANCH <br /> Commit: $COMMIT_REF"
-          gh release create "$RELEASE" --draft --latest=false --prerelease=false --title "$RELEASE" --notes "$RELEASE_NOTES"
+          gh release create "$RELEASE" --draft --latest=false --prerelease=false --target "$COMMIT" --title "$RELEASE" --notes "$RELEASE_NOTES"
         env:
           ENV: ${{ github.event.inputs.env }}
           BRANCH: ${{ github.ref_name }}
           COMMIT_REF: ${{ steps.sha_short_step.outputs.sha_short }}
+          COMMIT: ${{ steps.sha_step.outputs.sha }}
           TAG_NAME: "v${{ steps.version_step.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
@@ -135,12 +144,13 @@ jobs:
         run: |
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           if [ "$ENV" == "production" ]; then
-            gh release edit "$RELEASE" --latest --draft=false --tag "$RELEASE"
+            gh release edit "$RELEASE" --latest --draft=false --tag "$RELEASE" --target "$COMMIT"
           else
-            gh release edit "$RELEASE" --prerelease --draft=false --tag "$RELEASE"
+            gh release edit "$RELEASE" --prerelease --draft=false --tag "$RELEASE" --target "$COMMIT"
           fi
         env:
           ENV: ${{ github.event.inputs.env }}
+          COMMIT: ${{ needs.create_release.outputs.sha }}
           TAG_NAME: "v${{ needs.create_release.outputs.version }}"
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
