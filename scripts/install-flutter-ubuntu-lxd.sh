@@ -19,9 +19,9 @@ fi
 
 PG_FLUTTER_BUILD_DIR="$CRAFT_PART_BUILD/flutter-distro"
 
-if [ ! -f "$CRAFT_PART_BUILD/flutter-3.24.3-aarch64.tar.xz" ]; then
+if [ ! -f "$CRAFT_PART_BUILD/flutter-3.24.4-aarch64.tar.xz" ]; then
    echo "🟩 Downloading Flutter"
-   wget https://github.com/containerbase/flutter-prebuild/releases/download/3.24.3/flutter-3.24.3-aarch64.tar.xz -P "$CRAFT_PART_BUILD"
+   wget https://github.com/containerbase/flutter-prebuild/releases/download/3.24.4/flutter-3.24.4-aarch64.tar.xz -P "$CRAFT_PART_BUILD"
 fi
 
 if [ -d "$PG_FLUTTER_BUILD_DIR" ]; then
@@ -30,7 +30,7 @@ if [ -d "$PG_FLUTTER_BUILD_DIR" ]; then
 fi
 
 echo "🟩 Unzipping"
-mkdir -p "$PG_FLUTTER_BUILD_DIR" && tar -xf "$CRAFT_PART_BUILD/flutter-3.24.3-aarch64.tar.xz" -C "$PG_FLUTTER_BUILD_DIR" --strip-components 1
+mkdir -p "$PG_FLUTTER_BUILD_DIR" && tar -xf "$CRAFT_PART_BUILD/flutter-3.24.4-aarch64.tar.xz" -C "$PG_FLUTTER_BUILD_DIR" --strip-components 1
 
 echo "🟩 Config $PG_FLUTTER_BUILD_DIR"
 git config --global --add safe.directory "$PG_FLUTTER_BUILD_DIR"
