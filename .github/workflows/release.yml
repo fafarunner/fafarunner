@@ -497,7 +497,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to adhoc..."
-          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-debug.plist
+          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions/debug.plist
 
       - name: Build ipa
         if: github.event.inputs.env == 'production'
@@ -505,7 +505,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions-release.plist
+          flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions/release.plist
 
       # Package the build.
       - name: Copy build for iOS

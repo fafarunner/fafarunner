@@ -158,7 +158,7 @@ jobs:
           echo "╠ Removing build products and intermediate files from the build root..."
           cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
-          flutter build ipa --release --export-options-plist=ios/ExportOptions-debug.plist
+          flutter build ipa --release --export-options-plist=ios/ExportOptions/debug.plist
 
       # Package the build.
       - name: Copy build for iOS
