@@ -29,6 +29,10 @@ macos_install: ## Installing ios dependencies
 	echo "╠ Resolving macos dependencies..."
 	cd macos && pod install && cd ..
 
+precache: ## Installing ios dependencies
+	echo "╠ Populate the Flutter tool's cache of binary artifacts..."
+	fvm flutter precache -a
+
 build_watch: ## Watches the files for changes
 	echo "╠ Watching the project..."
 	fvm dart run build_runner watch --delete-conflicting-outputs
