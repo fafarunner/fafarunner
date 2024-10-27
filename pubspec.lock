@@ -787,7 +787,7 @@ packages:
     source: hosted
     version: "1.3.0"
   sentry:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sentry
       sha256: "033287044a6644a93498969449d57c37907e56f5cedb17b88a3ff20a882261dd"
@@ -848,7 +848,7 @@ packages:
     source: sdk
     version: "0.0.99"
   slang:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: slang
       sha256: b04db2dbaf927b28600a2f8a272a3bf2ae309556dcc5d6beb02d66af0be39e4c
