@@ -10,12 +10,10 @@ import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:window_manager/window_manager.dart';
 
 // Project imports:
 import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/constrants/get.dart';
-import 'package:fafarunner/dialogs/dialogs.dart';
 import 'package:fafarunner/game/game.dart';
 import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
@@ -31,7 +29,7 @@ class Menu extends StatefulWidget {
   State<Menu> createState() => _MenuState();
 }
 
-class _MenuState extends State<Menu> with WindowListener {
+class _MenuState extends State<Menu> {
   bool showSplash = true;
   int currentPosition = 0;
   Timer? _timer;
@@ -44,14 +42,7 @@ class _MenuState extends State<Menu> with WindowListener {
   ];
 
   @override
-  void initState() {
-    windowManager.addListener(this);
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    windowManager.removeListener(this);
     Sounds.stopBackgroundSound();
     _timer?.cancel();
     super.dispose();
@@ -274,14 +265,6 @@ class _MenuState extends State<Menu> with WindowListener {
         }
       });
     });
-  }
-
-  @override
-  Future<void> onWindowClose() async {
-    final isPreventClose = await windowManager.isPreventClose();
-    if (isDesktop && isPreventClose) {
-      await showExitDialog();
-    }
   }
 
   Future<void> _launchURL(String url) async {

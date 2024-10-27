@@ -14,7 +14,6 @@ import 'package:logging/logging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
-import 'package:window_manager/window_manager.dart';
 
 // Project imports:
 import 'package:fafarunner/app/app.dart';
@@ -105,19 +104,8 @@ Future<void> main() async {
   }
   await Sounds.initialize();
 
-  if (isDesktop) {
-    await WindowManager.instance.ensureInitialized();
-    await windowManager.waitUntilReadyToShow().then((_) async {
-      await windowManager.center();
-      await windowManager.setSize(const Size(1200, 800));
-      await windowManager.show();
-      await windowManager.setPreventClose(true);
-      await windowManager.setSkipTaskbar(false);
-    });
-  }
-
   // initialize with the right locale
-  LocaleSettings.useDeviceLocale();
+  await LocaleSettings.useDeviceLocale();
 
   Widget child = const App();
   if (AppEnv.sentryEnabled) {

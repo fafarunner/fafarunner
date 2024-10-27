@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire/map/tiled/reader/tiled_asset_reader.dart';
-import 'package:window_manager/window_manager.dart';
 
 // Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
@@ -15,7 +14,6 @@ import 'package:fafarunner/decoration/key.dart';
 import 'package:fafarunner/decoration/potion_life.dart';
 import 'package:fafarunner/decoration/spikes.dart';
 import 'package:fafarunner/decoration/torch.dart';
-import 'package:fafarunner/dialogs/dialogs.dart';
 import 'package:fafarunner/enemies/boss.dart';
 import 'package:fafarunner/enemies/goblin.dart';
 import 'package:fafarunner/enemies/imp.dart';
@@ -37,8 +35,7 @@ class Game extends StatefulWidget {
   State<Game> createState() => _GameState();
 }
 
-class _GameState extends State<Game>
-    with WindowListener, TickerProviderStateMixin {
+class _GameState extends State<Game> with TickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -47,7 +44,6 @@ class _GameState extends State<Game>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    windowManager.addListener(this);
     Sounds.playBackgroundSound();
     super.initState();
   }
@@ -55,7 +51,6 @@ class _GameState extends State<Game>
   @override
   void dispose() {
     _controller.dispose();
-    windowManager.removeListener(this);
     Sounds.stopBackgroundSound();
     super.dispose();
   }
@@ -163,13 +158,5 @@ class _GameState extends State<Game>
         ),
       ),
     );
-  }
-
-  @override
-  Future<void> onWindowClose() async {
-    final isPreventClose = await windowManager.isPreventClose();
-    if (isDesktop && isPreventClose) {
-      await showExitDialog();
-    }
   }
 }
