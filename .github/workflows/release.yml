@@ -130,15 +130,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
+          node-version: 18
 
       - name: Install ts-shasum
-        run: pnpm add --global ts-shasum
+        run: npm install -g ts-shasum
 
       - name: Publish a release
         run: |
@@ -553,10 +548,6 @@ jobs:
         with:
           node-version: 18
 
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -645,8 +636,7 @@ jobs:
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - name: Install appdmg
-        run: |
-          pnpm add -g appdmg
+        run: npm install -g appdmg
 
       - name: Build DMG
         run: |
