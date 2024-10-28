@@ -2429,10 +2429,11 @@ jobs:
       - name: Update snapcraft.yaml
         run: |
           rm -f snap/snapcraft-arm64.yaml
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
           yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.24.4"' snap/snapcraft.yaml
         env:
-          VERSION: ${{ needs.create_release.outputs.version }}
+          VERSION_SHORT: ${{ needs.create_release.outputs.version_short }}
+          BUILD_NUMBER: ${{ needs.create_release.outputs.build_number }}
 
       - name: Build snap
         run: |
@@ -2513,9 +2514,10 @@ jobs:
         run: |
           rm -f snap/snapcraft.yaml
           mv snap/snapcraft-arm64.yaml snap/snapcraft.yaml
-          VERSION=$VERSION yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
         env:
-          VERSION: ${{ needs.create_release.outputs.version }}
+          VERSION_SHORT: ${{ needs.create_release.outputs.version_short }}
+          BUILD_NUMBER: ${{ needs.create_release.outputs.build_number }}
 
       - name: Install snapcraft
         run: sudo snap install snapcraft --classic
