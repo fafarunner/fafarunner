@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1+364
+
+1. Add callbacks to linux app
+2. Remove deps
+3. Update deps
+4. Replace pnpm with npm
+
 ## 1.0.1+363
 
 1. Update deps
