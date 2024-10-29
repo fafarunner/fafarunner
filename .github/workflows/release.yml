@@ -2238,7 +2238,7 @@ jobs:
 #
 #      - name: Update version
 #        run: |
-#          # Update flatpak/com.chenyifaer.FaFaRunner.yml
+#          # Update flatpak/com.fafarunner.FaFaRunner.yml
 #          TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
 #          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
 #
@@ -2246,21 +2246,21 @@ jobs:
 #          wget -O fafarunner.deb "$url"
 #          sha256=$(sha256sum fafarunner.deb | awk '{print $1}')
 #          rm -f fafarunner.deb
-#          url=$url yq -i '.modules[0].sources[0].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.yml
-#          sha256=$sha256 yq -i '.modules[0].sources[0].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
+#          url=$url yq -i '.modules[0].sources[0].url = strenv(url)' flatpak/com.fafarunner.FaFaRunner.yml
+#          sha256=$sha256 yq -i '.modules[0].sources[0].sha256 = strenv(sha256)' flatpak/com.fafarunner.FaFaRunner.yml
 #        env:
 #          ENV: ${{ github.event.inputs.env }}
 #          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
 #          VERSION: ${{ needs.create_release.outputs.version }}
 #
 #      - name: Show config
-#        run: cat flatpak/com.chenyifaer.FaFaRunner.yml
+#        run: cat flatpak/com.fafarunner.FaFaRunner.yml
 #
 #      - name: Build flatpak
 #        uses: flatpak/flatpak-github-actions/flatpak-builder@master
 #        with:
 #          bundle: FaFaRunner.flatpak
-#          manifest-path: flatpak/com.chenyifaer.FaFaRunner.yml
+#          manifest-path: flatpak/com.fafarunner.FaFaRunner.yml
 #          cache: true
 #          restore-cache: true
 #          cache-key: flatpak-builder-${{ github.sha }}-cache-restored
@@ -2324,7 +2324,7 @@ jobs:
 #
 #      - name: Update version
 #        run: |
-#          # Update flatpak/com.chenyifaer.FaFaRunner.yml
+#          # Update flatpak/com.fafarunner.FaFaRunner.yml
 #          TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
 #          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
 #
@@ -2332,15 +2332,15 @@ jobs:
 #          wget -O fafarunner.deb "$url"
 #          sha256=$(sha256sum fafarunner.deb | awk '{print $1}')
 #          rm -f fafarunner.deb
-#          url=$url yq -i '.modules[0].sources[1].url = strenv(url)' flatpak/com.chenyifaer.FaFaRunner.yml
-#          sha256=$sha256 yq -i '.modules[0].sources[1].sha256 = strenv(sha256)' flatpak/com.chenyifaer.FaFaRunner.yml
+#          url=$url yq -i '.modules[0].sources[1].url = strenv(url)' flatpak/com.fafarunner.FaFaRunner.yml
+#          sha256=$sha256 yq -i '.modules[0].sources[1].sha256 = strenv(sha256)' flatpak/com.fafarunner.FaFaRunner.yml
 #        env:
 #          ENV: ${{ github.event.inputs.env }}
 #          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
 #          VERSION: ${{ needs.create_release.outputs.version }}
 #
 #      - name: Show config
-#        run: cat flatpak/com.chenyifaer.FaFaRunner.yml
+#        run: cat flatpak/com.fafarunner.FaFaRunner.yml
 #
 #      - name: Install QEMU deps
 #        run: |
@@ -2355,7 +2355,7 @@ jobs:
 #        uses: flatpak/flatpak-github-actions/flatpak-builder@master
 #        with:
 #          bundle: FaFaRunner.flatpak
-#          manifest-path: flatpak/com.chenyifaer.FaFaRunner.yml
+#          manifest-path: flatpak/com.fafarunner.FaFaRunner.yml
 #          cache: true
 #          restore-cache: true
 #          cache-key: flatpak-builder-${{ github.sha }}-cache-restored

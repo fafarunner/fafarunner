@@ -6,7 +6,7 @@
     https://www.freedesktop.org/software/appstream/docs/chap-Quickstart.html#sect-Quickstart-DesktopApps
 -->
 <component type="desktop-application">
-    <id>com.chenyifaer.FaFaRunner</id>
+    <id>com.fafarunner.FaFaRunner</id>
     <provides>
         <id>fafarunner</id>
     </provides>
@@ -52,7 +52,7 @@
         <p>Join FaFa Runner: Dawn Legends and create your own legendary tale in this magical world. Download now and begin your epic adventure!</p>
         <p xml:lang="zh">加入《发发跑酷》，在这个奇妙的世界中书写属于你的传奇故事。赶快下载，开启你的冒险之旅吧！</p>
     </description>
-    <launchable type="desktop-id">com.chenyifaer.FaFaRunner.desktop</launchable>
+    <launchable type="desktop-id">com.fafarunner.FaFaRunner.desktop</launchable>
     <screenshots>
         <screenshot type="default">
             <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.1+363/screenshots/1.png</image>

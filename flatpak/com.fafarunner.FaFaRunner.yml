@@ -1,4 +1,4 @@
-id: com.chenyifaer.FaFaRunner
+id: com.fafarunner.FaFaRunner
 
 # https://docs.flatpak.org/en/latest/available-runtimes.html
 runtime: org.freedesktop.Platform
@@ -25,13 +25,13 @@ modules:
       - install -Dm755 usr/share/fafarunner/fafarunner /app/bin/fafarunner
       - cp -r usr/share/fafarunner/data usr/share/fafarunner/lib /app/bin/
 
-      - desktop-file-edit --remove-key=Version --set-key=Terminal --set-value='false' --set-icon='com.chenyifaer.FaFaRunner' "usr/share/applications/fafarunner.desktop"
-      - install -Dm644 usr/share/applications/fafarunner.desktop /app/share/applications/com.chenyifaer.FaFaRunner.desktop
+      - desktop-file-edit --remove-key=Version --set-key=Terminal --set-value='false' --set-icon='com.fafarunner.FaFaRunner' "usr/share/applications/fafarunner.desktop"
+      - install -Dm644 usr/share/applications/fafarunner.desktop /app/share/applications/com.fafarunner.FaFaRunner.desktop
 
-      - install -Dm644 usr/share/icons/hicolor/128x128/apps/fafarunner.png /app/share/icons/hicolor/128x128/apps/com.chenyifaer.FaFaRunner.png
-      - install -Dm644 usr/share/icons/hicolor/256x256/apps/fafarunner.png /app/share/icons/hicolor/256x256/apps/com.chenyifaer.FaFaRunner.png
+      - install -Dm644 usr/share/icons/hicolor/128x128/apps/fafarunner.png /app/share/icons/hicolor/128x128/apps/com.fafarunner.FaFaRunner.png
+      - install -Dm644 usr/share/icons/hicolor/256x256/apps/fafarunner.png /app/share/icons/hicolor/256x256/apps/com.fafarunner.FaFaRunner.png
 
-      - install -Dm644 usr/share/metainfo/fafarunner.metainfo.xml /app/share/appdata/com.chenyifaer.FaFaRunner.metainfo.xml
+      - install -Dm644 usr/share/metainfo/fafarunner.metainfo.xml /app/share/appdata/com.fafarunner.FaFaRunner.metainfo.xml
     sources:
       - type: file
         only-arches:

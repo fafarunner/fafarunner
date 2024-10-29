@@ -8,7 +8,7 @@ contact: kjxbyz888@outlook.com
 license: MIT
 source-code: https://github.com/fafarunner/fafarunner
 issues: https://github.com/fafarunner/fafarunner/issues
-website: https://www.chenyifaer.com/fafarunner
+website: https://www.fafarunner.com
 architectures:
   - build-on: [amd64]
   - build-on: [arm64]
@@ -19,7 +19,7 @@ slots:
   dbus-fafarunner: # adjust accordingly to your app name
     interface: dbus
     bus: session
-    name: com.chenyifaer.fafarunner # adjust accordingly to your app name and
+    name: com.fafarunner.FaFaRunner # adjust accordingly to your app name and
 apps:
   fafarunner:
     command: fafarunner
