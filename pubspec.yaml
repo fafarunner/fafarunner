@@ -44,7 +44,7 @@ dependencies:
     sdk: flutter
   logging: ^1.3.0
   package_info_plus: ^8.1.0
-  path_provider: ^2.1.4
+  path_provider: ^2.1.5
   sentry_flutter: ^8.9.0
   sentry_logging: ^8.9.0
   slang_flutter: ^4.1.0
