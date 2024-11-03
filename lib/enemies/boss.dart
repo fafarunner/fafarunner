@@ -111,22 +111,17 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
     if (checkInterval('addChild', 2000, dt)) {
       var positionExplosion = Vector2.zero();
 
-      switch (directionThePlayerIsIn()) {
-        case Direction.left:
-          positionExplosion = position.translated(width * -2, 0);
-        case Direction.right:
-          positionExplosion = position.translated(width * 2, 0);
-        case Direction.up:
-          positionExplosion = position.translated(0, height * -2);
-        case Direction.down:
-          positionExplosion = position.translated(0, height * 2);
-        case Direction.upLeft:
-        case Direction.upRight:
-        case Direction.downLeft:
-        case Direction.downRight:
-          break;
-        default:
+      final direction = directionThePlayerIsIn();
+      if (direction == Direction.left) {
+        positionExplosion = position.translated(width * -2, 0);
+      } else if (direction == Direction.right) {
+        positionExplosion = position.translated(width * 2, 0);
+      } else if (direction == Direction.up) {
+        positionExplosion = position.translated(0, height * -2);
+      } else if (direction == Direction.down) {
+        positionExplosion = position.translated(0, height * 2);
       }
+
       final Enemy e = childrenEnemy.length == 2
           ? MiniBoss(
               Vector2(
