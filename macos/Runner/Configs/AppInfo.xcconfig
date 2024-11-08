@@ -8,7 +8,7 @@
 PRODUCT_NAME = FaFa Runner
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner.mac
+PRODUCT_BUNDLE_IDENTIFIER = com.chenyifaer.fafarunner
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 FaFa Runner. All rights reserved.

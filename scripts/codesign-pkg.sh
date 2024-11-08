@@ -9,7 +9,7 @@ export "DEVELOPER_ID_APP=$DEVELOPER_ID_APP"
 signFile() {
   filename=$1
   echo "Signing FILE: $filename"
-  /usr/bin/codesign --deep -s "$DEVELOPER_ID_APP" -f --timestamp -i "com.chenyifaer.fafarunner.mac" -o runtime "$filename"
+  /usr/bin/codesign --deep -s "$DEVELOPER_ID_APP" -f --timestamp -i "com.chenyifaer.fafarunner" -o runtime "$filename"
 }
 
 export -f signFile

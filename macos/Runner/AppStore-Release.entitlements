@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>com.apple.application-identifier</key>
-	<string>43V9N6VW8L.com.chenyifaer.fafarunner.mac</string>
+	<string>43V9N6VW8L.com.chenyifaer.fafarunner</string>
 	<key>com.apple.developer.team-identifier</key>
 	<string>43V9N6VW8L</string>
 	<key>com.apple.security.app-sandbox</key>

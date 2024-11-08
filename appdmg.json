@@ -8,6 +8,6 @@
   ],
   "code-sign": {
     "signing-identity": "Developer ID Application: Qingdao INSCO Network Technology Co., Ltd. (43V9N6VW8L)",
-    "identifier": "com.chenyifaer.fafarunner.mac"
+    "identifier": "com.chenyifaer.fafarunner"
   }
 }
