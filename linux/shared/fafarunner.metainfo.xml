@@ -59,19 +59,22 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.1+364/screenshots/1.png</image>
+            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.1+365/screenshots/1.png</image>
             <caption>Default screenshot for desktop</caption>
         </screenshot>
         <screenshot>
-            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.1+364/screenshots/2.png</image>
+            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.1+365/screenshots/2.png</image>
             <caption>Menu Selection</caption>
         </screenshot>
         <screenshot>
-            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.1+364/screenshots/3.png</image>
+            <image>https://raw.githubusercontent.com/fafarunner/fafarunner/v1.0.1+365/screenshots/3.png</image>
             <caption>Game running screen</caption>
         </screenshot>
     </screenshots>
     <releases>
+        <release version="v1.0.1+365" date="2024-11-08">
+            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.1+365/CHANGELOG.md</url>
+        </release>
         <release version="v1.0.1+364" date="2024-10-29">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.1+364/CHANGELOG.md</url>
         </release>

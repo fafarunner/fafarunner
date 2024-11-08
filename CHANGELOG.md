@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1+365
+
+1. refactor(macos): update bundle id
+2. chore(deps): update deps
+
 ## 1.0.1+364
 
 1. Add callbacks to linux app
