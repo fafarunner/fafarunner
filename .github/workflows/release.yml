@@ -2395,15 +2395,18 @@ jobs:
   linux_snap:
     name: Create linux snap
     runs-on: ubuntu-latest
+    env:
+      LXD_GROUP: lxd
     needs:
       - create_release
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup LXD
-        uses: canonical/setup-lxd@v0.1.1
+        uses: canonical/setup-lxd@v0.1.2
         with:
           channel: latest/stable
+          group: ${{ env.LXD_GROUP }}
 
       - name: Configure .env
         run: |
@@ -2423,8 +2426,7 @@ jobs:
           yq --version
 
       - name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
+        run: sudo snap install snapcraft --classic
 
       - name: Update snapcraft.yaml
         run: |
@@ -2439,7 +2441,7 @@ jobs:
         run: |
           # https://snapcraft.io/docs/flutter-applications
           RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-          snapcraft --output fafarunner_"$RELEASE"_linux_amd64.snap
+          sudo snapcraft --output fafarunner_"$RELEASE"_linux_amd64.snap
         env:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
@@ -2466,26 +2468,24 @@ jobs:
           rm -f .env
           if which snapcraft >/dev/null 2>&1; then
             echo "snapcraft exists"
-            snapcraft clean
+            sudo snapcraft clean
           fi
 
   linux_snap_aarch64:
     name: Create linux snap (aarch64)
     runs-on: buildjet-4vcpu-ubuntu-2204-arm
-    needs:
-      - create_release
     env:
       LXD_GROUP: lxd
+    needs:
+      - create_release
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            sudo snap install -y yq
-          fi
-          yq --version
+      - name: Setup LXD
+        uses: canonical/setup-lxd@v0.1.2
+        with:
+          channel: latest/stable
+          group: ${{ env.LXD_GROUP }}
 
       - name: Configure .env
         run: |
@@ -2496,19 +2496,13 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Setup LXD
-        uses: canonical/setup-lxd@main
-        with:
-          group: ${{ env.LXD_GROUP }}
-          channel: latest/stable
-
-      - name: Add user to the LXD (lxd) group
+      - name: Install yq
         run: |
-          sudo usermod -a -G $LXD_GROUP $USER
-          newgrp $LXD_GROUP
-
-      - name: Restart lxd
-        run: sudo snap restart lxd
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            sudo snap install -y yq
+          fi
+          yq --version
 
       - name: Update snapcraft.yaml
         run: |

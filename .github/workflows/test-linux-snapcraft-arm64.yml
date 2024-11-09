@@ -15,13 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            sudo snap install -y yq
-          fi
-          yq --version
+      - name: Setup LXD
+        uses: canonical/setup-lxd@v0.1.2
+        with:
+          channel: latest/stable
+          group: ${{ env.LXD_GROUP }}
 
       - name: Configure .env
         run: |
@@ -29,19 +27,13 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Setup LXD
-        uses: canonical/setup-lxd@main
-        with:
-          group: ${{ env.LXD_GROUP }}
-          channel: latest/stable
-
-      - name: Add user to the LXD (lxd) group
+      - name: Install yq
         run: |
-          sudo usermod -a -G $LXD_GROUP $USER
-          newgrp $LXD_GROUP
-
-      - name: Restart lxd
-        run: sudo snap restart lxd
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            sudo snap install -y yq
+          fi
+          yq --version
 
       - name: Update snapcraft.yaml
         run: |
