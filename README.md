@@ -51,7 +51,7 @@
   <tr>
     <td>MacOS</td>
     <td>
-      <a href="https://apps.apple.com/us/app/id6448848303">
+      <a href="https://apps.apple.com/us/app/id6446263696?mt=12">
         <img width="220" alt="Get it on Mac App Store" src="./docs/assets/Download-on-the-Mac-App-Store.svg">
       </a>
     </td>
