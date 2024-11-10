@@ -5,7 +5,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/releases/latest)
 [![Chocolatey Version](https://img.shields.io/chocolatey/v/fafarunner)](https://community.chocolatey.org/packages/fafarunner)
 [![Scoop Version](https://img.shields.io/scoop/v/fafarunner?bucket=https%253A%252F%252Fgithub.com%252Fkjxbyz%252Fscoop-bucket)](https://scoop.sh/#/apps?q=fafarunner&o=false)
-[![Flathub Version](https://img.shields.io/flathub/v/com.fafarunner.FaFaRunner)](https://flathub.org/apps/com.fafarunner.FaFaRunner)
+[![Flathub Version](https://img.shields.io/flathub/v/com.chenyifaer.FaFaRunner)](https://flathub.org/apps/com.chenyifaer.FaFaRunner)
 [![Snapcraft Version](https://img.shields.io/snapcraft/v/fafarunner/latest/stable)](https://snapcraft.io/fafarunner)
 [![AUR Version](https://img.shields.io/aur/version/fafarunner-bin)](https://aur.archlinux.org/packages/fafarunner-bin)
 
@@ -75,7 +75,7 @@
   <tr>
     <td>Flathub</td>
     <td colspan="2">
-      <a href="https://flathub.org/apps/details/com.fafarunner.FaFaRunner">
+      <a href="https://flathub.org/apps/details/com.chenyifaer.FaFaRunner">
         <img width="220" alt="Get it on Flathub" src="https://flathub.org/assets/badges/flathub-badge-en.png">
       </a>
     </td>
@@ -160,7 +160,7 @@
   <tr>
     <td>Flatpak</td>
     <td>
-      <p><code>flatpak install com.fafarunner.FaFaRunner</code></p>
+      <p><code>flatpak install com.chenyifaer.FaFaRunner</code></p>
     </td>
   </tr>
   <tr>
@@ -170,16 +170,16 @@
       <p>With yay: <code>yay -Sy fafarunner-bin</code></p>
     </td>
   </tr>
-  <tr>
+  <!-- <tr>
     <td>Nixpkgs (TODO)</td>
     <td>
       <p><code>nix-shell -p fafarunner</code></p>
     </td>
-  </tr>
+  </tr> -->
   <tr>
     <td>Macos - <a href="https://brew.sh">Homebrew</a></td>
     <td>
-     <p><code>brew install fafarunner/fafarunner/fafarunner</code></p>
+     <p><code>brew install kjxbyz/casks/fafarunner</code></p>
     </td>
   </tr>
   <tr>
@@ -191,8 +191,8 @@
   <tr>
     <td>Windows - <a href="https://scoop.sh">Scoop</a></td>
     <td>
-      <p><code>scoop bucket add scoop-bucket https://github.com/fafarunner/scoop-bucket</code></p>
-      <p><code>scoop install scoop-bucket/fafarunner</code></p>
+      <p><code>scoop bucket add kjxbyz_scoop-bucket https://github.com/kjxbyz/scoop-bucket</code></p>
+      <p><code>scoop install kjxbyz_scoop-bucket/fafarunner</code></p>
     </td>
   </tr>
   <tr>
