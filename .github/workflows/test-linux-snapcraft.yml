@@ -36,13 +36,10 @@ jobs:
           yq --version
 
       - name: Update snapcraft.yaml
-        run: |
-          rm -f snap/snapcraft-arm64.yaml
-          yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.24.4"' snap/snapcraft.yaml
+        run: rm -f snap/snapcraft-arm64.yaml
 
       - name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
+        run: sudo snap install snapcraft --classic
 
       - name: Build snap
         run: |

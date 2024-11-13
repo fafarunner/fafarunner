@@ -2432,7 +2432,6 @@ jobs:
         run: |
           rm -f snap/snapcraft-arm64.yaml
           VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
-          yq -i '.parts.fafarunner.build-environment[1].FLUTTER_VERSION = "3.24.4"' snap/snapcraft.yaml
         env:
           VERSION_SHORT: ${{ needs.create_release.outputs.version_short }}
           BUILD_NUMBER: ${{ needs.create_release.outputs.build_number }}
