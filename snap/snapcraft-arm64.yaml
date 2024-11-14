@@ -57,12 +57,12 @@ parts:
       - libgstreamer-plugins-base1.0-dev
     override-build: |
       # https://github.com/canonical/snapcraft/blob/main/snapcraft/parts/plugins/flutter_plugin.py
-      PG_FLUTTER_BUILD_DIR="$CRAFT_PART_BUILD/flutter-distro"
-      if [ -d "$PG_FLUTTER_BUILD_DIR" ]; then
-        echo "$PG_FLUTTER_BUILD_DIR"
-        rm -rf $PG_FLUTTER_BUILD_DIR
+      FR_FLUTTER_BUILD_DIR="$CRAFT_PART_BUILD/flutter-distro"
+      if [ -d "$FR_FLUTTER_BUILD_DIR" ]; then
+        echo "$FR_FLUTTER_BUILD_DIR"
+        rm -rf $FR_FLUTTER_BUILD_DIR
       fi
-      git clone --depth 1 -b $FLUTTER_VERSION $FLUTTER_REPO $PG_FLUTTER_BUILD_DIR
+      git clone --depth 1 -b $FLUTTER_VERSION $FLUTTER_REPO $FR_FLUTTER_BUILD_DIR
       flutter doctor -v
       flutter precache --linux
       flutter pub get
