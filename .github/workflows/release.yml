@@ -24,71 +24,54 @@ jobs:
       version: ${{ steps.version_step.outputs.version }}
       version_short: ${{ steps.version_step.outputs.version_short }}
       build_number: ${{ steps.version_step.outputs.build_number }}
+      tag_name: ${{ steps.version_step.outputs.tag_name }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set sha_short
-        id: sha_short_step
-        run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Check sha_short
-        run: echo ${{ steps.sha_short_step.outputs.sha_short }}
-
       - name: Set sha
         id: sha_step
-        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Check sha
-        run: echo ${{ steps.sha_step.outputs.sha }}
-
-      - name: Install yq
         run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
+          SHA=$(git rev-parse HEAD)
+          echo "SHA: $SHA."
+          
+          SHA_SHORT=$(git rev-parse --short=8 HEAD)
+          echo "SHA_SHORT: $SHA_SHORT."
+          
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          echo "sha_short=$SHA_SHORT" >> $GITHUB_OUTPUT
 
       - name: Set version
         id: version_step
         run: | 
           VERSION=$(yq '.version' pubspec.yaml)
-          echo "$VERSION"
+          echo "VERSION: $VERSION."
 
           VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
-          echo "$VERSION_SHORT"
+          echo "VERSION_SHORT: $VERSION_SHORT."
 
           BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
-          echo "$BUILD_NUMBER"
+          echo "BUILD_NUMBER: $BUILD_NUMBER."
+          
+          TAG_NAME=$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")
+          echo "TAG_NAME: v$TAG_NAME."
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
-
-      - name: Check version
-        run: |
-          echo "version: $VERSION"
-          echo "version_short: $VERSION_SHORT"
-          echo "build_number: $BUILD_NUMBER"
+          echo "tag_name=v$TAG_NAME" >> $GITHUB_OUTPUT
         env:
-          VERSION: ${{ steps.version_step.outputs.version }}
-          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
-          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
-
-      - name: Show gh info
-        run: gh --version
+          ENV: ${{ github.event.inputs.env }}
 
       - name: Create a release
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          RELEASE_NOTES="Env: $ENV <br /> Branch: $BRANCH <br /> Commit: $COMMIT_REF"
-          gh release create "$RELEASE" --draft --latest=false --prerelease=false --target "$COMMIT" --title "$RELEASE" --notes "$RELEASE_NOTES"
+          RELEASE_NOTES="Env: $ENV <br /> Branch: $BRANCH <br /> Commit: $SHA_SHORT"
+          gh release create "$TAG_NAME" --draft --latest=false --prerelease=false --target "$SHA" --title "$TAG_NAME" --notes "$RELEASE_NOTES"
         env:
           ENV: ${{ github.event.inputs.env }}
           BRANCH: ${{ github.ref_name }}
-          COMMIT_REF: ${{ steps.sha_short_step.outputs.sha_short }}
-          COMMIT: ${{ steps.sha_step.outputs.sha }}
-          TAG_NAME: "v${{ steps.version_step.outputs.version }}"
+          SHA: ${{ steps.sha_step.outputs.sha }}
+          SHA_SHORT: ${{ steps.sha_step.outputs.sha_short }}
+          TAG_NAME: ${{ steps.version_step.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   gen_shasum:
@@ -116,15 +99,12 @@ jobs:
       - linux_zip_aarch64
       - linux_tar
       - linux_tar_aarch64
-#      - linux_flatpak
-#      - linux_flatpak_aarch64
       - linux_snap
       - linux_snap_aarch64
       - windows_msi
       - windows_msix
       - windows_exe
       - windows_zip
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v4
 
@@ -137,22 +117,21 @@ jobs:
 
       - name: Publish a release
         run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
           if [ "$ENV" == "production" ]; then
-            gh release edit "$RELEASE" --latest --draft=false --tag "$RELEASE" --target "$COMMIT"
+            gh release edit "$TAG_NAME" --latest --draft=false --tag "$TAG_NAME" --target "$SHA"
           else
-            gh release edit "$RELEASE" --prerelease --draft=false --tag "$RELEASE" --target "$COMMIT"
+            gh release edit "$TAG_NAME" --prerelease --draft=false --tag "$TAG_NAME" --target "$SHA"
           fi
         env:
           ENV: ${{ github.event.inputs.env }}
-          COMMIT: ${{ needs.create_release.outputs.sha }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          SHA: ${{ needs.create_release.outputs.sha }}
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Download assets
         uses: robinraju/release-downloader@v1
         with:
-          tag: "v${{ needs.create_release.outputs.version }}${{ github.event.inputs.env == 'staging' && '.pre' || '' }}"
+          tag: "${{ needs.create_release.outputs.tag_name }}"
           fileName: '*'
           tarBall: false
           zipBall: false
@@ -162,66 +141,11 @@ jobs:
         run: shasum create "$GITHUB_WORKSPACE/SHASUMS256.txt" *
         working-directory: ${{ github.workspace }}/fr-downloads
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./SHASUMS256.txt
+        run: gh release upload "$TAG_NAME" ./SHASUMS256.txt
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-
-#  remove_release:
-#      name: Remove release
-#      if: ${{ cancelled() || failure() }}
-#      runs-on: ubuntu-latest
-#      needs:
-#        - create_release
-#        - apk
-#        - aab
-#        - ios
-#        - macos_dmg
-#        - macos_pkg
-#        - macos_appstore
-#        - macos_zip
-#        - macos_tar
-#        - linux_appimage
-#        - linux_appimage_aarch64
-#        - linux_pacman
-#        - linux_pacman_aarch64
-#        - linux_deb
-#        - linux_deb_aarch64
-#        - linux_rpm
-#        - linux_rpm_aarch64
-#        - linux_zip
-#        - linux_zip_aarch64
-#        - linux_tar
-#        - linux_tar_aarch64
-#        - linux_flatpak
-#        - linux_flatpak_aarch64
-#        - linux_snap
-#        - linux_snap_aarch64
-#        - windows_msi
-#        - windows_msix
-#        - windows_exe
-#        - windows_zip
-#      steps:
-#        - uses: actions/checkout@v4
-#
-#        - name: Show gh info
-#          run: gh --version
-#
-#        - name: Remove a release
-#          run: |
-#            RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-#            gh release delete -y --cleanup-tag "$RELEASE"
-#          env:
-#            ENV: ${{ github.event.inputs.env }}
-#            TAG_NAME: "v${{ needs.create_release.outputs.version }}"
-#            GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   apk:
     name: Create apk
@@ -293,16 +217,10 @@ jobs:
           cp *.apk $GITHUB_WORKSPACE/
         working-directory: build/app/outputs/apk/production/release
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.apk
+        run: gh release upload "$TAG_NAME" ./*.apk
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -390,16 +308,10 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.aab
+        run: gh release upload "$TAG_NAME" ./*.aab
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -513,16 +425,10 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.ipa
+        run: gh release upload "$TAG_NAME" ./*.ipa
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -651,16 +557,10 @@ jobs:
       - name: Copy build for dmg
         run: ls -la *.dmg
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.dmg
+        run: gh release upload "$TAG_NAME" ./*.dmg
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -786,16 +686,10 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.pkg
+        run: gh release upload "$TAG_NAME" ./*.pkg
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -928,16 +822,10 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.pkg
+        run: gh release upload "$TAG_NAME" ./*.pkg
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1067,16 +955,10 @@ jobs:
           mv FaFaRunner_*_macos_universal.zip $GITHUB_WORKSPACE/
         working-directory: build/macos/Build/Products/Release
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.zip
+        run: gh release upload "$TAG_NAME" ./*.zip
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1199,16 +1081,10 @@ jobs:
           mv *.tar.gz $GITHUB_WORKSPACE/
         working-directory: build/macos/Build/Products/Release
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.tar.gz
+        run: gh release upload "$TAG_NAME" ./*.tar.gz
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1284,16 +1160,10 @@ jobs:
           cp ./**/*.AppImage $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.AppImage
+        run: gh release upload "$TAG_NAME" ./*.AppImage
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1375,16 +1245,10 @@ jobs:
           cp ./**/*.AppImage $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.AppImage
+        run: gh release upload "$TAG_NAME" ./*.AppImage
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1456,16 +1320,10 @@ jobs:
           cp ./**/*.pacman $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.pacman
+        run: gh release upload "$TAG_NAME" ./*.pacman
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1541,16 +1399,10 @@ jobs:
           cp ./**/*.pacman $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.pacman
+        run: gh release upload "$TAG_NAME" ./*.pacman
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1620,16 +1472,10 @@ jobs:
           cp ./**/*.deb $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.deb
+        run: gh release upload "$TAG_NAME" ./*.deb
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1699,16 +1545,10 @@ jobs:
           cp ./**/*.deb $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.deb
+        run: gh release upload "$TAG_NAME" ./*.deb
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1782,16 +1622,10 @@ jobs:
           cp ./**/*.rpm $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.rpm
+        run: gh release upload "$TAG_NAME" ./*.rpm
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1879,16 +1713,10 @@ jobs:
           cp ./**/*.rpm $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.rpm
+        run: gh release upload "$TAG_NAME" ./*.rpm
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -1958,16 +1786,10 @@ jobs:
           cp ./**/*.zip $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.zip
+        run: gh release upload "$TAG_NAME" ./*.zip
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2038,16 +1860,10 @@ jobs:
           cp ./**/*.zip $GITHUB_WORKSPACE/
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.zip
+        run: gh release upload "$TAG_NAME" ./*.zip
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2114,16 +1930,10 @@ jobs:
       - name: Copy build for tar
         run: ls -la
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.tar.gz
+        run: gh release upload "$TAG_NAME" ./*.tar.gz
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2194,203 +2004,16 @@ jobs:
       - name: Copy build for tar
         run: ls -la
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.tar.gz
+        run: gh release upload "$TAG_NAME" ./*.tar.gz
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
         if: ${{ always() }}
         run: |
           rm -f .env
-
-#  linux_flatpak:
-#    name: Create linux flatpak
-#    runs-on: ubuntu-latest
-#    container:
-#      image: bilelmoussaoui/flatpak-github-actions:freedesktop-23.08
-#      options: --privileged
-#    needs:
-#      - create_release
-#      - linux_deb
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Install yq
-#        run: |
-#          if ! command -v yq >/dev/null 2>&1; then
-#            echo "yq not exists"
-#            if ! command -v wget >/dev/null 2>&1; then
-#              echo "wget not exists"
-#              sudo dnf -y install wget
-#            fi
-#            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
-#            chmod +x /usr/bin/yq
-#          fi
-#          yq --version
-#
-#      - name: Update version
-#        run: |
-#          # Update flatpak/com.fafarunner.FaFaRunner.yml
-#          TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-#          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-#
-#          url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_amd64.deb
-#          wget -O fafarunner.deb "$url"
-#          sha256=$(sha256sum fafarunner.deb | awk '{print $1}')
-#          rm -f fafarunner.deb
-#          url=$url yq -i '.modules[0].sources[0].url = strenv(url)' flatpak/com.fafarunner.FaFaRunner.yml
-#          sha256=$sha256 yq -i '.modules[0].sources[0].sha256 = strenv(sha256)' flatpak/com.fafarunner.FaFaRunner.yml
-#        env:
-#          ENV: ${{ github.event.inputs.env }}
-#          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
-#          VERSION: ${{ needs.create_release.outputs.version }}
-#
-#      - name: Show config
-#        run: cat flatpak/com.fafarunner.FaFaRunner.yml
-#
-#      - name: Build flatpak
-#        uses: flatpak/flatpak-github-actions/flatpak-builder@master
-#        with:
-#          bundle: FaFaRunner.flatpak
-#          manifest-path: flatpak/com.fafarunner.FaFaRunner.yml
-#          cache: true
-#          restore-cache: true
-#          cache-key: flatpak-builder-${{ github.sha }}-cache-restored
-#          arch: x86_64
-#          upload-artifact: false
-#
-#      # Package the build.
-#      - name: Copy build for flatpak
-#        run: |
-#          ls -la
-#          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-#          mv ./FaFaRunner.flatpak $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_linux_amd64.flatpak
-#        env:
-#          ENV: ${{ github.event.inputs.env }}
-#          VERSION: "${{ needs.create_release.outputs.version }}"
-#
-#      - name: Install gh
-#        run: |
-#          sudo dnf -y install git
-#          sudo dnf -y install 'dnf-command(config-manager)'
-#          sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-#          sudo dnf -y install gh --repo gh-cli
-#
-#      - name: Show gh info
-#        run: gh --version
-#
-#      - name: Upload assets
-#        run: |
-#          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-#          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-#          gh release upload "$RELEASE" ./*.flatpak
-#        env:
-#          ENV: ${{ github.event.inputs.env }}
-#          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
-#          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-#
-#  linux_flatpak_aarch64:
-#    name: Create linux flatpak (aarch64)
-#    runs-on: ubuntu-latest
-#    container:
-#      image: bilelmoussaoui/flatpak-github-actions:freedesktop-23.08
-#      options: --privileged
-#    needs:
-#      - create_release
-#      - linux_deb_aarch64
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Install yq
-#        run: |
-#          if ! command -v yq >/dev/null 2>&1; then
-#            echo "yq not exists"
-#            if ! command -v wget >/dev/null 2>&1; then
-#              echo "wget not exists"
-#              sudo dnf -y install wget
-#            fi
-#            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq &&\
-#            chmod +x /usr/bin/yq
-#          fi
-#          yq --version
-#
-#      - name: Update version
-#        run: |
-#          # Update flatpak/com.fafarunner.FaFaRunner.yml
-#          TAG="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-#          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-#
-#          url=https://github.com/fafarunner/fafarunner/releases/download/"$TAG"/fafarunner_"$RELEASE"_linux_aarch64.deb
-#          wget -O fafarunner.deb "$url"
-#          sha256=$(sha256sum fafarunner.deb | awk '{print $1}')
-#          rm -f fafarunner.deb
-#          url=$url yq -i '.modules[0].sources[1].url = strenv(url)' flatpak/com.fafarunner.FaFaRunner.yml
-#          sha256=$sha256 yq -i '.modules[0].sources[1].sha256 = strenv(sha256)' flatpak/com.fafarunner.FaFaRunner.yml
-#        env:
-#          ENV: ${{ github.event.inputs.env }}
-#          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
-#          VERSION: ${{ needs.create_release.outputs.version }}
-#
-#      - name: Show config
-#        run: cat flatpak/com.fafarunner.FaFaRunner.yml
-#
-#      - name: Install QEMU deps
-#        run: |
-#          dnf -y install docker
-#
-#      - name: Set up QEMU
-#        uses: docker/setup-qemu-action@v3
-#        with:
-#          platforms: arm64
-#
-#      - name: Build flatpak
-#        uses: flatpak/flatpak-github-actions/flatpak-builder@master
-#        with:
-#          bundle: FaFaRunner.flatpak
-#          manifest-path: flatpak/com.fafarunner.FaFaRunner.yml
-#          cache: true
-#          restore-cache: true
-#          cache-key: flatpak-builder-${{ github.sha }}-cache-restored
-#          arch: aarch64
-#          upload-artifact: false
-#
-#      # Package the build.
-#      - name: Copy build for flatpak
-#        run: |
-#          ls -la
-#          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$VERSION.pre" || echo "$VERSION")"
-#          mv ./FaFaRunner.flatpak $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_linux_aarch64.flatpak
-#        env:
-#          ENV: ${{ github.event.inputs.env }}
-#          VERSION: "${{ needs.create_release.outputs.version }}"
-#
-#      - name: Install gh
-#        run: |
-#          sudo dnf -y install git
-#          sudo dnf -y install 'dnf-command(config-manager)'
-#          sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-#          sudo dnf -y install gh --repo gh-cli
-#
-#      - name: Show gh info
-#        run: gh --version
-#
-#      - name: Upload assets
-#        run: |
-#          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-#          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-#          gh release upload "$RELEASE" ./*.flatpak
-#        env:
-#          ENV: ${{ github.event.inputs.env }}
-#          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
-#          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
   linux_snap:
     name: Create linux snap
@@ -2417,14 +2040,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
       - name: Install snapcraft
         run: sudo snap install snapcraft --classic
 
@@ -2449,16 +2064,10 @@ jobs:
       - name: Copy build for snap
         run: ls -la *.snap
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.snap
+        run: gh release upload "$TAG_NAME" ./*.snap
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2528,16 +2137,10 @@ jobs:
       - name: Copy build for snap
         run: ls -la *.snap
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
-        run: |
-          RELEASE="$([[ "$ENV" == "staging" ]] && echo "$TAG_NAME.pre" || echo "$TAG_NAME")"
-          gh release upload "$RELEASE" ./*.snap
+        run: gh release upload "$TAG_NAME" ./*.snap
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2656,17 +2259,12 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           VERSION: ${{ needs.create_release.outputs.version }}
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
           # https://github.com/cli/cli/issues/5099
-          gh release upload "$RELEASE" (get-item .\*.msi)
+          gh release upload "$env:TAG_NAME" (get-item .\*.msi)
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2772,17 +2370,12 @@ jobs:
           cp .\*.msix "$env:GITHUB_WORKSPACE\"
         working-directory: build\windows\x64\runner\Release
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
           # https://github.com/cli/cli/issues/5099
-          gh release upload "$RELEASE" (get-item .\*.msix)
+          gh release upload "$env:TAG_NAME" (get-item .\*.msix)
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2837,12 +2430,6 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
-      #      - name: Compile .iss to .exe installer
-      #        uses: Minionguyjpro/Inno-Setup-Action@v1.2.4
-      #        with:
-      #          path: windows/packaging/exe/inno_setup.iss
-      #          options: /O+
-
       - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |
           copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
@@ -2882,9 +2469,14 @@ jobs:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
       - name: Build exe
+        shell: pwsh
         run: |
           $VERSION_SUFFIX = $(If ($env:ENV -eq "staging") {".pre"} Else {""})
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets exe --artifact-name "{{name}}_{{build_name}}+{{build_number}}$VERSION_SUFFIX`_{{platform}}_x64.{{ext}}"
+          flutter_distributor package `
+            --flutter-build-args "dart-define-from-file=.env" `
+            --platform windows `
+            --targets exe `
+            --artifact-name "{{name}}_{{build_name}}+{{build_number}}$VERSION_SUFFIX`_{{platform}}_x64.{{ext}}"
         env:
           ENV: ${{ github.event.inputs.env }}
 
@@ -2911,17 +2503,12 @@ jobs:
           cp .\**\*.exe "$env:GITHUB_WORKSPACE\"
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
           # https://github.com/cli/cli/issues/5099
-          gh release upload "$RELEASE" (get-item .\*.exe)
+          gh release upload "$env:TAG_NAME" (get-item .\*.exe)
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up
@@ -2976,9 +2563,14 @@ jobs:
         run: flutter pub get
 
       - name: Build zip
+        shell: pwsh
         run: |
           $VERSION_SUFFIX = $(If ($env:ENV -eq "staging") {".pre"} Else {""})
-          flutter_distributor package --flutter-build-args "dart-define-from-file=.env" --platform windows --targets zip --artifact-name "{{name}}_{{build_name}}+{{build_number}}$VERSION_SUFFIX`_{{platform}}_x64.{{ext}}"
+          flutter_distributor package `
+            --flutter-build-args "dart-define-from-file=.env" `
+            --platform windows `
+            --targets zip `
+            --artifact-name "{{name}}_{{build_name}}+{{build_number}}$VERSION_SUFFIX`_{{platform}}_x64.{{ext}}"
         env:
           ENV: ${{ github.event.inputs.env }}
 
@@ -2989,17 +2581,12 @@ jobs:
           cp .\**\*.zip "$env:GITHUB_WORKSPACE\"
         working-directory: dist
 
-      - name: Show gh info
-        run: gh --version
-
       - name: Upload assets
         run: |
-          $RELEASE = $(If ($env:ENV -eq "staging") {"$env:TAG_NAME.pre"} Else {"$env:TAG_NAME"})
           # https://github.com/cli/cli/issues/5099
-          gh release upload "$RELEASE" (get-item .\*.zip)
+          gh release upload "$env:TAG_NAME" (get-item .\*.zip)
         env:
-          ENV: ${{ github.event.inputs.env }}
-          TAG_NAME: "v${{ needs.create_release.outputs.version }}"
+          TAG_NAME: ${{ needs.create_release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
       - name: Clean up

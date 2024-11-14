@@ -27,14 +27,6 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
       - name: Update snapcraft.yaml
         run: rm -f snap/snapcraft-arm64.yaml
 

@@ -111,14 +111,6 @@ jobs:
           THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY: ${{ secrets.THIRD_PARTY_MAC_DEVELOPER_INSTALLER_SIGNING_IDENTITY }}
         working-directory: build/macos/Build/Products/Release
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
       - name: Set version
         id: version_step
         run: |

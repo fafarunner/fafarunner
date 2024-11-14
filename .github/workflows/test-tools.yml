@@ -1,4 +1,4 @@
-name: Test Windows Tools
+name: Test Tools
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
 permissions: read-all
 
 jobs:
-  signtool:
+  windows-signtool:
     name: Create signtool
     runs-on: windows-latest
     steps:
@@ -16,7 +16,7 @@ jobs:
           cd 'C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool'
           ls -R
 
-  msvc:
+  windows-msvc:
     name: Create msvc
     runs-on: windows-latest
     steps:
@@ -32,7 +32,7 @@ jobs:
               Write-Output "未找到以数字开头的目录"
           }
 
-#  msix:
+#  windows-msix:
 #    name: Create msix
 #    runs-on: windows-latest
 #    steps:
@@ -60,7 +60,7 @@ jobs:
 #          path: |
 #            windows\packaging\msix\make_config.yaml
 
-  yq:
+  windows-yq:
     name: Update config
     runs-on: windows-latest
     steps:

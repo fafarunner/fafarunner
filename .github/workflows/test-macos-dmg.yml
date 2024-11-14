@@ -108,14 +108,6 @@ jobs:
       - name: Build DMG
         run: bash scripts/build-dmg.sh
 
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            brew install yq
-          fi
-          yq --version
-
       # Package the build.
       - name: Copy build for dmg
         run: |

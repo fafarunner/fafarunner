@@ -51,7 +51,12 @@ jobs:
         run: flutter pub get
 
       - name: Build RPM
-        run: flutter_distributor package --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" --platform linux --targets rpm --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_amd64.{{ext}}'
+        run: |
+          flutter_distributor package \
+            --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" \
+            --platform linux \
+            --targets rpm \
+            --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_amd64.{{ext}}'
 
       # Package the build.
       - name: Copy build for rpm
