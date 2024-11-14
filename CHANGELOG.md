@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2+366
+
+1. chore(deps): update deps
+2. Building from source on Linux arm64
+3. Update flutter to v3.24.5
+
 ## 1.0.1+365
 
 1. refactor(macos): update bundle id
