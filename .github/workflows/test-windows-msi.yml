@@ -53,18 +53,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check msvc
-        run: |
-          $directories = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC" -Directory | Where-Object { $_.Name -match '^[0-9]{1,}' }
-
-          # 如果目录列表不为空，则找到最后一个目录
-          if ($directories.Count -gt 0) {
-              $lastDirectory = $directories[-1]
-              Write-Output "最后一个以数字开头的目录是: $($lastDirectory.FullName)"
-          } else {
-              Write-Output "未找到以数字开头的目录"
-          }
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -130,7 +118,6 @@ jobs:
 
           $env:IconPath = "$pwd\windows\runner\resources\app_icon.ico"
           $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\$env:Platform\runner\Release"
-          $env:VISUAL_STUDIO_REDIST_DIR = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Redist\MSVC\14.40.33807\$env:Platform\Microsoft.VC143.CRT"
           dotnet build .\msi\fafarunner\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration Release
 
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
