@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=FaFa Runner
+Comment=Enjoy smooth gameplay, stunning graphics, and endless fun.
+Icon=fafarunner
+Exec=fafarunner %U
+Categories=Game;
+Keywords=FaFa Runner;FaFa;Runner;
+StartupNotify=true
+Terminal=false
