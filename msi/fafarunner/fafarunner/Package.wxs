@@ -13,7 +13,7 @@
     <Feature
         Id="Main"
         Title="FaFaRunner"
-        Description="A game developed using flame and bonfire."
+        Description="Enjoy smooth gameplay, stunning graphics, and endless fun."
         AllowAbsent="no"
         AllowAdvertise="no">
       <!-- Flutter output -->
@@ -29,7 +29,7 @@
     <Feature
       Id="Shortcut"
       Title="FaFaRunner"
-      Description="A game developed using flame and bonfire."
+      Description="Enjoy smooth gameplay, stunning graphics, and endless fun."
       AllowAbsent="yes"
       AllowAdvertise="no"
       Level="1">

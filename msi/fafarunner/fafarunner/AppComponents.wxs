@@ -10,7 +10,7 @@
       <Component>
         <!-- We wrap single files in components to let the linker generate the GUIDs -->
         <File Id="FaFaRunner.exe" Source="$(FlutterBuildOutputDir)\FaFaRunner.exe" KeyPath="yes" />
-        <Shortcut Name="FaFaRunner" Description="A game developed using flame and bonfire." Directory="ProgramMenuFolder" Advertise="yes" Icon="FaFaRunner.exe" />
+        <Shortcut Name="FaFaRunner" Description="Enjoy smooth gameplay, stunning graphics, and endless fun." Directory="ProgramMenuFolder" Advertise="yes" Icon="FaFaRunner.exe" />
       </Component>
       <Component>
         <File Source="$(FlutterBuildOutputDir)\audioplayers_windows_plugin.dll" />
@@ -122,7 +122,7 @@
     <!-- Desktop shortcut (user's choice) -->
     <Component Id="DesktopShortcutComponent" Directory="DesktopFolder">
       <RegistryValue Root="HKCU" Key="SOFTWARE\Insco LLC\FaFaRunner" Name="EnableDesktopShortcut" Value="1" />
-      <Shortcut Name="FaFaRunner" Description="A game developed using flame and bonfire." Directory="DesktopFolder" Target="[#FaFaRunner.exe]" />
+      <Shortcut Name="FaFaRunner" Description="Enjoy smooth gameplay, stunning graphics, and endless fun." Directory="DesktopFolder" Target="[#FaFaRunner.exe]" />
     </Component>
   </Fragment>
 </Wix>
