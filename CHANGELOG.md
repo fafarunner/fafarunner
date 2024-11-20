@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3+367
+
+1. chore(deps): update deps
+2. Disable multiple APKs for ABIs
+3. fix: remove VCredist.wxs
+4. refactor: Update CI
+
 ## 1.0.2+366
 
 1. chore(deps): update deps
