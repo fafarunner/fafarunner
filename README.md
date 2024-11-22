@@ -1,5 +1,7 @@
 # FaFa Runner
 
+>NOTE: This project is developed based on [Darkness Dungeon](https://github.com/RafaelBarbosatec/darkness_dungeon).
+
 [![Test](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml)
 [![Release](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/releases/latest)
