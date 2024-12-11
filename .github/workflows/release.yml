@@ -1104,17 +1104,17 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y locate libfuse2
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y locate libfuse2
           wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           chmod +x appimagetool && mv appimagetool /usr/local/bin/
 
       - name: Install GStreamer
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1178,16 +1178,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y locate libfuse2
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y locate libfuse2
 
       - name: Install libunwind-dev
         run: |
           # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install appimagetool
         run: |
@@ -1262,16 +1261,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y locate libfuse2
-          sudo apt install -y libarchive-tools
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y locate libfuse2 libarchive-tools
 
       - name: Install GStreamer
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1336,17 +1334,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y locate libfuse2
-          sudo apt install -y libarchive-tools
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y locate libfuse2 libarchive-tools
 
       - name: Install libunwind-dev
         run: |
           # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         shell: bash
@@ -1414,15 +1410,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y rpm patchelf
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y rpm patchelf
 
       - name: Install GStreamer
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1486,15 +1482,14 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
 
       - name: Install libunwind-dev
         run: |
           # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         shell: bash
@@ -1563,14 +1558,14 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
 
       - name: Install GStreamer
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1639,16 +1634,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y rpm patchelf
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y rpm patchelf
 
       - name: Install libunwind-dev
         run: |
           # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         shell: bash
@@ -1724,15 +1718,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y p7zip-full p7zip-rar
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y p7zip-full p7zip-rar
 
       - name: Install GStreamer
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1796,16 +1790,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y p7zip-full p7zip-rar
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y p7zip-full p7zip-rar
 
       - name: Install libunwind-dev
         run: |
           # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         shell: bash
@@ -1869,15 +1862,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y p7zip-full p7zip-rar
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y p7zip-full p7zip-rar
 
       - name: Install GStreamer
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1937,16 +1930,15 @@ jobs:
 
       - name: Install dependencies for Linux
         run: |
-          sudo apt update
-          sudo apt install -y wget curl git unzip xz-utils zip libglu1-mesa file
-          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-          sudo apt install -y p7zip-full p7zip-rar
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+          sudo apt-get install -y p7zip-full p7zip-rar
 
       - name: Install libunwind-dev
         run: |
           # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt install -y libunwind-dev
-          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Setup Flutter
         shell: bash
