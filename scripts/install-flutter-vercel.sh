@@ -4,7 +4,7 @@ set -e
 
 if ! command -v wget >/dev/null 2>&1; then
    echo "🟩 Installing wget"
-   yum install wget xz -y
+   yum install -y wget xz
 fi
 
 FLUTTER_DIR="$PWD"

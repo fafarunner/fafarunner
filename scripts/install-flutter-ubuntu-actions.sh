@@ -4,7 +4,7 @@ set -eu
 
 if ! command -v git >/dev/null 2>&1; then
    echo "🟩 Installing git"
-   sudo apt install git -y
+   sudo apt-get install -y git
 fi
 
 FLUTTER_DIR="$RUNNER_TEMP"
