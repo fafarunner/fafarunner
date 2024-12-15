@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.4+369
+
+1. chore(deps): update deps
+2. Update flutter to v3.27.0
+3. Update workflows
+4. Update metainfo
+
 ## 1.0.3+368
 
 1. chore(deps): update deps
