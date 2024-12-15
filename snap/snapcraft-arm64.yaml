@@ -35,7 +35,7 @@ parts:
     # flutter-target: lib/main.dart # The main entry-point file of the application
     build-environment:
       - FLUTTER_REPO: https://github.com/flutter/flutter.git
-      - FLUTTER_VERSION: 3.24.5
+      - FLUTTER_VERSION: 3.27.0
       - FLUTTER_TARGET: lib/main.dart
       - TARGET_PLATFORM: linux-arm64
     build-packages:

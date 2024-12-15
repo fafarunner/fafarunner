@@ -22,7 +22,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.5'
+          flutter-version: '3.27.0'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
