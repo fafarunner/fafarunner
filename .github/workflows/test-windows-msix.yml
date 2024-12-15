@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   get_version:
     name: Get version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.version_step.outputs.version }}
     steps:
@@ -27,7 +27,7 @@ jobs:
 
   msix:
     name: Create windows msix
-    runs-on: windows-latest
+    runs-on: windows-2022
     needs:
       - get_version
     steps:

@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   tar:
     name: Create macos tar
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
 

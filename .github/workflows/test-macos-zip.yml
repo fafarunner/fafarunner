@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   zip:
     name: Create macos zip
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
 

@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   pacman:
     name: Create linux pacman
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 

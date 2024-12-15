@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   exe:
     name: Create windows exe
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
 

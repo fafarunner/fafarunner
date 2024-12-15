@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   get_version:
     name: Create release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.version_step.outputs.version }}
       version_short: ${{ steps.version_step.outputs.version_short }}
@@ -45,7 +45,7 @@ jobs:
 
   msi:
     name: Create msi
-    runs-on: windows-latest
+    runs-on: windows-2022
     env:
       Platform: x64
     needs:

@@ -31,7 +31,7 @@ permissions: read-all
 jobs:
   apk:
     name: Create apk
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -92,7 +92,7 @@ jobs:
 
   ios:
     name: Create ios
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
 
@@ -175,7 +175,7 @@ jobs:
 
   macos:
     name: Create macos
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
 
@@ -289,7 +289,7 @@ jobs:
 
   linux:
     name: Create linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -347,7 +347,7 @@ jobs:
 
   msix:
     name: Create msix
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
 
