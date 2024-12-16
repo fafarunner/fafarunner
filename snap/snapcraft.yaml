@@ -52,6 +52,7 @@ parts:
       - TARGET_PLATFORM: linux-x64
     build-packages:
       - curl
+      - libcurl4-openssl-dev
       - git
       - unzip
       - xz-utils

@@ -40,7 +40,7 @@ FlutterErrorDetails makeErrorDetails(Object error, StackTrace stackTrace) {
 }
 
 Future<void> main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
 
   if (isSplashSupported) {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

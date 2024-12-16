@@ -1105,7 +1105,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y locate libfuse2
           wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
@@ -1179,7 +1179,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y locate libfuse2
 
@@ -1262,7 +1262,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y locate libfuse2 libarchive-tools
 
@@ -1335,7 +1335,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y locate libfuse2 libarchive-tools
 
@@ -1411,7 +1411,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y rpm patchelf
 
@@ -1483,7 +1483,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
 
       - name: Install libunwind-dev
@@ -1559,7 +1559,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
 
       - name: Install GStreamer
@@ -1635,7 +1635,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y rpm patchelf
 
@@ -1719,7 +1719,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y p7zip-full p7zip-rar
 
@@ -1791,7 +1791,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y p7zip-full p7zip-rar
 
@@ -1863,7 +1863,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y p7zip-full p7zip-rar
 
@@ -1931,7 +1931,7 @@ jobs:
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa
+          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y p7zip-full p7zip-rar
 
