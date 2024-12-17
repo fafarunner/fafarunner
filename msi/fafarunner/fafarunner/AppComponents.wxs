@@ -16,13 +16,19 @@
         <File Source="$(FlutterBuildOutputDir)\audioplayers_windows_plugin.dll" />
       </Component>
       <Component>
+        <File Source="$(FlutterBuildOutputDir)\crashpad_handler.exe" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\crashpad_wer.dll" />
+      </Component>
+      <Component>
         <File Source="$(FlutterBuildOutputDir)\flutter_windows.dll" />
       </Component>
       <Component>
         <File Source="$(FlutterBuildOutputDir)\msvcp140.dll" />
       </Component>
       <Component>
-        <File Source="$(FlutterBuildOutputDir)\sentry_flutter_plugin.lib" />
+        <File Source="$(FlutterBuildOutputDir)\sentry.dll" />
       </Component>
       <Component>
         <File Source="$(FlutterBuildOutputDir)\url_launcher_windows_plugin.dll" />
