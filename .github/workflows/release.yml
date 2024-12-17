@@ -23,7 +23,7 @@ permissions: read-all
 jobs:
   create_release:
     name: Create release
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       sha: ${{ steps.sha_step.outputs.sha }}
       version: ${{ steps.version_step.outputs.version }}
@@ -90,7 +90,7 @@ jobs:
 
   gen_shasum:
     name: Gen Shasum
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create_release
       - apk
@@ -158,7 +158,7 @@ jobs:
 
   apk:
     name: Create apk
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create_release
     steps:
@@ -240,7 +240,7 @@ jobs:
 
   aab:
     name: Create appbundle
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create_release
     steps:
@@ -1090,7 +1090,7 @@ jobs:
 
   linux_deb:
     name: Create linux deb
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create_release
     steps:
@@ -1233,7 +1233,7 @@ jobs:
 
   linux_rpm:
     name: Create linux rpm
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create_release
     steps:
@@ -1398,7 +1398,7 @@ jobs:
 
   linux_tar:
     name: Create linux tar
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create_release
     steps:
@@ -1537,7 +1537,7 @@ jobs:
 
   linux_snap:
     name: Create linux snap
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       LXD_GROUP: lxd
     needs:
