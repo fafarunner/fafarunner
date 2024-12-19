@@ -61,7 +61,7 @@ dev_dependencies:
   mocktail: ^1.0.4
   msix: ^3.16.8
   slang_build_runner: ^4.4.0
-  very_good_analysis: ^6.0.0
+  very_good_analysis: ^7.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
