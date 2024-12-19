@@ -9,13 +9,15 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 10
 
   - package-ecosystem: "pub" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 10
 
-  - package-ecosystem: "cargo" # See documentation for possible values
-    directory: "/rust" # Location of package manifests
-    schedule:
-      interval: "daily"
+#  - package-ecosystem: "cargo" # See documentation for possible values
+#    directory: "/rust" # Location of package manifests
+#    schedule:
+#      interval: "daily"
