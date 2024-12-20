@@ -28,7 +28,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
       LightingConfig(
         radius: width * 1.5,
         blurBorder: width,
-        color: Colors.deepOrangeAccent.withOpacity(0.2),
+        color: Colors.deepOrangeAccent.withValues(alpha: 0.2),
       ),
     );
     setupMovementByJoystick(
@@ -130,7 +130,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
       lightingConfig: LightingConfig(
         radius: tileSize * 0.9,
         blurBorder: tileSize / 2,
-        color: Colors.deepOrangeAccent.withOpacity(0.4),
+        color: Colors.deepOrangeAccent.withValues(alpha: 0.4),
       ),
     );
   }

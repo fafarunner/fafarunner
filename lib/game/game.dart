@@ -140,7 +140,7 @@ class _GameState extends State<Game> with TickerProviderStateMixin {
                 ),
                 components: [GameController()],
                 interface: KnightInterface(),
-                lightingColorGame: Colors.black.withOpacity(0.6),
+                lightingColorGame: Colors.black.withValues(alpha: 0.6),
                 backgroundColor: Colors.grey[900],
                 cameraConfig: CameraConfig(
                   speed: 3,

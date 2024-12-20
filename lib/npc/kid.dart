@@ -32,7 +32,7 @@ class Kid extends GameDecoration {
     if (!conversationWithHero && checkInterval('checkBossDead', 1000, dt)) {
       try {
         gameRef.enemies().firstWhere((e) => e is Boss);
-      } catch (e) {
+      } on Exception catch (_) {
         conversationWithHero = true;
         gameRef.camera.moveToTargetAnimated(
           target: this,

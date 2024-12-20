@@ -22,7 +22,7 @@ class KnightInterface extends GameInterface {
   void render(Canvas canvas) {
     try {
       _drawKey(canvas);
-    } catch (e) {
+    } on Exception catch (e) {
       if (kDebugMode) {
         print(e);
       }

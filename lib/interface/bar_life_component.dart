@@ -43,7 +43,7 @@ class BarLifeComponent extends InterfaceComponent {
     try {
       _drawLife(canvas);
       _drawStamina(canvas);
-    } catch (e) {
+    } on Exception catch (e) {
       if (kDebugMode) {
         print(e);
       }
