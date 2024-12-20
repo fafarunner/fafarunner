@@ -16,12 +16,6 @@
         <File Source="$(FlutterBuildOutputDir)\audioplayers_windows_plugin.dll" />
       </Component>
       <Component>
-        <File Source="$(FlutterBuildOutputDir)\crashpad_handler.exe" />
-      </Component>
-      <Component>
-        <File Source="$(FlutterBuildOutputDir)\crashpad_wer.dll" />
-      </Component>
-      <Component>
         <File Source="$(FlutterBuildOutputDir)\flutter_windows.dll" />
       </Component>
       <Component>
