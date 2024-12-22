@@ -1135,7 +1135,7 @@ jobs:
       - name: Build deb
         run: |
           flutter_distributor package \
-            --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" \
+            --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
             --artifact-name {{name}}_"$RELEASE"_{{platform}}_amd64.{{ext}}
@@ -1206,7 +1206,7 @@ jobs:
       - name: Build deb
         run: |
           flutter_distributor package \
-            --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" \
+            --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
             --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
@@ -1282,7 +1282,7 @@ jobs:
       - name: Build RPM
         run: |
           flutter_distributor package \
-            --flutter-build-args "dart-define-from-file=.env,target-platform=linux-x64" \
+            --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets rpm \
             --artifact-name {{name}}_"$RELEASE"_{{platform}}_amd64.{{ext}}
@@ -1371,7 +1371,7 @@ jobs:
       - name: Build RPM
         run: |
           flutter_distributor package \
-            --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" \
+            --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets rpm \
             --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
@@ -1438,7 +1438,7 @@ jobs:
         run: flutter pub get
 
       - name: Build flutter
-        run: flutter build linux --dart-define-from-file=.env --target-platform=linux-x64
+        run: flutter build linux --dart-define-from-file=.env
 
       - name: Build tar
         run: |
@@ -1509,7 +1509,7 @@ jobs:
         run: flutter pub get
 
       - name: Build app
-        run: flutter build linux --dart-define-from-file=.env --target-platform=linux-arm64
+        run: flutter build linux --dart-define-from-file=.env
 
       - name: Build tar
         run: |
@@ -1565,7 +1565,6 @@ jobs:
 
       - name: Update snapcraft.yaml
         run: |
-          rm -f snap/snapcraft-arm64.yaml
           VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
         env:
           VERSION_SHORT: ${{ needs.create_release.outputs.version_short }}
@@ -1632,8 +1631,6 @@ jobs:
 
       - name: Update snapcraft.yaml
         run: |
-          rm -f snap/snapcraft.yaml
-          mv snap/snapcraft-arm64.yaml snap/snapcraft.yaml
           VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
         env:
           VERSION_SHORT: ${{ needs.create_release.outputs.version_short }}

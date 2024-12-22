@@ -47,7 +47,7 @@ jobs:
         run: flutter pub get
 
       - name: Build app
-        run: flutter build linux --dart-define-from-file=.env --target-platform=linux-arm64
+        run: flutter build linux --dart-define-from-file=.env
 
       - name: Install yq
         run: |

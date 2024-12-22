@@ -49,7 +49,6 @@ parts:
       - FLUTTER_REPO: https://github.com/flutter/flutter.git
       - FLUTTER_VERSION: 3.27.1
       - FLUTTER_TARGET: lib/main.dart
-      - TARGET_PLATFORM: linux-x64
     build-packages:
       - curl
       - libcurl4-openssl-dev
@@ -79,5 +78,5 @@ parts:
       flutter doctor -v
       flutter precache --linux
       flutter pub get
-      flutter build linux --release --dart-define-from-file=.env --target-platform $TARGET_PLATFORM --target $FLUTTER_TARGET
+      flutter build linux --release --dart-define-from-file=.env --target $FLUTTER_TARGET
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/

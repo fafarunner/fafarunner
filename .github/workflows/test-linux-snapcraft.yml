@@ -27,9 +27,6 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Update snapcraft.yaml
-        run: rm -f snap/snapcraft-arm64.yaml
-
       - name: Install snapcraft
         run: sudo snap install snapcraft --classic
 

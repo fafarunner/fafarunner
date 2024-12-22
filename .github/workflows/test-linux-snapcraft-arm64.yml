@@ -35,11 +35,6 @@ jobs:
           fi
           yq --version
 
-      - name: Update snapcraft.yaml
-        run: |
-          rm -f snap/snapcraft.yaml
-          mv snap/snapcraft-arm64.yaml snap/snapcraft.yaml
-
       - name: Install snapcraft
         run: sudo snap install snapcraft --classic
 

@@ -49,7 +49,7 @@ jobs:
       - name: Build zip
         run: |
           flutter_distributor package \
-            --flutter-build-args "dart-define-from-file=.env,target-platform=linux-arm64" \
+            --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets zip \
             --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
