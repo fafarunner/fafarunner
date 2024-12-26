@@ -5,61 +5,59 @@
 ### iOS
 
 ```shell
-# 1. 导入证书
+# 1. Import certificate manually
 security import ./<name>.cer -P <password> -A -t cert
 
-# 2. 导入.p12私钥
+# 2. Import .p12 private key manually
 security import ./<name>.p12 -P <password> -A -t cert -f pkcs12
 
-# 3. 双击导入mobileprovision文件
+# 3. Double-click to import the .mobileprovision file
 ```
 
 ```shell
-# 手动安装模拟器运行时
-# 已安装列表
+# Install the simulator runtime manually
+# Installed list
 xcrun simctl runtime list
 
-# 安装
+# Install the emulator runtime
 xcrun simctl runtime add "~/iOS_17.0.1_Simulator_Runtime.dmg"
 ```
 
 ## Release
 
-以下脚本都在`Makefile`文件下，JetBrains / Android Studio可能需要安装`Makefile Language`插件。
+The following scripts are all under the `Makefile` file. JetBrains IDEA / Android Studio needs to install the `Makefile Language` plug-in.
 
 ### Flutter
 
->在`pubspec.yaml`文件修改`version: <new version>`
+> Modify `version: <new version>` in the `pubspec.yaml` file
 
 ### Android
 
->如果发布到生产环境, 请在`android/app/build.gradle`文件修改`versionCode`
-
 ```shell
-# 如果发布到测试环境
+# The build target is the .apk package
 make ENV=<dev|stg|prod> apk
 ```
 
 ```shell
-# 如果发布到生产环境
+# The build target is the .aab package
 make ENV=<dev|stg|prod> appbundle
 ```
 
 ### iOS
 
->如果发布到生产环境, 请修改`build`号
-
 ```shell
-# 如果发布到测试环境
+# Publish to test environment
 make ENV=<dev|stg|prod> adhoc
 ```
 
 ```shell
-# 如果发布到生产环境
+# Release to production environment
 make ENV=<dev|stg|prod> appstore
 ```
 
 ### macOS
+
+> Requires a .p12 file containing the certificate
 
 1. The build target is in `dmg` format and the certificate type is `Developer ID Application`
 
@@ -69,15 +67,13 @@ make ENV=<dev|stg|prod> appstore
 
 4. The build target is in `zip` format and the certificate type is `Developer ID Application`
 
->如果发布到生产环境, 请修改`build`号
-
 ```shell
-# 如果发布到测试环境
+# Publish to test environment
 make ENV=<dev|stg|prod> macos_adhoc
 ```
 
 ```shell
-# 如果发布到生产环境
+# Release to production environment
 make ENV=<dev|stg|prod> macos_appstore
 ```
 
@@ -102,7 +98,7 @@ dart run flutter_distributor:main package --platform linux --targets appimage
 # https://snapcraft.io/docs/snapcraft-yaml-reference
 snapcraft
 
-# upload a snap
+# upload a snap to snap store
 # https://snapcraft.io/docs/releasing-your-app
 # https://snapcraft.io/docs/channels
 snapcraft upload --release=latest/edge fafarunner_1.0.0_amd64.snap
@@ -112,6 +108,9 @@ sudo snap install ./fafarunner.snap --dangerous
 ```
 
 ### Windows
+
+> Self-signed .pfx certificate information format <br>
+> subject=C=`<Country Name (2 letter code)>`, ST=`<State or Province Name>`, L=`<Locality Name>`, O=`<Publisher Name>`, OU=`<Publisher Name>`, CN=`<Publisher Name>`, emailAddress=`<Email Address>`
 
 ```powershell
 $PFX_FILE = get-content 'C:\temp\cert.pfx' -Encoding Byte
@@ -133,18 +132,27 @@ flutter_distributor package --platform windows --targets exe
 flutter_distributor package --platform windows --targets msix
 ```
 
-## Tests
+[//]: # (## Tests)
 
-### app links
+[//]: # ()
+[//]: # (### app links)
 
-#### Deep Links on Android
+[//]: # ()
+[//]: # (#### Deep Links on Android)
 
-```shell
-adb shell am start -a android.intent.action.VIEW -d "fr://debug"
-```
+[//]: # ()
+[//]: # (```shell)
 
-#### Custom URL schemes on iOS
+[//]: # (adb shell am start -a android.intent.action.VIEW -d "fr://debug")
 
-```shell
-/usr/bin/xcrun simctl openurl booted "fr://debug"
-```
+[//]: # (```)
+
+[//]: # ()
+[//]: # (#### Custom URL schemes on iOS)
+
+[//]: # ()
+[//]: # (```shell)
+
+[//]: # (/usr/bin/xcrun simctl openurl booted "fr://debug")
+
+[//]: # (```)
