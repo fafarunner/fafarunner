@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6+371
+
+1. Update deps
+2. Update workflows
+3. fix: no collision on flag walls
+
 ## 1.0.5+370
 
 1. Update deps
