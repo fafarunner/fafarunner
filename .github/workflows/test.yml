@@ -7,10 +7,12 @@ on:
       - '.github/FUNDING.yml'
       - 'docs/**'
       - 'metadata/**'
+      - 'msi/fafarunner/LICENSE'
+      - 'msi/fafarunner/README.md'
       - 'CHANGELOG.md'
       - 'LICENSE'
-      - 'README.md'
       - 'Makefile'
+      - 'README.md'
     branches:
       - main
   push:
@@ -18,10 +20,12 @@ on:
       - '.github/FUNDING.yml'
       - 'docs/**'
       - 'metadata/**'
+      - 'msi/fafarunner/LICENSE'
+      - 'msi/fafarunner/README.md'
       - 'CHANGELOG.md'
       - 'LICENSE'
-      - 'README.md'
       - 'Makefile'
+      - 'README.md'
     branches:
       - main
 
