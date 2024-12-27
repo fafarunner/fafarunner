@@ -4,24 +4,6 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0.0'
-}
-
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -29,9 +11,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdk 34
     namespace 'com.chenyifaer.fafarunner'
-//    ndkVersion '21.4.7075529'
+    compileSdk = flutter.compileSdkVersion
+//    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -45,21 +27,11 @@ android {
     defaultConfig {
         applicationId "com.chenyifaer.fafarunner"
         // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
+        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdkVersion 24
-        targetSdkVersion 34
-        versionName flutterVersionName
-        versionCode flutterVersionCode.toInteger()
-    }
-
-    // https://developer.android.com/build/configure-apk-splits
-    splits {
-        abi {
-            enable false
-            reset()
-            universalApk true  // If true, also generate a universal APK
-            include "armeabi-v7a", "arm64-v8a", "x86_64"
-        }
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     flavorDimensions "default"
@@ -124,19 +96,3 @@ flutter {
 }
 
 dependencies {}
-
-// To comply with F-Droid version code schema
-ext.abiCodes = ["x86_64": 1, "armeabi-v7a": 2, "arm64-v8a": 3]
-import com.android.build.OutputFile
-android.applicationVariants.all { variant ->
-  variant.outputs.each { output ->
-        def flavorName = variant.flavorName
-        def suffix = flavorName.contains("staging") ? ".pre" : ""
-        def abi = output.getFilter(OutputFile.ABI)
-        def abiVersionCode = project.ext.abiCodes.get(abi)
-        def arch = abi == null ? "universal" : abi
-        def versionCode = abiVersionCode == null ? variant.versionCode : variant.versionCode * 10 + abiVersionCode
-        output.outputFileName = "FaFaRunner_${variant.versionName}+${versionCode}${suffix}_${arch}.apk"
-        output.versionCodeOverride = versionCode
-    }
-}
