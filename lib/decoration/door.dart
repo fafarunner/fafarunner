@@ -60,7 +60,7 @@ class Door extends GameDecoration {
 
   void _showIntroduction() {
     final t = Translations.of(gameRef.context);
-    TalkDialog.show(
+    TalkDialog.show<void>(
       gameRef.context,
       [
         Say(

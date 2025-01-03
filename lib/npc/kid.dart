@@ -47,7 +47,7 @@ class Kid extends GameDecoration {
   void _startConversation() {
     final t = Translations.of(gameRef.context);
     Sounds.interaction();
-    TalkDialog.show(
+    TalkDialog.show<void>(
       gameRef.context,
       [
         Say(

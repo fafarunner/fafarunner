@@ -71,7 +71,7 @@ class WizardNPC extends SimpleNpc {
   void _showIntroduction() {
     final t = Translations.of(gameRef.context);
     Sounds.interaction();
-    TalkDialog.show(
+    TalkDialog.show<void>(
       gameRef.context,
       [
         Say(

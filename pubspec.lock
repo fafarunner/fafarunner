@@ -18,10 +18,10 @@ packages:
     dependency: transitive
     description:
       name: a_star_algorithm
-      sha256: c9a92079331f8229f572718ed12c25b0e3adf3570318becfa689f5554e6ffd30
+      sha256: efc131ca9a3eaceebe09fa67b9a7235d6e0a6e23ff0de4c009c60d506f791349
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.2"
+    version: "0.4.1"
   analyzer:
     dependency: transitive
     description:
@@ -138,10 +138,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: "6bc27a32c84408ea0606825c308ad4a147e7327a732cee8775b676de9c0c58a3"
+      sha256: bc251c0620a77a97af236ace718110c4a926a24ca61ff3b2cf2efccfebd2d886
       url: "https://pub.dev"
     source: hosted
-    version: "3.12.3"
+    version: "3.12.5"
   boolean_selector:
     dependency: transitive
     description:
