@@ -37,7 +37,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final Translations _root = this; // ignore: unused_field
 
 	// Translations
-	late final TranslationsPagesEn pages = TranslationsPagesEn._(_root);
+	late final TranslationsPagesEn pages = TranslationsPagesEn.internal(_root);
 	Map<String, String> get locales => {
 		'en': 'English',
 		'zh': '中文',
@@ -46,7 +46,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
 // Path: pages
 class TranslationsPagesEn {
-	TranslationsPagesEn._(this._root);
+	TranslationsPagesEn.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
