@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.7+372
+
+1. Update deps
+2. fix: update android sdk to 35
+
 ## 1.0.6+371
 
 1. Update deps
