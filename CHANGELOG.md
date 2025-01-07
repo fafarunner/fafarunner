@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.7+373
+
+1. fix: update business structure
+2. fix: remove flatpack support
+3. fix: remove snapcraft support
+
 ## 1.0.7+372
 
 1. Update deps
