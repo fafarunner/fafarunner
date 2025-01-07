@@ -121,7 +121,7 @@
 
     <!-- Desktop shortcut (user's choice) -->
     <Component Id="DesktopShortcutComponent" Directory="DesktopFolder">
-      <RegistryValue Root="HKCU" Key="SOFTWARE\Insco LLC\FaFaRunner" Name="EnableDesktopShortcut" Value="1" />
+      <RegistryValue Root="HKCU" Key="SOFTWARE\Insco Ltd\FaFaRunner" Name="EnableDesktopShortcut" Value="1" />
       <Shortcut Name="FaFaRunner" Description="Enjoy smooth gameplay, stunning graphics, and endless fun." Directory="DesktopFolder" Target="[#FaFaRunner.exe]" />
     </Component>
   </Fragment>

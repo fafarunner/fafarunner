@@ -26,7 +26,7 @@ PrivilegesRequired={{PRIVILEGES_REQUIRED}}
 PrivilegesRequiredOverridesAllowed=dialog
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
-AppCopyright=Copyright (C) 2023-present Insco LLC.
+AppCopyright=Copyright (C) 2023-present Insco Ltd.
 AppReadmeFile=https://raw.githubusercontent.com/fafarunner/fafarunner/main/README.md
 LicenseFile={{SOURCE_DIR}}\LICENSE
 
