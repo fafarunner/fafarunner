@@ -5,15 +5,10 @@ maintainer:
   email: hello@kjxbyz.com
 priority: optional
 section: x11
-installed_size: 6604
+installed_size: 24400
 essential: false
 icon: logo/logo-512.png
 metainfo: linux/shared/fafarunner.metainfo.xml
-
-postinstall_scripts:
-  - echo "Installing FaFa Runner"
-postuninstall_scripts:
-  - echo "FaFa Runner installed"
 
 keywords:
   - FaFa Runner

@@ -47,9 +47,6 @@ jobs:
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
-      - name: Install flutter dependencies
-        run: flutter pub get
-
       - name: Build RPM
         run: |
           flutter_distributor package \
