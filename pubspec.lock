@@ -138,10 +138,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: bc251c0620a77a97af236ace718110c4a926a24ca61ff3b2cf2efccfebd2d886
+      sha256: "35f5b6d41606ee95d32e63c86cf103b9cbd1ec59b2a599e4b76df063808a6a1e"
       url: "https://pub.dev"
     source: hosted
-    version: "3.12.5"
+    version: "3.13.1"
   boolean_selector:
     dependency: transitive
     description:
