@@ -1157,7 +1157,7 @@ jobs:
 
   linux_deb_aarch64:
     name: Create linux deb (aarch64)
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04-arm
     needs:
       - create_release
     steps:
@@ -1298,7 +1298,7 @@ jobs:
 
   linux_rpm_aarch64:
     name: Create linux rpm (aarch64)
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04-arm
     needs:
       - create_release
     steps:
@@ -1452,7 +1452,7 @@ jobs:
 
   linux_tar_aarch64:
     name: Create linux tar (aarch64)
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04-arm
     needs:
       - create_release
     steps:
