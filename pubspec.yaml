@@ -117,7 +117,7 @@ flutter:
 
 msix_config:
   display_name: FaFa Runner
-  logo_path: logo\logo-512.png
+  logo_path: snap\gui\fafarunner.png
   languages: en-us, zh-cn
   architecture: x64
   capabilities: "internetClient"
