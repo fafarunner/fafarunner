@@ -1583,7 +1583,7 @@ jobs:
 
   linux_snap_aarch64:
     name: Create linux snap (aarch64)
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-22.04-arm
     env:
       LXD_GROUP: lxd
     needs:
