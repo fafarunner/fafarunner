@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.8+374
+
+1. fix: remove pacman support
+2. fix(linux): remove zip support
+3. ci(linux): add snap support
+4. chore(deps): update deps
+
 ## 1.0.7+373
 
 1. fix: update business structure
