@@ -359,8 +359,6 @@ jobs:
 
       - name: Install the Apple certificate and provisioning profile
         env:
-          CERT_BASE64: ${{ secrets.CERT_BASE64 }}
-          CERT_DEV_BASE64: ${{ secrets.CERT_DEV_BASE64 }}
           P12_BASE64: ${{ secrets.P12_BASE64 }}
           P12_DEV_BASE64: ${{ secrets.P12_DEV_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
@@ -371,8 +369,6 @@ jobs:
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           CERTIFICATE_DEV_PATH=$RUNNER_TEMP/build_certificate_dev.p12
-          CERT_PATH=$RUNNER_TEMP/ios_distribution.cer
-          CERT_DEV_PATH=$RUNNER_TEMP/ios_development.cer
           PP_PATH=$RUNNER_TEMP/fafa_runner_appstore.mobileprovision
           PP_DEV_PATH=$RUNNER_TEMP/fafa_runner_dev.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
@@ -380,8 +376,6 @@ jobs:
           # import certificate and provisioning profile from secrets
           echo -n "$P12_BASE64" | base64 --decode --output $CERTIFICATE_PATH
           echo -n "$P12_DEV_BASE64" | base64 --decode --output $CERTIFICATE_DEV_PATH
-          echo -n "$CERT_BASE64" | base64 --decode --output $CERT_PATH
-          echo -n "$CERT_DEV_BASE64" | base64 --decode --output $CERT_DEV_PATH
           echo -n "$PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
           echo -n "$PROVISION_PROFILE_DEV_BASE64" | base64 --decode --output $PP_DEV_PATH
 
@@ -393,8 +387,6 @@ jobs:
           # import certificate to keychain
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security import $CERTIFICATE_DEV_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security import $CERT_PATH -P "$P12_PASSWORD" -A -t cert -k $KEYCHAIN_PATH
-          security import $CERT_DEV_PATH -P "$P12_PASSWORD" -A -t cert -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           # apply provisioning profile
