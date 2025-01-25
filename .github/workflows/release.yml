@@ -78,13 +78,10 @@ jobs:
 
       - name: Create a release
         run: |
-          RELEASE_NOTES="Env: $ENV <br /> Branch: $BRANCH <br /> Commit: $SHA_SHORT"
+          RELEASE_NOTES="Please refer to [CHANGELOG.md](https://github.com/fafarunner/fafarunner/blob/main/CHANGELOG.md) for details."
           gh release create "$TAG_NAME" --draft --latest=false --prerelease=false --target "$SHA" --title "$TAG_NAME" --notes "$RELEASE_NOTES"
         env:
-          ENV: ${{ github.event.inputs.env }}
-          BRANCH: ${{ github.ref_name }}
           SHA: ${{ steps.sha_step.outputs.sha }}
-          SHA_SHORT: ${{ steps.sha_step.outputs.sha_short }}
           TAG_NAME: ${{ steps.version_step.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
