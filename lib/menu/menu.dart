@@ -60,6 +60,7 @@ class _MenuState extends State<Menu> {
     final t = Translations.of(context);
     final version = AppManager.instance.version;
     final buildNumber = AppManager.instance.buildNumber;
+    final fullVersion = '$version+$buildNumber';
     return Title(
       title: t.pages.appName,
       color: Colors.black,
@@ -198,11 +199,11 @@ class _MenuState extends State<Menu> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: t.pages.version(version: '$version+$buildNumber'),
+                        text: t.pages.version(version: fullVersion),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             _launchURL(
-                              'https://github.com/fafarunner/fafarunner/releases',
+                              'https://github.com/fafarunner/fafarunner/releases/tag/v$fullVersion',
                             );
                           },
                         style: const TextStyle(
