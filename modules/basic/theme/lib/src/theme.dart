@@ -1,7 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
+/// app theme
 class AppTheme {
+
+  /// light mode
   static ThemeData get light {
     return ThemeData(
       dialogTheme: const DialogTheme(
@@ -20,6 +22,7 @@ class AppTheme {
     );
   }
 
+  /// dark mode
   static ThemeData get dark {
     return ThemeData(
       dialogTheme: const DialogTheme(

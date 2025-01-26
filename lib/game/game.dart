@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire/map/tiled/reader/tiled_asset_reader.dart';
+import 'package:l10n/l10n.dart';
 
 // Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
@@ -18,7 +19,6 @@ import 'package:fafarunner/enemies/boss.dart';
 import 'package:fafarunner/enemies/goblin.dart';
 import 'package:fafarunner/enemies/imp.dart';
 import 'package:fafarunner/enemies/mini_boss.dart';
-import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/interface/knight_interface.dart';
 import 'package:fafarunner/npc/kid.dart';
 import 'package:fafarunner/npc/wizard_npc.dart';

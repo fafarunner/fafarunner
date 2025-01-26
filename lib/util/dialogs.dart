@@ -1,8 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:l10n/l10n.dart';
+
 // Project imports:
-import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/menu/menu.dart';
 
 class Dialogs {

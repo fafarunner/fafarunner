@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
 import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/constrants/get.dart';
 import 'package:fafarunner/game/game.dart';
-import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
 import 'package:fafarunner/util/enemy_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';

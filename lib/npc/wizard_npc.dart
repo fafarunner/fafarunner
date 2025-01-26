@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:bonfire/bonfire.dart';
+import 'package:l10n/l10n.dart';
 
 // Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
-import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
 import 'package:fafarunner/util/npc_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';

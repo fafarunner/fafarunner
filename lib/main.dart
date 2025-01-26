@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flame/flame.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:l10n/l10n.dart';
 import 'package:logging/logging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -21,7 +22,6 @@ import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/config/navigator.dart';
 import 'package:fafarunner/constrants/env.dart';
 import 'package:fafarunner/constrants/get.dart';
-import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/logger/logger.dart';
 import 'package:fafarunner/util/sounds.dart';
 

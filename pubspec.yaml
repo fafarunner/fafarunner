@@ -1,8 +1,5 @@
 name: fafarunner
 description: Enjoy smooth gameplay, stunning graphics, and endless fun.
-
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
@@ -22,6 +19,10 @@ version: 1.0.8+374
 environment:
   sdk: '>=3.6.0 <4.0.0'
   flutter: '>=3.27.3'
+
+workspace:
+  - modules/basic/l10n
+  - modules/basic/theme
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -47,11 +48,9 @@ dependencies:
   path_provider: ^2.1.5
   sentry_flutter: ^8.12.0
   sentry_logging: ^8.12.0
-  slang_flutter: ^4.4.0
   url_launcher: ^6.3.1
 
 dev_dependencies:
-  build_runner: ^2.4.14
   flutter_test:
     sdk: flutter
   husky: ^0.1.7
@@ -60,7 +59,6 @@ dev_dependencies:
   mockingjay: ^0.6.0
   mocktail: ^1.0.4
   msix: ^3.16.8
-  slang_build_runner: ^4.4.2
   very_good_analysis: ^7.0.0
 
 # For information on the generic Dart part of this file, see the

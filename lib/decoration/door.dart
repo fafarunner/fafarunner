@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:bonfire/bonfire.dart';
+import 'package:l10n/l10n.dart';
 
 // Project imports:
-import 'package:fafarunner/i18n/i18n.dart';
 import 'package:fafarunner/player/knight.dart';
 import 'package:fafarunner/util/game_sprite_sheet.dart';
 import 'package:fafarunner/util/player_sprite_sheet.dart';

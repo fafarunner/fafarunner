@@ -7,9 +7,21 @@ outdated:
 	echo "╠ Resolving dependencies..."
 	fvm flutter pub outdated
 
-sorter:
+husky_pre:
+	echo "╠ Prepare the husky environment..."
+	fvm dart run husky install
+
+format:
 	echo "╠ Sorting imports..."
 	fvm dart run import_sorter:main lib\/* test\/*
+
+asset: ##
+	echo "╠ Generating assets..."
+	cd modules/basic/assets ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
+
+l10n: ##
+	echo "╠ Generating i18n files..."
+	cd modules/basic/l10n ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
 
 clean: ## Cleans the environment
 	echo "╠ Cleaning the project..."
@@ -32,14 +44,6 @@ macos_install: ## Installing ios dependencies
 precache: ## Installing ios dependencies
 	echo "╠ Populate the Flutter tool's cache of binary artifacts..."
 	fvm flutter precache -a
-
-build_watch: ## Watches the files for changes
-	echo "╠ Watching the project..."
-	fvm dart run build_runner watch --delete-conflicting-outputs
-
-build_runner: ## Build the files for changes
-	echo "╠ Building the project..."
-	fvm dart run build_runner build --delete-conflicting-outputs
 
 apk: ## Release Apk
 	echo "╠ Releasing Apk..."
