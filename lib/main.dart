@@ -11,10 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:l10n/l10n.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 // Project imports:
 import 'package:fafarunner/app/app.dart';
@@ -22,11 +23,7 @@ import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/config/navigator.dart';
 import 'package:fafarunner/constrants/env.dart';
 import 'package:fafarunner/constrants/get.dart';
-import 'package:fafarunner/logger/logger.dart';
 import 'package:fafarunner/util/sounds.dart';
-
-import 'package:fafarunner/url_strategy/url_strategy_non_web.dart'
-    if (dart.library.html) 'package:fafarunner/url_strategy/url_strategy_web.dart';
 
 Future<void> reportErrorAndLog(FlutterErrorDetails details) async {
   printErrorLog(details.exceptionAsString(), stackTrace: details.stack);

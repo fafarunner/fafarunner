@@ -1,19 +1,16 @@
-name: theme
-description: theme module.
+name: logger
+description: logger module.
 publish_to: none
 
 environment:
   sdk: ^3.6.0
-  flutter: '>=3.27.3'
 
 resolution: workspace
 
 # Add regular dependencies here.
 dependencies:
-  flutter:
-    sdk: flutter
+  logging: ^1.3.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.24.0
   very_good_analysis: ^7.0.0

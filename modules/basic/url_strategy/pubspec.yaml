@@ -1,16 +1,15 @@
-name: theme
-description: theme module.
+name: url_strategy
+description: url_strategy module.
 publish_to: none
 
 environment:
   sdk: ^3.6.0
-  flutter: '>=3.27.3'
 
 resolution: workspace
 
 # Add regular dependencies here.
 dependencies:
-  flutter:
+  flutter_web_plugins:
     sdk: flutter
 
 dev_dependencies:

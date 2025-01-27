@@ -4,12 +4,12 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire/map/tiled/reader/tiled_asset_reader.dart';
 import 'package:l10n/l10n.dart';
 
 // Project imports:
 import 'package:fafarunner/constrants/constrants.dart';
 import 'package:fafarunner/constrants/get.dart';
+import 'package:fafarunner/decoration/barrel.dart';
 import 'package:fafarunner/decoration/door.dart';
 import 'package:fafarunner/decoration/key.dart';
 import 'package:fafarunner/decoration/potion_life.dart';
@@ -121,9 +121,10 @@ class _GameState extends State<Game> with TickerProviderStateMixin {
                   Vector2(2 * tileSize, 3 * tileSize),
                 ),
                 map: WorldMapByTiled(
-                  TiledAssetReader(asset: 'tiled/map.json'),
+                  WorldMapReader.fromAsset('tiled/map.json'),
                   forceTileSize: Vector2(tileSize, tileSize),
                   objectsBuilder: {
+                    'barrel': (p) => Barrel(p.position),
                     'door': (p) => Door(p.position, p.size),
                     'torch': (p) => Torch(p.position),
                     'potion': (p) => PotionLife(p.position, 30),
