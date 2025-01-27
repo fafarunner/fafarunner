@@ -12,14 +12,12 @@ import 'package:flame/flame.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 // Project imports:
 import 'package:fafarunner/app/app.dart';
-import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/config/navigator.dart';
 import 'package:fafarunner/constrants/env.dart';
 import 'package:fafarunner/constrants/get.dart';
@@ -42,9 +40,6 @@ Future<void> main() async {
   if (isSplashSupported) {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   }
-
-  // app version / build number
-  await initApp();
 
   Logger.root.level =
       kReleaseMode ? Level.OFF : Level.ALL; // defaults to Level.INFO
@@ -82,9 +77,8 @@ Future<void> main() async {
     printWarningLog('sentry is not enabled, please check the .env file');
   }
 
-  final onError = FlutterError.onError;
   FlutterError.onError = (details) async {
-    onError?.call(details);
+    FlutterError.presentError(details);
     await reportErrorAndLog(details);
   };
 
@@ -119,11 +113,4 @@ Future<void> main() async {
       child: child,
     ),
   );
-}
-
-Future<void> initApp() async {
-  final packageInfo = await PackageInfo.fromPlatform();
-  AppManager.instance
-    ..version = packageInfo.version
-    ..buildNumber = packageInfo.buildNumber;
 }

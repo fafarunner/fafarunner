@@ -6,14 +6,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:app/app.dart';
 import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:l10n/l10n.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
-import 'package:fafarunner/config/manager.dart';
 import 'package:fafarunner/constrants/get.dart';
 import 'package:fafarunner/game/game.dart';
 import 'package:fafarunner/util/custom_sprite_animation_widget.dart';
@@ -58,9 +57,6 @@ class _MenuState extends State<Menu> {
 
   Widget buildMenu() {
     final t = Translations.of(context);
-    final version = AppManager.instance.version;
-    final buildNumber = AppManager.instance.buildNumber;
-    final fullVersion = '$version+$buildNumber';
     return Title(
       title: t.pages.appName,
       color: Colors.black,
@@ -177,7 +173,7 @@ class _MenuState extends State<Menu> {
                         text: t.pages.author,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            _launchURL('https://github.com/kjxbyz');
+                            _launchUrlString('https://github.com/kjxbyz');
                           },
                         style: const TextStyle(
                           decoration: TextDecoration.underline,
@@ -195,29 +191,41 @@ class _MenuState extends State<Menu> {
                     fontSize: 12,
                   ),
                 ),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: t.pages.version(version: fullVersion),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            _launchURL(
-                              'https://github.com/fafarunner/fafarunner/releases/tag/v$fullVersion',
-                            );
-                          },
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blue,
+                FutureBuilder<PackageInfo>(
+                  future: initAppInfo(),
+                  builder: (context, AsyncSnapshot<PackageInfo> snapshot) {
+                    if (snapshot.hasData) {
+                      final version = snapshot.data!.version;
+                      final buildNumber = snapshot.data!.buildNumber;
+                      final fullVersion = '$version+$buildNumber';
+                      return Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: t.pages.version(version: fullVersion),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  _launchUrlString(
+                                    'https://github.com/fafarunner/fafarunner/releases/tag/v$fullVersion',
+                                  );
+                                },
+                              style: const TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Normal',
-                    fontSize: 12,
-                  ),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Normal',
+                          fontSize: 12,
+                        ),
+                      );
+                    }
+
+                    return const SizedBox.shrink();
+                  },
                 ),
               ],
             ),
@@ -268,10 +276,9 @@ class _MenuState extends State<Menu> {
     });
   }
 
-  Future<void> _launchURL(String url) async {
-    final url0 = Uri.parse(url);
-    if (await canLaunchUrl(url0)) {
-      await launchUrl(url0);
+  Future<void> _launchUrlString(String url) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       throw Exception('Could not launch $url');
     }
