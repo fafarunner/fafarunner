@@ -16,7 +16,7 @@ workspace:
   - modules/basic/url_strategy
 
 dependencies:
-  audioplayers: 6.1.0
+  audioplayers: 6.1.1
   bonfire: 3.12.5
   cupertino_icons: ^1.0.8
   flame_audio: 2.10.2
