@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.9+375
+
+1. chore(deps): update deps
+2. refactor: migrate to pub workspaces
+
 ## 1.0.8+374
 
 1. fix: remove pacman support
