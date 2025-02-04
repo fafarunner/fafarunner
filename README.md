@@ -1,11 +1,10 @@
 # FaFa Runner
 
->NOTE: This project is developed based on [Darkness Dungeon](https://github.com/RafaelBarbosatec/darkness_dungeon).
+> NOTE: This project is developed based on [Darkness Dungeon](https://github.com/RafaelBarbosatec/darkness_dungeon).
 
 [![Test](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml)
 [![Release](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/releases/latest)
-[![iTunes App Store](https://img.shields.io/itunes/v/6446263696)](https://apps.apple.com/app/id6446263696)
 [![F-Droid Version](https://img.shields.io/f-droid/v/com.chenyifaer.fafarunner)](https://f-droid.org/packages/com.chenyifaer.fafarunner)
 ![WinGet Package Version](https://img.shields.io/winget/v/Insco.FaFaRunner)
 [![Chocolatey Version](https://img.shields.io/chocolatey/v/fafarunner)](https://community.chocolatey.org/packages/fafarunner)
