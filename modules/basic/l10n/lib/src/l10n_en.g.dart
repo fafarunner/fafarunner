@@ -4,7 +4,7 @@
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
 
-part of 'strings.g.dart';
+part of 'l10n.g.dart';
 
 // Path: <root>
 typedef TranslationsEn = Translations; // ignore: unused_element

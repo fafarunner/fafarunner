@@ -5,6 +5,8 @@ targets:
         options:
           base_locale: en
           fallback_strategy: base_locale
-          input_directory: lib/src
+          input_directory: assets/i18n
+          output_directory: lib/src
+          output_file_name: l10n.g.dart
           maps:
             - locales

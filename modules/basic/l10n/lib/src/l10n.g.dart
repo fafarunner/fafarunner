@@ -1,12 +1,12 @@
 /// Generated file. Do not edit.
 ///
-/// Source: lib/src
+/// Source: assets/i18n
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
 /// Strings: 50 (25 per locale)
 ///
-/// Built on 2025-01-26 at 14:42 UTC
+/// Built on 2025-02-04 at 06:51 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
@@ -17,8 +17,8 @@ import 'package:slang/generated.dart';
 import 'package:slang_flutter/slang_flutter.dart';
 export 'package:slang_flutter/slang_flutter.dart';
 
-import 'strings_zh.g.dart' deferred as l_zh;
-part 'strings_en.g.dart';
+import 'l10n_zh.g.dart' deferred as l_zh;
+part 'l10n_en.g.dart';
 
 /// Supported locales.
 ///

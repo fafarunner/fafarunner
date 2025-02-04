@@ -4,10 +4,10 @@
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
 
+import 'l10n.g.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:slang/generated.dart';
-import 'strings.g.dart';
 
 // Path: <root>
 class TranslationsZh extends Translations {

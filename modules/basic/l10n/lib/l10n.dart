@@ -3,4 +3,4 @@
 /// More dartdocs go here.
 library;
 
-export 'src/strings.g.dart';
+export 'src/l10n.g.dart';
