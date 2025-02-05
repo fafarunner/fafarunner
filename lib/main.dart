@@ -10,18 +10,18 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flame/flame.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:game/game.dart';
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
+import 'package:shared/shared.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 // Project imports:
 import 'package:fafarunner/app/app.dart';
 import 'package:fafarunner/config/navigator.dart';
 import 'package:fafarunner/constrants/env.dart';
-import 'package:fafarunner/constrants/get.dart';
-import 'package:fafarunner/util/sounds.dart';
 
 Future<void> reportErrorAndLog(FlutterErrorDetails details) async {
   printErrorLog(details.exceptionAsString(), stackTrace: details.stack);
@@ -93,6 +93,7 @@ Future<void> main() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
   }
+  Flame.images.prefix = '';
   await Sounds.initialize();
 
   // initialize with the right locale

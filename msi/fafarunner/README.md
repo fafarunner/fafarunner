@@ -15,7 +15,7 @@ $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\$env:Platform\runner\Release
 ## Build
 
 ```powershell
-heat dir "$pwd\build\windows\$env:Platform\runner\Release\data\flutter_assets\assets" -cg AssetComponents -gg -o "$pwd\msi\fafarunner\fafarunner\AppAssets.wxs"
+heat dir "$pwd\build\windows\$env:Platform\runner\Release\data\flutter_assets" -cg FlutterAssetsComponents -gg -o "$pwd\msi\fafarunner\fafarunner\FlutterAssets.wxs"
 
 dotnet build .\msi\fafarunner\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration "$env:Configuration"
 ```

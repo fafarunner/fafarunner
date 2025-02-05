@@ -23,6 +23,10 @@ l10n: ##
 	echo "╠ Generating i18n files..."
 	cd modules/basic/l10n ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
 
+game: ##
+	echo "╠ Generating i18n files..."
+	cd modules/ui/game ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
+
 clean: ## Cleans the environment
 	echo "╠ Cleaning the project..."
 	fvm flutter clean

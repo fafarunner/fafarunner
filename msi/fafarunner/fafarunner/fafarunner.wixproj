@@ -12,6 +12,6 @@
     <Content Include="$(IconPath)" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppAssets.wxs" />
+    <Content Include="FlutterAssets.wxs" />
   </ItemGroup>
 </Project>

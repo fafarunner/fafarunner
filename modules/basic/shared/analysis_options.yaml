@@ -1,15 +1,14 @@
 include: package:very_good_analysis/analysis_options.yaml
 
-analyzer:
-  exclude:
-    - lib/**/*.g.dart
+# Uncomment the following section to specify additional rules.
 
-linter:
-  rules:
-    depend_on_referenced_packages: false
-    directives_ordering: false
-    public_member_api_docs: false
-    lines_longer_than_80_chars: false
+# linter:
+#   rules:
+#     - camel_case_types
+
+# analyzer:
+#   exclude:
+#     - path/to/excluded/files/**
 
 # For more information about the core and recommended set of lints, see
 # https://dart.dev/go/core-lints

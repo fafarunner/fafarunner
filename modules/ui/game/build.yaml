@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      flutter_gen:
+        options:
+          output: lib/gen/ # Optional (default: lib/gen/)
+          line_length: 80 # Optional (default: 80)
+          assets:
+            outputs:
+              package_parameter_enabled: true
+          fonts:
+            outputs:
+              package_parameter_enabled: true
