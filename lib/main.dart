@@ -3,12 +3,10 @@ import 'dart:async';
 import 'dart:developer';
 
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:flame/flame.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:game/game.dart';
 import 'package:l10n/l10n.dart';

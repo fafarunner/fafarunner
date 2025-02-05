@@ -21,11 +21,6 @@ workspace:
   - modules/ui/game
 
 dependencies:
-  audioplayers: 6.1.1
-  bonfire: 3.12.5
-  cupertino_icons: ^1.0.8
-  flame_audio: 2.10.2
-  flame_splash_screen: 0.3.1
   flutter:
     sdk: flutter
   flutter_localizations:

@@ -79,7 +79,7 @@ packages:
     source: hosted
     version: "2.11.0"
   audioplayers:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: audioplayers
       sha256: "4ca57fd24594af04e93b9b9f1b1739ffb9204dbab7ce8d9b28a02f464456dcca"
@@ -135,7 +135,7 @@ packages:
     source: hosted
     version: "4.0.0"
   bonfire:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: bonfire
       sha256: bc251c0620a77a97af236ace718110c4a926a24ca61ff3b2cf2efccfebd2d886
@@ -318,14 +318,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.8"
   dart_style:
     dependency: transitive
     description:
@@ -383,7 +375,7 @@ packages:
     source: hosted
     version: "1.18.0"
   flame_audio:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flame_audio
       sha256: "32e5788945469cebb807e741027e645a737e2618afc9b682e7f48607e0637f48"
@@ -391,7 +383,7 @@ packages:
     source: hosted
     version: "2.10.2"
   flame_splash_screen:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flame_splash_screen
       sha256: b43811701df4cb426cc2204463f91888b7d164b9823e619c38abd7cbd777efbc
