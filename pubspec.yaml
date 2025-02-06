@@ -27,7 +27,7 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.4.4
   sentry_flutter: ^8.12.0
-  sentry_logging: ^8.12.0
+  sentry_logging: ^8.13.0
 
 dev_dependencies:
   flutter_test:
