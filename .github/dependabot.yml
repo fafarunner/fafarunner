@@ -16,6 +16,15 @@ updates:
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
+    groups:
+      sentry-dependencies:
+        patterns: [ "sentry_flutter", "sentry_logging" ]
+      slang-dependencies:
+        patterns: [ "slang_flutter", "slang_build_runner" ]
+      flutter-gen-dependencies:
+        patterns: [ "flutter_gen", "flutter_gen_runner" ]
+    ignore:
+      - dependency-name: bonfire
 
 #  - package-ecosystem: "cargo" # See documentation for possible values
 #    directory: "/rust" # Location of package manifests
