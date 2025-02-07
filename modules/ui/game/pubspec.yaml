@@ -15,11 +15,11 @@ dependencies:
   flame_splash_screen: 0.3.1
   flutter:
     sdk: flutter
-  flutter_gen: ^5.8.0
+  flutter_gen: ^5.9.0
 
 dev_dependencies:
   build_runner: ^2.4.14
-  flutter_gen_runner: ^5.8.0
+  flutter_gen_runner: ^5.9.0
   flutter_test:
     sdk: flutter
   import_sorter: ^4.6.0

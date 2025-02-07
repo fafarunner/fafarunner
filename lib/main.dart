@@ -65,7 +65,6 @@ Future<void> main() async {
           ..debug = kDebugMode
           ..spotlight = Spotlight(enabled: true)
           ..enableTimeToFullDisplayTracing = true
-          ..enableMetrics = true
           ..maxRequestBodySize = MaxRequestBodySize.always
           ..maxResponseBodySize = MaxResponseBodySize.always
           ..navigatorKey = AppNavigator.key;
