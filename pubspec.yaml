@@ -5,8 +5,8 @@ publish_to: 'none'
 version: 1.0.9+375
 
 environment:
-  sdk: '>=3.6.0 <4.0.0'
-  flutter: '>=3.27.4'
+  sdk: ^3.7.0
+  flutter: ^3.29.0
 
 workspace:
   # basic
