@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.10+376
+
+1. chore(deps): update deps
+2. fix(windows): update wix config
+
 ## 1.0.9+375
 
 1. chore(deps): update deps
