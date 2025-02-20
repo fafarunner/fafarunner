@@ -75,6 +75,9 @@ parts:
         rm -rf $FR_FLUTTER_BUILD_DIR
       fi
       git clone --depth 1 -b $FLUTTER_VERSION $FLUTTER_REPO $FR_FLUTTER_BUILD_DIR
+      
+      # https://github.com/canonical/snapcraft/pull/5264
+      rm -f "$FR_FLUTTER_BUILD_DIR/engine/src/.gn"
       flutter doctor -v
       flutter precache --linux
       flutter pub get

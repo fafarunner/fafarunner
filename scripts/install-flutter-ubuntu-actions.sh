@@ -25,6 +25,9 @@ mkdir -p "$FLUTTER_DIR/flutter" && git clone --depth 1 -b 3.29.0 https://github.
 echo "🟩 Config $FLUTTER_DIR/flutter"
 git config --global --add safe.directory "$FLUTTER_DIR/flutter"
 
+# https://github.com/canonical/snapcraft/pull/5264
+rm -f "$FLUTTER_DIR/flutter/engine/src/.gn"
+
 {
 	echo "FLUTTER_ROOT=$FLUTTER_DIR/flutter"
 	echo "PUB_CACHE=$HOME/.pub-cache"
