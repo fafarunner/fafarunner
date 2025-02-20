@@ -81,6 +81,10 @@ macos_appstore:
 	echo "╠ Releasing bundle..."
 	fvm flutter build macos --dart-define-from-file=".env.$(ENV).local"
 
-web_free:
+web_prod:
+	echo "╠ Releasing web..."
+	fvm flutter build web --dart-define-from-file=".env.$(ENV).local"
+
+web_dev:
 	echo "╠ Releasing web..."
 	fvm flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8080 --dart-define-from-file=".env.$(ENV).local"
