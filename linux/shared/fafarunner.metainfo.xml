@@ -84,9 +84,6 @@
         <release version="v1.0.7+373" date="2025-01-07">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.7+373/CHANGELOG.md</url>
         </release>
-        <release version="v1.0.7+372" date="2025-01-06">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.7+372/CHANGELOG.md</url>
-        </release>
         <release version="v1.0.6+371" date="2024-12-25">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.6+371/CHANGELOG.md</url>
         </release>
@@ -99,44 +96,14 @@
         <release version="v1.0.3+368" date="2024-11-25">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.3+368/CHANGELOG.md</url>
         </release>
-        <release version="v1.0.3+367" date="2024-11-18">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.3+367/CHANGELOG.md</url>
-        </release>
         <release version="v1.0.2+366" date="2024-11-14">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.2+366/CHANGELOG.md</url>
         </release>
         <release version="v1.0.1+365" date="2024-11-08">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.1+365/CHANGELOG.md</url>
         </release>
-        <release version="v1.0.1+364" date="2024-10-29">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.1+364/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.1+363" date="2024-10-25">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.1+363/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.1+362" date="2024-10-13">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.1+362/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.1+361" date="2024-10-04">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.1+361/CHANGELOG.md</url>
-        </release>
         <release version="v1.0.0+360" date="2024-09-28">
             <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.0+360/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.0+359" date="2024-09-19">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.0+359/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.0+358" date="2024-09-15">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.0+358/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.0+357" date="2024-09-15">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.0+357/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.0+356" date="2024-09-14">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.0+356/CHANGELOG.md</url>
-        </release>
-        <release version="v1.0.0+355" date="2024-08-27">
-            <url type="details">https://github.com/fafarunner/fafarunner/blob/v1.0.0+355/CHANGELOG.md</url>
         </release>
     </releases>
     <content_rating type="oars-1.1">
