@@ -470,14 +470,7 @@ jobs:
         run: flutter pub get
 
       - name: Build flutter
-        run: flutter build web --dart-define-from-file=.env --base-href /play/
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.FR_RELEASE_TOKEN }}
-          publish_dir: ./build/web
-          cname: fafarunner-web.fafarunner.com
+        run: flutter build web --dart-define-from-file=.env
 
       - name: Clean up
         if: ${{ always() }}
