@@ -1832,6 +1832,9 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
+      - name: copy LICENSE to the windows folder
+        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
+
       - name: Install flutter dependencies
         run: flutter pub get
 
@@ -1940,6 +1943,9 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
+
+      - name: copy LICENSE to the windows folder
+        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
 
       - name: Install yq
         shell: pwsh
@@ -2055,6 +2061,9 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
+
+      - name: copy LICENSE to the windows folder
+        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
 
       - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |
@@ -2177,6 +2186,9 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
+
+      - name: copy LICENSE to the windows folder
+        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
 
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor

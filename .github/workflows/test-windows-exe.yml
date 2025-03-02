@@ -30,11 +30,8 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
 
-#      - name: Compile .iss to .exe installer
-#        uses: Minionguyjpro/Inno-Setup-Action@v1.2.4
-#        with:
-#          path: windows/packaging/exe/inno_setup.iss
-#          options: /O+
+      - name: copy LICENSE to the windows folder
+        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
 
       - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |

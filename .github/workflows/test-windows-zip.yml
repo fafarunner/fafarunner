@@ -30,6 +30,9 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
 
+      - name: copy LICENSE to the windows folder
+        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
+
       - name: Install flutter_distributor
         run: dart pub global activate flutter_distributor
 
