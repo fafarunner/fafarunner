@@ -17,17 +17,7 @@
       ]
     },
     {
-      "name": "ios",
-      "request": "launch",
-      "type": "dart",
-      "program": "lib/main.dart",
-      "args": [
-        "--dart-define-from-file",
-        ".env.dev.local",
-      ]
-    },
-    {
-      "name": "desktop & web",
+      "name": "others",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
