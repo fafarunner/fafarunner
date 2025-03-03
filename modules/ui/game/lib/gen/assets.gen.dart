@@ -48,14 +48,14 @@ class $AssetsAudioGen {
 
   /// List of all assets
   List<String> get values => [
-        attackEnemy,
-        attackFireBall,
-        attackPlayer,
-        battleBoss,
-        explosion,
-        soundBg,
-        soundInteraction
-      ];
+    attackEnemy,
+    attackFireBall,
+    attackPlayer,
+    battleBoss,
+    explosion,
+    soundBg,
+    soundInteraction,
+  ];
 }
 
 class $AssetsImagesGen {
@@ -124,18 +124,18 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        crypt,
-        explosion,
-        healthUi,
-        joystickAtack,
-        joystickAtackRange,
-        joystickAtackRangeSelected,
-        joystickAtackSelected,
-        joystickBackground,
-        joystickKnob,
-        keyboardTip,
-        smokeExplosin
-      ];
+    crypt,
+    explosion,
+    healthUi,
+    joystickAtack,
+    joystickAtackRange,
+    joystickAtackRangeSelected,
+    joystickAtackSelected,
+    joystickBackground,
+    joystickKnob,
+    keyboardTip,
+    smokeExplosin,
+  ];
 }
 
 class $AssetsImagesEmoteGen {
@@ -158,8 +158,12 @@ class $AssetsImagesEmoteGen {
       const AssetGenImage('assets/images/emote/emote_love.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [emoteDots, emoteExclamacao, emoteInterregacao, emoteLove];
+  List<AssetGenImage> get values => [
+    emoteDots,
+    emoteExclamacao,
+    emoteInterregacao,
+    emoteLove,
+  ];
 }
 
 class $AssetsImagesEnemyGen {
@@ -195,8 +199,12 @@ class $AssetsImagesEnemyGen {
       const $AssetsImagesEnemyMiniBossGen();
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [atackEffectBottom, atackEffectLeft, atackEffectRight, atackEffectTop];
+  List<AssetGenImage> get values => [
+    atackEffectBottom,
+    atackEffectLeft,
+    atackEffectRight,
+    atackEffectTop,
+  ];
 }
 
 class $AssetsImagesItemsGen {
@@ -244,17 +252,17 @@ class $AssetsImagesItemsGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        barrel,
-        bombAnimSpritesheet,
-        chestSpritesheet,
-        doorClosed,
-        doorOpen,
-        keySilver,
-        potionRed,
-        spikes,
-        stairNextlevel,
-        torchSpritesheet
-      ];
+    barrel,
+    bombAnimSpritesheet,
+    chestSpritesheet,
+    doorClosed,
+    doorOpen,
+    keySilver,
+    potionRed,
+    spikes,
+    stairNextlevel,
+    torchSpritesheet,
+  ];
 }
 
 class $AssetsImagesNpcGen {
@@ -277,8 +285,12 @@ class $AssetsImagesNpcGen {
       const AssetGenImage('assets/images/npc/wizard_idle_left.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [kidIdleLeft, kidIdleRight, wizard, wizardIdleLeft];
+  List<AssetGenImage> get values => [
+    kidIdleLeft,
+    kidIdleRight,
+    wizard,
+    wizardIdleLeft,
+  ];
 }
 
 class $AssetsImagesPlayerGen {
@@ -322,7 +334,8 @@ class $AssetsImagesPlayerGen {
 
   /// File path: assets/images/player/player_atack_effect_bottom.png
   AssetGenImage get playerAtackEffectBottom => const AssetGenImage(
-      'assets/images/player/player_atack_effect_bottom.png');
+    'assets/images/player/player_atack_effect_bottom.png',
+  );
 
   /// File path: assets/images/player/player_atack_effect_left.png
   AssetGenImage get playerAtackEffectLeft =>
@@ -342,21 +355,21 @@ class $AssetsImagesPlayerGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        explosionFire,
-        fireballBottom,
-        fireballLeft,
-        fireballRight,
-        fireballTop,
-        knightIdle,
-        knightIdleLeft,
-        knightRun,
-        knightRunLeft,
-        playerAtackEffectBottom,
-        playerAtackEffectLeft,
-        playerAtackEffectRight,
-        playerAtackEffectTop,
-        playerCrypt
-      ];
+    explosionFire,
+    fireballBottom,
+    fireballLeft,
+    fireballRight,
+    fireballTop,
+    knightIdle,
+    knightIdleLeft,
+    knightRun,
+    knightRunLeft,
+    playerAtackEffectBottom,
+    playerAtackEffectLeft,
+    playerAtackEffectRight,
+    playerAtackEffectTop,
+    playerCrypt,
+  ];
 }
 
 class $AssetsImagesTiledGen {
@@ -396,8 +409,12 @@ class $AssetsImagesEnemyBossGen {
       const AssetGenImage('assets/images/enemy/boss/boss_run_right.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [bossIdle, bossIdleLeft, bossRunLeft, bossRunRight];
+  List<AssetGenImage> get values => [
+    bossIdle,
+    bossIdleLeft,
+    bossRunLeft,
+    bossRunRight,
+  ];
 }
 
 class $AssetsImagesEnemyGoblinGen {
@@ -420,8 +437,12 @@ class $AssetsImagesEnemyGoblinGen {
       const AssetGenImage('assets/images/enemy/goblin/goblin_run_right.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [goblinIdle, goblinIdleLeft, goblinRunLeft, goblinRunRight];
+  List<AssetGenImage> get values => [
+    goblinIdle,
+    goblinIdleLeft,
+    goblinRunLeft,
+    goblinRunRight,
+  ];
 }
 
 class $AssetsImagesEnemyImpGen {
@@ -444,8 +465,12 @@ class $AssetsImagesEnemyImpGen {
       const AssetGenImage('assets/images/enemy/imp/imp_run_right.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [impIdle, impIdleLeft, impRunLeft, impRunRight];
+  List<AssetGenImage> get values => [
+    impIdle,
+    impIdleLeft,
+    impRunLeft,
+    impRunRight,
+  ];
 }
 
 class $AssetsImagesEnemyMiniBossGen {
@@ -457,23 +482,30 @@ class $AssetsImagesEnemyMiniBossGen {
 
   /// File path: assets/images/enemy/mini_boss/mini_boss_idle_left.png
   AssetGenImage get miniBossIdleLeft => const AssetGenImage(
-      'assets/images/enemy/mini_boss/mini_boss_idle_left.png');
+    'assets/images/enemy/mini_boss/mini_boss_idle_left.png',
+  );
 
   /// File path: assets/images/enemy/mini_boss/mini_boss_run_left.png
   AssetGenImage get miniBossRunLeft => const AssetGenImage(
-      'assets/images/enemy/mini_boss/mini_boss_run_left.png');
+    'assets/images/enemy/mini_boss/mini_boss_run_left.png',
+  );
 
   /// File path: assets/images/enemy/mini_boss/mini_boss_run_right.png
   AssetGenImage get miniBossRunRight => const AssetGenImage(
-      'assets/images/enemy/mini_boss/mini_boss_run_right.png');
+    'assets/images/enemy/mini_boss/mini_boss_run_right.png',
+  );
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [miniBossIdle, miniBossIdleLeft, miniBossRunLeft, miniBossRunRight];
+  List<AssetGenImage> get values => [
+    miniBossIdle,
+    miniBossIdleLeft,
+    miniBossRunLeft,
+    miniBossRunRight,
+  ];
 }
 
 class Assets {
-  Assets._();
+  const Assets._();
 
   static const String package = 'game';
 
@@ -488,11 +520,7 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -523,7 +551,7 @@ class AssetGenImage {
     bool isAntiAlias = false,
     @Deprecated('Do not specify package for a generated library asset')
     String? package = package,
-    FilterQuality filterQuality = FilterQuality.low,
+    FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
   }) {
@@ -560,11 +588,7 @@ class AssetGenImage {
     @Deprecated('Do not specify package for a generated library asset')
     String? package = package,
   }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;
