@@ -10,6 +10,7 @@ import 'package:app/app.dart';
 import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:gap/gap.dart';
 import 'package:l10n/l10n.dart';
 import 'package:shared/shared.dart';
 
@@ -76,9 +77,7 @@ class _MenuState extends State<Menu> {
                     fontSize: 30,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                Gap(20),
                 if (sprites.isNotEmpty)
                   SizedBox(
                     height: 100,
@@ -87,40 +86,36 @@ class _MenuState extends State<Menu> {
                       animation: sprites[currentPosition],
                     ),
                   ),
-                const SizedBox(
-                  height: 30,
-                ),
-                SizedBox(
-                  width: 150,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      minimumSize: const Size(100, 40), //////// HERE
+                Gap(30),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Text(
-                      t.pages.playCap,
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontFamily: 'Normal',
-                        fontSize: 17,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (context) => const Game(),
-                        ),
-                      );
-                    },
+                    fixedSize: const Size(150, 40),
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
+                  child: Text(
+                    t.pages.playCap,
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      fontFamily: 'Normal',
+                      fontSize: 17,
+                      height: 1,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (context) => const Game(),
+                      ),
+                    );
+                  },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                Gap(20),
                 DefectorRadio<bool>(
                   value: false,
                   label: 'Keyboard',
@@ -131,9 +126,7 @@ class _MenuState extends State<Menu> {
                     });
                   },
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                Gap(10),
                 DefectorRadio<bool>(
                   value: true,
                   group: Game.useJoystick,
@@ -144,14 +137,13 @@ class _MenuState extends State<Menu> {
                     });
                   },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                Gap(20),
                 if (!Game.useJoystick)
                   SizedBox(
                     height: 80,
                     width: 200,
-                    child: Sprite.load(Assets.images.keyboardTip.keyName).asWidget(), // 'keyboard_tip.png'
+                    child: Sprite.load(Assets.images.keyboardTip.keyName)
+                        .asWidget(), // 'keyboard_tip.png'
                   ),
               ],
             ),
@@ -203,7 +195,7 @@ class _MenuState extends State<Menu> {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: t.pages.version(version: fullVersion),
+                              text: t.pages.version(version: version),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   _launchUrlString(

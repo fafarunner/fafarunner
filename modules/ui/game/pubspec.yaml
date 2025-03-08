@@ -9,13 +9,14 @@ resolution: workspace
 
 # Add regular dependencies here.
 dependencies:
-  audioplayers: 6.2.0
-  bonfire: 3.12.5
+  audioplayers: 6.3.0
+  bonfire: ^3.13.4
   flame_audio: 2.10.2
-  flame_splash_screen: 0.3.1
+  flame_splash_screen: 0.3.1+1
   flutter:
     sdk: flutter
   flutter_gen: ^5.10.0
+  gap: ^3.0.1
 
 dev_dependencies:
   build_runner: ^2.4.15

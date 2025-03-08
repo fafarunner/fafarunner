@@ -78,7 +78,7 @@ class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
 
   void execAttackRange() {
     simpleAttackRange(
-      animationRight: GameSpriteSheet.fireBallAttackRight(),
+      animation: GameSpriteSheet.fireBallAttackRight(),
       animationDestroy: GameSpriteSheet.fireBallExplosion(),
       size: Vector2.all(tileSize * 0.65),
       damage: attack,
