@@ -20,13 +20,14 @@ if [ -d "$FLUTTER_DIR/flutter" ]; then
 fi
 
 echo "🟩 Cloning"
-mkdir -p "$FLUTTER_DIR/flutter" && git clone --depth 1 -b 3.29.0 https://github.com/flutter/flutter.git "$FLUTTER_DIR/flutter"
+mkdir -p "$FLUTTER_DIR/flutter" && git clone --depth 1 -b 3.29.1 https://github.com/flutter/flutter.git "$FLUTTER_DIR/flutter"
 
 echo "🟩 Config $FLUTTER_DIR/flutter"
 git config --global --add safe.directory "$FLUTTER_DIR/flutter"
 
 # https://github.com/canonical/snapcraft/pull/5264
-rm -f "$FLUTTER_DIR/flutter/engine/src/.gn"
+# Fixed in 3.29.1
+#rm -f "$FLUTTER_DIR/flutter/engine/src/.gn"
 
 {
 	echo "FLUTTER_ROOT=$FLUTTER_DIR/flutter"

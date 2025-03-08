@@ -172,7 +172,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -254,7 +254,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -337,7 +337,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -452,7 +452,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -576,7 +576,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -703,7 +703,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -837,7 +837,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -968,7 +968,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1109,7 +1109,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1184,8 +1184,8 @@ jobs:
       - name: Setup Flutter
         shell: bash
         run: |
-          chmod +x ./scripts/install-flutter-ubuntu-actions.sh
-          ./scripts/install-flutter-ubuntu-actions.sh
+          chmod +x ./scripts/install-flutter-github-actions.sh
+          ./scripts/install-flutter-github-actions.sh
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1258,7 +1258,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1325,8 +1325,8 @@ jobs:
       - name: Setup Flutter
         shell: bash
         run: |
-          chmod +x ./scripts/install-flutter-ubuntu-actions.sh
-          ./scripts/install-flutter-ubuntu-actions.sh
+          chmod +x ./scripts/install-flutter-github-actions.sh
+          ./scripts/install-flutter-github-actions.sh
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1399,7 +1399,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1472,8 +1472,8 @@ jobs:
       - name: Setup Flutter
         shell: bash
         run: |
-          chmod +x ./scripts/install-flutter-ubuntu-actions.sh
-          ./scripts/install-flutter-ubuntu-actions.sh
+          chmod +x ./scripts/install-flutter-github-actions.sh
+          ./scripts/install-flutter-github-actions.sh
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1554,7 +1554,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1621,8 +1621,8 @@ jobs:
       - name: Setup Flutter
         shell: bash
         run: |
-          chmod +x ./scripts/install-flutter-ubuntu-actions.sh
-          ./scripts/install-flutter-ubuntu-actions.sh
+          chmod +x ./scripts/install-flutter-github-actions.sh
+          ./scripts/install-flutter-github-actions.sh
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1810,7 +1810,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1928,7 +1928,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2046,7 +2046,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2171,7 +2171,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2254,7 +2254,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.0'
+          flutter-version: '3.29.1'
 
       - name: Configure .env
         run: |

@@ -47,7 +47,7 @@ parts:
     # flutter-target: lib/main.dart # The main entry-point file of the application
     build-environment:
       - FLUTTER_REPO: https://github.com/flutter/flutter.git
-      - FLUTTER_VERSION: 3.29.0
+      - FLUTTER_VERSION: 3.29.1
       - FLUTTER_TARGET: lib/main.dart
     build-packages:
       - curl
@@ -77,7 +77,8 @@ parts:
       git clone --depth 1 -b $FLUTTER_VERSION $FLUTTER_REPO $FR_FLUTTER_BUILD_DIR
       
       # https://github.com/canonical/snapcraft/pull/5264
-      rm -f "$FR_FLUTTER_BUILD_DIR/engine/src/.gn"
+      # Fixed in 3.29.1
+      # rm -f "$FR_FLUTTER_BUILD_DIR/engine/src/.gn"
       flutter doctor -v
       flutter precache --linux
       flutter pub get

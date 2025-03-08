@@ -27,8 +27,8 @@ jobs:
       - name: Setup Flutter
         shell: bash
         run: |
-          chmod +x ./scripts/install-flutter-ubuntu-actions.sh
-          ./scripts/install-flutter-ubuntu-actions.sh
+          chmod +x ./scripts/install-flutter-github-actions.sh
+          ./scripts/install-flutter-github-actions.sh
 
       - name: Flutter doctor -v
         run: flutter doctor -v
