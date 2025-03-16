@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.11+377
+
+1. chore(deps): update deps
+2. fix: update workflows
+
 ## 1.0.10+376
 
 1. chore(deps): update deps
