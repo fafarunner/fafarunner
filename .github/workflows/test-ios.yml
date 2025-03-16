@@ -62,10 +62,18 @@ jobs:
           PROVISION_PROFILE_DEV_BASE64: ${{ secrets.PROVISIONING_PROFILE_DEV_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      - name: Build
+      - name: Resolving ios dependencies
+        run: pod install --repo-update
+        working-directory: ios
+
+      - name: Remove build cache
         run: |
           echo "╠ Removing build products and intermediate files from the build root..."
-          cd ios && xcodebuild clean && cd ..
+          xcodebuild clean
+        working-directory: ios
+
+      - name: Build
+        run: |
           echo "╠ Releasing to app store..."
           flutter build ipa --release --export-options-plist=ios/ExportOptions/debug.plist
 

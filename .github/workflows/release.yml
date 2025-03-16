@@ -355,7 +355,8 @@ jobs:
         run: flutter pub get
 
       - name: Resolving ios dependencies
-        run: cd ios && pod install --repo-update && cd ..
+        run: pod install --repo-update
+        working-directory: ios
 
       - name: Install the Apple certificate and provisioning profile
         env:
@@ -394,19 +395,21 @@ jobs:
           mv $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           mv $PP_DEV_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
+      - name: Remove build cache
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          xcodebuild clean
+        working-directory: ios
+
       - name: Build ipa
         if: github.event.inputs.env == 'staging'
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to adhoc..."
           flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions/debug.plist
 
       - name: Build ipa
         if: github.event.inputs.env == 'production'
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd ios && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
           flutter build ipa --dart-define-from-file=.env --export-options-plist=ios/ExportOptions/release.plist
 
@@ -470,12 +473,17 @@ jobs:
         run: flutter pub get
 
       - name: Resolving macos dependencies
-        run: cd macos && pod install --repo-update && cd ..
+        run: pod install --repo-update
+        working-directory: macos
+
+      - name: Remove build cache
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          xcodebuild clean
+        working-directory: macos
 
       - name: Build macOS
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
           flutter build macos --dart-define-from-file=.env
 
@@ -594,12 +602,17 @@ jobs:
         run: flutter pub get
 
       - name: Resolving macos dependencies
-        run: cd macos && pod install --repo-update && cd ..
+        run: pod install --repo-update
+        working-directory: macos
+
+      - name: Remove build cache
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          xcodebuild clean
+        working-directory: macos
 
       - name: Build macOS
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
           flutter build macos --dart-define-from-file=.env
 
@@ -721,12 +734,17 @@ jobs:
         run: flutter pub get
 
       - name: Resolving macos dependencies
-        run: cd macos && pod install --repo-update && cd ..
+        run: pod install --repo-update
+        working-directory: macos
+
+      - name: Remove build cache
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          xcodebuild clean
+        working-directory: macos
 
       - name: Build macOS
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to mac app store..."
           flutter build macos --dart-define-from-file=.env
 
@@ -862,12 +880,17 @@ jobs:
         run: flutter pub get
 
       - name: Resolving macos dependencies
-        run: cd macos && pod install --repo-update && cd ..
+        run: pod install --repo-update
+        working-directory: macos
+
+      - name: Remove build cache
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          xcodebuild clean
+        working-directory: macos
 
       - name: Build macOS
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
           flutter build macos --dart-define-from-file=.env
 
@@ -986,12 +1009,17 @@ jobs:
         run: flutter pub get
 
       - name: Resolving macos dependencies
-        run: cd macos && pod install --repo-update && cd ..
+        run: pod install --repo-update
+        working-directory: macos
+
+      - name: Remove build cache
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          xcodebuild clean
+        working-directory: macos
 
       - name: Build macOS
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
           flutter build macos --dart-define-from-file=.env
 

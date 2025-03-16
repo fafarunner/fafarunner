@@ -37,12 +37,17 @@ jobs:
         run: flutter pub get
 
       - name: Resolving macos dependencies
-        run: cd macos && pod install --repo-update && cd ..
+        run: pod install --repo-update
+        working-directory: macos
+
+      - name: Remove build cache
+        run: |
+          echo "╠ Removing build products and intermediate files from the build root..."
+          xcodebuild clean
+        working-directory: macos
 
       - name: Build macOS
         run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          cd macos && xcodebuild clean && cd ..
           echo "╠ Releasing to app store..."
           flutter build macos --dart-define-from-file=.env
 

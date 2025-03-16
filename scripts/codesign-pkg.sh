@@ -2,7 +2,7 @@
 
 set -e
 
-# https://gist.github.com/GuillaumeFalourd/4efc73f1a6014b791c0ef223a023520a
+# https://gist.github.com/kjxbyz/0d8add33888d9c9bd2abf9fc90c9e7af
 DEVELOPER_ID_APP=$1
 
 # Make sure the parameters are provided
