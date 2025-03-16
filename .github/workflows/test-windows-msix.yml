@@ -7,7 +7,7 @@ on:
 permissions: read-all
 
 jobs:
-  get_version:
+  get-version:
     name: Get version
     runs-on: ubuntu-22.04
     outputs:
@@ -29,7 +29,7 @@ jobs:
     name: Create windows msix
     runs-on: windows-2022
     needs:
-      - get_version
+      - get-version
     steps:
       - uses: actions/checkout@v4
 
@@ -99,7 +99,7 @@ jobs:
       - name: Create msix
         run: dart run msix:create --build-windows false  --output-name "fafarunner_$env:VERSION`_windows_x64"
         env:
-          VERSION: ${{ needs.get_version.outputs.version }}
+          VERSION: ${{ needs.get-version.outputs.version }}
 
       # Package the build.
       - name: Copy build for msix

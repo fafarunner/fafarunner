@@ -7,7 +7,7 @@ on:
 permissions: read-all
 
 jobs:
-  get_version:
+  get-version:
     name: Create release
     runs-on: ubuntu-22.04
     outputs:
@@ -49,7 +49,7 @@ jobs:
     env:
       Platform: x64
     needs:
-      - get_version
+      - get-version
     steps:
       - uses: actions/checkout@v4
 
@@ -106,8 +106,8 @@ jobs:
           # 写回文件
           Set-Content -Path $filePath -Value $newContent -NoNewline
         env:
-          VERSION_SHORT: ${{ needs.get_version.outputs.version_short }}
-          BUILD_NUMBER: ${{ needs.get_version.outputs.build_number }}
+          VERSION_SHORT: ${{ needs.get-version.outputs.version_short }}
+          BUILD_NUMBER: ${{ needs.get-version.outputs.build_number }}
 
       - name: Create msi
         shell: pwsh
@@ -137,7 +137,7 @@ jobs:
           Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_en-US.msi"
           Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_zh-CN.msi"
         env:
-          VERSION: ${{ needs.get_version.outputs.version }}
+          VERSION: ${{ needs.get-version.outputs.version }}
 
       - uses: actions/upload-artifact@v4
         with:
