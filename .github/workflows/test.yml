@@ -277,9 +277,6 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      - name: Install appdmg
-        run: npm install -g appdmg
-
       - name: Build DMG
         run: bash scripts/build-dmg.sh
 
