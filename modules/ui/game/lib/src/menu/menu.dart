@@ -238,7 +238,7 @@ class _MenuState extends State<Menu> {
           backgroundDecoration: const BoxDecoration(color: Colors.black),
           logoBuilder: (context) => LayoutBuilder(
             builder: (context, constraints) {
-              return Assets.logo.logoRound512.image(width: 300, height: 300);
+              return Assets.logo.image(width: 300, height: 300);
             },
           ),
         ),

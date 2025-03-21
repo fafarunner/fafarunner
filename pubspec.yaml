@@ -43,8 +43,8 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 flutter:
   uses-material-design: true
-  assets:
-    - logo/
+#  assets:
+#    - logo/
 
 msix_config:
   display_name: FaFa Runner

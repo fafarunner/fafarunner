@@ -9,17 +9,6 @@
 
 import 'package:flutter/widgets.dart';
 
-class $LogoGen {
-  const $LogoGen();
-
-  /// File path: logo/logo_round512.png
-  AssetGenImage get logoRound512 =>
-      const AssetGenImage('logo/logo_round512.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [logoRound512];
-}
-
 class $AssetsAudioGen {
   const $AssetsAudioGen();
 
@@ -512,11 +501,11 @@ class Assets {
   static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const AssetGenImage gameOver = AssetGenImage('assets/game_over.png');
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const AssetGenImage logo = AssetGenImage('assets/logo.png');
   static const AssetGenImage playAgain = AssetGenImage('assets/play_again.png');
-  static const $LogoGen logo = $LogoGen();
 
   /// List of all assets
-  static List<AssetGenImage> get values => [gameOver, playAgain];
+  static List<AssetGenImage> get values => [gameOver, logo, playAgain];
 }
 
 class AssetGenImage {

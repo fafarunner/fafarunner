@@ -39,8 +39,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - logo/
     - assets/
+    - assets/audio/
     - assets/images/
     - assets/images/emote/
     - assets/images/npc/
@@ -52,7 +52,6 @@ flutter:
     - assets/images/player/
     - assets/images/items/
     - assets/images/tiled/
-    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
