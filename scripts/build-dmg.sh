@@ -14,13 +14,14 @@ test -f FaFa\ Runner.dmg && rm -f FaFa\ Runner.dmg
 create-dmg \
   --volname "FaFa Runner" \
   --volicon "logo/fafa-runner.icns" \
+  --background "images/background.png" \
   --eula "eula.rtf" \
-  --window-pos 200 120 \
-  --window-size 600 400 \
+  --window-pos 200 180 \
+  --window-size 660 500 \
   --icon-size 100 \
-  --icon "FaFa Runner.app" 200 180 \
+  --icon "FaFa Runner.app" 180 170 \
   --hide-extension "FaFa Runner.app" \
-  --app-drop-link 400 180 \
+  --app-drop-link 480 170 \
   "FaFa Runner.dmg" \
   "build/macos/Build/Products/Release/FaFa Runner.app"
 
