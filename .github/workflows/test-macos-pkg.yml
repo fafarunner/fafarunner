@@ -80,26 +80,49 @@ jobs:
         env:
           DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
 
-      - name: Build & Sign pkg
+      - name: Build pkg
         run: |
           # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
-          xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner-unsigned.pkg
-          xcrun productbuild --package FaFa\ Runner-unsigned.pkg --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner.pkg
+          xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" "FaFa Runner-unsigned.pkg"
+          mv "FaFa Runner-unsigned.pkg" "$GITHUB_WORKSPACE/FaFa Runner-unsigned.pkg"
         env:
           DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY }}
         working-directory: build/macos/Build/Products/Release
 
       - uses: actions/upload-artifact@v4
         with:
+          name: unsigned-pkg-artifact
+          path: ./FaFa\ Runner-unsigned.pkg
+
+      - name: Building distribution file
+        run: |
+          xcrun productbuild --synthesize --product macos/packaging/pkg/requirements --package "FaFa Runner-unsigned.pkg" distribution.dist
+          sed -i '' '2 a\
+          \    <title>FaFa Runner</title>\
+          \    <license file="eula.rtf"/>\
+          ' distribution.dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distribution-artifact
+          path: ./distribution.dist
+
+      - name: Sign pkg
+        run: |
+          # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
+          xcrun productbuild --distribution distribution.dist --resources macos/packaging/base --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" "FaFa Runner.pkg"
+        env:
+          DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY }}
+
+      - uses: actions/upload-artifact@v4
+        with:
           name: pkg-artifact
-          path: |
-            ./build/macos/Build/Products/Release/FaFa\ Runner.pkg
+          path: ./FaFa\ Runner.pkg
 
 #      - name: Check sign status
 #        run: |
 #          # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
-#          pkgutil –-check-signature FaFa\ Runner.pkg
-#        working-directory: build/macos/Build/Products/Release
+#          pkgutil –-check-signature "FaFa Runner.pkg"
 
       - name: Notarize & Staple
         run: |
@@ -114,7 +137,6 @@ jobs:
           # validated by macOS even when an internet connection is not available.
           echo "Attach staple"
           xcrun stapler staple "FaFa Runner.pkg"
-        working-directory: build/macos/Build/Products/Release
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
@@ -133,18 +155,16 @@ jobs:
         run: |
           echo "$VERSION"
           ls -la *.pkg
-          rm -f FaFa\ Runner-unsigned.pkg
-          mv FaFa\ Runner.pkg FaFaRunner_"$VERSION"_macos_universal.pkg
+          test -f "FaFa Runner-unsigned.pkg" && rm -f "FaFa Runner-unsigned.pkg"
+          mv "FaFa Runner.pkg" FaFaRunner_"$VERSION"_macos_universal.pkg
           ls -la *.pkg
-        working-directory: build/macos/Build/Products/Release
         env:
           VERSION: ${{ steps.version_step.outputs.version }}
 
       - uses: actions/upload-artifact@v4
         with:
-          name: macos-pkg-artifact
-          path: |
-            ./build/macos/Build/Products/Release/*.pkg
+          name: stapled-pkg-artifact
+          path: ./*.pkg
 
       - name: Clean up
         if: ${{ always() }}

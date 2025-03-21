@@ -9,20 +9,26 @@ fi
 
 create-dmg --version
 
-test -f FaFa\ Runner.dmg && rm -f FaFa\ Runner.dmg
+APP_NAME="FaFa Runner"
+BASE_APP_DIR="$APP_NAME.app"
+APP_FILE_NAME="$APP_NAME.dmg"
+PACK_DIR="macos/packaging"
+TARGET_DIR="build/macos/Build/Products/Release"
+
+test -f "$APP_FILE_NAME" && rm -f "$APP_FILE_NAME"
 
 create-dmg \
-  --volname "FaFa Runner" \
-  --volicon "logo/fafa-runner.icns" \
-  --background "images/background.png" \
-  --eula "eula.rtf" \
+  --volname "$APP_NAME" \
+  --volicon "$PACK_DIR/dmg/logo.icns" \
+  --background "$PACK_DIR/dmg/background.png" \
+  --eula "$PACK_DIR/base/eula.rtf" \
   --window-pos 200 180 \
   --window-size 660 500 \
   --icon-size 100 \
-  --icon "FaFa Runner.app" 180 170 \
-  --hide-extension "FaFa Runner.app" \
+  --icon "$BASE_APP_DIR" 180 170 \
+  --hide-extension "$BASE_APP_DIR" \
   --app-drop-link 480 170 \
-  "FaFa Runner.dmg" \
-  "build/macos/Build/Products/Release/FaFa Runner.app"
+  "$APP_FILE_NAME" \
+  "$TARGET_DIR/$BASE_APP_DIR"
 
 exit 0

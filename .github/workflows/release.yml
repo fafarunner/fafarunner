@@ -95,7 +95,7 @@ jobs:
       - ios
       - macos-dmg
       - macos-pkg
-      - macos-appstore
+      - macos-appstore-pkg
       - macos-zip
       - macos-tar
       - linux-appimage
@@ -647,14 +647,29 @@ jobs:
         env:
           DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
 
-      - name: Build & Sign pkg
+      - name: Build pkg
         run: |
           # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
-          xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner-unsigned.pkg
-          xcrun productbuild --package FaFa\ Runner-unsigned.pkg --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" FaFa\ Runner.pkg
+          xcrun pkgbuild --component "./FaFa Runner.app" --install-location /Applications --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" "FaFa Runner-unsigned.pkg"
+          mv "FaFa Runner-unsigned.pkg" "$GITHUB_WORKSPACE/FaFa Runner-unsigned.pkg"
         env:
           DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY }}
         working-directory: build/macos/Build/Products/Release
+
+      - name: Building distribution file
+        run: |
+          xcrun productbuild --synthesize --product macos/packaging/pkg/requirements --package "FaFa Runner-unsigned.pkg" distribution.dist
+          sed -i '' '2 a\
+          \    <title>FaFa Runner</title>\
+          \    <license file="eula.rtf"/>\
+          ' distribution.dist
+
+      - name: Sign pkg
+        run: |
+          # https://www.hexnode.com/mobile-device-management/help/how-to-sign-macos-pkg-files-for-deployment-with-hexnode-mdm/
+          xcrun productbuild --distribution distribution.dist --resources macos/packaging/base --sign "$DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY" "FaFa Runner.pkg"
+        env:
+          DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_INSTALLER_SIGNING_IDENTITY }}
 
       - name: Notarize & Staple
         run: |
@@ -669,7 +684,6 @@ jobs:
           # validated by macOS even when an internet connection is not available.
           echo "Attach staple"
           xcrun stapler staple "FaFa Runner.pkg"
-        working-directory: build/macos/Build/Products/Release
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
@@ -679,10 +693,10 @@ jobs:
       # Package the build.
       - name: Copy build for pkg
         run: |
-          rm -f FaFa\ Runner-unsigned.pkg
           ls -la *.pkg
-          mv FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_macos_universal.pkg
-        working-directory: build/macos/Build/Products/Release
+          test -f "FaFa Runner-unsigned.pkg" && rm -f "FaFa Runner-unsigned.pkg"
+          mv "FaFa Runner.pkg" $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_macos_universal.pkg
+          ls -la *.pkg
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -701,7 +715,7 @@ jobs:
           fi
           rm -f .env
 
-  macos-appstore:
+  macos-appstore-pkg:
     name: Create macos pkg (appstore)
     runs-on: macos-14
     needs:
