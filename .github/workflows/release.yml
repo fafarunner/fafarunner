@@ -2120,23 +2120,20 @@ jobs:
       - name: Update config
         shell: pwsh
         run: |
-          $SETUP_ICON_FILE = "$pwd\windows\runner\resources\app_icon.ico"
-          echo $SETUP_ICON_FILE
-
           $yamlFile = ".\windows\packaging\exe\make_config.yaml"
           $yamlContent = Get-Content -Raw -Path $yamlFile
 
           # 获取环境变量的值
-          $appId = (Get-Item -Path Env:WINDOWS_APP_ID).Value
+          $appId = (Get-Item -Path Env:WINDOWS_EXE_APP_ID).Value
           $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
 
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".app_id = `"$appId`" | .publisher_name = `"$publisherName`" | .setup_icon_file = `"$SETUP_ICON_FILE`"" -
+          $updatedYamlContent = echo $yamlContent | yq e ".app_id = `"$appId`" | .publisher_name = `"$publisherName`"" -
 
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
         env:
-          WINDOWS_APP_ID: ${{ secrets.WINDOWS_APP_ID }}
+          WINDOWS_EXE_APP_ID: ${{ secrets.WINDOWS_EXE_APP_ID }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
       - name: Build exe

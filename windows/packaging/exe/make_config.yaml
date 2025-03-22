@@ -5,7 +5,7 @@ display_name: FaFa Runner
 create_desktop_icon: true
 privileges_required: admin
 # launch_at_startup: false
-setup_icon_file: SETUP_ICON_FILE_PLACEHOLDER
+setup_icon_file: windows\runner\resources\app_icon.ico
 # See: https://jrsoftware.org/ishelp/index.php?topic=setup_defaultdirname
 # install_dir_name: "D:\\HELLO-WORLD"
 locales:
