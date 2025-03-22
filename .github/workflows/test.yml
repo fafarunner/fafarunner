@@ -35,7 +35,7 @@ permissions: read-all
 jobs:
   apk:
     name: Create apk
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -295,7 +295,7 @@ jobs:
 
   linux:
     name: Create linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -449,7 +449,7 @@ jobs:
 
   web:
     name: Create web
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 

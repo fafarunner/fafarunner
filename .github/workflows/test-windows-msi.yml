@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   get-version:
     name: Create release
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.version_step.outputs.version }}
       version_short: ${{ steps.version_step.outputs.version_short }}

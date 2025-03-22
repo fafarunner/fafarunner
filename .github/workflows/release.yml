@@ -23,7 +23,7 @@ permissions: read-all
 jobs:
   create-release:
     name: Create release
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       sha: ${{ steps.sha_step.outputs.sha }}
       version: ${{ steps.version_step.outputs.version }}
@@ -87,7 +87,7 @@ jobs:
 
   gen-shasum:
     name: Gen Shasum
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
       - apk
@@ -158,7 +158,7 @@ jobs:
 
   apk:
     name: Create apk
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
     steps:
@@ -240,7 +240,7 @@ jobs:
 
   aab:
     name: Create appbundle
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
     steps:
@@ -1121,7 +1121,7 @@ jobs:
 
   linux-appimage:
     name: Create linux AppImage
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
     steps:
@@ -1195,7 +1195,7 @@ jobs:
 
   linux-appimage-aarch64:
     name: Create linux AppImage (aarch64)
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-24.04-arm
     needs:
       - create-release
     steps:
@@ -1275,7 +1275,7 @@ jobs:
   
   linux-deb:
     name: Create linux deb
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
     steps:
@@ -1344,7 +1344,7 @@ jobs:
 
   linux-deb-aarch64:
     name: Create linux deb (aarch64)
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-24.04-arm
     needs:
       - create-release
     steps:
@@ -1412,7 +1412,7 @@ jobs:
 
   linux-rpm:
     name: Create linux rpm
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
     steps:
@@ -1485,7 +1485,7 @@ jobs:
 
   linux-rpm-aarch64:
     name: Create linux rpm (aarch64)
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-24.04-arm
     needs:
       - create-release
     steps:
@@ -1571,7 +1571,7 @@ jobs:
 
   linux-tar:
     name: Create linux tar
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
     steps:
@@ -1639,7 +1639,7 @@ jobs:
 
   linux-tar-aarch64:
     name: Create linux tar (aarch64)
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-24.04-arm
     needs:
       - create-release
     steps:
@@ -1707,7 +1707,7 @@ jobs:
 
   linux-snap:
     name: Create linux snap
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       LXD_GROUP: lxd
     needs:
@@ -1768,7 +1768,7 @@ jobs:
 
   linux-snap-aarch64:
     name: Create linux snap (aarch64)
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-24.04-arm
     env:
       LXD_GROUP: lxd
     needs:
@@ -2271,7 +2271,7 @@ jobs:
 
   web:
     name: Create web
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs:
       - create-release
     steps:
