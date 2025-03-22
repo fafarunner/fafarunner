@@ -377,8 +377,8 @@ jobs:
       - name: copy LICENSE to the windows folder
         run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Install yq
         shell: pwsh

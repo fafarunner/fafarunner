@@ -1162,12 +1162,12 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Build AppImage
         run: |
-          flutter_distributor package \
+          fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets appimage \
@@ -1238,16 +1238,16 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install flutter_distributor
+      - name: Install fastforge
         run: |
           dart pub global activate \
-            --source git https://github.com/kjxbyz/flutter_distributor \
-            --git-ref pacman \
-            --git-path packages/flutter_distributor
+            --source git https://github.com/kjxbyz/fastforge \
+            --git-ref appimage-arm64 \
+            --git-path packages/fastforge
 
       - name: Build AppImage
         run: |
-          flutter_distributor package \
+          fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets appimage \
@@ -1311,12 +1311,12 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Build deb
         run: |
-          flutter_distributor package \
+          fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
@@ -1379,12 +1379,12 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Build deb
         run: |
-          flutter_distributor package \
+          fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
@@ -1452,12 +1452,12 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Build RPM
         run: |
-          flutter_distributor package \
+          fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets rpm \
@@ -1526,8 +1526,8 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Install yq
         run: |
@@ -1543,7 +1543,7 @@ jobs:
 
       - name: Build RPM
         run: |
-          flutter_distributor package \
+          fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets rpm \
@@ -2108,8 +2108,8 @@ jobs:
         run: |
           copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Install yq
         shell: pwsh
@@ -2142,7 +2142,7 @@ jobs:
       - name: Build exe
         shell: pwsh
         run: |
-          flutter_distributor package `
+          fastforge package `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `
@@ -2229,13 +2229,13 @@ jobs:
       - name: copy LICENSE to the windows folder
         run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Build zip
         shell: pwsh
         run: |
-          flutter_distributor package `
+          fastforge package `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets zip `

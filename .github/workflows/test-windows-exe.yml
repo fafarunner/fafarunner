@@ -37,8 +37,8 @@ jobs:
         run: |
           copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Install yq
         shell: pwsh
@@ -71,7 +71,7 @@ jobs:
       - name: Build exe
         shell: pwsh
         run: |
-          flutter_distributor package `
+          fastforge package `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `

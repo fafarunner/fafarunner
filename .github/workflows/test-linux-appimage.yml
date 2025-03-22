@@ -45,12 +45,12 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install flutter_distributor
-        run: dart pub global activate flutter_distributor
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Build AppImage
         run: |
-          flutter_distributor package \
+          fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets appimage \

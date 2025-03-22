@@ -92,7 +92,7 @@ xcrun notarytool log <id> --apple-id "" --team-id "" --password ""
 
 ```shell
 # https://distributor.leanflutter.dev/makers/appimage/
-dart run flutter_distributor:main package --platform linux --targets appimage
+dart run fastforge:main package --platform linux --targets appimage
 
 # https://flutter.cn/docs/deployment/linux
 # https://snapcraft.io/docs/snapcraft-yaml-reference
@@ -125,11 +125,11 @@ $bytes = [Convert]::FromBase64String($BASE64_STR)
 ```powershell
 # https://jrsoftware.org/isinfo.php
 # https://distributor.leanflutter.dev/zh-hans/makers/exe/
-flutter_distributor package --platform windows --targets exe
+fastforge package --platform windows --targets exe
 
 # https://flutter.cn/docs/platform-integration/windows/building#msix-packaging
 # https://distributor.leanflutter.dev/zh-hans/makers/msix/
-flutter_distributor package --platform windows --targets msix
+fastforge package --platform windows --targets msix
 ```
 
 [//]: # (## Tests)
