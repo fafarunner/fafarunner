@@ -1,14 +1,19 @@
 // Dart imports:
 import 'dart:async';
-import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:app/app.dart';
+import 'package:bonfire/bonfire.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:game/game.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -18,7 +23,6 @@ import 'package:url_strategy/url_strategy.dart';
 
 // Project imports:
 import 'package:fafarunner/app/app.dart';
-import 'package:fafarunner/config/navigator.dart';
 import 'package:fafarunner/constrants/env.dart';
 
 Future<void> reportErrorAndLog(FlutterErrorDetails details) async {
@@ -35,6 +39,9 @@ FlutterErrorDetails makeErrorDetails(Object error, StackTrace stackTrace) {
 Future<void> main() async {
   final widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
 
+  // For hot reload, `unregisterAll()` needs to be called.
+  await hotKeyManager.unregisterAll();
+
   if (isSplashSupported) {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   }
@@ -42,7 +49,7 @@ Future<void> main() async {
   Logger.root.level =
       kReleaseMode ? Level.OFF : Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
-    log('${record.level.name}: ${record.time}: ${record.message}');
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   });
 
   if (AppEnv.sentryEnabled) {
@@ -67,7 +74,7 @@ Future<void> main() async {
           ..enableTimeToFullDisplayTracing = true
           ..maxRequestBodySize = MaxRequestBodySize.always
           ..maxResponseBodySize = MaxResponseBodySize.always
-          ..navigatorKey = AppNavigator.key;
+          ..navigatorKey = AppNavigator.navigatorKey;
       },
     );
   } else {
@@ -95,6 +102,9 @@ Future<void> main() async {
 
   // initialize with the right locale
   await LocaleSettings.useDeviceLocale();
+
+  await GetStorage.init(AppConfig.shared.container);
+  Get.lazyPut(SettingsController.new, fenix: true);
 
   Widget child = const App();
   if (AppEnv.sentryEnabled) {

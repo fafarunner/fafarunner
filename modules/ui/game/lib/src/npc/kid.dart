@@ -51,14 +51,14 @@ class Kid extends GameDecoration {
       gameRef.context,
       [
         Say(
-          text: [TextSpan(text: t.pages.talkKid2)],
+          text: [TextSpan(text: t.gamePage.talkKid2)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.kidIdleLeft(),
           ),
           personSayDirection: PersonSayDirection.RIGHT,
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkPlayer4)],
+          text: [TextSpan(text: t.gamePage.talkPlayer4)],
           person: CustomSpriteAnimationWidget(
             animation: PlayerSpriteSheet.idleRight(),
           ),

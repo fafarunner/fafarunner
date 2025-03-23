@@ -3,13 +3,14 @@ import 'dart:async' as async;
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:bonfire/bonfire.dart';
+import 'package:get/get.dart';
 
 // Project imports:
 import '../constrants/constrants.dart';
+import '../controllers/settings_controller.dart';
 import '../util/functions.dart';
 import '../util/game_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';
@@ -42,6 +43,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
   async.Timer? _timerStamina;
   bool containKey = false;
   bool showObserveEnemy = false;
+  final controller = Get.find<SettingsController>();
 
   @override
   async.Future<void> onLoad() {
@@ -59,17 +61,18 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
 
   @override
   void onJoystickAction(JoystickActionEvent event) {
+    final attackKey = controller.attackKey.value.logicalKey;
+    final fireKey = controller.fireKey.value.logicalKey;
+
     if (event.id == 0 && event.event == ActionEvent.DOWN) {
       actionAttack();
     }
 
-    if (event.id == LogicalKeyboardKey.space &&
-        event.event == ActionEvent.DOWN) {
+    if (event.id == attackKey && event.event == ActionEvent.DOWN) {
       actionAttack();
     }
 
-    if (event.id == LogicalKeyboardKey.keyZ &&
-        event.event == ActionEvent.DOWN) {
+    if (event.id == fireKey && event.event == ActionEvent.DOWN) {
       actionAttackRange();
     }
 
@@ -84,7 +87,8 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
     removeFromParent();
     gameRef.add(
       GameDecoration.withSprite(
-        sprite: Sprite.load(Assets.images.player.playerCrypt.keyName), // 'player/player_crypt.png'
+        sprite: Sprite.load(Assets.images.player.playerCrypt.keyName),
+        // 'player/player_crypt.png'
         position: Vector2(
           position.x,
           position.y,
@@ -148,7 +152,9 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
       observed: (enemies) {
         if (showObserveEnemy) return;
         showObserveEnemy = true;
-        _showEmote(emote: Assets.images.emote.emoteExclamacao.keyName); // 'emote/emote_exclamacao.png'
+        _showEmote(
+          emote: Assets.images.emote.emoteExclamacao.keyName,
+        ); // 'emote/emote_exclamacao.png'
       },
     );
     super.update(dt);
@@ -177,7 +183,11 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
   }
 
   @override
-  void onReceiveDamage(AttackOriginEnum attacker, double damage, dynamic identify) {
+  void onReceiveDamage(
+    AttackOriginEnum attacker,
+    double damage,
+    dynamic identify,
+  ) {
     if (isDead) return;
     showDamage(
       damage,

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:logging/logging.dart';
 
 /// logger
-final logger = Logger('FaFaRunner');
+final logger = Logger('FaFa Runner');
 
 /// debug
 void printDebugLog(Object? object) {

@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+      flutter_gen_runner:
+        options:
+          output: lib/generated/ # Optional (default: lib/gen/)
+          line_length: 80 # Optional (default: 80)
+
+          assets:
+            enabled: false
+          fonts:
+            enabled: false
+
+          colors:
+            enabled: true
+            outputs:
+              class_name: FRColors
+            inputs:
+              - assets/color/colors.xml

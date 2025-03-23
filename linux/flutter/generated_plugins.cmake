@@ -4,7 +4,9 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_linux
+  hotkey_manager_linux
   sentry_flutter
+  tray_manager
   url_launcher_linux
 )
 

@@ -1,3 +1,4 @@
+///
 class AppManager {
   /// 私有构造器
   AppManager.internal();

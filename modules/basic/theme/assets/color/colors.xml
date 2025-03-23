@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="primary_color">#1E6EB9</color>
+    <color name="primary_hover_color">#70A1FF</color>
+    <color name="primary_background_color">#E3ECFC</color>
+    <color name="primary_text_color">#333333</color>
+    <color name="dialog_background_color">#2F3542</color>
+
+    <color name="secondary_text_color">#6F7379</color>
+    <color name="placeholder_text_color">#959595</color>
+    <color name="error_text_color">#FF5050</color>
+    <color name="warn_text_color">#FF6200</color>
+    <color name="background_color">#FFECE8</color>
+    <color name="secondary_background_color">#FFF5E7</color>
+
+    <color name="primary_gray_color">#F0F0F0</color>
+    <color name="secondary_gray_color">#F9F9F9</color>
+    <color name="border_color">#C4C4C4</color>
+    <color name="secondary_border_color">#CFCFCF</color>
+</resources>

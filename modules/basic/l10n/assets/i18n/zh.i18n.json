@@ -1,13 +1,17 @@
 {
-  "pages": {
-    "appName": "发发跑酷",
+  "appName": "发发跑酷",
+  "menuPage": {
     "playCap": "开始玩",
+    "keyboard": "键盘",
+    "joystick": "操纵杆",
     "loading": "加载中...",
     "creditsCap": "学分",
     "poweredByPrefix": "由 ",
     "poweredBySuffix": " 开发",
     "author": "科技小白英仔",
-    "version": "版本号: $version",
+    "version": "版本号: $version"
+  },
+  "gamePage": {
     "talkWizard1": "你好, 我年轻的骑士! \n你在这里做什么?",
     "talkPlayer1": "你好! \n我被派去营救一个被生活在这些街区的生物绑架的孩子.",
     "talkWizard2": "嗯……\n我不想打击你, 但你是第五个被派来执行这项任务的骑士. 到目前为止, 没有人活着回来, 他们的尸体像战利品一样挂在墙上.",
@@ -23,6 +27,26 @@
     "congratulations": "恭喜!",
     "thanks": "感谢您测试游戏并感受 Flame 和 Bonfire 在构建 2D 游戏中的威力.\n也许我们可以有一个游戏的延续!\n我希望你喜欢!",
     "doorWithoutKey": "我想我需要一把钥匙才能通过这里!"
+  },
+  "hotkeyDialog": {
+    "description": "请点击键盘上的键来设置快捷键"
+  },
+  "tray": {
+    "settings": "设置",
+    "exit": "退出"
+  },
+  "buttons": {
+    "cancel": "取消",
+    "ok": "确定"
+  },
+  "settings": {
+    "shortcutsTitle": "快捷键",
+    "shortcutsDescription": "警告：暂不支持定义组合键。",
+    "shortcuts": {
+      "move": "移动",
+      "attack": "攻击",
+      "fire": "开火"
+    }
   },
   "locales(map)": {
     "en": "English",

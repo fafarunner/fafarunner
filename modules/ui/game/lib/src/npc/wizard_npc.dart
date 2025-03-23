@@ -77,7 +77,7 @@ class WizardNPC extends SimpleNpc {
       [
         Say(
           text: [
-            TextSpan(text: t.pages.talkWizard1),
+            TextSpan(text: t.gamePage.talkWizard1),
           ],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.wizardIdleLeft(),
@@ -85,26 +85,26 @@ class WizardNPC extends SimpleNpc {
           personSayDirection: PersonSayDirection.RIGHT,
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkPlayer1)],
+          text: [TextSpan(text: t.gamePage.talkPlayer1)],
           person: CustomSpriteAnimationWidget(
             animation: PlayerSpriteSheet.idleRight(),
           ),
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkWizard2)],
+          text: [TextSpan(text: t.gamePage.talkWizard2)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.wizardIdleLeft(),
           ),
           personSayDirection: PersonSayDirection.RIGHT,
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkPlayer2)],
+          text: [TextSpan(text: t.gamePage.talkPlayer2)],
           person: CustomSpriteAnimationWidget(
             animation: PlayerSpriteSheet.idleRight(),
           ),
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkWizard3)],
+          text: [TextSpan(text: t.gamePage.talkWizard3)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.wizardIdleLeft(),
           ),

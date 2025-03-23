@@ -67,7 +67,7 @@ class Door extends GameDecoration {
         Say(
           text: [
             TextSpan(
-              text: t.pages.doorWithoutKey,
+              text: t.gamePage.doorWithoutKey,
             ),
           ],
           person: PlayerSpriteSheet.idleRight().asWidget(),

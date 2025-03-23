@@ -24,6 +24,16 @@ jobs:
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
           sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+
+      - name: Install keybinder-3.0
+        run: |
+          # used by hotkey_manager
+          sudo apt-get install -y keybinder-3.0
+
+      - name: Install ayatana-appindicator3-0.1
+        run: |
+          # used by tray_manager
+          sudo apt-get install -y libayatana-appindicator3-dev
           
       - name: Install appimagetool
         run: |

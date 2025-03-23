@@ -1,5 +1,5 @@
 // Package imports:
-import 'package:bonfire/bonfire.dart' hide Assets;
+import 'package:bonfire/bonfire.dart';
 
 // Project imports:
 import '../constrants/constrants.dart';

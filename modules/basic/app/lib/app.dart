@@ -8,3 +8,6 @@ export 'package:url_launcher/url_launcher.dart';
 export 'package:url_launcher/url_launcher_string.dart';
 
 export 'src/app.dart';
+export 'src/config.dart';
+export 'src/manager.dart';
+export 'src/navigator.dart';

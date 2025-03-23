@@ -219,26 +219,26 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
       gameRef.context,
       [
         Say(
-          text: [TextSpan(text: t.pages.talkKid1)],
+          text: [TextSpan(text: t.gamePage.talkKid1)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.kidIdleLeft(),
           ),
           personSayDirection: PersonSayDirection.RIGHT,
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkBoss1)],
+          text: [TextSpan(text: t.gamePage.talkBoss1)],
           person: CustomSpriteAnimationWidget(
             animation: EnemySpriteSheet.bossIdleRight(),
           ),
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkPlayer3)],
+          text: [TextSpan(text: t.gamePage.talkPlayer3)],
           person: CustomSpriteAnimationWidget(
             animation: PlayerSpriteSheet.idleRight(),
           ),
         ),
         Say(
-          text: [TextSpan(text: t.pages.talkBoss2)],
+          text: [TextSpan(text: t.gamePage.talkBoss2)],
           person: CustomSpriteAnimationWidget(
             animation: EnemySpriteSheet.bossIdleRight(),
           ),

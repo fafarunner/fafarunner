@@ -1,12 +1,17 @@
 // Flutter imports:
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:app/app.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:l10n/l10n.dart';
 
 // Project imports:
 import '../menu/menu.dart';
 import '../../gen/assets.gen.dart';
+import '../widgets/record_hotkey_dialog.dart';
+import '../widgets/settings_model.dart';
 
 class Dialogs {
   static void showGameOver(BuildContext context, VoidCallback playAgain) {
@@ -32,7 +37,7 @@ class Dialogs {
                 ),
                 onPressed: playAgain,
                 child: Text(
-                  t.pages.playAgainCap,
+                  t.gamePage.playAgainCap,
                   style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Normal',
@@ -60,7 +65,7 @@ class Dialogs {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  t.pages.congratulations,
+                  t.gamePage.congratulations,
                   style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Normal',
@@ -73,7 +78,7 @@ class Dialogs {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 100),
                   child: Text(
-                    t.pages.thanks,
+                    t.gamePage.thanks,
                     style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'Normal',
@@ -118,6 +123,31 @@ class Dialogs {
           ),
         );
       },
+    );
+  }
+
+  static void showHotkeyDialog(
+    HotKey hotKey, {
+    ValueChanged<HotKey>? onHotKeyRecorded,
+  }) {
+    final context = AppNavigator.navigatorKey.currentContext!;
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => RecordHotKeyDialog(
+        hotKey: hotKey,
+        onHotKeyRecorded: onHotKeyRecorded,
+      ),
+    );
+  }
+
+  static void showSettingsModal() {
+    final context = AppNavigator.navigatorKey.currentContext!;
+    showModalBottomSheet<void>(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (BuildContext context) => const SettingsModal(),
     );
   }
 }

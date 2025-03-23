@@ -503,9 +503,17 @@ class Assets {
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const AssetGenImage logo = AssetGenImage('assets/logo.png');
   static const AssetGenImage playAgain = AssetGenImage('assets/play_again.png');
+  static const String trayIcon = 'packages/game/assets/tray_icon.ico';
+  static const AssetGenImage trayLogo = AssetGenImage('assets/tray_logo.png');
 
   /// List of all assets
-  static List<AssetGenImage> get values => [gameOver, logo, playAgain];
+  static List<dynamic> get values => [
+    gameOver,
+    logo,
+    playAgain,
+    trayIcon,
+    trayLogo,
+  ];
 }
 
 class AssetGenImage {

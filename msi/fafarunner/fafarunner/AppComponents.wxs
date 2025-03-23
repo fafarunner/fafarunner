@@ -19,10 +19,16 @@
         <File Source="$(FlutterBuildOutputDir)\flutter_windows.dll" />
       </Component>
       <Component>
+        <File Source="$(FlutterBuildOutputDir)\hotkey_manager_windows_plugin.dll" />
+      </Component>
+      <Component>
         <File Source="$(FlutterBuildOutputDir)\msvcp140.dll" />
       </Component>
       <Component>
         <File Source="$(FlutterBuildOutputDir)\sentry.dll" />
+      </Component>
+      <Component>
+        <File Source="$(FlutterBuildOutputDir)\tray_manager_plugin.dll" />
       </Component>
       <Component>
         <File Source="$(FlutterBuildOutputDir)\url_launcher_windows_plugin.dll" />
