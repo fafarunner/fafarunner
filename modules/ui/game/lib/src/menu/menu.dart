@@ -13,7 +13,6 @@ import 'package:app/app.dart';
 import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:game/src/util/navigator_util.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart' hide Translations;
 import 'package:hotkey_manager/hotkey_manager.dart';
@@ -24,12 +23,15 @@ import 'package:theme/theme.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
 // Project imports:
-import '../../game.dart';
+import '../controllers/settings_controller.dart';
+import '../enums/enums.dart';
 import '../game/game.dart';
 import '../util/custom_sprite_animation_widget.dart';
 import '../util/dialogs.dart';
 import '../util/enemy_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';
+import '../util/navigator_util.dart';
+import '../util/sounds.dart';
 import '../widgets/custom_radio.dart';
 import '../../gen/assets.gen.dart';
 
@@ -58,8 +60,8 @@ class _MenuState extends State<Menu> with tray.TrayListener {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timestamp) {
       initTrayMenu();
+      registerHotkeys();
     });
-    registerHotkeys();
   }
 
   @override
@@ -295,24 +297,28 @@ class _MenuState extends State<Menu> with tray.TrayListener {
   }
 
   Future<void> registerHotkeys() async {
-    final hotKey = HotKey(
-      key: LogicalKeyboardKey.keyA,
-      scope: HotKeyScope.inapp,
-    );
+    final controller = Get.find<SettingsController>();
+    final attackKey = controller.attackKey.value;
+    final fireKey = controller.fireKey.value;
 
     await hotKeyManager.register(
-      hotKey,
-      keyDownHandler: _keyDownHandler,
-      keyUpHandler: _keyUpHandler,
+      attackKey,
+      keyDownHandler: (HotKey hotKey) {
+        printDebugLog('[ATTACK]: keyDownHandler');
+      },
+      keyUpHandler: (HotKey hotKey) {
+        printDebugLog('[ATTACK]: keyUpHandler');
+      },
     );
-  }
-
-  void _keyDownHandler(HotKey hotKey) {
-    printDebugLog('keyDownHandler');
-  }
-
-  void _keyUpHandler(HotKey hotKey) {
-    printDebugLog('keyUpHandler');
+    await hotKeyManager.register(
+      fireKey,
+      keyDownHandler: (HotKey hotKey) {
+        printDebugLog('[FIRE]: keyDownHandler');
+      },
+      keyUpHandler: (HotKey hotKey) {
+        printDebugLog('[FIRE]: keyDownHandler');
+      },
+    );
   }
 
   Future<void> initTrayMenu() async {
