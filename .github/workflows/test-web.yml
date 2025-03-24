@@ -32,9 +32,9 @@ jobs:
           flutter-version: '3.29.2'
 
       - name: Configure .env
-        run: echo "$ENV_KEY" | base64 --decode > .env
+        run: echo "$ENV_STG_BASE64" | base64 --decode > .env
         env:
-          ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
