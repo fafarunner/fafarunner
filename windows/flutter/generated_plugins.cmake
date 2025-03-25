@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
-  hotkey_manager_windows
   sentry_flutter
   tray_manager
   url_launcher_windows

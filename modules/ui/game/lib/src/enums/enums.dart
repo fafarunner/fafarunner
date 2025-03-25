@@ -4,6 +4,12 @@ enum Menus {
 }
 
 enum CustomKeys {
+  directional,
   attack,
   fire,
+}
+
+enum DirectionalKeys {
+  arrows,
+  wasd,
 }

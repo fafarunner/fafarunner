@@ -1,20 +1,59 @@
+import 'package:bonfire/bonfire.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:game/src/constrants/constrants.dart';
 
 import 'package:get/get.dart' hide Translations;
-import 'package:hotkey_manager/hotkey_manager.dart';
+import 'package:group_button/group_button.dart';
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
 import 'package:theme/theme.dart';
 
 import '../controllers/settings_controller.dart';
+import '../enums/enums.dart';
 import '../extensions/extensions.dart';
 import '../util/dialogs.dart';
 import '../util/navigator_util.dart';
 import '../widgets/section_item.dart';
+import 'help_keys.dart';
+import 'hotkey_virtual_view.dart';
+
+List<DirectionalKeysWrapper> buttons = [
+  DirectionalKeysWrapper(
+    DirectionalKeys.arrows,
+    KeyboardDirectionalKeys.arrows(),
+  ),
+  DirectionalKeysWrapper(
+    DirectionalKeys.wasd,
+    KeyboardDirectionalKeys.wasd(),
+  ),
+];
 
 /// Settings
-class SettingsModal extends StatelessWidget {
+class SettingsModal extends StatefulWidget {
   const SettingsModal({super.key});
+
+  @override
+  State<SettingsModal> createState() => _SettingsModalState();
+}
+
+class _SettingsModalState extends State<SettingsModal> {
+  late GroupButtonController groupButtonController;
+  final controller = Get.find<SettingsController>();
+
+  @override
+  void initState() {
+    super.initState();
+    groupButtonController = GroupButtonController(
+      selectedIndex: controller.directionalKeys.value,
+    );
+  }
+
+  @override
+  void dispose() {
+    groupButtonController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +61,6 @@ class SettingsModal extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bottom = MediaQuery.paddingOf(context).bottom;
     final height = MediaQuery.sizeOf(context).height;
-
-    final controller = Get.find<SettingsController>();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -85,6 +122,7 @@ class SettingsModal extends StatelessWidget {
           children: [
             Obx(() {
               final themeMode = controller.themeMode.value;
+              final directionalKeys = controller.directionalKeys.value;
               final attackKey = controller.attackKey.value;
               final fireKey = controller.fireKey.value;
               printDebugLog('themeMode: $themeMode');
@@ -97,6 +135,64 @@ class SettingsModal extends StatelessWidget {
                     description: t.settings.shortcutsDescription,
                     descriptionColor: FRColors.warnTextColor,
                     items: [
+                      MineSectionModel(
+                        title: t.settings.shortcuts.move,
+                        showIcon: false,
+                        trailing: GroupButton<DirectionalKeysWrapper>(
+                          options: const GroupButtonOptions(
+                            selectedColor: FRColors.primaryColor,
+                          ),
+                          // style: ButtonStyle(
+                          //   padding: WidgetStateProperty.all(
+                          //     const EdgeInsets.symmetric(
+                          //       vertical: 12,
+                          //       horizontal: 18,
+                          //     ),
+                          //   ),
+                          //   overlayColor: WidgetStateProperty.all(
+                          //     FRColors.primaryBackgroundColor
+                          //         .withValues(alpha: 0.3),
+                          //   ),
+                          //   surfaceTintColor: WidgetStateProperty.all(
+                          //     FRColors.primaryBackgroundColor
+                          //         .withValues(alpha: 0.5),
+                          //   ),
+                          //   minimumSize: WidgetStateProperty.all(Size.zero),
+                          //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          // ),
+                          // onPressed: () => Dialogs.showHotkeyDialog(
+                          //   attackKey,
+                          //   onHotKeyRecorded: controller.setAttackHotkey,
+                          // ),
+                          controller: groupButtonController,
+                          onSelected: (value, index, selected) {
+                            printErrorLog('index: $index, selected: $selected');
+                            final keyboardDirectionalKey =
+                                keyboardDirectionalKeys.elementAt(index);
+                            if (keyboardDirectionalKey.contain(attackKey) ||
+                                keyboardDirectionalKey.contain(fireKey)) {
+                              BotToast.showText(text: t.settings.shortcutsUsed);
+                              return;
+                            }
+
+                            controller.setDirectionalKeys(index);
+                          },
+                          buttons: buttons,
+                          buttonIndexedBuilder: (selected, index, context) {
+                            return HelpDirectionalKeys(
+                              // label:
+                              //     buttons.elementAt(index).directionalKeys.name,
+                              directionalKeys: buttons
+                                  .elementAt(index)
+                                  .keyboardDirectionalKeys,
+                              labelColor: index == directionalKeys
+                                  ? FRColors.primaryColor
+                                  : null,
+                            );
+                          },
+                          // child: HotKeyVirtualView(hotKey: attackKey),
+                        ),
+                      ),
                       MineSectionModel(
                         title: t.settings.shortcuts.attack,
                         showIcon: false,
@@ -178,4 +274,11 @@ class SettingsModal extends StatelessWidget {
           color: isDark ? FRColors.dialogBackgroundColor : Colors.white,
         );
   }
+}
+
+class DirectionalKeysWrapper {
+  DirectionalKeysWrapper(this.directionalKeys, this.keyboardDirectionalKeys);
+
+  final DirectionalKeys directionalKeys;
+  final KeyboardDirectionalKeys keyboardDirectionalKeys;
 }

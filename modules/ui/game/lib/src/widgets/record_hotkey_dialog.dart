@@ -1,13 +1,16 @@
-import 'package:collection/collection.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:game/src/constrants/constrants.dart';
 import 'package:game/src/util/navigator_util.dart';
-import 'package:hotkey_manager/hotkey_manager.dart';
+import 'package:get/get.dart' hide Translations;
 
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
 import 'package:theme/theme.dart';
+
+import '../controllers/settings_controller.dart';
+import 'hotkey_recorder.dart';
 
 class RecordHotKeyDialog extends StatefulWidget {
   const RecordHotKeyDialog({
@@ -16,15 +19,15 @@ class RecordHotKeyDialog extends StatefulWidget {
     super.key,
   });
 
-  final HotKey hotKey;
-  final ValueChanged<HotKey>? onHotKeyRecorded;
+  final LogicalKeyboardKey hotKey;
+  final ValueChanged<LogicalKeyboardKey>? onHotKeyRecorded;
 
   @override
   State<RecordHotKeyDialog> createState() => _RecordHotKeyDialogState();
 }
 
 class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
-  late HotKey _hotKey;
+  late LogicalKeyboardKey _hotKey;
   bool allowed = true;
 
   @override
@@ -36,6 +39,10 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
+    final controller = Get.find<SettingsController>();
+    final directionalKeys = controller.directionalKeys.value;
+    final attackKey = controller.attackKey.value;
+    final fireKey = controller.fireKey.value;
     return AlertDialog(
       title: Text(
         t.hotkeyDialog.description,
@@ -58,14 +65,29 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
                 alignment: Alignment.center,
                 children: [
                   HotKeyRecorder(
-                    initalHotKey: widget.hotKey,
+                    initialHotKey: widget.hotKey,
                     onHotKeyRecorded: (hotKey) {
-                      printDebugLog('hotKey: ${hotKey.toJson()}');
-                      if (hotKey.modifiers != null && hotKey.modifiers!.isNotEmpty) {
-                        BotToast.showText(text: t.settings.shortcutsDescription);
-                        setState(() => allowed = false);
-                        return;
+                      printDebugLog('hotKey: ${hotKey.keyLabel}');
+
+                      if (hotKey != widget.hotKey) {
+                        // if (hotKey == LogicalKeyboardKey.space) {
+                        //   BotToast.showText(text: t.settings.shortcutsRegistered);
+                        //   setState(() => allowed = false);
+                        //   return;
+                        // }
+                        if (keyboardDirectionalKeys[directionalKeys].contain(hotKey)) {
+                          BotToast.showText(text: t.settings.shortcutsArrow);
+                          setState(() => allowed = false);
+                          return;
+                        }
+
+                        if ([attackKey, fireKey].contains(hotKey)) {
+                          BotToast.showText(text: t.settings.shortcutsUsed);
+                          setState(() => allowed = false);
+                          return;
+                        }
                       }
+
                       setState(() {
                         allowed = true;
                         _hotKey = hotKey;
@@ -86,30 +108,6 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
         ),
         TextButton(
           onPressed: !allowed ? null : () {
-            hotKeyManager.unregister(widget.hotKey);
-            final registeredHotKey =
-                hotKeyManager.registeredHotKeyList.firstWhereOrNull((item) {
-              if (item.key != _hotKey.key) return false;
-              final itemModifiers =
-                  Set<HotKeyModifier>.from(item.modifiers ?? []);
-              final customModifiers =
-                  Set<HotKeyModifier>.from(_hotKey.modifiers ?? []);
-              return setEquals(itemModifiers, customModifiers);
-            });
-            printDebugLog('registeredHotKey: ${registeredHotKey?.toJson()}');
-            if (registeredHotKey != null) {
-              BotToast.showText(text: 'Hot key registered');
-              return;
-            }
-            hotKeyManager.register(
-              _hotKey,
-              keyDownHandler: (hotkey) {
-                printDebugLog('[keyDownHandler]: ${hotkey.toJson()}');
-              },
-              keyUpHandler: (hotkey) {
-                printDebugLog('[keyUpHandler]: ${hotkey.toJson()}');
-              },
-            );
             widget.onHotKeyRecorded?.call(_hotKey);
             NavigatorUtil.pop();
           },

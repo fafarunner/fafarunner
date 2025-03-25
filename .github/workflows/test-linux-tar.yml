@@ -20,15 +20,13 @@ jobs:
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y p7zip-full p7zip-rar
 
-      - name: Install GStreamer
+      - name: Install libunwind-dev
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |

@@ -41,7 +41,10 @@
   },
   "settings": {
     "shortcutsTitle": "快捷键",
-    "shortcutsDescription": "警告：暂不支持定义组合键。",
+    "shortcutsDescription": "警告: 暂不支持定义组合键",
+    "shortcutsRegistered": "该键是应用内置键",
+    "shortcutsArrow": "该键已作为方向键使用",
+    "shortcutsUsed": "该键已使用",
     "shortcuts": {
       "move": "移动",
       "attack": "攻击",

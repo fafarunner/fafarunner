@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:app/app.dart';
-import 'package:hotkey_manager/hotkey_manager.dart';
+import 'package:flutter/services.dart';
 import 'package:l10n/l10n.dart';
 
 // Project imports:
@@ -127,8 +127,8 @@ class Dialogs {
   }
 
   static void showHotkeyDialog(
-    HotKey hotKey, {
-    ValueChanged<HotKey>? onHotKeyRecorded,
+    LogicalKeyboardKey hotKey, {
+    ValueChanged<LogicalKeyboardKey>? onHotKeyRecorded,
   }) {
     final context = AppNavigator.navigatorKey.currentContext!;
     showCupertinoModalPopup<void>(

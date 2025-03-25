@@ -1133,15 +1133,13 @@ jobs:
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y locate libfuse2
 
-      - name: Install GStreamer
+      - name: Install libunwind-dev
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |
@@ -1219,13 +1217,11 @@ jobs:
 
       - name: Install libunwind-dev
         run: |
-          # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |
@@ -1307,15 +1303,13 @@ jobs:
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y rpm patchelf
 
-      - name: Install GStreamer
+      - name: Install libunwind-dev
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |
@@ -1387,13 +1381,11 @@ jobs:
 
       - name: Install libunwind-dev
         run: |
-          # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |
@@ -1468,15 +1460,13 @@ jobs:
           sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
 
-      - name: Install GStreamer
+      - name: Install libunwind-dev
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |
@@ -1554,13 +1544,11 @@ jobs:
 
       - name: Install libunwind-dev
         run: |
-          # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |
@@ -1643,15 +1631,13 @@ jobs:
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
           sudo apt-get install -y p7zip-full p7zip-rar
 
-      - name: Install GStreamer
+      - name: Install libunwind-dev
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |
@@ -1723,13 +1709,11 @@ jobs:
 
       - name: Install libunwind-dev
         run: |
-          # https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+          sudo apt-get install -y libunwind-dev
 
-      - name: Install keybinder-3.0
-        run: |
-          # used by hotkey_manager
-          sudo apt-get install -y keybinder-3.0
+      - name: Install GStreamer
+        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
       - name: Install ayatana-appindicator3-0.1
         run: |

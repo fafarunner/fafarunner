@@ -20,7 +20,7 @@ dependencies:
   gap: ^3.0.1
   get: ^4.7.2
   get_storage: ^2.1.1
-  hotkey_manager: ^0.2.3
+  group_button: ^5.3.4
   shared_preferences: ^2.5.2
   tray_manager: ^0.4.0
 

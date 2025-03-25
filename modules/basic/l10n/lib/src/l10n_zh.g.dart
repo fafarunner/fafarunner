@@ -133,7 +133,10 @@ class _TranslationsSettingsZh extends TranslationsSettingsEn {
 
 	// Translations
 	@override String get shortcutsTitle => '快捷键';
-	@override String get shortcutsDescription => '警告：暂不支持定义组合键。';
+	@override String get shortcutsDescription => '警告: 暂不支持定义组合键';
+	@override String get shortcutsRegistered => '该键是应用内置键';
+	@override String get shortcutsArrow => '该键已作为方向键使用';
+	@override String get shortcutsUsed => '该键已使用';
 	@override late final _TranslationsSettingsShortcutsZh shortcuts = _TranslationsSettingsShortcutsZh._(_root);
 }
 
@@ -185,7 +188,10 @@ extension on TranslationsZh {
 			case 'buttons.cancel': return '取消';
 			case 'buttons.ok': return '确定';
 			case 'settings.shortcutsTitle': return '快捷键';
-			case 'settings.shortcutsDescription': return '警告：暂不支持定义组合键。';
+			case 'settings.shortcutsDescription': return '警告: 暂不支持定义组合键';
+			case 'settings.shortcutsRegistered': return '该键是应用内置键';
+			case 'settings.shortcutsArrow': return '该键已作为方向键使用';
+			case 'settings.shortcutsUsed': return '该键已使用';
 			case 'settings.shortcuts.move': return '移动';
 			case 'settings.shortcuts.attack': return '攻击';
 			case 'settings.shortcuts.fire': return '开火';

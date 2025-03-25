@@ -135,6 +135,9 @@ class TranslationsSettingsEn {
 	// Translations
 	String get shortcutsTitle => 'Shortcuts';
 	String get shortcutsDescription => 'WARNING: Defining key combinations is not currently supported.';
+	String get shortcutsRegistered => 'This key is an application built-in key.';
+	String get shortcutsArrow => 'This key is used as a direction key.';
+	String get shortcutsUsed => 'This key is used.';
 	late final TranslationsSettingsShortcutsEn shortcuts = TranslationsSettingsShortcutsEn.internal(_root);
 }
 
@@ -187,6 +190,9 @@ extension on Translations {
 			case 'buttons.ok': return 'OK';
 			case 'settings.shortcutsTitle': return 'Shortcuts';
 			case 'settings.shortcutsDescription': return 'WARNING: Defining key combinations is not currently supported.';
+			case 'settings.shortcutsRegistered': return 'This key is an application built-in key.';
+			case 'settings.shortcutsArrow': return 'This key is used as a direction key.';
+			case 'settings.shortcutsUsed': return 'This key is used.';
 			case 'settings.shortcuts.move': return 'Move';
 			case 'settings.shortcuts.attack': return 'Attack';
 			case 'settings.shortcuts.fire': return 'Fire';

@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:app/app.dart';
@@ -14,16 +13,11 @@ import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart' hide Translations;
-import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:l10n/l10n.dart';
-import 'package:logger/logger.dart';
 import 'package:shared/shared.dart';
-import 'package:theme/theme.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
 // Project imports:
-import '../controllers/settings_controller.dart';
 import '../enums/enums.dart';
 import '../game/game.dart';
 import '../util/custom_sprite_animation_widget.dart';
@@ -34,6 +28,7 @@ import '../util/navigator_util.dart';
 import '../util/sounds.dart';
 import '../widgets/custom_radio.dart';
 import '../../gen/assets.gen.dart';
+import '../widgets/help_keys.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -60,7 +55,6 @@ class _MenuState extends State<Menu> with tray.TrayListener {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timestamp) {
       initTrayMenu();
-      registerHotkeys();
     });
   }
 
@@ -164,7 +158,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               ),
               const Gap(20),
               if (!Game.useJoystick)
-                const KeyTips(onKeySelected: Dialogs.showSettingsModal),
+                const HelpKeys(
+                  onKeySelected: Dialogs.showSettingsModal,
+                ),
               // SizedBox(
               //   height: 80,
               //   width: 200,
@@ -296,31 +292,6 @@ class _MenuState extends State<Menu> with tray.TrayListener {
     }
   }
 
-  Future<void> registerHotkeys() async {
-    final controller = Get.find<SettingsController>();
-    final attackKey = controller.attackKey.value;
-    final fireKey = controller.fireKey.value;
-
-    await hotKeyManager.register(
-      attackKey,
-      keyDownHandler: (HotKey hotKey) {
-        printDebugLog('[ATTACK]: keyDownHandler');
-      },
-      keyUpHandler: (HotKey hotKey) {
-        printDebugLog('[ATTACK]: keyUpHandler');
-      },
-    );
-    await hotKeyManager.register(
-      fireKey,
-      keyDownHandler: (HotKey hotKey) {
-        printDebugLog('[FIRE]: keyDownHandler');
-      },
-      keyUpHandler: (HotKey hotKey) {
-        printDebugLog('[FIRE]: keyDownHandler');
-      },
-    );
-  }
-
   Future<void> initTrayMenu() async {
     final t = Translations.of(context);
     await tray.trayManager.setIcon(
@@ -354,109 +325,5 @@ class _MenuState extends State<Menu> with tray.TrayListener {
     } else if (menuItem.key == Menus.exit.name) {
       exit(0);
     }
-  }
-}
-
-class KeyTips extends StatelessWidget {
-  const KeyTips({required this.onKeySelected, super.key});
-
-  final VoidCallback onKeySelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = Translations.of(context);
-    final controller = Get.find<SettingsController>();
-    return SizedBox(
-      height: 60,
-      child: FittedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          spacing: 26,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 4,
-              children: [
-                HotKeyVirtualView(
-                  hotKey: HotKey(key: LogicalKeyboardKey.arrowUp),
-                ),
-                Row(
-                  children: [
-                    HotKeyVirtualView(
-                      hotKey: HotKey(key: LogicalKeyboardKey.arrowLeft),
-                    ),
-                    HotKeyVirtualView(
-                      hotKey: HotKey(key: LogicalKeyboardKey.arrowDown),
-                    ),
-                    HotKeyVirtualView(
-                      hotKey: HotKey(key: LogicalKeyboardKey.arrowRight),
-                    ),
-                  ],
-                ),
-                Text(
-                  t.settings.shortcuts.move,
-                  style: const TextStyle(fontFamily: 'Normal'),
-                ),
-              ],
-            ),
-            Obx(() {
-              final attackKey = controller.attackKey.value;
-
-              return TextButton(
-                onPressed: onKeySelected,
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all(EdgeInsets.zero),
-                  visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity,
-                  ),
-                  foregroundColor: WidgetStateProperty.all(FRColors.white),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 4,
-                  children: [
-                    HotKeyVirtualView(hotKey: attackKey),
-                    Text(
-                      t.settings.shortcuts.attack,
-                      style: const TextStyle(fontFamily: 'Normal'),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Obx(() {
-              final fireKey = controller.fireKey.value;
-
-              return TextButton(
-                onPressed: onKeySelected,
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all(EdgeInsets.zero),
-                  visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity,
-                  ),
-                  foregroundColor: WidgetStateProperty.all(FRColors.white),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 4,
-                  children: [
-                    HotKeyVirtualView(hotKey: fireKey),
-                    Text(
-                      t.settings.shortcuts.fire,
-                      style: const TextStyle(fontFamily: 'Normal'),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ),
-      ),
-    );
   }
 }

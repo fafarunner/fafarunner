@@ -42,6 +42,9 @@
   "settings": {
     "shortcutsTitle": "Shortcuts",
     "shortcutsDescription": "WARNING: Defining key combinations is not currently supported.",
+    "shortcutsRegistered": "This key is an application built-in key.",
+    "shortcutsArrow": "This key is used as a direction key.",
+    "shortcutsUsed": "This key is used.",
     "shortcuts": {
       "move": "Move",
       "attack": "Attack",

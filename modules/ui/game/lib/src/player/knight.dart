@@ -61,8 +61,8 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
 
   @override
   void onJoystickAction(JoystickActionEvent event) {
-    final attackKey = controller.attackKey.value.logicalKey;
-    final fireKey = controller.fireKey.value.logicalKey;
+    final attackKey = controller.attackKey.value;
+    final fireKey = controller.fireKey.value;
 
     if (event.id == 0 && event.event == ActionEvent.DOWN) {
       actionAttack();

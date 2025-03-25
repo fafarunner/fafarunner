@@ -13,7 +13,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:game/game.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -38,9 +37,6 @@ FlutterErrorDetails makeErrorDetails(Object error, StackTrace stackTrace) {
 
 Future<void> main() async {
   final widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
-
-  // For hot reload, `unregisterAll()` needs to be called.
-  await hotKeyManager.unregisterAll();
 
   if (isSplashSupported) {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

@@ -19,9 +19,6 @@
         <File Source="$(FlutterBuildOutputDir)\flutter_windows.dll" />
       </Component>
       <Component>
-        <File Source="$(FlutterBuildOutputDir)\hotkey_manager_windows_plugin.dll" />
-      </Component>
-      <Component>
         <File Source="$(FlutterBuildOutputDir)\msvcp140.dll" />
       </Component>
       <Component>

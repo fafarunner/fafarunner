@@ -28,3 +28,8 @@ bool get isSplashSupported {
     TargetPlatform.android,
   ].contains(defaultTargetPlatform);
 }
+
+/// Checks if the current environment is a mobile environment.
+bool get isHotkeySupported {
+  return kIsWeb || isDesktop;
+}

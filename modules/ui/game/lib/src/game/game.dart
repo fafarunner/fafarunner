@@ -30,6 +30,7 @@ import 'package:game/src/npc/wizard_npc.dart';
 import 'package:game/src/player/knight.dart';
 import 'package:game/src/util/sounds.dart';
 import 'package:game/src/widgets/game_controller.dart';
+
 import '../../gen/assets.gen.dart';
 import '../controllers/settings_controller.dart';
 import '../enums/enums.dart';
@@ -44,7 +45,8 @@ class Game extends StatefulWidget {
   State<Game> createState() => _GameState();
 }
 
-class _GameState extends State<Game> with TickerProviderStateMixin, tray.TrayListener {
+class _GameState extends State<Game>
+    with TickerProviderStateMixin, tray.TrayListener {
   late AnimationController _controller;
 
   @override
@@ -73,8 +75,9 @@ class _GameState extends State<Game> with TickerProviderStateMixin, tray.TrayLis
   Widget build(BuildContext context) {
     final t = Translations.of(context);
     final controller = Get.find<SettingsController>();
-    final attackKey = controller.attackKey.value.logicalKey;
-    final fireKey = controller.fireKey.value.logicalKey;
+    final directionalKeys = controller.directionalKeys.value;
+    final attackKey = controller.attackKey.value;
+    final fireKey = controller.fireKey.value;
 
     Widget child = ColoredBox(
       color: Colors.black,
@@ -97,25 +100,35 @@ class _GameState extends State<Game> with TickerProviderStateMixin, tray.TrayLis
                 Joystick(
                   directional: JoystickDirectional(
                     spriteBackgroundDirectional:
-                    Sprite.load(Assets.images.joystickBackground.keyName), // 'joystick_background.png'
-                    spriteKnobDirectional: Sprite.load(Assets.images.joystickKnob.keyName), // 'joystick_knob.png'
+                        Sprite.load(Assets.images.joystickBackground.keyName),
+                    // 'joystick_background.png'
+                    spriteKnobDirectional:
+                        Sprite.load(Assets.images.joystickKnob.keyName),
+                    // 'joystick_knob.png'
                     size: 100,
                     isFixed: false,
                   ),
                   actions: [
                     JoystickAction(
                       actionId: 0,
-                      sprite: Sprite.load(Assets.images.joystickAtack.keyName), // 'joystick_atack.png'
-                      spritePressed:
-                      Sprite.load(Assets.images.joystickAtackSelected.keyName), // 'joystick_atack_selected.png'
+                      sprite: Sprite.load(Assets.images.joystickAtack.keyName),
+                      // 'joystick_atack.png'
+                      spritePressed: Sprite.load(
+                        Assets.images.joystickAtackSelected.keyName,
+                      ),
+                      // 'joystick_atack_selected.png'
                       size: 80,
                       margin: const EdgeInsets.only(bottom: 50, right: 50),
                     ),
                     JoystickAction(
                       actionId: 1,
-                      sprite: Sprite.load(Assets.images.joystickAtackRange.keyName), // 'joystick_atack_range.png'
-                      spritePressed:
-                      Sprite.load(Assets.images.joystickAtackRangeSelected.keyName), // 'joystick_atack_range_selected.png'
+                      sprite:
+                          Sprite.load(Assets.images.joystickAtackRange.keyName),
+                      // 'joystick_atack_range.png'
+                      spritePressed: Sprite.load(
+                        Assets.images.joystickAtackRangeSelected.keyName,
+                      ),
+                      // 'joystick_atack_range_selected.png'
                       margin: const EdgeInsets.only(bottom: 50, right: 160),
                     ),
                   ],
@@ -123,7 +136,7 @@ class _GameState extends State<Game> with TickerProviderStateMixin, tray.TrayLis
                 Keyboard(
                   config: KeyboardConfig(
                     enable: !Game.useJoystick,
-                    directionalKeys: [KeyboardDirectionalKeys.arrows()],
+                    directionalKeys: [keyboardDirectionalKeys.elementAt(directionalKeys)],
                     acceptedKeys: [
                       LogicalKeyboardKey.space,
                       attackKey,
@@ -136,7 +149,8 @@ class _GameState extends State<Game> with TickerProviderStateMixin, tray.TrayLis
                 Vector2(2 * tileSize, 3 * tileSize),
               ),
               map: WorldMapByTiled(
-                CustomTiledAssetReader(asset: Assets.images.tiled.map), // 'tiled/map.json'
+                CustomTiledAssetReader(asset: Assets.images.tiled.map),
+                // 'tiled/map.json'
                 forceTileSize: Vector2(tileSize, tileSize),
                 objectsBuilder: {
                   'barrel': (p) => Barrel(p.position),
@@ -165,7 +179,7 @@ class _GameState extends State<Game> with TickerProviderStateMixin, tray.TrayLis
               onReady: (_) {
                 Future.delayed(
                   const Duration(milliseconds: 300),
-                      () => _controller.forward(),
+                  () => _controller.forward(),
                 );
               },
             ),
