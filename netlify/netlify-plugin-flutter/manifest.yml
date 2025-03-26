@@ -1,0 +1,5 @@
+name: 'netlify-plugin-{{name}}'
+inputs:
+  - name: channel
+    description: 'Flutter Channel'
+    default: stable

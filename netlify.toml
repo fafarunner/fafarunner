@@ -1,0 +1,11 @@
+[[plugins]]
+
+package = "./netlify/netlify-plugin-flutter"
+
+  [plugins.inputs]
+  channel = "3.29.2"
+
+[build]
+
+command = "sh ./scripts/build-web-netlify.sh"
+publish = "build/web"
