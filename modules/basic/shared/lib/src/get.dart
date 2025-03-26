@@ -20,6 +20,46 @@ bool get isMobile {
   ].contains(defaultTargetPlatform);
 }
 
+///
+bool get isIOS {
+  if (kIsWeb) return false;
+  return [
+    TargetPlatform.iOS,
+  ].contains(defaultTargetPlatform);
+}
+
+///
+bool get isAndroid {
+  if (kIsWeb) return false;
+  return [
+    TargetPlatform.android,
+  ].contains(defaultTargetPlatform);
+}
+
+///
+bool get isLinux {
+  if (kIsWeb) return false;
+  return [
+    TargetPlatform.linux,
+  ].contains(defaultTargetPlatform);
+}
+
+///
+bool get isMacOS {
+  if (kIsWeb) return false;
+  return [
+    TargetPlatform.macOS,
+  ].contains(defaultTargetPlatform);
+}
+
+///
+bool get isWindows {
+  if (kIsWeb) return false;
+  return [
+    TargetPlatform.windows,
+  ].contains(defaultTargetPlatform);
+}
+
 /// Checks if the current environment is a mobile environment.
 bool get isSplashSupported {
   if (kIsWeb) return true;
@@ -27,9 +67,4 @@ bool get isSplashSupported {
     TargetPlatform.iOS,
     TargetPlatform.android,
   ].contains(defaultTargetPlatform);
-}
-
-/// Checks if the current environment is a mobile environment.
-bool get isHotkeySupported {
-  return kIsWeb || isDesktop;
 }

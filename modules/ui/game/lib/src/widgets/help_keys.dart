@@ -10,11 +10,11 @@ import 'hotkey_virtual_view.dart';
 
 class HelpKeys extends StatelessWidget {
   const HelpKeys({
-    required this.onKeySelected,
+    this.onKeySelected,
     super.key,
   });
 
-  final VoidCallback onKeySelected;
+  final VoidCallback? onKeySelected;
 
   @override
   Widget build(BuildContext context) {

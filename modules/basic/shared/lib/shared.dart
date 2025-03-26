@@ -4,4 +4,3 @@
 library;
 
 export 'src/get.dart';
-export 'src/uni_platform.dart';

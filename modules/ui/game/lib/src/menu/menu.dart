@@ -54,7 +54,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
     tray.trayManager.addListener(this);
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timestamp) {
-      initTrayMenu();
+      if (isDesktop) {
+        initTrayMenu();
+      }
     });
   }
 
@@ -158,8 +160,8 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               ),
               const Gap(20),
               if (!Game.useJoystick)
-                const HelpKeys(
-                  onKeySelected: Dialogs.showSettingsModal,
+                HelpKeys(
+                  onKeySelected: isDesktop ? Dialogs.showSettingsModal : null,
                 ),
               // SizedBox(
               //   height: 80,

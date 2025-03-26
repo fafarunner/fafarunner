@@ -165,29 +165,36 @@ class _SettingsModalState extends State<SettingsModal> {
                           //   onHotKeyRecorded: controller.setAttackHotkey,
                           // ),
                           controller: groupButtonController,
-                          onSelected: (value, index, selected) {
-                            printErrorLog('index: $index, selected: $selected');
-                            final keyboardDirectionalKey =
-                                keyboardDirectionalKeys.elementAt(index);
-                            if (keyboardDirectionalKey.contain(attackKey) ||
-                                keyboardDirectionalKey.contain(fireKey)) {
-                              BotToast.showText(text: t.settings.shortcutsUsed);
-                              return;
-                            }
-
-                            controller.setDirectionalKeys(index);
-                          },
                           buttons: buttons,
                           buttonIndexedBuilder: (selected, index, context) {
-                            return HelpDirectionalKeys(
-                              // label:
-                              //     buttons.elementAt(index).directionalKeys.name,
-                              directionalKeys: buttons
-                                  .elementAt(index)
-                                  .keyboardDirectionalKeys,
-                              labelColor: index == directionalKeys
-                                  ? FRColors.primaryColor
-                                  : null,
+                            return GestureDetector(
+                              onTap: () {
+                                printErrorLog(
+                                  'index: $index, selected: $selected',
+                                );
+                                final keyboardDirectionalKey =
+                                    keyboardDirectionalKeys.elementAt(index);
+                                if (keyboardDirectionalKey.contain(attackKey) ||
+                                    keyboardDirectionalKey.contain(fireKey)) {
+                                  BotToast.showText(
+                                    text: t.settings.shortcutsUsed,
+                                  );
+                                  return;
+                                }
+
+                                controller.setDirectionalKeys(index);
+                              },
+                              behavior: HitTestBehavior.opaque,
+                              child: HelpDirectionalKeys(
+                                // label:
+                                //     buttons.elementAt(index).directionalKeys.name,
+                                directionalKeys: buttons
+                                    .elementAt(index)
+                                    .keyboardDirectionalKeys,
+                                labelColor: index == directionalKeys
+                                    ? FRColors.primaryColor
+                                    : null,
+                              ),
                             );
                           },
                           // child: HotKeyVirtualView(hotKey: attackKey),

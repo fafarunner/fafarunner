@@ -362,25 +362,23 @@ extension ExtendedPhysicalKeyboardKey on PhysicalKeyboardKey {
 
   /// Returns the [keyCode] of this [PhysicalKeyboardKey].
   int? get keyCode {
-    return UniPlatform.call<int?>(
-      linux: () {
-        final matchedKeyCode = kGtkToLogicalKey.entries
-            .firstWhereOrNull((entry) => entry.value == logicalKey)
-            ?.key;
-        if (matchedKeyCode != null) return matchedKeyCode;
-        return logicalKey?.keyId;
-      },
-      macos: () {
-        return kMacOsToPhysicalKey.entries
-            .firstWhereOrNull((entry) => entry.value == this)
-            ?.key;
-      },
-      windows: () {
-        return kWindowsToLogicalKey.entries
-            .firstWhereOrNull((entry) => entry.value == logicalKey)
-            ?.key;
-      },
-    );
+    if (isLinux) {
+      final matchedKeyCode = kGtkToLogicalKey.entries
+          .firstWhereOrNull((entry) => entry.value == logicalKey)
+          ?.key;
+      if (matchedKeyCode != null) return matchedKeyCode;
+      return logicalKey?.keyId;
+    } else if (isMacOS) {
+      return kMacOsToPhysicalKey.entries
+          .firstWhereOrNull((entry) => entry.value == this)
+          ?.key;
+    } else if (isWindows) {
+      return kWindowsToLogicalKey.entries
+          .firstWhereOrNull((entry) => entry.value == logicalKey)
+          ?.key;
+    }
+
+    return null;
   }
 }
 
