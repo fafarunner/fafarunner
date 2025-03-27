@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0+378
+
+1. feat: add eula file to dmg and pkg
+2. ci: update linux runner to ubuntu-24.04
+3. build: migrate flutter_distributor to fastforge
+4. fix: can not set icon file when packaging exe
+5. feat: add custom hotkey support
+6. chore(deps): update deps
+7. fix: update workflows
+
 ## 1.0.11+377
 
 1. chore(deps): update deps
