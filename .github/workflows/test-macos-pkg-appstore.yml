@@ -122,23 +122,34 @@ jobs:
           VERSION=$(yq '.version' pubspec.yaml)
           echo "$VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "VERSION: $VERSION."
+
+          VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
+          echo "VERSION_SHORT: $VERSION_SHORT."
+
+          BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
+          echo "BUILD_NUMBER: $BUILD_NUMBER."
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
       # Package the build.
       - name: Copy build for pkg
         run: |
-          echo "$VERSION"
           ls -la *.pkg
-          mv FaFa\ Runner.pkg FaFaRunner_"$VERSION"_macos_appstore_universal.pkg
-          ls -la *.pkg
+          mv FaFa\ Runner.pkg FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER"-macos-appstore-universal.pkg
         working-directory: build/macos/Build/Products/Release
         env:
-          VERSION: ${{ steps.version_step.outputs.version }}
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: macos-pkg-appstore-artifact
-          path: |
-            ./build/macos/Build/Products/Release/*.pkg
+          path: ./build/macos/Build/Products/Release/*.pkg
 
       - name: Clean up
         if: ${{ always() }}

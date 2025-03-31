@@ -59,19 +59,19 @@ jobs:
           echo "BUILD_NUMBER: $BUILD_NUMBER."
           
           if [ "$ENV" == "staging" ]; then
-            TAG_NAME="$VERSION.pre"
+            SUFFIX=".pre"
           elif [[ "$ENV" == "production" && "$IS_LATEST" == "false" ]]; then
-            TAG_NAME="$VERSION.rc"
+            SUFFIX=".rc"
           else
-            TAG_NAME="$VERSION"
+            SUFFIX=""
           fi
-          echo "TAG_NAME: v$TAG_NAME."
+          echo "SUFFIX: $SUFFIX"
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
-          echo "release=$TAG_NAME" >> $GITHUB_OUTPUT
-          echo "tag_name=v$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "release=$VERSION_SHORT.$BUILD_NUMBER$SUFFIX" >> $GITHUB_OUTPUT
+          echo "tag_name=v$VERSION$SUFFIX" >> $GITHUB_OUTPUT
         env:
           ENV: ${{ github.event.inputs.env }}
           IS_LATEST: ${{ github.event.inputs.latest }}
@@ -215,9 +215,9 @@ jobs:
         run: |
           ls -la
           if [[ "$ENV" == "staging" ]]; then
-            cp app-staging-release.apk $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.apk
+            cp app-staging-release.apk $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.apk
           else
-            cp app-production-release.apk $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.apk
+            cp app-production-release.apk $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.apk
           fi
         working-directory: build/app/outputs/flutter-apk
         env:
@@ -297,7 +297,7 @@ jobs:
         if: github.event.inputs.env == 'staging'
         run: |
           ls -la
-          cp *.aab $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.aab
+          cp *.aab $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.aab
         working-directory: build/app/outputs/bundle/stagingRelease
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -306,7 +306,7 @@ jobs:
         if: github.event.inputs.env == 'production'
         run: |
           ls -la
-          cp *.aab $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.aab
+          cp *.aab $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.aab
         working-directory: build/app/outputs/bundle/productionRelease
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -416,7 +416,7 @@ jobs:
       - name: Copy build for iOS
         run: |
           ls -la
-          cp *.ipa $GITHUB_WORKSPACE/FaFaRunner_$RELEASE.ipa
+          cp *.ipa $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.ipa
         working-directory: build/ios/ipa
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -545,7 +545,7 @@ jobs:
       - name: Build DMG
         run: |
           bash scripts/build-dmg.sh
-          mv FaFa\ Runner.dmg FaFaRunner_"$RELEASE"_macos_universal.dmg
+          mv FaFa\ Runner.dmg FaFaRunner-"$RELEASE"-macos-universal.dmg
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -694,7 +694,7 @@ jobs:
         run: |
           ls -la *.pkg
           test -f "FaFa Runner-unsigned.pkg" && rm -f "FaFa Runner-unsigned.pkg"
-          mv "FaFa Runner.pkg" $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_macos_universal.pkg
+          mv "FaFa Runner.pkg" $GITHUB_WORKSPACE/FaFaRunner-"$RELEASE"-macos-universal.pkg
           ls -la *.pkg
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -833,7 +833,7 @@ jobs:
       - name: Copy build for pkg
         run: |
           ls -la *.pkg
-          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunner_"$RELEASE"_macos_appstore_universal.pkg
+          cp FaFa\ Runner.pkg $GITHUB_WORKSPACE/FaFaRunner-"$RELEASE"-macos-appstore-universal.pkg
         working-directory: build/macos/Build/Products/Release
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -962,7 +962,7 @@ jobs:
 
       - name: Build zip
         run: |
-          7z a FaFaRunner_"$RELEASE"_macos_universal.zip ./FaFa\ Runner.app
+          7z a FaFaRunner-"$RELEASE"-macos-universal.zip ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -971,7 +971,7 @@ jobs:
       - name: Copy build for zip
         run: |
           ls -la *.zip
-          mv FaFaRunner_*_macos_universal.zip $GITHUB_WORKSPACE/
+          mv FaFaRunner-*-macos-universal.zip $GITHUB_WORKSPACE/
         working-directory: build/macos/Build/Products/Release
 
       - name: Upload assets
@@ -1091,7 +1091,7 @@ jobs:
 
       - name: Build tar
         run: |
-          tar -czaf FaFaRunner_"$RELEASE"_macos_universal.tar.gz ./FaFa\ Runner.app
+          tar -czaf FaFaRunner-"$RELEASE"-macos-universal.tar.gz ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -1178,7 +1178,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets appimage \
-            --artifact-name {{name}}_"$RELEASE"_{{platform}}_amd64.{{ext}}
+            --artifact-name {{name}}-"$RELEASE"-{{platform}}-amd64.{{ext}}
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1266,7 +1266,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets appimage \
-            --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
+            --artifact-name {{name}}-"$RELEASE"-{{platform}}-aarch64.{{ext}}
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1343,7 +1343,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
-            --artifact-name {{name}}_"$RELEASE"_{{platform}}_amd64.{{ext}}
+            --artifact-name {{name}}-"$RELEASE"-{{platform}}-amd64.{{ext}}
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1419,7 +1419,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
-            --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
+            --artifact-name {{name}}-"$RELEASE"-{{platform}}-aarch64.{{ext}}
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1500,7 +1500,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets rpm \
-            --artifact-name {{name}}_"$RELEASE"_{{platform}}_amd64.{{ext}}
+            --artifact-name {{name}}-"$RELEASE"-{{platform}}-amd64.{{ext}}
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1594,7 +1594,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets rpm \
-            --artifact-name {{name}}_"$RELEASE"_{{platform}}_aarch64.{{ext}}
+            --artifact-name {{name}}-"$RELEASE"-{{platform}}-aarch64.{{ext}}
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1670,10 +1670,10 @@ jobs:
 
       - name: Build tar
         run: |
-          archiveName="fafarunner_"$RELEASE"_linux_amd64.tar.gz"
-          cd build/linux/x64/release/bundle
+          archiveName="fafarunner-"$RELEASE"-linux-amd64.tar.gz"
           tar -czaf $archiveName ./*
           mv $archiveName $GITHUB_WORKSPACE/
+        working-directory: build/linux/x64/release/bundle
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1746,10 +1746,10 @@ jobs:
 
       - name: Build tar
         run: |
-          archiveName="fafarunner_"$RELEASE"_linux_aarch64.tar.gz"
-          cd build/linux/arm64/release/bundle
+          archiveName="fafarunner-"$RELEASE"-linux-aarch64.tar.gz"
           tar -czaf $archiveName ./*
           mv $archiveName $GITHUB_WORKSPACE/
+        working-directory: build/linux/arm64/release/bundle
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1806,7 +1806,7 @@ jobs:
       - name: Build snap
         run: |
           # https://snapcraft.io/docs/flutter-applications
-          sudo snapcraft --output fafarunner_"$RELEASE"_linux_amd64.snap
+          sudo snapcraft --output fafarunner-"$RELEASE"-linux-amd64.snap
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1875,7 +1875,7 @@ jobs:
       - name: Build snap
         run: |
           # https://snapcraft.io/docs/flutter-applications
-          sudo snapcraft --output "fafarunner_"$RELEASE"_linux_aarch64.snap"
+          sudo snapcraft --output "fafarunner-"$RELEASE"-linux-aarch64.snap"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -1986,8 +1986,8 @@ jobs:
       - name: Copy build for msi
         shell: pwsh
         run: |
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:RELEASE`_windows_$env:Platform`_en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:RELEASE`_windows_$env:Platform`_zh-CN.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner-$env:RELEASE`-windows-$env:Platform`-en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner-$env:RELEASE`-windows-$env:Platform`-zh-CN.msi"
           ls -R ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release"
           cp ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release\*\*.msi" "$env:GITHUB_WORKSPACE\"
         env:
@@ -2093,7 +2093,7 @@ jobs:
         run: flutter build windows --dart-define-from-file=.env
 
       - name: Create msix
-        run: dart run msix:create --store --build-windows false --output-name "fafarunner_$env:RELEASE`_windows_x64"
+        run: dart run msix:create --store --build-windows false --output-name "fafarunner-$env:RELEASE`-windows-x64"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -2206,7 +2206,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `
-            --artifact-name "{{name}}_$env:RELEASE`_{{platform}}_x64.{{ext}}"
+            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-x64.{{ext}}"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -2299,7 +2299,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets zip `
-            --artifact-name "{{name}}_$env:RELEASE`_{{platform}}_x64.{{ext}}"
+            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-x64.{{ext}}"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 

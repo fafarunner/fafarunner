@@ -84,20 +84,33 @@ jobs:
           echo "$VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "VERSION: $VERSION."
+
+          VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
+          echo "VERSION_SHORT: $VERSION_SHORT."
+
+          BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
+          echo "BUILD_NUMBER: $BUILD_NUMBER."
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+
       # Package the build.
       - name: Copy build for iOS
         run: |
           ls -la
-          cp *.ipa $GITHUB_WORKSPACE/FaFaRunner_"$VERSION".pre.ipa
+          cp *.ipa $GITHUB_WORKSPACE/FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER".ipa
         working-directory: build/ios/ipa
         env:
-          VERSION: ${{ steps.version_step.outputs.version }}
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: ios-ipa-artifact
-          path: |
-            ./*.ipa
+          path: ./*.ipa
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}

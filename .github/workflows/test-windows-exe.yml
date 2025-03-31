@@ -72,7 +72,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `
-            --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_x64.{{ext}}'
+            --artifact-name '{{name}}-{{build_name}}.{{build_number}}-{{platform}}-x64.{{ext}}'
 
       # Package the build.
       - name: Copy build for exe

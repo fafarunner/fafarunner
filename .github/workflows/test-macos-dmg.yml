@@ -110,20 +110,39 @@ jobs:
       - name: Build DMG
         run: bash scripts/build-dmg.sh
 
-      # Package the build.
-      - name: Copy build for dmg
+      - name: Set version
+        id: version_step
         run: |
           VERSION=$(yq '.version' pubspec.yaml)
           echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "VERSION: $VERSION."
+
+          VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
+          echo "VERSION_SHORT: $VERSION_SHORT."
+
+          BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
+          echo "BUILD_NUMBER: $BUILD_NUMBER."
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+
+      # Package the build.
+      - name: Copy build for dmg
+        run: |
           ls -la *.dmg
-          mv FaFa\ Runner.dmg FaFaRunner_"$VERSION".dmg
-          ls -la *.dmg
+          mv FaFa\ Runner.dmg FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER"-macos-universal.dmg
+        env:
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: macos-dmg-artifact
-          path: |
-            ./*.dmg
+          path: ./*.dmg
 
       - name: Clean up
         if: ${{ always() }}

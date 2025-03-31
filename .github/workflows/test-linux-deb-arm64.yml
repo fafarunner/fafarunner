@@ -56,7 +56,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
-            --artifact-name '{{name}}_{{build_name}}+{{build_number}}_{{platform}}_aarch64.{{ext}}'
+            --artifact-name '{{name}}-{{build_name}}.{{build_number}}-{{platform}}-aarch64.{{ext}}'
 
       # Package the build.
       - name: Copy build for deb

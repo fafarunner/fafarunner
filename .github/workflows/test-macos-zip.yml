@@ -106,8 +106,17 @@ jobs:
         id: version_step
         run: |
           VERSION=$(yq '.version' pubspec.yaml)
-          echo "$VERSION"
+          echo "VERSION: $VERSION."
+
+          VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
+          echo "VERSION_SHORT: $VERSION_SHORT."
+
+          BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
+          echo "BUILD_NUMBER: $BUILD_NUMBER."
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Install p7zip
         run: |
@@ -118,24 +127,24 @@ jobs:
 
       - name: Build zip
         run: |
-          echo "$VERSION"
-          7z a FaFaRunner_"$VERSION"_macos.zip ./FaFa\ Runner.app
+          echo "VERSION: $VERSION_SHORT.$BUILD_NUMBER"
+          7z a FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER"-macos-universal.zip ./FaFa\ Runner.app
         working-directory: build/macos/Build/Products/Release
         env:
-          VERSION: ${{ steps.version_step.outputs.version }}
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
 
       # Package the build.
       - name: Copy build for zip
         run: |
-          rm -f "FaFa Runner.zip"
           ls -la *.zip
+          test -f "FaFa Runner.zip" && rm -f "FaFa Runner.zip"
         working-directory: build/macos/Build/Products/Release
 
       - uses: actions/upload-artifact@v4
         with:
           name: macos-zip-artifact
-          path: |
-            ./build/macos/Build/Products/Release/*.zip
+          path: ./build/macos/Build/Products/Release/*.zip
 
       - name: Clean up
         if: ${{ always() }}

@@ -30,11 +30,33 @@ jobs:
       - name: Install snapcraft
         run: sudo snap install snapcraft --classic
 
+      - name: Set version
+        id: version_step
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "VERSION: $VERSION."
+
+          VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
+          echo "VERSION_SHORT: $VERSION_SHORT."
+
+          BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
+          echo "BUILD_NUMBER: $BUILD_NUMBER."
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+
       - name: Build snap
         run: |
           # https://snapcraft.io/docs/flutter-applications
-          version=$(yq '.version' pubspec.yaml)
-          sudo snapcraft --output "fafarunner_"$version"_linux_amd64.snap"
+          sudo snapcraft --output "fafarunner-"$VERSION_SHORT.$BUILD_NUMBER"-linux-amd64.snap"
+        env:
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
 
       # Package the build.
       - name: Copy build for snap

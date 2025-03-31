@@ -134,10 +134,11 @@ jobs:
       - name: Copy build for msi
         shell: pwsh
         run: |
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner_$env:VERSION`_windows_$env:Platform`_zh-CN.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner-$env:VERSION_SHORT.$env:BUILD_NUMBER`-windows-$env:Platform`-en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner-$env:VERSION_SHORT.$env:BUILD_NUMBER`-windows-$env:Platform`-zh-CN.msi"
         env:
-          VERSION: ${{ needs.get-version.outputs.version }}
+          VERSION_SHORT: ${{ needs.get-version.outputs.version_short }}
+          BUILD_NUMBER: ${{ needs.get-version.outputs.build_number }}
 
       - uses: actions/upload-artifact@v4
         with:

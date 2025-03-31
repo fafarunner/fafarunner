@@ -56,18 +56,40 @@ jobs:
       - name: Build apk
         run: flutter build apk --release --no-tree-shake-icons --flavor staging
 
+      - name: Set version
+        id: version_step
+        run: |
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          VERSION=$(yq '.version' pubspec.yaml)
+          echo "VERSION: $VERSION."
+
+          VERSION_SHORT=$(echo "$VERSION" | sed -e "s/+.*//")
+          echo "VERSION_SHORT: $VERSION_SHORT."
+
+          BUILD_NUMBER=$(echo "$VERSION" | sed -e "s/.*+//")
+          echo "BUILD_NUMBER: $BUILD_NUMBER."
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+
       # Package the build.
       - name: Copy build for Android
         run: |
           ls -la
-          cp *.apk $GITHUB_WORKSPACE/
+          cp *.apk $GITHUB_WORKSPACE/FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER".apk
         working-directory: build/app/outputs/apk/staging/release
+        env:
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: android-apk-artifact
-          path: |
-            ./*.apk
+          path: ./*.apk
 
       - name: Clean up
         if: ${{ always() }}
