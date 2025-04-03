@@ -30,7 +30,7 @@
 	<key>LSApplicationCategoryType</key>
   <string>public.app-category.utilities</string>
   <key>LSMinimumSystemVersion</key>
-  <string>10.15</string>
+  <string>11.0</string>
   <key>ITSAppUsesNonExemptEncryption</key>
   <false/>
 	<key>NSAppTransportSecurity</key>
