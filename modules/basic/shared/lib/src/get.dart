@@ -1,9 +1,14 @@
 // Flutter imports:
 import 'package:flutter/foundation.dart';
 
-/// Checks if the current environment is a desktop environment.
+/// Check whether the current environment is a browser environment.
+bool get isWeb {
+  return kIsWeb || kIsWasm;
+}
+
+/// Check whether the current environment is a desktop environment.
 bool get isDesktop {
-  if (kIsWeb) return false;
+  if (isWeb) return false;
   return [
     TargetPlatform.windows,
     TargetPlatform.linux,
@@ -11,50 +16,50 @@ bool get isDesktop {
   ].contains(defaultTargetPlatform);
 }
 
-/// Checks if the current environment is a mobile environment.
+/// Check whether the current environment is a mobile environment.
 bool get isMobile {
-  if (kIsWeb) return false;
+  if (isWeb) return false;
   return [
     TargetPlatform.iOS,
     TargetPlatform.android,
   ].contains(defaultTargetPlatform);
 }
 
-///
+/// Check whether the current environment is an iOS environment.
 bool get isIOS {
-  if (kIsWeb) return false;
+  if (isWeb) return false;
   return [
     TargetPlatform.iOS,
   ].contains(defaultTargetPlatform);
 }
 
-///
+/// Check whether the current environment is an Android environment.
 bool get isAndroid {
-  if (kIsWeb) return false;
+  if (isWeb) return false;
   return [
     TargetPlatform.android,
   ].contains(defaultTargetPlatform);
 }
 
-///
+/// Check whether the current environment is a Linux environment.
 bool get isLinux {
-  if (kIsWeb) return false;
+  if (isWeb) return false;
   return [
     TargetPlatform.linux,
   ].contains(defaultTargetPlatform);
 }
 
-///
+/// Check whether the current environment is a macOS environment.
 bool get isMacOS {
-  if (kIsWeb) return false;
+  if (isWeb) return false;
   return [
     TargetPlatform.macOS,
   ].contains(defaultTargetPlatform);
 }
 
-///
+/// Check whether the current environment is a Windows environment.
 bool get isWindows {
-  if (kIsWeb) return false;
+  if (isWeb) return false;
   return [
     TargetPlatform.windows,
   ].contains(defaultTargetPlatform);
@@ -62,7 +67,7 @@ bool get isWindows {
 
 /// Checks if the current environment is a mobile environment.
 bool get isSplashSupported {
-  if (kIsWeb) return true;
+  if (isWeb) return true;
   return [
     TargetPlatform.iOS,
     TargetPlatform.android,

@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'package:shared/shared.dart';
@@ -319,11 +316,11 @@ final Map<PhysicalKeyboardKey, String> _knownKeyLabels =
   PhysicalKeyboardKey.controlLeft: '⌃',
   PhysicalKeyboardKey.shiftLeft: '⇧',
   PhysicalKeyboardKey.altLeft: '⌥',
-  PhysicalKeyboardKey.metaLeft: (!kIsWeb && Platform.isMacOS) ? '⌘' : '⊞',
+  PhysicalKeyboardKey.metaLeft: isMacOS ? '⌘' : '⊞',
   PhysicalKeyboardKey.controlRight: '⌃',
   PhysicalKeyboardKey.shiftRight: '⇧',
   PhysicalKeyboardKey.altRight: '⌥',
-  PhysicalKeyboardKey.metaRight: (!kIsWeb && Platform.isMacOS) ? '⌘' : '⊞',
+  PhysicalKeyboardKey.metaRight: isMacOS ? '⌘' : '⊞',
   PhysicalKeyboardKey.fn: 'fn',
 };
 
@@ -376,6 +373,8 @@ extension ExtendedPhysicalKeyboardKey on PhysicalKeyboardKey {
       return kWindowsToLogicalKey.entries
           .firstWhereOrNull((entry) => entry.value == logicalKey)
           ?.key;
+    } else if (isWeb) {
+      return logicalKey?.keyId;
     }
 
     return null;

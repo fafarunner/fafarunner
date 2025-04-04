@@ -161,7 +161,8 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               const Gap(20),
               if (!Game.useJoystick)
                 HelpKeys(
-                  onKeySelected: isDesktop ? Dialogs.showSettingsModal : null,
+                  onKeySelected:
+                      (isWeb || isDesktop) ? Dialogs.showSettingsModal : null,
                 ),
               // SizedBox(
               //   height: 80,
