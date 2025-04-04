@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1+379
+
+1. fix: update workflows
+2. fix(macos): update macOS deployment target to 11.0
+3. chore(deps): update deps
+
 ## 2.0.0+378
 
 1. feat: add eula file to dmg and pkg

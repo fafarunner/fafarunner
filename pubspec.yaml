@@ -2,7 +2,7 @@ name: fafarunner
 description: Enjoy smooth gameplay, stunning graphics, and endless fun.
 publish_to: 'none'
 
-version: 2.0.0+378
+version: 2.0.1+379
 
 environment:
   sdk: ^3.7.0
