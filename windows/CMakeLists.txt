@@ -112,7 +112,7 @@ install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
 # to the same folder where app's executable is located. Remove dlls from their original source path
 # after copying.
 set(SOURCE_FILES
-  "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"
+  "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.rtf"
   "${CMAKE_CURRENT_SOURCE_DIR}/DLLs/msvcp140.dll"
   "${CMAKE_CURRENT_SOURCE_DIR}/DLLs/vcruntime140.dll"
   "${CMAKE_CURRENT_SOURCE_DIR}/DLLs/vcruntime140_1.dll"

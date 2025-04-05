@@ -28,7 +28,7 @@ ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 AppCopyright=Copyright (C) 2023-present Insco.
 AppReadmeFile=https://raw.githubusercontent.com/fafarunner/fafarunner/main/README.md
-LicenseFile={{SOURCE_DIR}}\LICENSE
+LicenseFile={{SOURCE_DIR}}\LICENSE.rtf
 
 [Languages]
 {% for locale in LOCALES %}

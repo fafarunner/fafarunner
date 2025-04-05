@@ -1934,8 +1934,8 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
-      - name: copy LICENSE to the windows folder
-        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
+      - name: copy eula.rtf to the windows folder
+        run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
       - name: Install flutter dependencies
         run: flutter pub get
@@ -2046,8 +2046,8 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
-      - name: copy LICENSE to the windows folder
-        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
+      - name: copy eula.rtf to the windows folder
+        run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
       - name: Install yq
         shell: pwsh
@@ -2164,8 +2164,8 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
-      - name: copy LICENSE to the windows folder
-        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
+      - name: copy eula.rtf to the windows folder
+        run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
       - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |
@@ -2286,8 +2286,8 @@ jobs:
           ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
           ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
-      - name: copy LICENSE to the windows folder
-        run: Copy-Item -Path "$pwd\LICENSE" -Destination "$pwd\windows\" -Force
+      - name: copy eula.rtf to the windows folder
+        run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
       - name: Install fastforge
         run: dart pub global activate fastforge
