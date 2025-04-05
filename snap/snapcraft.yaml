@@ -22,7 +22,7 @@ source-code: https://github.com/fafarunner/fafarunner
 issues: https://github.com/fafarunner/fafarunner/issues
 website: https://www.fafarunner.com
 confinement: strict
-base: core24
+base: core22
 grade: stable
 slots:
   dbus-fafarunner: # adjust accordingly to your app name
