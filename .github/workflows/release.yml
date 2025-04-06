@@ -695,7 +695,6 @@ jobs:
           ls -la *.pkg
           test -f "FaFa Runner-unsigned.pkg" && rm -f "FaFa Runner-unsigned.pkg"
           mv "FaFa Runner.pkg" $GITHUB_WORKSPACE/FaFaRunner-"$RELEASE"-macos-universal.pkg
-          ls -la *.pkg
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
