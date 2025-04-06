@@ -37,7 +37,7 @@
         <File Source="$(FlutterBuildOutputDir)\vcruntime140.dll" />
       </Component>
       <Component>
-        <File Source="$(FlutterBuildOutputDir)\LICENSE" />
+        <File Source="$(FlutterBuildOutputDir)\LICENSE.rtf" />
       </Component>
     </ComponentGroup>
 
