@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   pkg-appstore:
     name: Create macos pkg (appstore)
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 

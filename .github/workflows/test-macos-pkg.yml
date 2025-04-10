@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   pkg:
     name: Create macos pkg
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 

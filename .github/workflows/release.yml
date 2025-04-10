@@ -326,7 +326,7 @@ jobs:
 
   ios:
     name: Create ios
-    runs-on: macos-14
+    runs-on: macos-15
     needs:
       - create-release
     steps:
@@ -439,7 +439,7 @@ jobs:
 
   macos-dmg:
     name: Create macos dmg
-    runs-on: macos-14
+    runs-on: macos-15
     needs:
       - create-release
     steps:
@@ -570,7 +570,7 @@ jobs:
 
   macos-pkg:
     name: Create macos pkg
-    runs-on: macos-14
+    runs-on: macos-15
     needs:
       - create-release
     steps:
@@ -715,7 +715,7 @@ jobs:
 
   macos-appstore-pkg:
     name: Create macos pkg (appstore)
-    runs-on: macos-14
+    runs-on: macos-15
     needs:
       - create-release
     steps:
@@ -854,7 +854,7 @@ jobs:
 
   macos-zip:
     name: Create macos zip
-    runs-on: macos-14
+    runs-on: macos-15
     needs:
       - create-release
     steps:
@@ -990,7 +990,7 @@ jobs:
 
   macos-tar:
     name: Create macos tar
-    runs-on: macos-14
+    runs-on: macos-15
     needs:
       - create-release
     steps:
