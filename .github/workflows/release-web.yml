@@ -29,7 +29,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.29.2'
+          flutter-version: '3.29.3'
 
       - name: Configure .env
         run: echo "$ENV_PROD_BASE64" | base64 --decode > .env
