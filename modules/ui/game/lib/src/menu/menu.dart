@@ -298,7 +298,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
   Future<void> initTrayMenu() async {
     final t = Translations.of(context);
     await tray.trayManager.setIcon(
-      Platform.isWindows ? Assets.trayIcon : Assets.trayLogo.keyName,
+      isWindows ? Assets.trayIcon : Assets.trayLogo.keyName,
     );
     final menu = tray.Menu(
       items: [

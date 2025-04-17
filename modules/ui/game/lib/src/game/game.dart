@@ -59,7 +59,9 @@ class _GameState extends State<Game>
     Sounds.playBackgroundSound();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timestamp) {
-      initTrayMenu();
+      if (isDesktop) {
+        initTrayMenu();
+      }
     });
   }
 
@@ -214,7 +216,7 @@ class _GameState extends State<Game>
   Future<void> initTrayMenu() async {
     final t = Translations.of(context);
     await tray.trayManager.setIcon(
-      Platform.isWindows ? Assets.trayIcon : Assets.trayLogo.keyName,
+      isWindows ? Assets.trayIcon : Assets.trayLogo.keyName,
     );
     final menu = tray.Menu(
       items: [
