@@ -2074,7 +2074,7 @@ jobs:
           # $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
 
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.identity_name = `"$identityName`" | .msix_config.publisher = `"$publisher`" | .msix_config.publisher_display_name = `"$publisherName`" | del(.msix_config.certificate_path) | del(.msix_config.certificate_password)" -
+          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.identity_name = `"$identityName`" | .msix_config.publisher = `"$publisher`" | .msix_config.publisher_display_name = `"$publisherName`" | del(.msix_config.certificate_path) | del(.msix_config.certificate_password) | del(.msix_config.signtool_options)" -
 
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
