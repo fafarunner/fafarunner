@@ -58,7 +58,6 @@ msix_config:
   # With Your Own Certificate 
   certificate_path: CERTIFICATE_PATH_PLACEHOLDER
   certificate_password: CERTIFICATE_PASSWORD_PLACEHOLDER
-  signtool_options: /td SHA256
 
   # For Publish To Windows Store
   identity_name: IDENTITY_NAME_PLACEHOLDER
