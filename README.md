@@ -4,6 +4,7 @@
 
 [![Test](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/test.yml)
 [![Release](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml)
+[![Release Web](https://github.com/fafarunner/fafarunner/actions/workflows/release-web.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release-web.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/fafarunner/fafarunner)](https://github.com/fafarunner/fafarunner/releases/latest)
 [![F-Droid Version](https://img.shields.io/f-droid/v/com.chenyifaer.fafarunner)](https://f-droid.org/packages/com.chenyifaer.fafarunner)
 ![WinGet Package Version](https://img.shields.io/winget/v/Insco.FaFaRunner)
