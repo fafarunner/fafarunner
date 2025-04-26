@@ -28,6 +28,8 @@ jobs:
   msix:
     name: Create windows msix
     runs-on: windows-2022
+    env:
+      Platform: x64
     needs:
       - get-version
     steps:
@@ -97,20 +99,20 @@ jobs:
         run: flutter build windows --dart-define-from-file=.env
 
       - name: Create msix
-        run: dart run msix:create --build-windows false  --output-name "fafarunner-$env:VERSION`-windows-x64"
+        run: dart run msix:create --build-windows false  --output-name "fafarunner-$env:VERSION`-windows-$env:Platform"
         env:
           VERSION: ${{ needs.get-version.outputs.version }}
 
       # Package the build.
       - name: Copy build for msix
         run: ls
-        working-directory: build\windows\x64\runner\Release
+        working-directory: build\windows\${{ env.Platform }}\runner\Release
 
       - uses: actions/upload-artifact@v4
         with:
           name: windows-msix-artifact
           path: |
-            .\build\windows\x64\runner\Release\*.msix
+            .\build\windows\${{ env.Platform }}\runner\Release\*.msix
 
       - name: Clean up
         if: ${{ always() }}

@@ -104,13 +104,13 @@ jobs:
       - linux-deb-aarch64
       - linux-rpm
       - linux-rpm-aarch64
-      - linux-tar
-      - linux-tar-aarch64
       - linux-snap
       - linux-snap-aarch64
+      - linux-tar
+      - linux-tar-aarch64
+      - windows-exe
       - windows-msi
       - windows-msix
-      - windows-exe
       - windows-zip
     steps:
       - uses: actions/checkout@v4
@@ -1615,6 +1615,136 @@ jobs:
         run: |
           rm -f .env
 
+  linux-snap:
+    name: Create linux snap
+    runs-on: ubuntu-22.04
+    env:
+      LXD_GROUP: lxd
+    needs:
+      - create-release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup LXD
+        uses: canonical/setup-lxd@v0.1.2
+        with:
+          channel: latest/stable
+          group: ${{ env.LXD_GROUP }}
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_BASE64" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Update snapcraft.yaml
+        run: |
+          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+        env:
+          VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
+          BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
+
+      - name: Build snap
+        run: |
+          # https://snapcraft.io/docs/flutter-applications
+          sudo snapcraft --output fafarunner-"$RELEASE"-linux-amd64.snap
+        env:
+          RELEASE: ${{ needs.create-release.outputs.release }}
+
+      # Package the build.
+      - name: Copy build for snap
+        run: ls -la *.snap
+
+      - name: Upload assets
+        run: gh release upload "$TAG_NAME" ./*.snap
+        env:
+          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+          if which snapcraft >/dev/null 2>&1; then
+            echo "snapcraft exists"
+            sudo snapcraft clean
+          fi
+
+  linux-snap-aarch64:
+    name: Create linux snap (aarch64)
+    runs-on: ubuntu-22.04-arm
+    env:
+      LXD_GROUP: lxd
+    needs:
+      - create-release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup LXD
+        uses: canonical/setup-lxd@v0.1.2
+        with:
+          channel: latest/stable
+          group: ${{ env.LXD_GROUP }}
+
+      - name: Configure .env
+        run: |
+          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+          echo "$ENV_BASE64" | base64 --decode > .env
+        env:
+          ENV: ${{ github.event.inputs.env }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+
+      - name: Install yq
+        run: |
+          if ! command -v yq >/dev/null 2>&1; then
+            echo "yq not exists"
+            sudo snap install -y yq
+          fi
+          yq --version
+
+      - name: Update snapcraft.yaml
+        run: |
+          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+        env:
+          VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
+          BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
+
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Build snap
+        run: |
+          # https://snapcraft.io/docs/flutter-applications
+          sudo snapcraft --output "fafarunner-"$RELEASE"-linux-aarch64.snap"
+        env:
+          RELEASE: ${{ needs.create-release.outputs.release }}
+
+      # Package the build.
+      - name: Copy build for snap
+        run: ls -la *.snap
+
+      - name: Upload assets
+        run: gh release upload "$TAG_NAME" ./*.snap
+        env:
+          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
+          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          rm -f .env
+          if which snapcraft >/dev/null 2>&1; then
+            echo "snapcraft exists"
+            sudo snapcraft clean
+          fi
+
   linux-tar:
     name: Create linux tar
     runs-on: ubuntu-22.04
@@ -1767,123 +1897,109 @@ jobs:
         run: |
           rm -f .env
 
-  linux-snap:
-    name: Create linux snap
-    runs-on: ubuntu-22.04
+  windows-exe:
+    name: Create windows exe
+    runs-on: windows-2022
     env:
-      LXD_GROUP: lxd
+      Platform: x64
     needs:
       - create-release
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup LXD
-        uses: canonical/setup-lxd@v0.1.2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: latest/stable
-          group: ${{ env.LXD_GROUP }}
+          channel: 'stable'
+          flutter-version: '3.29.3'
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
 
       - name: Configure .env
         run: |
-          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
-          echo "$ENV_BASE64" | base64 --decode > .env
+          echo "$pwd"
+          $env_base64 = $(If ($env:ENV -eq "staging") {"$env:ENV_STG_BASE64"} Else {"$env:ENV_PROD_BASE64"})
+          $bytes = echo $env_base64 | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
         env:
           ENV: ${{ github.event.inputs.env }}
-          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
-          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
 
-      - name: Install snapcraft
-        run: sudo snap install snapcraft --classic
+      - name: copy eula.rtf to the windows folder
+        run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
-      - name: Update snapcraft.yaml
+      - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |
-          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
-        env:
-          VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
-          BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
+          copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
 
-      - name: Build snap
-        run: |
-          # https://snapcraft.io/docs/flutter-applications
-          sudo snapcraft --output fafarunner-"$RELEASE"-linux-amd64.snap
-        env:
-          RELEASE: ${{ needs.create-release.outputs.release }}
-
-      # Package the build.
-      - name: Copy build for snap
-        run: ls -la *.snap
-
-      - name: Upload assets
-        run: gh release upload "$TAG_NAME" ./*.snap
-        env:
-          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
-          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-
-      - name: Clean up
-        if: ${{ always() }}
-        run: |
-          rm -f .env
-          if which snapcraft >/dev/null 2>&1; then
-            echo "snapcraft exists"
-            sudo snapcraft clean
-          fi
-
-  linux-snap-aarch64:
-    name: Create linux snap (aarch64)
-    runs-on: ubuntu-22.04-arm
-    env:
-      LXD_GROUP: lxd
-    needs:
-      - create-release
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup LXD
-        uses: canonical/setup-lxd@v0.1.2
-        with:
-          channel: latest/stable
-          group: ${{ env.LXD_GROUP }}
-
-      - name: Configure .env
-        run: |
-          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
-          echo "$ENV_BASE64" | base64 --decode > .env
-        env:
-          ENV: ${{ github.event.inputs.env }}
-          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
-          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+      - name: Install fastforge
+        run: dart pub global activate fastforge
 
       - name: Install yq
+        shell: pwsh
         run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            sudo snap install -y yq
-          fi
+          choco install yq
           yq --version
 
-      - name: Update snapcraft.yaml
+      - name: Update config
+        shell: pwsh
         run: |
-          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          $yamlFile = ".\windows\packaging\exe\make_config.yaml"
+          $yamlContent = Get-Content -Raw -Path $yamlFile
+
+          # 获取环境变量的值
+          $appId = (Get-Item -Path Env:WINDOWS_EXE_APP_ID).Value
+          $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
+
+          # 使用 yq 更新多个字段
+          $updatedYamlContent = echo $yamlContent | yq e ".app_id = `"$appId`" | .publisher_name = `"$publisherName`"" -
+
+          # 将更新后的内容写回文件
+          Set-Content -Path $yamlFile -Value $updatedYamlContent
         env:
-          VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
-          BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
+          WINDOWS_EXE_APP_ID: ${{ secrets.WINDOWS_EXE_APP_ID }}
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
-      - name: Install snapcraft
-        run: sudo snap install snapcraft --classic
-
-      - name: Build snap
+      - name: Build exe
+        shell: pwsh
         run: |
-          # https://snapcraft.io/docs/flutter-applications
-          sudo snapcraft --output "fafarunner-"$RELEASE"-linux-aarch64.snap"
+          fastforge package `
+            --flutter-build-args "dart-define-from-file=.env" `
+            --platform windows `
+            --targets exe `
+            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-$env:Platform`.{{ext}}"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
+      - name: Signing
+        run: |
+          echo $env:RUNNER_TEMP
+          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
+          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
+          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
+          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
+          & $signtool sign /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\*.exe")
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
+        working-directory: dist
+
       # Package the build.
-      - name: Copy build for snap
-        run: ls -la *.snap
+      - name: Copy build for exe
+        run: |
+          ls -R
+          cp .\**\*.exe "$env:GITHUB_WORKSPACE\"
+        working-directory: dist
 
       - name: Upload assets
-        run: gh release upload "$TAG_NAME" ./*.snap
+        run: |
+          # https://github.com/cli/cli/issues/5099
+          gh release upload "$env:TAG_NAME" (get-item .\*.exe)
         env:
           TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
@@ -1891,11 +2007,19 @@ jobs:
       - name: Clean up
         if: ${{ always() }}
         run: |
-          rm -f .env
-          if which snapcraft >/dev/null 2>&1; then
-            echo "snapcraft exists"
-            sudo snapcraft clean
-          fi
+          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
+            echo "$env:RUNNER_TEMP\fafarunner.pfx"
+            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
+          }
+          
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }
 
   windows-msi:
     name: Create windows msi
@@ -2020,6 +2144,8 @@ jobs:
   windows-msix:
     name: Create windows msix
     runs-on: windows-2022
+    env:
+      Platform: x64
     needs:
       - create-release
     steps:
@@ -2092,7 +2218,7 @@ jobs:
         run: flutter build windows --dart-define-from-file=.env
 
       - name: Create msix
-        run: dart run msix:create --store --build-windows false --output-name "fafarunner-$env:RELEASE`-windows-x64"
+        run: dart run msix:create --store --build-windows false --output-name "fafarunner-$env:RELEASE`-windows-$env:Platform"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -2101,7 +2227,7 @@ jobs:
         run: |
           ls
           cp .\*.msix "$env:GITHUB_WORKSPACE\"
-        working-directory: build\windows\x64\runner\Release
+        working-directory: build\windows\${{ env.Platform }}\runner\Release
 
       - name: Upload assets
         run: |
@@ -2135,131 +2261,11 @@ jobs:
             echo "File($pwd\.env) doesn't exist."
           }
 
-  windows-exe:
-    name: Create windows exe
-    runs-on: windows-2022
-    needs:
-      - create-release
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.29.3'
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Configure .env
-        run: |
-          echo "$pwd"
-          $env_base64 = $(If ($env:ENV -eq "staging") {"$env:ENV_STG_BASE64"} Else {"$env:ENV_PROD_BASE64"})
-          $bytes = echo $env_base64 | %{[Convert]::FromBase64String($_)}
-          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
-        env:
-          ENV: ${{ github.event.inputs.env }}
-          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
-          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64_WINDOWS }}
-
-      - name: copy eula.rtf to the windows folder
-        run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
-
-      - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
-        run: |
-          copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
-
-      - name: Install fastforge
-        run: dart pub global activate fastforge
-
-      - name: Install yq
-        shell: pwsh
-        run: |
-          choco install yq
-          yq --version
-
-      - name: Update config
-        shell: pwsh
-        run: |
-          $yamlFile = ".\windows\packaging\exe\make_config.yaml"
-          $yamlContent = Get-Content -Raw -Path $yamlFile
-
-          # 获取环境变量的值
-          $appId = (Get-Item -Path Env:WINDOWS_EXE_APP_ID).Value
-          $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
-
-          # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".app_id = `"$appId`" | .publisher_name = `"$publisherName`"" -
-
-          # 将更新后的内容写回文件
-          Set-Content -Path $yamlFile -Value $updatedYamlContent
-        env:
-          WINDOWS_EXE_APP_ID: ${{ secrets.WINDOWS_EXE_APP_ID }}
-          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
-
-      - name: Build exe
-        shell: pwsh
-        run: |
-          fastforge package `
-            --flutter-build-args "dart-define-from-file=.env" `
-            --platform windows `
-            --targets exe `
-            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-x64.{{ext}}"
-        env:
-          RELEASE: ${{ needs.create-release.outputs.release }}
-
-      - name: Signing
-        run: |
-          echo $env:RUNNER_TEMP
-          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
-          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
-          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
-          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
-          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
-          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\*.exe")
-        env:
-          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
-          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
-        working-directory: dist
-
-      # Package the build.
-      - name: Copy build for exe
-        run: |
-          ls -R
-          cp .\**\*.exe "$env:GITHUB_WORKSPACE\"
-        working-directory: dist
-
-      - name: Upload assets
-        run: |
-          # https://github.com/cli/cli/issues/5099
-          gh release upload "$env:TAG_NAME" (get-item .\*.exe)
-        env:
-          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
-          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-
-      - name: Clean up
-        if: ${{ always() }}
-        run: |
-          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
-            echo "$env:RUNNER_TEMP\fafarunner.pfx"
-            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
-          } else {
-            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
-          }
-          
-          if (test-path -Path "$pwd\.env") {
-            echo "Remove file($pwd\.env)"
-            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
-          } else {
-            echo "File($pwd\.env) doesn't exist."
-          }
-
   windows-zip:
     name: Create windows zip
     runs-on: windows-2022
+    env:
+      Platform: x64
     needs:
       - create-release
     steps:
@@ -2298,7 +2304,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets zip `
-            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-x64.{{ext}}"
+            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-$env:Platform`.{{ext}}"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
