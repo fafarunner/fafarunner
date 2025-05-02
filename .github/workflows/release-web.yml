@@ -1,4 +1,6 @@
 name: Release web
+run-name: Release web ${{ github.ref_name }}
+
 on:
   # Enable manual run
   workflow_dispatch:
