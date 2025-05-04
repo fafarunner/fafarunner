@@ -12,7 +12,7 @@
 
     <Feature
         Id="Main"
-        Title="FaFaRunner"
+        Title="FaFa Runner"
         Description="Enjoy smooth gameplay, stunning graphics, and endless fun."
         AllowAbsent="no"
         AllowAdvertise="no">
@@ -23,7 +23,7 @@
     </Feature>
     <Feature
       Id="Shortcut"
-      Title="FaFaRunner"
+      Title="FaFa Runner"
       Description="Enjoy smooth gameplay, stunning graphics, and endless fun."
       AllowAbsent="yes"
       AllowAdvertise="no"
