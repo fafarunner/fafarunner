@@ -1969,7 +1969,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `
-            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-$env:Platform`.{{ext}}"
+            --artifact-name "{{name}}-$env:RELEASE-{{platform}}-$env:Platform.{{ext}}"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -2109,8 +2109,8 @@ jobs:
       - name: Copy build for msi
         shell: pwsh
         run: |
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner-$env:RELEASE`-windows-$env:Platform`-en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner-$env:RELEASE`-windows-$env:Platform`-zh-CN.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner-$env:RELEASE-windows-$env:Platform-en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner-$env:RELEASE-windows-$env:Platform-zh-CN.msi"
           ls -R ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release"
           cp ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release\*\*.msi" "$env:GITHUB_WORKSPACE\"
         env:
@@ -2218,7 +2218,7 @@ jobs:
         run: flutter build windows --dart-define-from-file=.env
 
       - name: Create msix
-        run: dart run msix:create --store --build-windows false --output-name "fafarunner-$env:RELEASE`-windows-$env:Platform"
+        run: dart run msix:create --store --build-windows false --output-name "fafarunner-$env:RELEASE-windows-$env:Platform"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
@@ -2304,7 +2304,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets zip `
-            --artifact-name "{{name}}-$env:RELEASE`-{{platform}}-$env:Platform`.{{ext}}"
+            --artifact-name "{{name}}-$env:RELEASE-{{platform}}-$env:Platform.{{ext}}"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 

@@ -99,7 +99,7 @@ jobs:
         run: flutter build windows --dart-define-from-file=.env
 
       - name: Create msix
-        run: dart run msix:create --build-windows false  --output-name "fafarunner-$env:VERSION`-windows-$env:Platform"
+        run: dart run msix:create --build-windows false  --output-name "fafarunner-$env:VERSION-windows-$env:Platform"
         env:
           VERSION: ${{ needs.get-version.outputs.version }}
 
