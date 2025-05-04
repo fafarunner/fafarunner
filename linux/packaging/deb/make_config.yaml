@@ -20,4 +20,9 @@ generic_name: FaFa Runner
 categories:
   - Game
 
+# direct dependencies required by the application
+# refer: https://www.debian.org/doc/debian-policy/ch-relationships.html
+dependencies:
+  - libayatana-appindicator3-1
+
 startup_notify: true

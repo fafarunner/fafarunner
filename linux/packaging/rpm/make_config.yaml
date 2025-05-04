@@ -33,4 +33,9 @@ generic_name: FaFa Runner
 categories:
   - Game
 
+# direct dependencies required by the application
+# https://docs.redhat.com/zh-cn/documentation/red_hat_enterprise_linux/8/html/packaging_and_distributing_software/working-with-spec-files_packaging-software
+requires:
+  - libayatana-appindicator3-1
+
 startup_notify: true
