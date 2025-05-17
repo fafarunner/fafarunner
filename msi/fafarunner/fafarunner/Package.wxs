@@ -1,9 +1,15 @@
-﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <?define PkgLicensePath = "$(env.LicensePath)" ?>
   <Package Name="FaFa Runner" Manufacturer="Insco" Version="2.0.1.379" UpgradeCode="9e97bd2c-5329-45e7-ad77-34d60acae691">
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
     <!-- Set an icon for Windows Settings > Apps -->
     <Property Id="ARPPRODUCTICON" Value="FaFaRunner.exe" />
+
+    <!-- User Interface -->
+    <WixVariable Id="WixUILicenseRtf" Value="$(PkgLicensePath)" />
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
 
     <!-- Block 64-bit Win8/WinServer2012 (or earlier) and all 32-bit from installing -->
     <Launch Message="FaFaRunner only supports 64-bit Windows 10/11!" Condition="Installed OR VersionNT64 >= 603"/>

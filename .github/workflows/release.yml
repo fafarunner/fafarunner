@@ -2026,6 +2026,7 @@ jobs:
     runs-on: windows-2022
     env:
       Platform: x64
+      Configuration: Release
     needs:
       - create-release
     steps:
@@ -2043,7 +2044,7 @@ jobs:
       - name: Install wix toolset
         shell: pwsh
         run: |
-          dotnet tool install --global wix
+          dotnet tool install --global wix --version 4.0.5
           wix --version
 
       - name: Configure .env
@@ -2096,10 +2097,11 @@ jobs:
 
           $env:IconPath = "$pwd\windows\runner\resources\app_icon.ico"
           $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\$env:Platform\runner\Release"
-          dotnet build .\msi\fafarunner\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration Release
+          $env:LicensePath = "$env:FLUTTER_BUILD_OUTPUT_DIR\LICENSE.rtf"
+          dotnet build .\msi\fafarunner\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration "$env:Configuration"
 
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release\*\*.msi")
+          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\*\*.msi")
         env:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
@@ -2109,10 +2111,10 @@ jobs:
       - name: Copy build for msi
         shell: pwsh
         run: |
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\en-US\fafarunner.msi" -NewName "fafarunner-$env:RELEASE-windows-$env:Platform-en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\Release\zh-CN\fafarunner.msi" -NewName "fafarunner-$env:RELEASE-windows-$env:Platform-zh-CN.msi"
-          ls -R ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release"
-          cp ".\msi\fafarunner\fafarunner\bin\$env:Platform\Release\*\*.msi" "$env:GITHUB_WORKSPACE\"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\en-US\fafarunner.msi" -NewName "fafarunner-$env:RELEASE-windows-$env:Platform-en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\zh-CN\fafarunner.msi" -NewName "fafarunner-$env:RELEASE-windows-$env:Platform-zh-CN.msi"
+          ls -R ".\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration"
+          cp ".\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\*\*.msi" "$env:GITHUB_WORKSPACE\"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 

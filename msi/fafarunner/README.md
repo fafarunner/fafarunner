@@ -10,6 +10,7 @@ $env:Platform = "x64"
 $env:Configuration = "Release"
 $env:IconPath = "$pwd\windows\runner\resources\app_icon.ico"
 $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\$env:Platform\runner\Release"
+$env:LicensePath = "$env:FLUTTER_BUILD_OUTPUT_DIR\LICENSE.rtf"
 ```
 
 ## Build

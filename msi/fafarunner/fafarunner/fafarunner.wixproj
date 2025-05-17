@@ -1,4 +1,4 @@
-﻿<Project Sdk="WixToolset.Sdk/5.0.0">
+﻿<Project Sdk="WixToolset.Sdk/4.0.5">
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Platform>$(Platform)</Platform>
   </PropertyGroup>
@@ -10,6 +10,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'"></PropertyGroup>
   <ItemGroup>
     <Content Include="$(IconPath)" />
+    <Content Include="$(LicensePath)" />
   </ItemGroup>
   <ItemGroup>
     <HarvestDirectory Include="$(FLUTTER_BUILD_OUTPUT_DIR)\data\flutter_assets">
@@ -22,5 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Heat" />
+    <PackageReference Include="WixToolset.UI.wixext" />
   </ItemGroup>
 </Project>
