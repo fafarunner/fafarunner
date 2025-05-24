@@ -31,9 +31,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  husky: ^0.1.7
   import_sorter: ^4.6.0
-  lint_staged: ^0.5.1
   mockingjay: ^1.0.0
   mocktail: ^1.0.4
   msix: ^3.16.9
@@ -68,6 +66,3 @@ import_sorter:
   ignored_files: # Optional, defaults to []
     - \/lib\/gen\/*
     - \/lib\/i18n\/*
-
-lint_staged:
-  'lib/**.dart': fvm dart run import_sorter:main lib\/* test\/* && git add --all
