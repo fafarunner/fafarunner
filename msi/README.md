@@ -26,5 +26,5 @@ nuget restore fafarunner.sln
 ## Output
 
 ```
-msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\en-US
+msi\fafarunner\bin\$env:Platform\$env:Configuration\en-US
 ```
