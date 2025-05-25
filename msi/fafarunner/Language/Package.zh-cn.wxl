@@ -1,0 +1,55 @@
+﻿<!--
+This file contains the declaration of all the localizable strings.
+-->
+<WixLocalization Culture="zh-cn" Codepage="936"
+	xmlns="http://wixtoolset.org/schemas/v4/wxl">
+
+	<String Id="SummaryCodepage" Value="936" />
+	<String Id="ProductLanguage" Value="2052" />
+
+	<!-- General strings -->
+	<String Id="DowngradeError" Value="已安装较新版本的 [ProductName]." />
+
+	<String Id="AR_Comment" Value="FaFa Runner" />
+
+	<String Id="F_App" Value="FaFa Runner" />
+	<String Id="F_App_Desc" Value="享受流畅的游戏玩法，令人惊叹的图形和无尽的乐趣。" />
+
+	<String Id="SC_Uninstall" Value="卸载FaFa Runner" />
+	<String Id="SC_Uninstall_Desc" Value="从计算机中删除FaFa Runner或其部分" />
+
+	<!-- Client related strings -->
+	<String Id="F_Client" Value="Client" />
+	<String Id="F_Client_Desc" Value="The user interface. Plays media files." />
+	<String Id="F_Client_Plugins" Value="Plugins" />
+	<String Id="F_Client_Plugins_Desc" Value="Plugins for the client." />
+	<String Id="F_LAVFilters" Value="LAV Filters" />
+	<String Id="F_LAVFilters_Desc" Value="Recommended directshow filters for best audio and video playback experience." />
+
+	<String Id="SC_Client" Value="FaFa Runner" />
+	<String Id="SC_Client_Desc" Value="Start FaFa Runner." />
+
+	<String Id="SC_Client_Tray" Value="FaFa Runner Tray" />
+	<String Id="SC_Client_Tray_Desc" Value="Start FaFa Runner tray." />
+
+	<!-- Server related strings -->
+	<String Id="F_Server" Value="Server" />
+	<String Id="F_Server_Desc" Value="The server part of FaFa Runner. Provides the MediaLibrary and other services." />
+	<String Id="F_Server_Plugins" Value="Plugins" />
+	<String Id="F_Server_Plugins_Desc" Value="Plugins for the server." />
+
+	<String Id="Service_DisplayName" Value="FaFa Runner Service" />
+	<String Id="Service_Description" Value="This service runs the FaFa Runner Server." />
+
+	<!-- Launch Conditions -->
+	<String Id="LC_OS" Value="[ProductName] 至少需要 Windows 7 / 2008 R2 作为作系统." />
+	<String Id="LC_ADMIN" Value="您需要是管理员才能安装 [ProductName]." />
+
+	<!-- User Interfaces -->
+	<String Id="AnotherAppDialogTitle" Value="取消安装."/>
+	<String Id="AnotherAppDialogDescription" Value="应用程序是通过自行安装方式安装的, 请先卸载它."/>
+
+	<String Id="MyInstallDirDlgDesktopShortcuts" Value="创建桌面图标" />
+	<String Id="MyInstallDirDlgStartMenuShortcuts" Value="创建开始菜单快捷方式" />
+
+</WixLocalization>

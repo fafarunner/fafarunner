@@ -92,23 +92,8 @@ jobs:
       - name: Build windows
         run: flutter build windows --dart-define-from-file=.env
 
-      - name: Update msi version
-        shell: pwsh
-        run: |
-          # 文件路径
-          $filePath = "msi\fafarunner\fafarunner\Package.wxs"
-
-          # 读取文件内容
-          $content = Get-Content -Path $filePath -Raw
-
-          # 替换使用正则表达式
-          $newContent = $content -replace "\b\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}\b", "$env:VERSION_SHORT.$env:BUILD_NUMBER"
-
-          # 写回文件
-          Set-Content -Path $filePath -Value $newContent -NoNewline
-        env:
-          VERSION_SHORT: ${{ needs.get-version.outputs.version_short }}
-          BUILD_NUMBER: ${{ needs.get-version.outputs.build_number }}
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v2
 
       - name: Create msi
         shell: pwsh
@@ -123,11 +108,18 @@ jobs:
           $env:IconPath = "$pwd\windows\runner\resources\app_icon.ico"
           $env:FLUTTER_BUILD_OUTPUT_DIR = "$pwd\build\windows\$env:Platform\runner\Release"
           $env:LicensePath = "$env:FLUTTER_BUILD_OUTPUT_DIR\LICENSE.rtf"
-          dotnet build .\msi\fafarunner\fafarunner\fafarunner.wixproj --arch "$env:Platform" --configuration "$env:Configuration"
+          
+          pushd ./msi
+
+          python preprocess.py --arp -d ../build/windows/$env:Platform/runner/Release -i ../windows/runner/resources/app_icon.ico -v "$env:VERSION_SHORT.$env:BUILD_NUMBER"
+          nuget restore fafarunner.sln
+          msbuild fafarunner.sln -p:Configuration="$env:Configuration" -p:Platform="$env:Platform" /p:TargetVersion=Windows10
 
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\*\*.msi")
+          & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\fafarunner\bin\$env:Platform\$env:Configuration\*\*.msi")
         env:
+          VERSION_SHORT: ${{ needs.get-version.outputs.version_short }}
+          BUILD_NUMBER: ${{ needs.get-version.outputs.build_number }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
@@ -136,8 +128,8 @@ jobs:
       - name: Copy build for msi
         shell: pwsh
         run: |
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\en-US\fafarunner.msi" -NewName "fafarunner-$env:VERSION_SHORT.$env:BUILD_NUMBER-windows-$env:Platform-en-US.msi"
-          Rename-Item -Path "$pwd\msi\fafarunner\fafarunner\bin\$env:Platform\$env:Configuration\zh-CN\fafarunner.msi" -NewName "fafarunner-$env:VERSION_SHORT.$env:BUILD_NUMBER-windows-$env:Platform-zh-CN.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\$env:Configuration\en-us\fafarunner.msi" -NewName "fafarunner-$env:VERSION_SHORT.$env:BUILD_NUMBER-windows-$env:Platform-en-US.msi"
+          Rename-Item -Path "$pwd\msi\fafarunner\bin\$env:Platform\$env:Configuration\zh-cn\fafarunner.msi" -NewName "fafarunner-$env:VERSION_SHORT.$env:BUILD_NUMBER-windows-$env:Platform-zh-CN.msi"
         env:
           VERSION_SHORT: ${{ needs.get-version.outputs.version_short }}
           BUILD_NUMBER: ${{ needs.get-version.outputs.build_number }}
@@ -146,7 +138,7 @@ jobs:
         with:
           name: windows-msi-artifact
           path: |
-            .\msi\fafarunner\fafarunner\bin\${{ env.Platform }}\${{ env.Configuration }}\*\*.msi
+            .\msi\fafarunner\bin\${{ env.Platform }}\${{ env.Configuration }}\*\*.msi
 
       - name: Clean up
         if: ${{ always() }}
