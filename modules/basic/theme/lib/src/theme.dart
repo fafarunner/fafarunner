@@ -11,7 +11,7 @@ class AppTheme {
       textTheme: const TextTheme(
         bodyMedium: TextStyle(color: FRColors.primaryTextColor),
       ),
-      dialogTheme: const DialogTheme(
+      dialogTheme: const DialogThemeData(
         backgroundColor: FRColors.white,
       ),
       appBarTheme: const AppBarTheme(
@@ -40,7 +40,7 @@ class AppTheme {
       textTheme: const TextTheme(
         bodyMedium: TextStyle(color: FRColors.white),
       ),
-      dialogTheme: const DialogTheme(
+      dialogTheme: const DialogThemeData(
         backgroundColor: FRColors.dialogBackgroundColor,
       ),
       appBarTheme: const AppBarTheme(
