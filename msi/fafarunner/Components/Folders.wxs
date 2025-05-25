@@ -23,16 +23,16 @@
 		<!-- Because we need to use INSTALLFOLDER as the command line argument. -->
 		<StandardDirectory Id="ProgramFiles6432Folder">
 		  <Directory Id="CompanyFolder" Name="$(var.Manufacturer)">
-		    <Directory Id="INSTALLFOLDER_INNER" Name="$(var.Product)" />
+		    <Directory Id="INSTALLFOLDER_INNER" Name="$(var.DisplayName)" />
 		  </Directory>
 		</StandardDirectory>
 
 		<StandardDirectory Id="CommonAppDataFolder">
-			<Directory Id="App.Data.Folder" Name="$(var.Product)" />
+			<Directory Id="App.Data.Folder" Name="$(var.DisplayName)" />
 		</StandardDirectory>
 
 		<StandardDirectory Id="ProgramMenuFolder">
-			<Directory Id="App.StartMenu" Name="$(var.Product)" />
+			<Directory Id="App.StartMenu" Name="$(var.DisplayName)" />
 		</StandardDirectory>
 
 		<StandardDirectory Id="DesktopFolder" />

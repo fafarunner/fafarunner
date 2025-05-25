@@ -42,7 +42,7 @@
 
 			<!--For compatibility with registry values from previous versions-->
 			<Component Id="Product.Registry.UninstallApp" Guid="FC1A3D2E-5642-FBD8-CFA6-5ECAC6DE69A8">
-				<RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\$(var.Manufacturer)\$(var.Product)" >
+				<RegistryKey Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\$(var.Manufacturer)\$(var.DisplayName)" >
 					<RegistryValue Type="string" Name="BuildDate" Value="$(var.BuildDate)" />
 					<RegistryValue Type="string" Name="share_rdp" Value="" />
 
