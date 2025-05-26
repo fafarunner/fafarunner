@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.5.0+380
+
+1. fix: add license.rtf to windows folder
+2. feat(msi): add license dialog
+3. refactor: update wix project
+4. Migrate Gradle scripts to KTS
+5. chore(deps): update deps
+6. fix: Add dependency `libayatana-appindicator`
+7. fix: remove invalid characters "`" in workflows
+8. Update workflows
+
 ## 2.0.1+379
 
 1. fix: update workflows
