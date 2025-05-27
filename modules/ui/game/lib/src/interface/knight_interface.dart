@@ -10,11 +10,11 @@ import '../player/knight.dart';
 import '../../gen/assets.gen.dart';
 
 class KnightInterface extends GameInterface {
-  late Sprite sprite;
+  late Sprite keySprite;
 
   @override
   Future<void> onLoad() async {
-    sprite = await Sprite.load(Assets.images.items.keySilver.keyName); // 'items/key_silver.png'
+    keySprite = await Sprite.load(Assets.images.items.keySilver.keyName); // 'items/key_silver.png'
     add(BarLifeComponent());
     return super.onLoad();
   }
@@ -33,7 +33,7 @@ class KnightInterface extends GameInterface {
 
   void _drawKey(Canvas c) {
     if (gameRef.player != null && (gameRef.player! as Knight).containKey) {
-      sprite.renderRect(c, const Rect.fromLTWH(150, 20, 35, 30));
+      keySprite.renderRect(c, const Rect.fromLTWH(150, 20, 35, 30));
     }
   }
 }

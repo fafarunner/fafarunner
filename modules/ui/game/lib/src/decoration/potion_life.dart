@@ -30,15 +30,17 @@ class PotionLife extends GameDecoration with Sensor<Knight> {
 
   void _giveLife(Player player) {
     var lifeDistributed = 0.0;
-    generateValues(
-      const Duration(seconds: 1),
-      onChange: (value) {
-        if (lifeDistributed < life) {
-          final newLife = life * value - lifeDistributed;
-          lifeDistributed += newLife;
-          player.addLife(newLife);
-        }
-      },
+    gameRef.add(
+      ValueGeneratorComponent(
+        const Duration(seconds: 1),
+        onChange: (value) {
+          if (lifeDistributed < life) {
+            final newLife = life * value - lifeDistributed;
+            lifeDistributed += newLife;
+            player.addLife(newLife);
+          }
+        },
+      ),
     );
   }
 }
