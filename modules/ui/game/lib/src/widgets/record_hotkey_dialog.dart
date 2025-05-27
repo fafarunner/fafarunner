@@ -39,6 +39,7 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final controller = Get.find<SettingsController>();
     final directionalKeys = controller.directionalKeys.value;
     final attackKey = controller.attackKey.value;
@@ -48,7 +49,10 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
         t.hotkeyDialog.description,
         textAlign: TextAlign.center,
       ),
-      titleTextStyle: const TextStyle(fontSize: 14),
+      titleTextStyle: TextStyle(
+        fontSize: 14,
+        color: isDark ? FRColors.white : FRColors.black,
+      ),
       titlePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       content: SingleChildScrollView(
         child: ListBody(
@@ -75,7 +79,8 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
                         //   setState(() => allowed = false);
                         //   return;
                         // }
-                        if (keyboardDirectionalKeys[directionalKeys].contain(hotKey)) {
+                        if (keyboardDirectionalKeys[directionalKeys]
+                            .contain(hotKey)) {
                           BotToast.showText(text: t.settings.shortcutsArrow);
                           setState(() => allowed = false);
                           return;
@@ -107,10 +112,12 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
           child: Text(t.buttons.cancel),
         ),
         TextButton(
-          onPressed: !allowed ? null : () {
-            widget.onHotKeyRecorded?.call(_hotKey);
-            NavigatorUtil.pop();
-          },
+          onPressed: !allowed
+              ? null
+              : () {
+                  widget.onHotKeyRecorded?.call(_hotKey);
+                  NavigatorUtil.pop();
+                },
           child: Text(t.buttons.ok),
         ),
       ],
