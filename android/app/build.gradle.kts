@@ -15,7 +15,9 @@ val keystorePropertiesFile = rootProject.file("key.properties")
 val keystoreProperties = Properties()
 
 // Load your keystore.properties file into the keystoreProperties object.
-keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
 
 android {
     namespace = "com.chenyifaer.fafarunner"
@@ -62,10 +64,10 @@ android {
                 keyPassword = System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
                 storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
             } else {
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
+                keyAlias = keystoreProperties["keyAlias"] as String?
+                keyPassword = keystoreProperties["keyPassword"] as String?
                 storeFile = keystoreProperties["storeFile"]?.let { file(it as String) }
-                storePassword = keystoreProperties["storePassword"] as String
+                storePassword = keystoreProperties["storePassword"] as String?
             }
         }
     }

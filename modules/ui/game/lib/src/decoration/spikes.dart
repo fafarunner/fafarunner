@@ -25,7 +25,7 @@ class Spikes extends GameDecoration with Sensor<Knight> {
   @override
   void update(double dt) {
     if (isAnimationLastFrame) {
-      player?.onReceiveDamage(AttackOriginEnum.ENEMY, damage, 0);
+      player?.handleAttack(AttackOriginEnum.ENEMY, damage, 0);
     }
     super.update(dt);
   }

@@ -33,9 +33,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
         color: Colors.deepOrangeAccent.withValues(alpha: 0.2),
       ),
     );
-    setupMovementByJoystick(
-      intensityEnabled: true,
-    );
+    setupMovementByJoystick(intensityEnabled: true);
   }
 
   double attack = 25;
