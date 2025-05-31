@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.1+381
+
+1. Bug fixes and update deps
+2. ci: rename the zip file to portable file
+3. Update flutter to 3.32.1
+
 ## 2.5.0+380
 
 1. fix: add license.rtf to windows folder
