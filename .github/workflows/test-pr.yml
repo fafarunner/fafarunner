@@ -36,7 +36,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.32.1'
+          flutter-version: '3.32.2'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
@@ -65,7 +65,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.32.1'
+          flutter-version: '3.32.2'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -101,7 +101,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.32.1'
+          flutter-version: '3.32.2'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -152,7 +152,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.32.1'
+          flutter-version: '3.32.2'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -173,7 +173,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.32.1'
+          flutter-version: '3.32.2'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -209,7 +209,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.32.1'
+          flutter-version: '3.32.2'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
