@@ -32,10 +32,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   import_sorter: ^4.6.0
-  mockingjay: ^1.0.0
+  mockingjay: ^2.0.0
   mocktail: ^1.0.4
   msix: ^3.16.9
-  very_good_analysis: ^8.0.0
+  very_good_analysis: ^9.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
