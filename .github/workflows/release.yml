@@ -1969,7 +1969,7 @@ jobs:
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `
-            --artifact-name "{{name}}-$env:RELEASE-{{platform}}-$env:Platform.{{ext}}"
+            --artifact-name "{{name}}-$env:RELEASE-{{platform}}-setup-$env:Platform.{{ext}}"
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
 
