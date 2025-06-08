@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.2+382
+
+1. chore(deps): update deps
+2. Update flutter to 3.32.2
+3. fix: update binary name
+
 ## 2.5.1+381
 
 1. Bug fixes and update deps
