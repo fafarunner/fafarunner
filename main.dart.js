@@ -31123,7 +31123,7 @@ return n}}
 A.aFf.prototype={
 $1(a){var s=A.f4().b
 s=s==null?null:s.canvasKitBaseUrl
-return(s==null?"https://www.gstatic.com/flutter-canvaskit/1425e5e9ec5eeb4f225c401d8db69b860e0fde9a/":s)+a},
+return(s==null?"https://www.gstatic.com/flutter-canvaskit/109150893958777c8f2215f6cfd3e89e984e8dea/":s)+a},
 $S:44}
 A.Ko.prototype={
 f0(a,b){var s,r=this.a
