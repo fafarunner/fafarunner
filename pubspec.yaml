@@ -47,7 +47,7 @@ flutter:
 msix_config:
   display_name: FaFa Runner
   logo_path: logo\logo-512.png
-  languages: en-us, zh-cn
+  languages: en-us, zh-cn, ru-ru
   architecture: x64
   capabilities: "internetClient"
   install_certificate: false
