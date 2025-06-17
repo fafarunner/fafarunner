@@ -14,7 +14,7 @@ dependencies:
   flutter_gen: ^5.10.0
 
 dev_dependencies:
-  build_runner: ^2.4.15
+  build_runner: ^2.5.0
   flutter_gen_runner: ^5.10.0
   flutter_test:
     sdk: flutter
