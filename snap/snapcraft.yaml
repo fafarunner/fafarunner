@@ -68,6 +68,22 @@ parts:
     stage-packages:
       - libayatana-appindicator3-1
     override-build: |
+      apt update
+      apt install -y openjdk-21-jdk
+      
+      arch=$(uname -m)
+      if [[ "$arch" == "aarch64" ]]; then
+        export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-arm64
+      elif [[ "$arch" == "x86_64" ]]; then
+        export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+      else
+        echo "Unknown arch"
+      fi
+      
+      export PATH="$PATH":"$HOME/.pub-cache/bin":":$JAVA_HOME/bin"
+
+      java -version
+      
       # https://github.com/canonical/snapcraft/blob/main/snapcraft/parts/plugins/flutter_plugin.py
       FR_FLUTTER_BUILD_DIR="$CRAFT_PART_BUILD/flutter-distro"
       if [ -d "$FR_FLUTTER_BUILD_DIR" ]; then
