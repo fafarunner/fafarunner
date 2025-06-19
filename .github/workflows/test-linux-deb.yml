@@ -53,6 +53,7 @@ jobs:
 
       - name: Build deb
         run: |
+          export SENTRY_NATIVE_BACKEND=breakpad
           fastforge package \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \

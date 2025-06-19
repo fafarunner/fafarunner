@@ -15,10 +15,6 @@ format:
 	echo "╠ Sorting imports..."
 	fvm dart run import_sorter:main lib\/* test\/*
 
-asset: ##
-	echo "╠ Generating assets..."
-	cd modules/basic/assets ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
-
 l10n: ##
 	echo "╠ Generating i18n files..."
 	cd modules/basic/l10n ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -

@@ -82,5 +82,7 @@ parts:
       flutter doctor -v
       flutter precache --linux
       flutter pub get
+      
+      export SENTRY_NATIVE_BACKEND=breakpad
       flutter build linux --release --dart-define-from-file=.env --target $FLUTTER_TARGET
       cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/

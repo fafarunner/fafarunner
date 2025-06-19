@@ -326,7 +326,9 @@ jobs:
         run: flutter pub get
 
       - name: Build flutter
-        run: flutter build linux --dart-define-from-file=.env
+        run: |
+          export SENTRY_NATIVE_BACKEND=breakpad
+          flutter build linux --dart-define-from-file=.env
 
       - name: Build tar
         run: |
