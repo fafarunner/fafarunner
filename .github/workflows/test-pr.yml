@@ -187,7 +187,9 @@ jobs:
         run: flutter pub get
 
       - name: Build windows
-        run: flutter build windows
+        run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
+          flutter build windows
 
   web:
     name: Create web

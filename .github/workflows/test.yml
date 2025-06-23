@@ -418,7 +418,9 @@ jobs:
         run: flutter pub get
 
       - name: Build windows
-        run: flutter build windows --dart-define-from-file=.env
+        run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
+          flutter build windows --dart-define-from-file=.env
 
       - name: Crate msix
         run: dart run msix:create --build-windows false

@@ -1975,6 +1975,7 @@ jobs:
       - name: Build exe
         shell: pwsh
         run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
           fastforge package `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
@@ -2075,7 +2076,9 @@ jobs:
         run: flutter pub get
 
       - name: Build windows
-        run: flutter build windows --dart-define-from-file=.env
+        run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
+          flutter build windows --dart-define-from-file=.env
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
@@ -2219,7 +2222,9 @@ jobs:
         run: flutter pub get
 
       - name: Build windows
-        run: flutter build windows --dart-define-from-file=.env
+        run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
+          flutter build windows --dart-define-from-file=.env
 
       - name: Create msix
         run: dart run msix:create --store --build-windows false --output-name "fafarunner-$env:RELEASE-windows-$env:Platform"
@@ -2304,6 +2309,7 @@ jobs:
       - name: Build zip
         shell: pwsh
         run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
           fastforge package `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `

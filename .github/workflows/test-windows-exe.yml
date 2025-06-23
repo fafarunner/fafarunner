@@ -70,6 +70,7 @@ jobs:
       - name: Build exe
         shell: pwsh
         run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
           fastforge package `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
