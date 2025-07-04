@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: analyzer
-      sha256: f6154230675c44a191f2e20d16eeceb4aa18b30ca732db4efaf94c6a7d43cfa6
+      sha256: "01949bf52ad33f0e0f74f881fbaac4f348c556531951d92c8d16f1262aa19ff8"
       url: "https://pub.dev"
     source: hosted
-    version: "7.5.2"
+    version: "7.5.4"
   ansicolor:
     dependency: transitive
     description:
@@ -865,26 +865,26 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: "40583b61f5f4dc0ea7095a34c03cd71e17b43bd8866fba34972398f70806b464"
+      sha256: df2a59d19bf494a15e2ddf630edd78dd831f521b4d074eea9a1a22f01091884d
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.0"
+    version: "9.3.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "12a855e6d415d9433e1a0f4462e5c06862d2ecf6f4b0b22de52d76cff03e594a"
+      sha256: "759cbead3531c39e1b1f4298c4a09281937e8dd6115b241739fd525b4fb3715c"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.0"
+    version: "9.3.0"
   sentry_logging:
     dependency: "direct main"
     description:
       name: sentry_logging
-      sha256: "26df532f4ae09c98ed55794df2c105d27769020ce5f4ee010469b766f7c49f4e"
+      sha256: "06b606c42e5cdda40c5e4275e4d746f2faecaece52c93cb4887a7b2035e5183a"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.0"
+    version: "9.3.0"
   shared_preferences:
     dependency: transitive
     description:
