@@ -25,7 +25,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_native_splash: ^2.4.4
-  sentry_flutter: ^9.2.0
+  sentry_flutter: ^9.3.0
   sentry_logging: ^9.2.0
 
 dev_dependencies:
