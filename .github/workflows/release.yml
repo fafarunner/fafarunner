@@ -1651,8 +1651,17 @@ jobs:
 
       - name: Update snapcraft.yaml
         run: |
-          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          if [ "$ENV" == "staging" ]; then
+            SUFFIX="-beta"
+          elif [[ "$ENV" == "production" && "$IS_LATEST" == "false" ]]; then
+            SUFFIX="-rc"
+          else
+            SUFFIX=""
+          fi
+          VERSION="$VERSION_SHORT$SUFFIX.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
         env:
+          ENV: ${{ github.event.inputs.env }}
+          IS_LATEST: ${{ github.event.inputs.latest }}
           VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
           BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
 
@@ -1717,8 +1726,17 @@ jobs:
 
       - name: Update snapcraft.yaml
         run: |
-          VERSION="$VERSION_SHORT.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          if [ "$ENV" == "staging" ]; then
+            SUFFIX="-beta"
+          elif [[ "$ENV" == "production" && "$IS_LATEST" == "false" ]]; then
+            SUFFIX="-rc"
+          else
+            SUFFIX=""
+          fi
+          VERSION="$VERSION_SHORT$SUFFIX.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
         env:
+          ENV: ${{ github.event.inputs.env }}
+          IS_LATEST: ${{ github.event.inputs.latest }}
           VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
           BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
 

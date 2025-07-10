@@ -58,10 +58,17 @@ jobs:
           echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
 
+      - name: Update snapcraft.yaml
+        run: |
+          VERSION="$VERSION_SHORT-dev.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+        env:
+          VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
+          BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
+
       - name: Build snap
         run: |
           # https://snapcraft.io/docs/flutter-applications
-          sudo snapcraft --output "fafarunner-"$VERSION_SHORT.$BUILD_NUMBER"-linux-aarch64.snap"
+          sudo snapcraft --output "fafarunner-"$VERSION_SHORT.$BUILD_NUMBER.dev"-linux-aarch64.snap"
         env:
           VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
           BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}
