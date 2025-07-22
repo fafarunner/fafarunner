@@ -115,13 +115,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install ts-shasum
-        run: npm install -g ts-shasum
-
       - name: Publish a release
         run: |
           if [[ "$ENV" == "production" && "$IS_LATEST" == "true" ]]; then
@@ -133,25 +126,6 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           IS_LATEST: ${{ github.event.inputs.latest }}
           SHA: ${{ needs.create-release.outputs.sha }}
-          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
-          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-
-      - name: Download assets
-        uses: robinraju/release-downloader@v1
-        with:
-          tag: "${{ needs.create-release.outputs.tag_name }}"
-          fileName: '*'
-          tarBall: false
-          zipBall: false
-          out-file-path: 'fr-downloads'
-      
-      - name: Gen SHASUMS256.txt
-        run: shasum create "$GITHUB_WORKSPACE/SHASUMS256.txt" *
-        working-directory: ${{ github.workspace }}/fr-downloads
-
-      - name: Upload assets
-        run: gh release upload "$TAG_NAME" ./SHASUMS256.txt
-        env:
           TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
