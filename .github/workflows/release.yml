@@ -85,8 +85,8 @@ jobs:
           TAG_NAME: ${{ steps.version_step.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
 
-  gen-shasum:
-    name: Gen Shasum
+  publish:
+    name: Publish
     runs-on: ubuntu-22.04
     needs:
       - create-release
