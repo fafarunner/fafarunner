@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.5.3+383
+
+1. chore(deps): update deps
+2. Update flutter to 3.32.7
+3. fix: update binary name
+4. ci: sha256 is no longer generated
+
 ## 2.5.2+382
 
 1. chore(deps): update deps
