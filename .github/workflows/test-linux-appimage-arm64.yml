@@ -35,7 +35,7 @@ jobs:
 
       - name: Install appimagetool
         run: |
-          wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage"
+          wget -O appimagetool "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-aarch64.AppImage"
           # https://github.com/AppImage/AppImageKit/issues/1056#issuecomment-643382397
           # sed -i 's|AI\x02|\x00\x00\x00|' appimagetool
           chmod +x appimagetool && mv appimagetool /usr/local/bin/
