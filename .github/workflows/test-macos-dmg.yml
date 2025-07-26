@@ -22,7 +22,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.32.7'
+          flutter-version: '3.32.8'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
