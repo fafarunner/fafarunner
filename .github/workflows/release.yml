@@ -143,6 +143,7 @@ jobs:
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
+        id: flutter-action
         with:
           channel: 'stable'
           flutter-version: '3.32.8'
@@ -161,6 +162,9 @@ jobs:
 
       - name: Install Deps
         run: flutter pub get
+
+      - name: Remove build id
+        run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${{ steps.flutter-action.outputs.PUB-CACHE-PATH }}/hosted/pub.dev/jni-*/src/CMakeLists.txt
 
       - name: Configure Keystore for Android
         run: |
@@ -225,6 +229,7 @@ jobs:
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
+        id: flutter-action
         with:
           channel: 'stable'
           flutter-version: '3.32.8'
@@ -243,6 +248,9 @@ jobs:
 
       - name: Install Deps
         run: flutter pub get
+
+      - name: Remove build id
+        run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${{ steps.flutter-action.outputs.PUB-CACHE-PATH }}/hosted/pub.dev/jni-*/src/CMakeLists.txt
 
       - name: Configure Keystore for Android
         run: |
