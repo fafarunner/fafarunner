@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.4+384
+
+1. chore(deps): update deps
+2. Update flutter to 3.32.8
+3. ci: remove build id
+
 ## 2.5.3+383
 
 1. chore(deps): update deps
