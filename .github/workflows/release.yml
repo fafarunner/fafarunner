@@ -20,6 +20,10 @@ on:
 # Declare default permissions as readonly.
 permissions: read-all
 
+env:
+  flutter-channel: 'stable'
+  flutter-version: '3.32.8'
+
 jobs:
   create-release:
     name: Create release
@@ -70,8 +74,8 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "version_short=$VERSION_SHORT" >> $GITHUB_OUTPUT
           echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
-          echo "release=$VERSION_SHORT.$BUILD_NUMBER$SUFFIX" >> $GITHUB_OUTPUT
-          echo "tag_name=v$VERSION$SUFFIX" >> $GITHUB_OUTPUT
+          echo "release=$VERSION_SHORT$SUFFIX" >> $GITHUB_OUTPUT
+          echo "tag_name=v$VERSION_SHORT$SUFFIX" >> $GITHUB_OUTPUT
         env:
           ENV: ${{ github.event.inputs.env }}
           IS_LATEST: ${{ github.event.inputs.latest }}
@@ -145,8 +149,8 @@ jobs:
         uses: subosito/flutter-action@v2
         id: flutter-action
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -231,8 +235,8 @@ jobs:
         uses: subosito/flutter-action@v2
         id: flutter-action
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -317,8 +321,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -435,8 +439,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -561,8 +565,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -706,8 +710,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -845,8 +849,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -981,8 +985,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1135,8 +1139,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1302,8 +1306,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1461,8 +1465,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1782,8 +1786,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -1920,8 +1924,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2046,8 +2050,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2161,8 +2165,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -2283,8 +2287,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          flutter-version: '3.32.8'
+          channel: ${{ env.flutter-channel }}
+          flutter-version: ${{ env.flutter-version }}
 
       - name: Flutter doctor -v
         run: flutter doctor -v
