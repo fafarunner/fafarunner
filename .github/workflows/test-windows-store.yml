@@ -1,4 +1,4 @@
-name: Test Windows msix
+name: Test Windows store
 
 on:
   workflow_dispatch:
@@ -25,8 +25,8 @@ jobs:
       - name: Check version
         run: echo ${{ steps.version_step.outputs.version }}
 
-  msix:
-    name: Create windows msix
+  store:
+    name: Create windows store
     runs-on: windows-2022
     env:
       Platform: x64

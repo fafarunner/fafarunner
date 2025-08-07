@@ -99,9 +99,8 @@ jobs:
       - ios
       - macos-dmg
       - macos-pkg
-      - macos-appstore-pkg
+      - macos-appstore
       - macos-zip
-      - macos-tar
       - linux-deb
       - linux-deb-aarch64
       - linux-rpm
@@ -112,7 +111,7 @@ jobs:
       - linux-tar-aarch64
       - windows-exe
       - windows-msi
-      - windows-msix
+      - windows-store
       - windows-zip
     steps:
       - uses: actions/checkout@v4
@@ -697,8 +696,8 @@ jobs:
           fi
           rm -f .env
 
-  macos-appstore-pkg:
-    name: Create macos pkg (appstore)
+  macos-appstore:
+    name: Create macos appstore
     runs-on: macos-15
     needs:
       - create-release
@@ -959,135 +958,6 @@ jobs:
 
       - name: Upload assets
         run: gh release upload "$TAG_NAME" ./*.zip
-        env:
-          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
-          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-
-      - name: Clean up
-        if: ${{ always() }}
-        run: |
-          if [ -f "$RUNNER_TEMP/fr-signing.keychain-db" ]; then
-            echo "$RUNNER_TEMP/fr-signing.keychain-db"
-            security delete-keychain $RUNNER_TEMP/fr-signing.keychain-db
-          fi
-          rm -f .env
-
-  macos-tar:
-    name: Create macos tar
-    runs-on: macos-15
-    needs:
-      - create-release
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: ${{ env.flutter-channel }}
-          flutter-version: ${{ env.flutter-version }}
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Configure .env
-        run: |
-          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
-          echo "$ENV_BASE64" | base64 --decode > .env
-        env:
-          ENV: ${{ github.event.inputs.env }}
-          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
-          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Resolving flutter dependencies
-        run: flutter pub get
-
-      - name: Resolving macos dependencies
-        run: pod install --repo-update
-        working-directory: macos
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
-
-      - name: Build macOS
-        run: |
-          echo "╠ Releasing to app store..."
-          flutter build macos --dart-define-from-file=.env
-
-      - name: Install certificates
-        env:
-          DEVELOPER_ID_APPLICATION_P12_BASE64_MAC: ${{ secrets.DEVELOPER_ID_APPLICATION_P12_BASE64_MAC }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          # create variables
-          DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH=$RUNNER_TEMP/build_developerID_application_certificate.p12
-          KEYCHAIN_PATH=$RUNNER_TEMP/fr-signing.keychain-db
-
-          # import certificate and provisioning profile from secrets
-          echo -n "$DEVELOPER_ID_APPLICATION_P12_BASE64_MAC" | base64 --decode --output $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH
-
-          # create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          # security default-keychain -s $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-          # import certificate to keychain
-          security import $DEVELOPER_ID_APPLICATION_CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-      - name: Code Signing
-        run: /usr/bin/codesign --deep --force -s "$DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY" --options runtime FaFa\ Runner.app -v
-        working-directory: build/macos/Build/Products/Release
-        env:
-          DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY: ${{ secrets.DEVELOPER_ID_APPLICATION_SIGNING_IDENTITY }}
-
-      - name: Notarize app
-        run: |
-          # We can't notarize an app bundle directly, but we need to compress it as an archive.
-          # Therefore, we create a zip file containing our app bundle, so that we can send it to the
-          # notarization service
-          echo "Creating temp notarization archive"
-          ditto -c -k --keepParent "FaFa Runner.app" "FaFa Runner.zip"
-
-          # Here we send the notarization request to the Apple's Notarization service, waiting for the result.
-          # This typically takes a few seconds inside a CI environment, but it might take more depending on the App
-          # characteristics. Visit the Notarization docs for more information and strategies on how to optimize it if
-          # you're curious
-          echo "Notarize app"
-          xcrun notarytool submit "FaFa Runner.zip" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_PASSWORD" --wait
-
-          # Finally, we need to "attach the staple" to our executable, which will allow our app to be
-          # validated by macOS even when an internet connection is not available.
-          echo "Attach staple"
-          xcrun stapler staple "FaFa Runner.app"
-        working-directory: build/macos/Build/Products/Release
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-
-      - name: Build tar
-        run: |
-          tar -czaf FaFaRunner-"$RELEASE"-macos-universal.tar.gz ./FaFa\ Runner.app
-        working-directory: build/macos/Build/Products/Release
-        env:
-          RELEASE: ${{ needs.create-release.outputs.release }}
-
-      # Package the build.
-      - name: Copy build for tar
-        run: |
-          ls -la *.tar.gz
-          mv *.tar.gz $GITHUB_WORKSPACE/
-        working-directory: build/macos/Build/Products/Release
-
-      - name: Upload assets
-        run: gh release upload "$TAG_NAME" ./*.tar.gz
         env:
           TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
           GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
@@ -1978,8 +1848,8 @@ jobs:
             echo "File($pwd\.env) doesn't exist."
           }
 
-  windows-msix:
-    name: Create windows msix
+  windows-store:
+    name: Create windows store
     runs-on: windows-2022
     env:
       Platform: x64

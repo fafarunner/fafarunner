@@ -1,4 +1,4 @@
-name: Test macOS pkg (appstore)
+name: Test macOS appstore
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ on:
 permissions: read-all
 
 jobs:
-  pkg-appstore:
-    name: Create macos pkg (appstore)
+  appstore:
+    name: Create macos appstore
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
