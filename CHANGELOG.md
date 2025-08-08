@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.5
+
+1. ci: update semantic version
+2. ci: remove the appimage format for Linux
+3. ci: remove the tar.gz format for macOS
+
 ## 2.5.4+384
 
 1. chore(deps): update deps
