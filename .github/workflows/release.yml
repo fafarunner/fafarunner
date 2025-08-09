@@ -1340,12 +1340,11 @@ jobs:
           else
             SUFFIX=""
           fi
-          VERSION="$VERSION_SHORT$SUFFIX.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          VERSION="$VERSION_SHORT$SUFFIX" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
         env:
           ENV: ${{ github.event.inputs.env }}
           IS_LATEST: ${{ github.event.inputs.latest }}
           VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
-          BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
 
       - name: Build snap
         run: |
@@ -1415,12 +1414,11 @@ jobs:
           else
             SUFFIX=""
           fi
-          VERSION="$VERSION_SHORT$SUFFIX.$BUILD_NUMBER" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
+          VERSION="$VERSION_SHORT$SUFFIX" yq -i '.version = strenv(VERSION)' snap/snapcraft.yaml
         env:
           ENV: ${{ github.event.inputs.env }}
           IS_LATEST: ${{ github.event.inputs.latest }}
           VERSION_SHORT: ${{ needs.create-release.outputs.version_short }}
-          BUILD_NUMBER: ${{ needs.create-release.outputs.build_number }}
 
       - name: Install snapcraft
         run: sudo snap install snapcraft --classic
