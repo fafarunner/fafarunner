@@ -34,7 +34,7 @@ dev_dependencies:
   import_sorter: ^4.6.0
   mockingjay: ^2.0.0
   mocktail: ^1.0.4
-  msix: ^3.16.10
+  msix: ^3.16.12
   very_good_analysis: ^9.0.0
 
 # For information on the generic Dart part of this file, see the
