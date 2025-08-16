@@ -11,6 +11,12 @@ jobs:
     name: Create ios
     runs-on: macos-15
     steps:
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+
+      - name: print Xcode version
+        run: xcodebuild -version
+
       - uses: actions/checkout@v5
 
       - name: Setup Flutter
