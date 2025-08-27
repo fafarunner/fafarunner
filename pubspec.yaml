@@ -5,7 +5,7 @@ publish_to: 'none'
 version: 2.5.5+385
 
 environment:
-  sdk: ^3.8.0
+  sdk: '>=3.9.0 <4.0.0'
 
 workspace:
   # basic
@@ -20,13 +20,20 @@ workspace:
   - modules/ui/game
 
 dependencies:
+  app: any
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
   flutter_native_splash: ^2.4.4
+  game: any
+  l10n: any
+  logger: any
   sentry_flutter: ^9.6.0
   sentry_logging: ^9.6.0
+  shared: any
+  theme: any
+  url_strategy: any
 
 dev_dependencies:
   flutter_test:
