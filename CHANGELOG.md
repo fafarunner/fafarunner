@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.5.6
+
+1. chore(deps): update deps
+2. ci: Using Xcode 16.4 as a bundler
+3. build(deps): bump actions/checkout from 4 to 5 (#342)
+4. build(deps): bump actions/setup-java from 4 to 5 (#345)
+5. Update flutter to 3.35.2
+
 ## 2.5.5
 
 1. ci: update semantic version
