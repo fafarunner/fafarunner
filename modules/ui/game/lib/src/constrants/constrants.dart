@@ -6,3 +6,5 @@ List<KeyboardDirectionalKeys> keyboardDirectionalKeys = [
   KeyboardDirectionalKeys.arrows(),
   KeyboardDirectionalKeys.wasd(),
 ];
+
+const githubLink = 'https://github.com/fafarunner/fafarunner';

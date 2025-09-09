@@ -18,6 +18,7 @@ import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
 // Project imports:
+import '../constrants/constrants.dart';
 import '../enums/enums.dart';
 import '../game/game.dart';
 import '../util/custom_sprite_animation_widget.dart';
@@ -214,8 +215,6 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                 builder: (context, AsyncSnapshot<PackageInfo> snapshot) {
                   if (snapshot.hasData) {
                     final version = snapshot.data!.version;
-                    final buildNumber = snapshot.data!.buildNumber;
-                    final fullVersion = '$version+$buildNumber';
                     return Text.rich(
                       TextSpan(
                         children: [
@@ -224,7 +223,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 _launchUrlString(
-                                  'https://github.com/fafarunner/fafarunner/releases/tag/v$fullVersion',
+                                  '$githubLink/releases/tag/v$version',
                                 );
                               },
                             style: const TextStyle(
