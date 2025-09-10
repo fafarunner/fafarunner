@@ -998,10 +998,10 @@ packages:
     dependency: transitive
     description:
       name: slang_build_runner
-      sha256: "3679d6ab1373a9e5c0894d29d612abd2f75f969b0ef2f19cafaed2d1b9e49d39"
+      sha256: c1cf6525aee9afa9411d689908e6638f2da0ad581ce59eb11132d5f976450c8c
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.0"
+    version: "4.8.1"
   slang_flutter:
     dependency: transitive
     description:
