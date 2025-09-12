@@ -12,7 +12,7 @@ dependencies:
   event_bus: ^2.0.1
   flutter:
     sdk: flutter
-  package_info_plus: ^8.3.1
+  package_info_plus: ^9.0.0
   url_launcher: ^6.3.2
 
 dev_dependencies:
