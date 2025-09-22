@@ -1,7 +1,7 @@
 targets:
   $default:
     builders:
-      flutter_gen:
+      flutter_gen_runner:
         options:
           output: lib/gen/ # Optional (default: lib/gen/)
           line_length: 80 # Optional (default: 80)
