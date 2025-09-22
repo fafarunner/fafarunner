@@ -16,7 +16,6 @@ dependencies:
   flame_splash_screen: 0.3.1+2
   flutter:
     sdk: flutter
-  flutter_gen: ^5.10.0
   gap: ^3.0.1
   get: ^4.7.2
   get_storage: ^2.1.1
@@ -30,7 +29,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   import_sorter: ^4.6.0
-  very_good_analysis: ^9.0.0
+  very_good_analysis: ^10.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
