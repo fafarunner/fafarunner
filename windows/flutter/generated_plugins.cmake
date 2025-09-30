@@ -4,6 +4,8 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
+  connectivity_plus
+  nb_utils
   sentry_flutter
   tray_manager
   url_launcher_windows
