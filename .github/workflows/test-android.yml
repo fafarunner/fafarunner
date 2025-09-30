@@ -23,7 +23,7 @@ jobs:
         id: flutter-action
         with:
           channel: 'stable'
-          flutter-version: '3.35.4'
+          flutter-version: '3.35.5'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
