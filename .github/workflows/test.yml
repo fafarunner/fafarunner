@@ -361,7 +361,7 @@ jobs:
 
   windows:
     name: Create windows
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v5
 
@@ -390,9 +390,7 @@ jobs:
 
       - name: Install yq
         shell: pwsh
-        run: |
-          choco install yq
-          yq --version
+        run: choco install yq --no-progress
 
       - name: Install certificates
         run: |
