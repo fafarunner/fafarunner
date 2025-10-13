@@ -117,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: bonfire
-      sha256: d933c4769711da9e6cf0fa16096aed82a055c8c636fd69649b505a452bc44c88
+      sha256: "7ade76eaabdb589c6212208ecf4e81b0ea6f6db5f4e73f6c413d8148918c9d01"
       url: "https://pub.dev"
     source: hosted
-    version: "3.15.1"
+    version: "3.16.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -373,18 +373,18 @@ packages:
     dependency: transitive
     description:
       name: flame
-      sha256: "79133dc46a3ff870950f41d0dc1598414e7bd7ae2c29bd9f0a9de208d9a70cb7"
+      sha256: "86f63943349ef4d891fd1988ccd9fa3d27952eb8d9eb17b774a64e78cd62aaa6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.32.0"
   flame_audio:
     dependency: transitive
     description:
       name: flame_audio
-      sha256: "32e5788945469cebb807e741027e645a737e2618afc9b682e7f48607e0637f48"
+      sha256: "7c85f2975fcf8a385d47c225f63da97801ee150bc7ed7bf448f826403d5cef9f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.10.2"
+    version: "2.11.10"
   flame_splash_screen:
     dependency: transitive
     description:
@@ -721,10 +721,10 @@ packages:
     dependency: transitive
     description:
       name: ordered_set
-      sha256: "1bfaaaee0419e43ecc9eaebd410eb4bd5039657b72011de75ff3e2915c9aac60"
+      sha256: d6c1d053a533e84931a388cbf03f1ad21a0543bf06c7a281859d3ffacd8e15f2
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.3"
+    version: "8.0.0"
   package_config:
     dependency: transitive
     description:
