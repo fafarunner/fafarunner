@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   zip:
     name: Create windows zip
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
     steps:

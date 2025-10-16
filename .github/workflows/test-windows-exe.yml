@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   exe:
     name: Create windows exe
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
     steps:
@@ -35,6 +35,9 @@ jobs:
       - name: copy eula.rtf to the windows folder
         run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress
+
       - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |
           copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
@@ -44,9 +47,7 @@ jobs:
 
       - name: Install yq
         shell: pwsh
-        run: |
-          choco install yq
-          yq --version
+        run: choco install yq --no-progress
 
       - name: Update config
         shell: pwsh
