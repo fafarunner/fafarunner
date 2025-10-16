@@ -44,7 +44,7 @@ parts:
     # flutter-target: lib/main.dart # The main entry-point file of the application
     build-environment:
       - FLUTTER_REPO: https://github.com/flutter/flutter.git
-      - FLUTTER_VERSION: 3.35.5
+      - FLUTTER_VERSION: 3.35.6
       - FLUTTER_TARGET: lib/main.dart
     build-packages:
       - curl
