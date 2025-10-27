@@ -108,7 +108,7 @@ jobs:
         run: ls
         working-directory: build\windows\${{ env.Platform }}\runner\Release
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: windows-msix-artifact
           path: |
