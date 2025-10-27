@@ -3,7 +3,7 @@
 package = "./netlify/netlify-plugin-flutter"
 
   [plugins.inputs]
-  channel = "3.35.5"
+  channel = "3.35.7"
 
 [build]
 

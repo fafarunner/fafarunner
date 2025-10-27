@@ -77,7 +77,7 @@ jobs:
       - name: Copy build for snap
         run: ls -la *.snap
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: linux-snap-arm64-artifact
           path: |

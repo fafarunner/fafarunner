@@ -45,7 +45,7 @@ jobs:
 
   msi:
     name: Create msi
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
       Configuration: Release
@@ -58,16 +58,14 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
 
       - name: Install yq
         shell: pwsh
-        run: |
-          choco install yq
-          yq --version
+        run: choco install yq --no-progress
 
       - name: Install wix toolset
         shell: pwsh
@@ -136,7 +134,7 @@ jobs:
           VERSION_SHORT: ${{ needs.get-version.outputs.version_short }}
           BUILD_NUMBER: ${{ needs.get-version.outputs.build_number }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: windows-msi-artifact
           path: |

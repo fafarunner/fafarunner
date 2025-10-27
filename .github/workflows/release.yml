@@ -22,7 +22,7 @@ permissions: read-all
 
 env:
   flutter-channel: 'stable'
-  flutter-version: '3.35.5'
+  flutter-version: '3.35.7'
 
 jobs:
   create-release:
@@ -103,8 +103,8 @@ jobs:
       - macos-zip
       - linux-deb
       - linux-deb-aarch64
-      - linux-rpm
-      - linux-rpm-aarch64
+#      - linux-rpm
+#      - linux-rpm-aarch64
       - linux-snap
       - linux-snap-aarch64
       - linux-tar
@@ -435,7 +435,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 18
 
@@ -1132,182 +1132,182 @@ jobs:
         run: |
           rm -f .env
 
-  linux-rpm:
-    name: Create linux rpm
-    runs-on: ubuntu-22.04
-    needs:
-      - create-release
-    steps:
-      - uses: actions/checkout@v5
-      - name: Setup Java
-        uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
-
-      - name: Install dependencies for Linux
-        run: |
-          sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
-          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
-
-      - name: Install libunwind-dev
-        run: |
-          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev
-
-      - name: Install GStreamer
-        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Install ayatana-appindicator3-0.1
-        run: |
-          # used by tray_manager
-          sudo apt-get install -y libayatana-appindicator3-dev
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: ${{ env.flutter-channel }}
-          flutter-version: ${{ env.flutter-version }}
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Configure .env
-        run: |
-          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
-          echo "$ENV_BASE64" | base64 --decode > .env
-        env:
-          ENV: ${{ github.event.inputs.env }}
-          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
-          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install fastforge
-        run: dart pub global activate fastforge
-
-      - name: Build RPM
-        run: |
-          export SENTRY_NATIVE_BACKEND=breakpad
-          fastforge package \
-            --flutter-build-args "dart-define-from-file=.env" \
-            --platform linux \
-            --targets rpm \
-            --artifact-name {{name}}-"$RELEASE"-{{platform}}-amd64.{{ext}}
-        env:
-          RELEASE: ${{ needs.create-release.outputs.release }}
-
-      # Package the build.
-      - name: Copy build for rpm
-        run: |
-          ls -laR
-          cp ./**/*.rpm $GITHUB_WORKSPACE/
-        working-directory: dist
-
-      - name: Upload assets
-        run: gh release upload "$TAG_NAME" ./*.rpm
-        env:
-          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
-          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-
-      - name: Clean up
-        if: ${{ always() }}
-        run: |
-          rm -f .env
-
-  linux-rpm-aarch64:
-    name: Create linux rpm (aarch64)
-    runs-on: ubuntu-22.04-arm
-    needs:
-      - create-release
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
-
-      - name: Install dependencies for Linux
-        run: |
-          sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
-          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
-          sudo apt-get install -y rpm patchelf
-
-      - name: Install libunwind-dev
-        run: |
-          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
-          sudo apt-get install -y libunwind-dev
-
-      - name: Install GStreamer
-        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - name: Install ayatana-appindicator3-0.1
-        run: |
-          # used by tray_manager
-          sudo apt-get install -y libayatana-appindicator3-dev
-
-      - name: Setup Flutter
-        shell: bash
-        run: |
-          chmod +x ./scripts/install-flutter-github-actions.sh
-          ./scripts/install-flutter-github-actions.sh
-
-      - name: Flutter doctor -v
-        run: flutter doctor -v
-
-      - name: Configure .env
-        run: |
-          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
-          echo "$ENV_BASE64" | base64 --decode > .env
-        env:
-          ENV: ${{ github.event.inputs.env }}
-          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
-          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
-
-      - name: Install fastforge
-        run: dart pub global activate fastforge
-
-      - name: Install yq
-        run: |
-          if ! command -v yq >/dev/null 2>&1; then
-            echo "yq not exists"
-            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64 -O /usr/bin/yq &&\
-            chmod +x /usr/bin/yq
-          fi
-          yq --version
-
-      - name: Update make_config.yaml
-        run: yq -i '.build_arch = "aarch64"' linux/packaging/rpm/make_config.yaml
-
-      - name: Build RPM
-        run: |
-          export SENTRY_NATIVE_BACKEND=breakpad
-          fastforge package \
-            --flutter-build-args "dart-define-from-file=.env" \
-            --platform linux \
-            --targets rpm \
-            --artifact-name {{name}}-"$RELEASE"-{{platform}}-aarch64.{{ext}}
-        env:
-          RELEASE: ${{ needs.create-release.outputs.release }}
-
-      # Package the build.
-      - name: Copy build for rpm
-        run: |
-          ls -laR
-          cp ./**/*.rpm $GITHUB_WORKSPACE/
-        working-directory: dist
-
-      - name: Upload assets
-        run: gh release upload "$TAG_NAME" ./*.rpm
-        env:
-          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
-          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
-
-      - name: Clean up
-        if: ${{ always() }}
-        run: |
-          rm -f .env
+#  linux-rpm:
+#    name: Create linux rpm
+#    runs-on: ubuntu-22.04
+#    needs:
+#      - create-release
+#    steps:
+#      - uses: actions/checkout@v5
+#      - name: Setup Java
+#        uses: actions/setup-java@v5
+#        with:
+#          java-version: "17.x"
+#          distribution: 'temurin'
+#
+#      - name: Install dependencies for Linux
+#        run: |
+#          sudo apt-get update -y && sudo apt-get upgrade -y
+#          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
+#          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+#
+#      - name: Install libunwind-dev
+#        run: |
+#          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+#          sudo apt-get install -y libunwind-dev
+#
+#      - name: Install GStreamer
+#        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+#
+#      - name: Install ayatana-appindicator3-0.1
+#        run: |
+#          # used by tray_manager
+#          sudo apt-get install -y libayatana-appindicator3-dev
+#
+#      - name: Setup Flutter
+#        uses: subosito/flutter-action@v2
+#        with:
+#          channel: ${{ env.flutter-channel }}
+#          flutter-version: ${{ env.flutter-version }}
+#
+#      - name: Flutter doctor -v
+#        run: flutter doctor -v
+#
+#      - name: Configure .env
+#        run: |
+#          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+#          echo "$ENV_BASE64" | base64 --decode > .env
+#        env:
+#          ENV: ${{ github.event.inputs.env }}
+#          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+#          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+#
+#      - name: Install fastforge
+#        run: dart pub global activate fastforge
+#
+#      - name: Build RPM
+#        run: |
+#          export SENTRY_NATIVE_BACKEND=breakpad
+#          fastforge package \
+#            --flutter-build-args "dart-define-from-file=.env" \
+#            --platform linux \
+#            --targets rpm \
+#            --artifact-name {{name}}-"$RELEASE"-{{platform}}-amd64.{{ext}}
+#        env:
+#          RELEASE: ${{ needs.create-release.outputs.release }}
+#
+#      # Package the build.
+#      - name: Copy build for rpm
+#        run: |
+#          ls -laR
+#          cp ./**/*.rpm $GITHUB_WORKSPACE/
+#        working-directory: dist
+#
+#      - name: Upload assets
+#        run: gh release upload "$TAG_NAME" ./*.rpm
+#        env:
+#          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
+#          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+#
+#      - name: Clean up
+#        if: ${{ always() }}
+#        run: |
+#          rm -f .env
+#
+#  linux-rpm-aarch64:
+#    name: Create linux rpm (aarch64)
+#    runs-on: ubuntu-22.04-arm
+#    needs:
+#      - create-release
+#    steps:
+#      - uses: actions/checkout@v5
+#
+#      - uses: actions/setup-java@v5
+#        with:
+#          java-version: "17.x"
+#          distribution: 'temurin'
+#
+#      - name: Install dependencies for Linux
+#        run: |
+#          sudo apt-get update -y && sudo apt-get upgrade -y
+#          sudo apt-get install -y curl libcurl4-openssl-dev git unzip xz-utils zip libglu1-mesa
+#          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+#          sudo apt-get install -y rpm patchelf
+#
+#      - name: Install libunwind-dev
+#        run: |
+#          # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
+#          sudo apt-get install -y libunwind-dev
+#
+#      - name: Install GStreamer
+#        run: sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+#
+#      - name: Install ayatana-appindicator3-0.1
+#        run: |
+#          # used by tray_manager
+#          sudo apt-get install -y libayatana-appindicator3-dev
+#
+#      - name: Setup Flutter
+#        shell: bash
+#        run: |
+#          chmod +x ./scripts/install-flutter-github-actions.sh
+#          ./scripts/install-flutter-github-actions.sh
+#
+#      - name: Flutter doctor -v
+#        run: flutter doctor -v
+#
+#      - name: Configure .env
+#        run: |
+#          ENV_BASE64="$([[ "$ENV" == "staging" ]] && echo "$ENV_STG_BASE64" || echo "$ENV_PROD_BASE64")"
+#          echo "$ENV_BASE64" | base64 --decode > .env
+#        env:
+#          ENV: ${{ github.event.inputs.env }}
+#          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
+#          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
+#
+#      - name: Install fastforge
+#        run: dart pub global activate fastforge
+#
+#      - name: Install yq
+#        run: |
+#          if ! command -v yq >/dev/null 2>&1; then
+#            echo "yq not exists"
+#            wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64 -O /usr/bin/yq &&\
+#            chmod +x /usr/bin/yq
+#          fi
+#          yq --version
+#
+#      - name: Update make_config.yaml
+#        run: yq -i '.build_arch = "aarch64"' linux/packaging/rpm/make_config.yaml
+#
+#      - name: Build RPM
+#        run: |
+#          export SENTRY_NATIVE_BACKEND=breakpad
+#          fastforge package \
+#            --flutter-build-args "dart-define-from-file=.env" \
+#            --platform linux \
+#            --targets rpm \
+#            --artifact-name {{name}}-"$RELEASE"-{{platform}}-aarch64.{{ext}}
+#        env:
+#          RELEASE: ${{ needs.create-release.outputs.release }}
+#
+#      # Package the build.
+#      - name: Copy build for rpm
+#        run: |
+#          ls -laR
+#          cp ./**/*.rpm $GITHUB_WORKSPACE/
+#        working-directory: dist
+#
+#      - name: Upload assets
+#        run: gh release upload "$TAG_NAME" ./*.rpm
+#        env:
+#          TAG_NAME: ${{ needs.create-release.outputs.tag_name }}
+#          GH_TOKEN: ${{ secrets.FR_RELEASE_TOKEN }}
+#
+#      - name: Clean up
+#        if: ${{ always() }}
+#        run: |
+#          rm -f .env
 
   linux-snap:
     name: Create linux snap
@@ -1613,7 +1613,7 @@ jobs:
 
   windows-exe:
     name: Create windows exe
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
     needs:
@@ -1644,6 +1644,9 @@ jobs:
       - name: copy eula.rtf to the windows folder
         run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress
+
       - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |
           copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
@@ -1653,9 +1656,7 @@ jobs:
 
       - name: Install yq
         shell: pwsh
-        run: |
-          choco install yq
-          yq --version
+        run: choco install yq --no-progress
 
       - name: Update config
         shell: pwsh
@@ -1738,7 +1739,7 @@ jobs:
 
   windows-msi:
     name: Create windows msi
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
       Configuration: Release
@@ -1854,7 +1855,7 @@ jobs:
 
   windows-store:
     name: Create windows store
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
     needs:
@@ -1887,9 +1888,7 @@ jobs:
 
       - name: Install yq
         shell: pwsh
-        run: |
-          choco install yq
-          yq --version
+        run: choco install yq --no-progress
 
       - name: Update config
         shell: pwsh
@@ -1976,7 +1975,7 @@ jobs:
 
   windows-zip:
     name: Create windows zip
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
     needs:

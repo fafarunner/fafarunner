@@ -29,7 +29,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Configure .env
         run: echo "$ENV_STG_BASE64" | base64 --decode > .env
@@ -45,7 +45,7 @@ jobs:
       - name: Build flutter
         run: flutter build web --dart-define-from-file=.env
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: web-artifact
           path: ./build/web

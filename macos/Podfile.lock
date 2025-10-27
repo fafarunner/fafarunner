@@ -7,16 +7,18 @@ PODS:
   - FlutterMacOS (1.0.0)
   - nb_utils (0.0.1):
     - FlutterMacOS
+  - objective_c (0.0.1):
+    - FlutterMacOS
   - package_info_plus (0.0.1):
     - FlutterMacOS
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - Sentry/HybridSDK (8.52.1)
-  - sentry_flutter (9.6.0):
+  - Sentry/HybridSDK (8.56.2)
+  - sentry_flutter (9.7.0):
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.52.1)
+    - Sentry/HybridSDK (= 8.56.2)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -30,6 +32,7 @@ DEPENDENCIES:
   - connectivity_plus (from `Flutter/ephemeral/.symlinks/plugins/connectivity_plus/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - nb_utils (from `Flutter/ephemeral/.symlinks/plugins/nb_utils/macos`)
+  - objective_c (from `Flutter/ephemeral/.symlinks/plugins/objective_c/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - sentry_flutter (from `Flutter/ephemeral/.symlinks/plugins/sentry_flutter/macos`)
@@ -50,6 +53,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
   nb_utils:
     :path: Flutter/ephemeral/.symlinks/plugins/nb_utils/macos
+  objective_c:
+    :path: Flutter/ephemeral/.symlinks/plugins/objective_c/macos
   package_info_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
@@ -68,13 +73,14 @@ SPEC CHECKSUMS:
   connectivity_plus: 4adf20a405e25b42b9c9f87feff8f4b6fde18a4e
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   nb_utils: 2361d8cd78db3c0167bab7635f62ec6d8a329819
+  objective_c: ec13431e45ba099cb734eb2829a5c1cd37986cba
   package_info_plus: f0052d280d17aa382b932f399edf32507174e870
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  Sentry: 2cbbe3592f30050c60e916c63c7f5a2fa584005e
-  sentry_flutter: 9b1e3e6934cb7040ffb71383c95a35f73523180c
-  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
+  Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
+  sentry_flutter: 7f88e12d1882ec6e648644a7c0ff5b1466f07f99
+  shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
   tray_manager: a104b5c81b578d83f3c3d0f40a997c8b10810166
-  url_launcher_macos: 0fba8ddabfc33ce0a9afe7c5fef5aab3d8d2d673
+  url_launcher_macos: f87a979182d112f911de6820aefddaf56ee9fbfd
 
 PODFILE CHECKSUM: 6bbd6be70b2c01a45c6354cbf90795f5b64d4261
 

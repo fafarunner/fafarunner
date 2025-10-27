@@ -9,7 +9,7 @@ permissions: read-all
 jobs:
   zip:
     name: Create windows zip
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
     steps:
@@ -19,7 +19,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -53,7 +53,7 @@ jobs:
         run: ls -R
         working-directory: dist
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: windows-zip-artifact
           path: |

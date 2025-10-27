@@ -27,7 +27,7 @@ jobs:
 
   store:
     name: Create windows store
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       Platform: x64
     needs:
@@ -39,7 +39,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -57,9 +57,7 @@ jobs:
 
       - name: Install yq
         shell: pwsh
-        run: |
-          choco install yq
-          yq --version
+        run: choco install yq --no-progress
 
       - name: Update config
         shell: pwsh
@@ -110,7 +108,7 @@ jobs:
         run: ls
         working-directory: build\windows\${{ env.Platform }}\runner\Release
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: windows-msix-artifact
           path: |

@@ -37,7 +37,7 @@ jobs:
         id: flutter-action
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
@@ -102,7 +102,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -182,7 +182,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 18
 
@@ -190,7 +190,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Configure .env
         run: |
@@ -321,7 +321,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Configure .env
         run: |
@@ -361,7 +361,7 @@ jobs:
 
   windows:
     name: Create windows
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v5
 
@@ -369,7 +369,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -390,9 +390,7 @@ jobs:
 
       - name: Install yq
         shell: pwsh
-        run: |
-          choco install yq
-          yq --version
+        run: choco install yq --no-progress
 
       - name: Install certificates
         run: |
@@ -479,7 +477,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.5'
+          flutter-version: '3.35.7'
 
       - name: Configure .env
         run: echo "$ENV_KEY" | base64 --decode > .env
