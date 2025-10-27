@@ -45,7 +45,7 @@ jobs:
       - name: Build flutter
         run: flutter build web --dart-define-from-file=.env
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: web-artifact
           path: ./build/web
