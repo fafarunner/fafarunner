@@ -45,7 +45,7 @@ jobs:
         run: flutter pub get
 
       - name: Build flutter
-        run: flutter build web --dart-define-from-file=.env --base-href /play/
+        run: flutter build web --dart-define-from-file=.env
 
       - name: Copy files to flutter web
         run: cp LICENSE README.md ./build/web
