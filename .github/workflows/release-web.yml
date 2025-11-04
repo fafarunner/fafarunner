@@ -55,7 +55,7 @@ jobs:
         with:
           github_token: ${{ secrets.FR_RELEASE_TOKEN }}
           publish_dir: ./build/web
-          cname: fafarunner-web.fafarunner.com
+          cname: web.fafarunner.com
 
       - name: Clean up
         if: ${{ always() }}
