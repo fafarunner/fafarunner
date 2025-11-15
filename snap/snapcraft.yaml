@@ -20,7 +20,7 @@ contact: support@fafarunner.com
 license: MIT
 source-code: https://github.com/fafarunner/fafarunner
 issues: https://github.com/fafarunner/fafarunner/issues
-website: https://www.fafarunner.com
+website: https://fafarunner.com
 confinement: strict
 base: core22
 grade: stable

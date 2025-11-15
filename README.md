@@ -22,7 +22,7 @@
 
 ## 📥 Download
 
-[https://www.fafarunner.com/download](https://www.fafarunner.com/download)
+[https://fafarunner.com/download](https://fafarunner.com/download)
 
 ## License
 
