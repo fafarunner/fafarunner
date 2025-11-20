@@ -97,7 +97,7 @@ def make_parser():
         "-m",
         "--manufacturer",
         type=str,
-        default="Insco",
+        default="Qiazo",
         help="The app manufacturer.",
     )
     parser.add_argument(
