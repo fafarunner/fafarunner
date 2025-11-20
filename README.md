@@ -9,16 +9,16 @@
 
 ## Version
 
-| Platforms  | Versions                                                                                                                                                                                                                                                 |
-|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| F-Droid    | [![F-Droid Version](https://img.shields.io/f-droid/v/com.chenyifaer.fafarunner)](https://f-droid.org/packages/com.chenyifaer.fafarunner)                                                                                                                 |
-| WinGet     | ![WinGet Package Version](https://img.shields.io/winget/v/Insco.FaFaRunner)                                                                                                                                                                              |
-| Chocolatey | [![Chocolatey Version](https://img.shields.io/chocolatey/v/fafarunner)](https://community.chocolatey.org/packages/fafarunner)                                                                                                                            |
-| Scoop      | [![Scoop Version](https://img.shields.io/scoop/v/fafarunner?bucket=https%253A%252F%252Fgithub.com%252Finsco-inc%252Fscoop-bucket)](https://scoop.sh/#/apps?q=fafarunner&o=false)                                                                         |
-| Homebrew   | [![Homebrew Cask Version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/insco-inc/homebrew-casks/main/Info/fafarunner.json&query=$.casks.[0].version&label=homebrew)](https://github.com/insco-inc/homebrew-casks) |
-| Flathub    | [![Flathub Version](https://img.shields.io/flathub/v/com.fafarunner.FaFaRunner)](https://flathub.org/apps/com.fafarunner.FaFaRunner)                                                                                                                     |
-| Snapcraft  | [![Snapcraft Version](https://img.shields.io/snapcraft/v/fafarunner/latest/stable)](https://snapcraft.io/fafarunner)                                                                                                                                     |
-| AUR        | [![AUR Version](https://img.shields.io/aur/version/fafarunner-bin)](https://aur.archlinux.org/packages/fafarunner-bin)                                                                                                                                   |
+| Platforms  | Versions                                                                                                                                                                                                                                         |
+|:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| F-Droid    | [![F-Droid Version](https://img.shields.io/f-droid/v/com.chenyifaer.fafarunner)](https://f-droid.org/packages/com.chenyifaer.fafarunner)                                                                                                         |
+| WinGet     | ![WinGet Package Version](https://img.shields.io/winget/v/Insco.FaFaRunner)                                                                                                                                                                      |
+| Chocolatey | [![Chocolatey Version](https://img.shields.io/chocolatey/v/fafarunner)](https://community.chocolatey.org/packages/fafarunner)                                                                                                                    |
+| Scoop      | [![Scoop Version](https://img.shields.io/scoop/v/fafarunner?bucket=https%253A%252F%252Fgithub.com%252Fqiazo%252Fscoop-bucket)](https://scoop.sh/#/apps?q=fafarunner&o=false)                                                                 |
+| Homebrew   | [![Homebrew Cask Version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/qiazo/homebrew-casks/main/Info/fafarunner.json&query=$.casks.[0].version&label=homebrew)](https://github.com/qiazo/homebrew-casks) |
+| Flathub    | [![Flathub Version](https://img.shields.io/flathub/v/com.fafarunner.FaFaRunner)](https://flathub.org/apps/com.fafarunner.FaFaRunner)                                                                                                             |
+| Snapcraft  | [![Snapcraft Version](https://img.shields.io/snapcraft/v/fafarunner/latest/stable)](https://snapcraft.io/fafarunner)                                                                                                                             |
+| AUR        | [![AUR Version](https://img.shields.io/aur/version/fafarunner-bin)](https://aur.archlinux.org/packages/fafarunner-bin)                                                                                                                           |
 
 ## 📥 Download
 
