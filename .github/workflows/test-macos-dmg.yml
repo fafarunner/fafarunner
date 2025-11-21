@@ -11,7 +11,7 @@ jobs:
     name: Create macos dmg
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: setup node
         uses: actions/setup-node@v6

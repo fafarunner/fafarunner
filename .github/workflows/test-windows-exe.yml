@@ -13,7 +13,7 @@ jobs:
     env:
       Platform: x64
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
