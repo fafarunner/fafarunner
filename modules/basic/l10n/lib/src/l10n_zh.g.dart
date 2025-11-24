@@ -3,6 +3,7 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
+// dart format off
 
 import 'l10n.g.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:slang/generated.dart';
 
 // Path: <root>
-class TranslationsZh extends Translations {
+class TranslationsZh extends Translations with BaseTranslations<AppLocale, Translations> {
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsZh({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
@@ -152,53 +153,55 @@ class _TranslationsSettingsShortcutsZh extends TranslationsSettingsShortcutsEn {
 	@override String get fire => '开火';
 }
 
-/// Flat map(s) containing all translations.
+/// The flat map containing all translations for locale <zh>.
 /// Only for edge cases! For simple maps, use the map function of this library.
+///
+/// The Dart AOT compiler has issues with very large switch statements,
+/// so the map is split into smaller functions (512 entries each).
 extension on TranslationsZh {
 	dynamic _flatMapFunction(String path) {
-		switch (path) {
-			case 'appName': return '发发跑酷';
-			case 'menuPage.playCap': return '开始玩';
-			case 'menuPage.keyboard': return '键盘';
-			case 'menuPage.joystick': return '操纵杆';
-			case 'menuPage.loading': return '加载中...';
-			case 'menuPage.creditsCap': return '学分';
-			case 'menuPage.poweredByPrefix': return '由 ';
-			case 'menuPage.poweredBySuffix': return ' 开发';
-			case 'menuPage.author': return '科技小白英仔';
-			case 'menuPage.version': return ({required Object version}) => '版本号: ${version}';
-			case 'gamePage.talkWizard1': return '你好, 我年轻的骑士! \n你在这里做什么?';
-			case 'gamePage.talkPlayer1': return '你好! \n我被派去营救一个被生活在这些街区的生物绑架的孩子.';
-			case 'gamePage.talkWizard2': return '嗯……\n我不想打击你, 但你是第五个被派来执行这项任务的骑士. 到目前为止, 没有人活着回来, 他们的尸体像战利品一样挂在墙上.';
-			case 'gamePage.talkPlayer2': return '别担心我的老人. 从来没有像我这样的骑士!\n我要消灭这里的一切生灵, 救出孩子!';
-			case 'gamePage.talkWizard3': return '是的, 自信是你最不缺的!\n那就别说我没提醒你!\n祝你好运!';
-			case 'gamePage.talkKid1': return '救命! 救命!';
-			case 'gamePage.talkBoss1': return '闭嘴, 你这个令人垂涎欲滴的小东西!\n是时候品尝你柔软的皮肤了! 哈哈哈...';
-			case 'gamePage.talkPlayer3': return '这次它不会是你讨厌的生物!\n你可怕的日子结束了!';
-			case 'gamePage.talkBoss2': return '看那个! 另一个自负的骑士认为他可以阻止我! 哈哈哈\n过来!';
-			case 'gamePage.talkKid2': return '感谢大神!!! \n你成功打败了这个可怕的生物! 非常感谢! \n我什至不知道如何感谢你!';
-			case 'gamePage.talkPlayer4': return '能为您提供帮助是我的荣幸! 也别着急赏我, 你爹可是答应我一大笔钱来救你的! :-)';
-			case 'gamePage.playAgainCap': return '再玩一次';
-			case 'gamePage.congratulations': return '恭喜!';
-			case 'gamePage.thanks': return '感谢您测试游戏并感受 Flame 和 Bonfire 在构建 2D 游戏中的威力.\n也许我们可以有一个游戏的延续!\n我希望你喜欢!';
-			case 'gamePage.doorWithoutKey': return '我想我需要一把钥匙才能通过这里!';
-			case 'hotkeyDialog.description': return '请点击键盘上的键来设置快捷键';
-			case 'tray.settings': return '设置';
-			case 'tray.exit': return '退出';
-			case 'buttons.cancel': return '取消';
-			case 'buttons.ok': return '确定';
-			case 'settings.shortcutsTitle': return '快捷键';
-			case 'settings.shortcutsDescription': return '警告: 暂不支持定义组合键';
-			case 'settings.shortcutsRegistered': return '该键是应用内置键';
-			case 'settings.shortcutsArrow': return '该键已作为方向键使用';
-			case 'settings.shortcutsUsed': return '该键已使用';
-			case 'settings.shortcuts.move': return '移动';
-			case 'settings.shortcuts.attack': return '攻击';
-			case 'settings.shortcuts.fire': return '开火';
-			case 'locales.en': return 'English';
-			case 'locales.zh': return '中文';
-			default: return null;
-		}
+		return switch (path) {
+			'appName' => '发发跑酷',
+			'menuPage.playCap' => '开始玩',
+			'menuPage.keyboard' => '键盘',
+			'menuPage.joystick' => '操纵杆',
+			'menuPage.loading' => '加载中...',
+			'menuPage.creditsCap' => '学分',
+			'menuPage.poweredByPrefix' => '由 ',
+			'menuPage.poweredBySuffix' => ' 开发',
+			'menuPage.author' => '科技小白英仔',
+			'menuPage.version' => ({required Object version}) => '版本号: ${version}',
+			'gamePage.talkWizard1' => '你好, 我年轻的骑士! \n你在这里做什么?',
+			'gamePage.talkPlayer1' => '你好! \n我被派去营救一个被生活在这些街区的生物绑架的孩子.',
+			'gamePage.talkWizard2' => '嗯……\n我不想打击你, 但你是第五个被派来执行这项任务的骑士. 到目前为止, 没有人活着回来, 他们的尸体像战利品一样挂在墙上.',
+			'gamePage.talkPlayer2' => '别担心我的老人. 从来没有像我这样的骑士!\n我要消灭这里的一切生灵, 救出孩子!',
+			'gamePage.talkWizard3' => '是的, 自信是你最不缺的!\n那就别说我没提醒你!\n祝你好运!',
+			'gamePage.talkKid1' => '救命! 救命!',
+			'gamePage.talkBoss1' => '闭嘴, 你这个令人垂涎欲滴的小东西!\n是时候品尝你柔软的皮肤了! 哈哈哈...',
+			'gamePage.talkPlayer3' => '这次它不会是你讨厌的生物!\n你可怕的日子结束了!',
+			'gamePage.talkBoss2' => '看那个! 另一个自负的骑士认为他可以阻止我! 哈哈哈\n过来!',
+			'gamePage.talkKid2' => '感谢大神!!! \n你成功打败了这个可怕的生物! 非常感谢! \n我什至不知道如何感谢你!',
+			'gamePage.talkPlayer4' => '能为您提供帮助是我的荣幸! 也别着急赏我, 你爹可是答应我一大笔钱来救你的! :-)',
+			'gamePage.playAgainCap' => '再玩一次',
+			'gamePage.congratulations' => '恭喜!',
+			'gamePage.thanks' => '感谢您测试游戏并感受 Flame 和 Bonfire 在构建 2D 游戏中的威力.\n也许我们可以有一个游戏的延续!\n我希望你喜欢!',
+			'gamePage.doorWithoutKey' => '我想我需要一把钥匙才能通过这里!',
+			'hotkeyDialog.description' => '请点击键盘上的键来设置快捷键',
+			'tray.settings' => '设置',
+			'tray.exit' => '退出',
+			'buttons.cancel' => '取消',
+			'buttons.ok' => '确定',
+			'settings.shortcutsTitle' => '快捷键',
+			'settings.shortcutsDescription' => '警告: 暂不支持定义组合键',
+			'settings.shortcutsRegistered' => '该键是应用内置键',
+			'settings.shortcutsArrow' => '该键已作为方向键使用',
+			'settings.shortcutsUsed' => '该键已使用',
+			'settings.shortcuts.move' => '移动',
+			'settings.shortcuts.attack' => '攻击',
+			'settings.shortcuts.fire' => '开火',
+			'locales.en' => 'English',
+			'locales.zh' => '中文',
+			_ => null,
+		};
 	}
 }
-
