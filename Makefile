@@ -16,11 +16,11 @@ format:
 	fvm dart run import_sorter:main lib\/* test\/*
 
 l10n: ##
-	echo "╠ Generating i18n files..."
+	echo "╠ Generating l10n files..."
 	cd modules/basic/l10n ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
 
 theme: ##
-	echo "╠ Generating i18n files..."
+	echo "╠ Generating theme files..."
 	cd modules/basic/theme ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
 
 game: ##

@@ -3,12 +3,13 @@
 ///
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
+// dart format off
 
 part of 'l10n.g.dart';
 
 // Path: <root>
 typedef TranslationsEn = Translations; // ignore: unused_element
-class Translations implements BaseTranslations<AppLocale, Translations> {
+class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Returns the current translations of the given [context].
 	///
 	/// Usage:
@@ -231,53 +232,55 @@ class TranslationsSettingsShortcutsEn {
 	String get fire => 'Fire';
 }
 
-/// Flat map(s) containing all translations.
+/// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
+///
+/// The Dart AOT compiler has issues with very large switch statements,
+/// so the map is split into smaller functions (512 entries each).
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
-		switch (path) {
-			case 'appName': return 'FaFa Runner';
-			case 'menuPage.playCap': return 'PLAY';
-			case 'menuPage.keyboard': return 'Keyboard';
-			case 'menuPage.joystick': return 'Joystick';
-			case 'menuPage.loading': return 'Loading...';
-			case 'menuPage.creditsCap': return 'CREDITS';
-			case 'menuPage.poweredByPrefix': return 'Powered by ';
-			case 'menuPage.poweredBySuffix': return '';
-			case 'menuPage.author': return 'KJXBYZ';
-			case 'menuPage.version': return ({required Object version}) => 'Version: ${version}';
-			case 'gamePage.talkWizard1': return 'Hello my young knight!\nWhat are you doing here?';
-			case 'gamePage.talkPlayer1': return 'Hello!\nI was sent to rescue a child who was kidnapped by creatures that live in those neighborhoods.';
-			case 'gamePage.talkWizard2': return 'Humm...\nI don\'t want to demotivate you, but you are the fifth knight sent for this task. So far, none have returned alive and their bodies are hanging from the walls like trophies.';
-			case 'gamePage.talkPlayer2': return 'Don\'t worry my old man. Knight like me never existed!\nI will exterminate every creature in this place and rescue the child!';
-			case 'gamePage.talkWizard3': return 'Yes, confidence is what you don\'t lack!\nThen don\'t say I didn\'t warn you!\nGood luck!';
-			case 'gamePage.talkKid1': return 'Heeeelp! Heeeelp!';
-			case 'gamePage.talkBoss1': return 'Shut up, you appetizing little creature!\nThe time has come to taste your soft skin! ha ha ha ha';
-			case 'gamePage.talkPlayer3': return 'It won\'t be your disgusting creature this time!\nYour monstrous days are over!';
-			case 'gamePage.talkBoss2': return 'Look that! Another knight with an inflated ego thinking he can stop me! ha ha ha ha \nCome here!';
-			case 'gamePage.talkKid2': return 'Thank the gods !!! \nYou managed to defeat this horrible creature! Thank you very much! \nI don\'t even know how to thank you!';
-			case 'gamePage.talkPlayer4': return 'It was an honor to be able to help you! And don\'t worry about rewarding me, your father promised me a fortune to rescue you! :-)';
-			case 'gamePage.playAgainCap': return 'PLAY AGAIN';
-			case 'gamePage.congratulations': return 'CONGRATULATIONS!';
-			case 'gamePage.thanks': return 'Thanks for testing the game and feeling the power of Flame and Bonfire in building 2D games.\nMaybe we can have a continuation of the game!\nI hope that you enjoyed!';
-			case 'gamePage.doorWithoutKey': return 'I think I need a key to get through here!';
-			case 'hotkeyDialog.description': return 'Please click the key on your keyboard to set the shortcut';
-			case 'tray.settings': return 'Settings';
-			case 'tray.exit': return 'Exit';
-			case 'buttons.cancel': return 'Cancel';
-			case 'buttons.ok': return 'OK';
-			case 'settings.shortcutsTitle': return 'Shortcuts';
-			case 'settings.shortcutsDescription': return 'WARNING: Defining key combinations is not currently supported.';
-			case 'settings.shortcutsRegistered': return 'This key is an application built-in key.';
-			case 'settings.shortcutsArrow': return 'This key is used as a direction key.';
-			case 'settings.shortcutsUsed': return 'This key is used.';
-			case 'settings.shortcuts.move': return 'Move';
-			case 'settings.shortcuts.attack': return 'Attack';
-			case 'settings.shortcuts.fire': return 'Fire';
-			case 'locales.en': return 'English';
-			case 'locales.zh': return '中文';
-			default: return null;
-		}
+		return switch (path) {
+			'appName' => 'FaFa Runner',
+			'menuPage.playCap' => 'PLAY',
+			'menuPage.keyboard' => 'Keyboard',
+			'menuPage.joystick' => 'Joystick',
+			'menuPage.loading' => 'Loading...',
+			'menuPage.creditsCap' => 'CREDITS',
+			'menuPage.poweredByPrefix' => 'Powered by ',
+			'menuPage.poweredBySuffix' => '',
+			'menuPage.author' => 'KJXBYZ',
+			'menuPage.version' => ({required Object version}) => 'Version: ${version}',
+			'gamePage.talkWizard1' => 'Hello my young knight!\nWhat are you doing here?',
+			'gamePage.talkPlayer1' => 'Hello!\nI was sent to rescue a child who was kidnapped by creatures that live in those neighborhoods.',
+			'gamePage.talkWizard2' => 'Humm...\nI don\'t want to demotivate you, but you are the fifth knight sent for this task. So far, none have returned alive and their bodies are hanging from the walls like trophies.',
+			'gamePage.talkPlayer2' => 'Don\'t worry my old man. Knight like me never existed!\nI will exterminate every creature in this place and rescue the child!',
+			'gamePage.talkWizard3' => 'Yes, confidence is what you don\'t lack!\nThen don\'t say I didn\'t warn you!\nGood luck!',
+			'gamePage.talkKid1' => 'Heeeelp! Heeeelp!',
+			'gamePage.talkBoss1' => 'Shut up, you appetizing little creature!\nThe time has come to taste your soft skin! ha ha ha ha',
+			'gamePage.talkPlayer3' => 'It won\'t be your disgusting creature this time!\nYour monstrous days are over!',
+			'gamePage.talkBoss2' => 'Look that! Another knight with an inflated ego thinking he can stop me! ha ha ha ha \nCome here!',
+			'gamePage.talkKid2' => 'Thank the gods !!! \nYou managed to defeat this horrible creature! Thank you very much! \nI don\'t even know how to thank you!',
+			'gamePage.talkPlayer4' => 'It was an honor to be able to help you! And don\'t worry about rewarding me, your father promised me a fortune to rescue you! :-)',
+			'gamePage.playAgainCap' => 'PLAY AGAIN',
+			'gamePage.congratulations' => 'CONGRATULATIONS!',
+			'gamePage.thanks' => 'Thanks for testing the game and feeling the power of Flame and Bonfire in building 2D games.\nMaybe we can have a continuation of the game!\nI hope that you enjoyed!',
+			'gamePage.doorWithoutKey' => 'I think I need a key to get through here!',
+			'hotkeyDialog.description' => 'Please click the key on your keyboard to set the shortcut',
+			'tray.settings' => 'Settings',
+			'tray.exit' => 'Exit',
+			'buttons.cancel' => 'Cancel',
+			'buttons.ok' => 'OK',
+			'settings.shortcutsTitle' => 'Shortcuts',
+			'settings.shortcutsDescription' => 'WARNING: Defining key combinations is not currently supported.',
+			'settings.shortcutsRegistered' => 'This key is an application built-in key.',
+			'settings.shortcutsArrow' => 'This key is used as a direction key.',
+			'settings.shortcutsUsed' => 'This key is used.',
+			'settings.shortcuts.move' => 'Move',
+			'settings.shortcuts.attack' => 'Attack',
+			'settings.shortcuts.fire' => 'Fire',
+			'locales.en' => 'English',
+			'locales.zh' => '中文',
+			_ => null,
+		};
 	}
 }
-
