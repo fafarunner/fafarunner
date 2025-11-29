@@ -1896,9 +1896,9 @@ jobs:
           echo $env:RUNNER_TEMP
           # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
           # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
-          # $ENV:certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
+          # $env:certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
           # $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
-          # [IO.File]::WriteAllBytes("$ENV:certificatePath", $bytes)
+          # [IO.File]::WriteAllBytes("$env:certificatePath", $bytes)
           
           # $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
 
