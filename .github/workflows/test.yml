@@ -388,66 +388,30 @@ jobs:
       - name: Install fastforge
         run: dart pub global activate fastforge
 
-      - name: Install yq
+      - name: Build zip
         shell: pwsh
-        run: choco install yq --no-progress
-
-      - name: Install certificates
-        run: |
-          echo $env:RUNNER_TEMP
-          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
-          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
-          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
-          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
-          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
-
-          $yamlFile = ".\pubspec.yaml"
-          $yamlContent = Get-Content -Raw -Path $yamlFile
-
-          # 获取环境变量的值
-          # $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
-          # $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
-          # $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
-          $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
-
-          # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.certificate_path = `"$certificatePath`" | .msix_config.certificate_password = `"$certificatePassword`" | del(.msix_config.identity_name) | del(.msix_config.publisher) | del(.msix_config.publisher_display_name)" -
-
-          # 将更新后的内容写回文件
-          Set-Content -Path $yamlFile -Value $updatedYamlContent
-        env:
-          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
-          WINDOWS_IDENTITY_NAME: ${{ secrets.WINDOWS_IDENTITY_NAME }}
-          WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
-          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
-
-      - name: Install flutter dependencies
-        run: flutter pub get
-
-      - name: Build windows
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
-          flutter build windows --dart-define-from-file=.env
-
-      - name: Crate msix
-        run: dart run msix:create --build-windows false
+          fastforge package `
+            --flutter-build-args "dart-define-from-file=.env" `
+            --platform windows `
+            --targets zip `
+            --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-portable-$env:Platform.{{ext}}"
 
       # Package the build.
-      - name: Copy build for msix
-        run: ls
-        working-directory: build\windows\x64\runner\Release
+      - name: Copy build for zip
+        run: ls -R
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: windows-zip-artifact
+          path: |
+            .\dist\**\*.zip
 
       - name: Clean up
         if: ${{ always() }}
         run: |
-          ls
-          if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
-            echo "$env:RUNNER_TEMP\fafarunner.pfx"
-            remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
-          } else {
-            echo "File($env:RUNNER_TEMP\fafarunner.pfx) doesn't exist."
-          }
           if (test-path -Path "$pwd\.env") {
             echo "Remove file($pwd\.env)"
             remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
