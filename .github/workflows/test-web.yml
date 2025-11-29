@@ -11,7 +11,7 @@ jobs:
     name: Create web
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install dependencies for Linux
         run: |
@@ -29,7 +29,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.7'
+          flutter-version: '3.38.3'
 
       - name: Configure .env
         run: echo "$ENV_STG_BASE64" | base64 --decode > .env

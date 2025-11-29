@@ -8,5 +8,6 @@ targets:
           input_directory: assets/i18n
           output_directory: lib/src
           output_file_name: l10n.g.dart
+          timestamp: false
           maps:
             - locales

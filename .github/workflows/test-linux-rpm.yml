@@ -11,7 +11,7 @@ jobs:
     name: Create linux rpm
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
@@ -41,7 +41,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.7'
+          flutter-version: '3.38.3'
 
       - name: Flutter doctor -v
         run: flutter doctor -v

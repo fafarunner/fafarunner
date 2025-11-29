@@ -5,7 +5,7 @@ publish_to: 'none'
 version: 2.5.6+386
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 workspace:
   # basic
@@ -29,8 +29,8 @@ dependencies:
   game: any
   l10n: any
   logger: any
-  sentry_flutter: ^9.7.0
-  sentry_logging: ^9.7.0
+  sentry_flutter: ^9.8.0
+  sentry_logging: ^9.8.0
   shared: any
   theme: any
   url_strategy: any

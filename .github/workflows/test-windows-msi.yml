@@ -15,7 +15,7 @@ jobs:
       version_short: ${{ steps.version_step.outputs.version_short }}
       build_number: ${{ steps.version_step.outputs.build_number }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Set version
         id: version_step
@@ -52,13 +52,13 @@ jobs:
     needs:
       - get-version
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.7'
+          flutter-version: '3.38.3'
 
       - name: Flutter doctor -v
         run: flutter doctor -v

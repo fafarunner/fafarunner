@@ -13,7 +13,7 @@ jobs:
     name: Create web
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install dependencies for Linux
         run: |
@@ -31,7 +31,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.7'
+          flutter-version: '3.38.3'
 
       - name: Configure .env
         run: echo "$ENV_PROD_BASE64" | base64 --decode > .env
@@ -45,7 +45,7 @@ jobs:
         run: flutter pub get
 
       - name: Build flutter
-        run: flutter build web --dart-define-from-file=.env --base-href /play/
+        run: flutter build web --dart-define-from-file=.env
 
       - name: Copy files to flutter web
         run: cp LICENSE README.md ./build/web
@@ -55,7 +55,7 @@ jobs:
         with:
           github_token: ${{ secrets.FR_RELEASE_TOKEN }}
           publish_dir: ./build/web
-          cname: fafarunner-web.fafarunner.com
+          cname: web.fafarunner.com
 
       - name: Clean up
         if: ${{ always() }}

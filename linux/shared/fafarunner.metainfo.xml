@@ -18,11 +18,11 @@
     <launchable type="desktop-id">com.fafarunner.FaFaRunner.desktop</launchable>
     <summary>Enjoy smooth gameplay, stunning graphics, and endless fun</summary>
     <summary xml:lang="zh">享受流畅的游戏、令人惊叹的图形和无尽的乐趣</summary>
-    <developer id="io.insco">
-        <name>Insco</name>
+    <developer id="com.qiazo">
+        <name>Qiazo</name>
     </developer>
     <url type="bugtracker">https://github.com/fafarunner/fafarunner/issues</url>
-    <url type="homepage">https://www.fafarunner.com</url>
+    <url type="homepage">https://fafarunner.com</url>
     <url type="donation">https://buymeacoffee.com/wangying</url>
     <url type="faq">https://github.com/fafarunner/fafarunner/discussions</url>
     <url type="vcs-browser">https://github.com/fafarunner/fafarunner</url>

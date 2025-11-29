@@ -11,7 +11,7 @@ jobs:
     name: Create macos dmg
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: setup node
         uses: actions/setup-node@v6
@@ -22,7 +22,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.35.7'
+          flutter-version: '3.38.3'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
