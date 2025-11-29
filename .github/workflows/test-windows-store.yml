@@ -65,9 +65,11 @@ jobs:
           echo $env:RUNNER_TEMP
           # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
           # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
-          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
+          $env:certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
           $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
-          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
+          [IO.File]::WriteAllBytes("$env:certificatePath", $bytes)
+          
+          $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
 
           $yamlFile = ".\pubspec.yaml"
           $yamlContent = Get-Content -Raw -Path $yamlFile
@@ -76,10 +78,9 @@ jobs:
           # $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
           # $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
           # $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
-          $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
 
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.certificate_path = `"$certificatePath`" | .msix_config.certificate_password = `"$certificatePassword`" | del(.msix_config.identity_name) | del(.msix_config.publisher) | del(.msix_config.publisher_display_name)" -
+          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.certificate_path = env(certificatePath) | .msix_config.certificate_password = `"$certificatePassword`" | del(.msix_config.identity_name) | del(.msix_config.publisher) | del(.msix_config.publisher_display_name)" -
 
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
