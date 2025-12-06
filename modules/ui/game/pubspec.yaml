@@ -17,7 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   gap: ^3.0.1
-  get: ^4.7.2
+  get: ^4.7.3
   get_storage: ^2.1.1
   group_button: ^5.3.4
   shared_preferences: ^2.5.3
