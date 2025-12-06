@@ -22,7 +22,7 @@ permissions: read-all
 
 env:
   flutter-channel: 'stable'
-  flutter-version: '3.38.3'
+  flutter-version: '3.38.4'
 
 jobs:
   create-release:
