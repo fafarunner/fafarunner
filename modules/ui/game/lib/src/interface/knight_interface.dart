@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart' hide BarLifeComponent;
 
-// Project imports:
 import '../interface/bar_life_component.dart';
 import '../player/knight.dart';
 import '../../gen/assets.gen.dart';

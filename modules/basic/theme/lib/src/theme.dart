@@ -15,7 +15,7 @@ class AppTheme {
         backgroundColor: FRColors.white,
       ),
       appBarTheme: const AppBarTheme(
-        color: Color(0xFF13B9FF),
+        backgroundColor: Color(0xFF13B9FF),
       ),
       colorScheme: ColorScheme.fromSwatch(
         accentColor: const Color(0xFF13B9FF),
@@ -44,7 +44,7 @@ class AppTheme {
         backgroundColor: FRColors.dialogBackgroundColor,
       ),
       appBarTheme: const AppBarTheme(
-        color: Color(0xFF13B9FF),
+        backgroundColor: Color(0xFF13B9FF),
       ),
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.dark,

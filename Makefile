@@ -7,14 +7,6 @@ outdated:
 	echo "╠ Resolving dependencies..."
 	fvm flutter pub outdated
 
-husky_pre:
-	echo "╠ Prepare the husky environment..."
-	fvm dart run husky install
-
-format:
-	echo "╠ Sorting imports..."
-	fvm dart run import_sorter:main lib\/* test\/*
-
 l10n: ##
 	echo "╠ Generating l10n files..."
 	cd modules/basic/l10n ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
@@ -24,8 +16,19 @@ theme: ##
 	cd modules/basic/theme ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
 
 game: ##
-	echo "╠ Generating i18n files..."
+	echo "╠ Generating files..."
 	cd modules/ui/game ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
+
+format: ##
+	echo "╠ Formatting files..."
+	fvm dart fix --apply
+	cd modules/basic/app ; fvm dart fix --apply ; cd -
+	cd modules/basic/l10n ; fvm dart fix --apply ; cd -
+	cd modules/basic/logger ; fvm dart fix --apply ; cd -
+	cd modules/basic/shared ; fvm dart fix --apply ; cd -
+	cd modules/basic/theme ; fvm dart fix --apply ; cd -
+	cd modules/basic/url_strategy ; fvm dart fix --apply ; cd -
+	cd modules/ui/game ; fvm dart fix --apply ; cd -
 
 clean: ## Cleans the environment
 	echo "╠ Cleaning the project..."

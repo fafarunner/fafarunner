@@ -1,13 +1,10 @@
-// Dart imports:
 import 'dart:async';
 import 'dart:io';
 
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:app/app.dart';
 import 'package:bonfire/bonfire.dart' hide Timer;
 import 'package:flame_splash_screen/flame_splash_screen.dart';
@@ -17,7 +14,6 @@ import 'package:l10n/l10n.dart';
 import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../enums/enums.dart';
 import '../game/game.dart';

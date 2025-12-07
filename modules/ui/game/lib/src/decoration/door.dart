@@ -1,11 +1,8 @@
-// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 
-// Project imports:
 import '../player/knight.dart';
 import '../util/game_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';

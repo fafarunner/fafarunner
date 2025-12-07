@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../game/game.dart';
 import '../util/dialogs.dart';
 

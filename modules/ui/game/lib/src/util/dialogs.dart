@@ -1,13 +1,10 @@
-// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:app/app.dart';
 import 'package:flutter/services.dart';
 import 'package:l10n/l10n.dart';
 
-// Project imports:
 import '../menu/menu.dart';
 import '../../gen/assets.gen.dart';
 import '../widgets/record_hotkey_dialog.dart';

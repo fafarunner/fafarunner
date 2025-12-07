@@ -1,4 +1,3 @@
-// Package imports:
 import 'package:flame_audio/flame_audio.dart';
 
 import '../../gen/assets.gen.dart';

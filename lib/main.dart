@@ -1,11 +1,8 @@
-// Dart imports:
 import 'dart:async';
 
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:app/app.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/flame.dart';
@@ -20,7 +17,6 @@ import 'package:sentry_logging/sentry_logging.dart';
 import 'package:shared/shared.dart';
 import 'package:url_strategy/url_strategy.dart';
 
-// Project imports:
 import 'package:fafarunner/app/app.dart';
 import 'package:fafarunner/constrants/env.dart';
 

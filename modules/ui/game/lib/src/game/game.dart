@@ -1,36 +1,32 @@
-// Flutter imports:
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:get/get.dart' hide Translations;
 import 'package:l10n/l10n.dart';
 import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
-// Project imports:
-import 'package:game/src/constrants/constrants.dart';
-import 'package:game/src/decoration/barrel.dart';
-import 'package:game/src/decoration/door.dart';
-import 'package:game/src/decoration/key.dart';
-import 'package:game/src/decoration/potion_life.dart';
-import 'package:game/src/decoration/spikes.dart';
-import 'package:game/src/decoration/torch.dart';
-import 'package:game/src/enemies/boss.dart';
-import 'package:game/src/enemies/goblin.dart';
-import 'package:game/src/enemies/imp.dart';
-import 'package:game/src/enemies/mini_boss.dart';
-import 'package:game/src/interface/knight_interface.dart';
-import 'package:game/src/npc/kid.dart';
-import 'package:game/src/npc/wizard_npc.dart';
-import 'package:game/src/player/knight.dart';
-import 'package:game/src/util/sounds.dart';
-import 'package:game/src/widgets/game_controller.dart';
-
+import '../constrants/constrants.dart';
+import '../decoration/barrel.dart';
+import '../decoration/door.dart';
+import '../decoration/key.dart';
+import '../decoration/potion_life.dart';
+import '../decoration/spikes.dart';
+import '../decoration/torch.dart';
+import '../enemies/boss.dart';
+import '../enemies/goblin.dart';
+import '../enemies/imp.dart';
+import '../enemies/mini_boss.dart';
+import '../interface/knight_interface.dart';
+import '../npc/kid.dart';
+import '../npc/wizard_npc.dart';
+import '../player/knight.dart';
+import '../util/sounds.dart';
+import '../widgets/game_controller.dart';
 import '../../gen/assets.gen.dart';
 import '../controllers/settings_controller.dart';
 import '../enums/enums.dart';

@@ -1,7 +1,5 @@
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../player/knight.dart';
 import '../util/game_sprite_sheet.dart';
