@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.6.0
+
+1. chore(deps): update deps
+2. Update flutter to 3.38.4
+3. ci: update windows runner to windows-2025
+
 ## 2.5.6
 
 1. chore(deps): update deps
