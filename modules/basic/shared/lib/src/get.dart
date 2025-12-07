@@ -1,4 +1,3 @@
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 
 /// Check whether the current environment is a browser environment.

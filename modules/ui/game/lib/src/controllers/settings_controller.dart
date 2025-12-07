@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:app/app.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

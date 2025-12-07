@@ -1,11 +1,8 @@
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../player/knight.dart';
 import '../../gen/assets.gen.dart';
 

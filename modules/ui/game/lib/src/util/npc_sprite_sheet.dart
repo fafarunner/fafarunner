@@ -1,4 +1,3 @@
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
 import '../../gen/assets.gen.dart';

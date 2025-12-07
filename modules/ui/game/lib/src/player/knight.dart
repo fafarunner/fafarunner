@@ -1,14 +1,10 @@
-// Dart imports:
 import 'dart:async' as async;
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:get/get.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../controllers/settings_controller.dart';
 import '../util/functions.dart';

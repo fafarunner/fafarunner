@@ -1,7 +1,5 @@
-// Dart imports:
 import 'dart:async';
 
-// Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
 

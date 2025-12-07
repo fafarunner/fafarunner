@@ -1,7 +1,5 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:app/app.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,7 +8,6 @@ import 'package:l10n/l10n.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:theme/theme.dart';
 
-// Project imports:
 import 'package:fafarunner/constrants/env.dart';
 
 class App extends StatelessWidget {

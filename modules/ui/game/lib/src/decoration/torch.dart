@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../util/game_sprite_sheet.dart';
 

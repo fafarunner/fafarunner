@@ -1,15 +1,11 @@
-// Dart imports:
 import 'dart:async';
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../enemies/imp.dart';
 import '../enemies/mini_boss.dart';

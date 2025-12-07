@@ -1,12 +1,9 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 
-// Project imports:
 import '../enemies/boss.dart';
 import '../util/custom_sprite_animation_widget.dart';
 import '../util/dialogs.dart';

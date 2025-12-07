@@ -36,13 +36,12 @@ dependencies:
   url_strategy: any
 
 dev_dependencies:
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  import_sorter: ^4.6.0
   mockingjay: ^2.1.0
   mocktail: ^1.0.4
   msix: ^3.16.12
-  very_good_analysis: ^10.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -68,8 +67,3 @@ msix_config:
   identity_name: IDENTITY_NAME_PLACEHOLDER
   publisher: PUBLISHER_PLACEHOLDER
   publisher_display_name: PUBLISHER_NAME_PLACEHOLDER
-
-import_sorter:
-  ignored_files: # Optional, defaults to []
-    - \/lib\/gen\/*
-    - \/lib\/i18n\/*
