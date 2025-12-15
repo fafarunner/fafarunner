@@ -141,7 +141,7 @@ jobs:
           test -f "FaFa Runner.zip" && rm -f "FaFa Runner.zip"
         working-directory: build/macos/Build/Products/Release
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: macos-zip-artifact
           path: ./build/macos/Build/Products/Release/*.zip
