@@ -64,7 +64,7 @@ jobs:
         run: ls -laR
         working-directory: dist
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: linux-deb-arm64-artifact
           path: |

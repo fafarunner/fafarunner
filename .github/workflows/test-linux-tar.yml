@@ -90,7 +90,7 @@ jobs:
       - name: Copy build for tar
         run: ls -la *.tar.gz
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: linux-tar-artifact
           path: |
