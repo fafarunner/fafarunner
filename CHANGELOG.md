@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.6.1
+
+1. chore(deps): update deps
+2. Update flutter to 3.38.5
+3. fix: Game Freezes on 1st boss (#405)
+
 ## 2.6.0
 
 1. chore(deps): update deps
