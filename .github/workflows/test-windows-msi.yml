@@ -112,8 +112,7 @@ jobs:
           pushd ./msi
 
           python preprocess.py --arp -d ../build/windows/$env:Platform/runner/Release -i ../windows/runner/resources/app_icon.ico -v "$env:VERSION_SHORT.$env:BUILD_NUMBER"
-          nuget restore fafarunner.sln
-          msbuild fafarunner.sln -p:Configuration="$env:Configuration" -p:Platform="$env:Platform" /p:TargetVersion=Windows10
+          msbuild fafarunner.sln -restore -p:Configuration="$env:Configuration" -p:Platform="$env:Platform" /p:TargetVersion=Windows10
 
           $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
           & $signtool sign /v /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\fafarunner\bin\$env:Platform\$env:Configuration\*\*.msi")
