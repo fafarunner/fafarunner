@@ -53,26 +53,17 @@ class SettingsController extends GetxController {
 
   void setDirectionalKeys(int index) {
     directionalKeys.value = index;
-    box.write(
-      getCachedKey(CustomKeys.directional.name),
-      index,
-    );
+    box.write(getCachedKey(CustomKeys.directional.name), index);
   }
 
   void setAttackHotkey(LogicalKeyboardKey hotkey) {
     attackKey.value = hotkey;
-    box.write(
-      getCachedKey(CustomKeys.attack.name),
-      hotkey.keyId,
-    );
+    box.write(getCachedKey(CustomKeys.attack.name), hotkey.keyId);
   }
 
   void setFireHotkey(LogicalKeyboardKey hotkey) {
     fireKey.value = hotkey;
-    box.write(
-      getCachedKey(CustomKeys.fire.name),
-      hotkey.keyId,
-    );
+    box.write(getCachedKey(CustomKeys.fire.name), hotkey.keyId);
   }
 
   ThemeMode getThemeMode() {

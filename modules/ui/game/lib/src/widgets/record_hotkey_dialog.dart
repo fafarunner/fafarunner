@@ -45,10 +45,7 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
     final attackKey = controller.attackKey.value;
     final fireKey = controller.fireKey.value;
     return AlertDialog(
-      title: Text(
-        t.hotkeyDialog.description,
-        textAlign: TextAlign.center,
-      ),
+      title: Text(t.hotkeyDialog.description, textAlign: TextAlign.center),
       titleTextStyle: TextStyle(
         fontSize: 14,
         color: isDark ? FRColors.white : FRColors.black,
@@ -61,9 +58,7 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
               width: 300,
               height: 60,
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: FRColors.primaryColor,
-                ),
+                border: Border.all(color: FRColors.primaryColor),
               ),
               child: Stack(
                 alignment: Alignment.center,
@@ -79,8 +74,9 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
                         //   setState(() => allowed = false);
                         //   return;
                         // }
-                        if (keyboardDirectionalKeys[directionalKeys]
-                            .contain(hotKey)) {
+                        if (keyboardDirectionalKeys[directionalKeys].contain(
+                          hotKey,
+                        )) {
                           BotToast.showText(text: t.settings.shortcutsArrow);
                           setState(() => allowed = false);
                           return;
@@ -107,10 +103,7 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
       ),
       contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
       actions: <Widget>[
-        TextButton(
-          onPressed: NavigatorUtil.pop,
-          child: Text(t.buttons.cancel),
-        ),
+        TextButton(onPressed: NavigatorUtil.pop, child: Text(t.buttons.cancel)),
         TextButton(
           onPressed: !allowed
               ? null

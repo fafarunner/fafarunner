@@ -15,13 +15,13 @@ import '../../gen/assets.gen.dart';
 
 class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
   Knight(Vector2 position)
-      : super(
-          animation: PlayerSpriteSheet.playerAnimations(),
-          size: Vector2.all(tileSize),
-          position: position,
-          life: 200,
-          speed: tileSize * 2.5,
-        ) {
+    : super(
+        animation: PlayerSpriteSheet.playerAnimations(),
+        size: Vector2.all(tileSize),
+        position: position,
+        life: 200,
+        speed: tileSize * 2.5,
+      ) {
     setupLighting(
       LightingConfig(
         radius: width * 1.5,
@@ -44,10 +44,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
     add(
       RectangleHitbox(
         size: Vector2(valueByTileSize(8), valueByTileSize(8)),
-        position: Vector2(
-          valueByTileSize(4),
-          valueByTileSize(8),
-        ),
+        position: Vector2(valueByTileSize(4), valueByTileSize(8)),
       ),
     );
     return super.onLoad();
@@ -83,10 +80,7 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
       GameDecoration.withSprite(
         sprite: Sprite.load(Assets.images.player.playerCrypt.keyName),
         // 'player/player_crypt.png'
-        position: Vector2(
-          position.x,
-          position.y,
-        ),
+        position: Vector2(position.x, position.y),
         size: Vector2.all(30),
       ),
     );

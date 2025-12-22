@@ -73,11 +73,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
     );
 
     if (kIsWeb) {
-      child = Title(
-        title: t.appName,
-        color: Colors.black,
-        child: child,
-      );
+      child = Title(title: t.appName, color: Colors.black, child: child);
     }
 
     return child;
@@ -158,8 +154,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               const Gap(20),
               if (!Game.useJoystick)
                 HelpKeys(
-                  onKeySelected:
-                      (isWeb || isDesktop) ? Dialogs.showSettingsModal : null,
+                  onKeySelected: (isWeb || isDesktop)
+                      ? Dialogs.showSettingsModal
+                      : null,
                 ),
               // SizedBox(
               //   height: 80,
@@ -181,9 +178,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
-                      text: t.menuPage.poweredByPrefix,
-                    ),
+                    TextSpan(text: t.menuPage.poweredByPrefix),
                     TextSpan(
                       text: t.menuPage.author,
                       recognizer: TapGestureRecognizer()
@@ -195,9 +190,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                         color: Colors.blue,
                       ),
                     ),
-                    TextSpan(
-                      text: t.menuPage.poweredBySuffix,
-                    ),
+                    TextSpan(text: t.menuPage.poweredBySuffix),
                   ],
                 ),
                 style: const TextStyle(
@@ -297,15 +290,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
     );
     final menu = tray.Menu(
       items: [
-        tray.MenuItem(
-          key: Menus.settings.name,
-          label: t.tray.settings,
-        ),
+        tray.MenuItem(key: Menus.settings.name, label: t.tray.settings),
         tray.MenuItem.separator(),
-        tray.MenuItem(
-          key: Menus.exit.name,
-          label: t.tray.exit,
-        ),
+        tray.MenuItem(key: Menus.exit.name, label: t.tray.exit),
       ],
     );
     await tray.trayManager.setContextMenu(menu);

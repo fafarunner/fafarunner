@@ -4,10 +4,7 @@ import 'package:flutter/services.dart';
 import '../extensions/keyboard_key.dart';
 
 class _VirtualKeyView extends StatelessWidget {
-  const _VirtualKeyView({
-    required this.keyLabel,
-    this.labelColor,
-  });
+  const _VirtualKeyView({required this.keyLabel, this.labelColor});
 
   final String keyLabel;
   final Color? labelColor;
@@ -18,9 +15,7 @@ class _VirtualKeyView extends StatelessWidget {
       padding: const EdgeInsets.only(left: 5, right: 5, top: 3, bottom: 3),
       decoration: BoxDecoration(
         color: Theme.of(context).canvasColor,
-        border: Border.all(
-          color: labelColor ?? Theme.of(context).dividerColor,
-        ),
+        border: Border.all(color: labelColor ?? Theme.of(context).dividerColor),
         borderRadius: BorderRadius.circular(3),
         boxShadow: <BoxShadow>[
           BoxShadow(
@@ -41,20 +36,13 @@ class _VirtualKeyView extends StatelessWidget {
 }
 
 class HotKeyVirtualView extends StatelessWidget {
-  const HotKeyVirtualView({
-    required this.hotKey,
-    this.labelColor,
-    super.key,
-  });
+  const HotKeyVirtualView({required this.hotKey, this.labelColor, super.key});
 
   final LogicalKeyboardKey hotKey;
   final Color? labelColor;
 
   @override
   Widget build(BuildContext context) {
-    return _VirtualKeyView(
-      keyLabel: hotKey.label,
-      labelColor: labelColor,
-    );
+    return _VirtualKeyView(keyLabel: hotKey.label, labelColor: labelColor);
   }
 }

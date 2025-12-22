@@ -12,19 +12,15 @@ import '../util/sounds.dart';
 import '../../gen/assets.gen.dart';
 
 class WizardNPC extends SimpleNpc {
-  WizardNPC(
-    Vector2 position,
-  ) : super(
-          animation: SimpleDirectionAnimation(
-            idleRight: NpcSpriteSheet.wizardIdleLeft(),
-            runRight: NpcSpriteSheet.wizardIdleLeft(),
-          ),
-          position: position,
-          size: Vector2(
-            tileSize * 0.8,
-            tileSize,
-          ),
-        );
+  WizardNPC(Vector2 position)
+    : super(
+        animation: SimpleDirectionAnimation(
+          idleRight: NpcSpriteSheet.wizardIdleLeft(),
+          runRight: NpcSpriteSheet.wizardIdleLeft(),
+        ),
+        position: position,
+        size: Vector2(tileSize * 0.8, tileSize),
+      );
 
   bool _showConversation = false;
 
@@ -38,7 +34,9 @@ class WizardNPC extends SimpleNpc {
           if (!_showConversation) {
             gameRef.player!.idle();
             _showConversation = true;
-            _showEmote(emote: Assets.images.emote.emoteInterregacao.keyName); // 'emote/emote_interregacao.png'
+            _showEmote(
+              emote: Assets.images.emote.emoteInterregacao.keyName,
+            ); // 'emote/emote_interregacao.png'
             _showIntroduction();
           }
         },
@@ -73,9 +71,7 @@ class WizardNPC extends SimpleNpc {
       gameRef.context,
       [
         Say(
-          text: [
-            TextSpan(text: t.gamePage.talkWizard1),
-          ],
+          text: [TextSpan(text: t.gamePage.talkWizard1)],
           person: CustomSpriteAnimationWidget(
             animation: NpcSpriteSheet.wizardIdleLeft(),
           ),
@@ -112,9 +108,7 @@ class WizardNPC extends SimpleNpc {
         Sounds.interaction();
       },
       onFinish: Sounds.interaction,
-      logicalKeyboardKeysToNext: [
-        LogicalKeyboardKey.space,
-      ],
+      logicalKeyboardKeysToNext: [LogicalKeyboardKey.space],
     );
   }
 }
