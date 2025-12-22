@@ -21,14 +21,7 @@ game: ##
 
 format: ##
 	echo "╠ Formatting files..."
-	fvm dart fix --apply
-	cd modules/basic/app ; fvm dart fix --apply ; cd -
-	cd modules/basic/l10n ; fvm dart fix --apply ; cd -
-	cd modules/basic/logger ; fvm dart fix --apply ; cd -
-	cd modules/basic/shared ; fvm dart fix --apply ; cd -
-	cd modules/basic/theme ; fvm dart fix --apply ; cd -
-	cd modules/basic/url_strategy ; fvm dart fix --apply ; cd -
-	cd modules/ui/game ; fvm dart fix --apply ; cd -
+	fvm dart format .
 
 clean: ## Cleans the environment
 	echo "╠ Cleaning the project..."

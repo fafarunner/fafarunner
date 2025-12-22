@@ -9,10 +9,7 @@ import '../controllers/settings_controller.dart';
 import 'hotkey_virtual_view.dart';
 
 class HelpKeys extends StatelessWidget {
-  const HelpKeys({
-    this.onKeySelected,
-    super.key,
-  });
+  const HelpKeys({this.onKeySelected, super.key});
 
   final VoidCallback? onKeySelected;
 
@@ -127,10 +124,7 @@ class HelpDirectionalKeys extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       spacing: 4,
       children: [
-        HotKeyVirtualView(
-          hotKey: directionalKeys.up,
-          labelColor: labelColor,
-        ),
+        HotKeyVirtualView(hotKey: directionalKeys.up, labelColor: labelColor),
         Row(
           spacing: 4,
           children: [

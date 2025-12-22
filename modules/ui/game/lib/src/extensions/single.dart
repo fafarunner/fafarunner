@@ -41,11 +41,7 @@ extension SingleWidgetNestedCommonlyUsedExtension on Widget {
   }
 
   // 嵌套一个center
-  Center nestedCenter({
-    Key? key,
-    double? widthFactor,
-    double? heightFactor,
-  }) {
+  Center nestedCenter({Key? key, double? widthFactor, double? heightFactor}) {
     return Center(
       key: key,
       widthFactor: widthFactor,
@@ -55,27 +51,13 @@ extension SingleWidgetNestedCommonlyUsedExtension on Widget {
   }
 
   // 嵌套一个padding
-  Padding nestedPadding({
-    required EdgeInsetsGeometry padding,
-    Key? key,
-  }) {
-    return Padding(
-      key: key,
-      padding: padding,
-      child: this,
-    );
+  Padding nestedPadding({required EdgeInsetsGeometry padding, Key? key}) {
+    return Padding(key: key, padding: padding, child: this);
   }
 
   // 嵌套一个Expanded
-  Expanded nestedExpanded({
-    Key? key,
-    int flex = 1,
-  }) {
-    return Expanded(
-      key: key,
-      flex: flex,
-      child: this,
-    );
+  Expanded nestedExpanded({Key? key, int flex = 1}) {
+    return Expanded(key: key, flex: flex, child: this);
   }
 
   // 嵌套一个TextButton
@@ -146,15 +128,8 @@ extension SingleWidgetNestedCommonlyUsedExtension on Widget {
   }
 
   // 嵌套一个Offstage
-  Offstage nestedOffstage({
-    Key? key,
-    bool offstage = true,
-  }) {
-    return Offstage(
-      key: key,
-      offstage: offstage,
-      child: this,
-    );
+  Offstage nestedOffstage({Key? key, bool offstage = true}) {
+    return Offstage(key: key, offstage: offstage, child: this);
   }
 
   // 嵌套一个Positioned
@@ -209,38 +184,17 @@ extension SingleWidgetNestedCommonlyUsedExtension on Widget {
     int flex = 1,
     FlexFit fit = FlexFit.loose,
   }) {
-    return Flexible(
-      key: key,
-      flex: flex,
-      fit: fit,
-      child: this,
-    );
+    return Flexible(key: key, flex: flex, fit: fit, child: this);
   }
 
   // 嵌套一个SizedBox
-  SizedBox nestedSizedBox({
-    Key? key,
-    double? width,
-    double? height,
-  }) {
-    return SizedBox(
-      key: key,
-      width: width,
-      height: height,
-      child: this,
-    );
+  SizedBox nestedSizedBox({Key? key, double? width, double? height}) {
+    return SizedBox(key: key, width: width, height: height, child: this);
   }
 
   // 嵌套一个ColoredBox
-  ColoredBox nestedColoredBox({
-    required Color color,
-    Key? key,
-  }) {
-    return ColoredBox(
-      key: key,
-      color: color,
-      child: this,
-    );
+  ColoredBox nestedColoredBox({required Color color, Key? key}) {
+    return ColoredBox(key: key, color: color, child: this);
   }
 
   // 嵌套一个LimitedBox
@@ -297,12 +251,7 @@ extension SingleWidgetNestedCommonlyUsedExtension on Widget {
     BoxFit fit = BoxFit.contain,
     AlignmentGeometry alignment = Alignment.center,
   }) {
-    return FittedBox(
-      key: key,
-      fit: fit,
-      alignment: alignment,
-      child: this,
-    );
+    return FittedBox(key: key, fit: fit, alignment: alignment, child: this);
   }
 
   // 嵌套一个card
@@ -460,11 +409,7 @@ extension SingleWidgetNestedUncommonlyUsedExtension on Widget {
     required BoxConstraints constraints,
     Key? key,
   }) {
-    return ConstrainedBox(
-      key: key,
-      constraints: constraints,
-      child: this,
-    );
+    return ConstrainedBox(key: key, constraints: constraints, child: this);
   }
 
   // 嵌套一个ClipPath
@@ -497,15 +442,8 @@ extension SingleWidgetNestedUncommonlyUsedExtension on Widget {
   }
 
   // 嵌套一个RotatedBox
-  RotatedBox nestedRotatedBox({
-    required int quarterTurns,
-    Key? key,
-  }) {
-    return RotatedBox(
-      key: key,
-      quarterTurns: quarterTurns,
-      child: this,
-    );
+  RotatedBox nestedRotatedBox({required int quarterTurns, Key? key}) {
+    return RotatedBox(key: key, quarterTurns: quarterTurns, child: this);
   }
 
   // 嵌套一个UnconstrainedBox
@@ -621,10 +559,7 @@ extension WidgetGestureExtension on Widget {
     return _nestedGestureDetector(onLongPress: onLongPress, key: key);
   }
 
-  GestureDetector nestedTapDown(
-    GestureTapDownCallback? onTapDown, {
-    Key? key,
-  }) {
+  GestureDetector nestedTapDown(GestureTapDownCallback? onTapDown, {Key? key}) {
     return _nestedGestureDetector(onTapDown: onTapDown, key: key);
   }
 

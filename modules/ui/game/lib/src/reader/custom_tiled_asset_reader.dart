@@ -3,9 +3,7 @@ import 'package:tiledjsonreader/map/tiled_map.dart';
 import 'package:tiledjsonreader/tiledjsonreader.dart';
 
 class CustomTiledAssetReader extends WorldMapReader<TiledMap> {
-  CustomTiledAssetReader({
-    required this.asset,
-  }) {
+  CustomTiledAssetReader({required this.asset}) {
     final assetKey = asset;
     basePath = assetKey.replaceAll(assetKey.split('/').last, '');
     _reader = TiledJsonReader(assetKey);

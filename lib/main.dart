@@ -38,36 +38,35 @@ Future<void> main() async {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   }
 
-  Logger.root.level =
-      kReleaseMode ? Level.OFF : Level.ALL; // defaults to Level.INFO
+  Logger.root.level = kReleaseMode
+      ? Level.OFF
+      : Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   });
 
   if (AppEnv.sentryEnabled) {
-    await SentryFlutter.init(
-      (options) {
-        options
-          ..dsn = AppEnv.sentryDsn
-          ..tracesSampleRate = 1.0
-          ..profilesSampleRate = 1.0
-          ..attachThreads = true
-          ..enableWindowMetricBreadcrumbs = true
-          ..enableAppHangTracking =
-              false // https://github.com/getsentry/sentry-cocoa/issues/3472
-          ..addIntegration(LoggingIntegration(minEventLevel: Level.INFO))
-          ..sendDefaultPii = true
-          ..reportSilentFlutterErrors = true
-          ..attachScreenshot = true
-          ..screenshotQuality = SentryScreenshotQuality.low
-          ..attachViewHierarchy = true
-          ..debug = kDebugMode
-          ..spotlight = Spotlight(enabled: true)
-          ..enableTimeToFullDisplayTracing = true
-          ..maxRequestBodySize = MaxRequestBodySize.always
-          ..navigatorKey = AppNavigator.navigatorKey;
-      },
-    );
+    await SentryFlutter.init((options) {
+      options
+        ..dsn = AppEnv.sentryDsn
+        ..tracesSampleRate = 1.0
+        ..profilesSampleRate = 1.0
+        ..attachThreads = true
+        ..enableWindowMetricBreadcrumbs = true
+        ..enableAppHangTracking =
+            false // https://github.com/getsentry/sentry-cocoa/issues/3472
+        ..addIntegration(LoggingIntegration(minEventLevel: Level.INFO))
+        ..sendDefaultPii = true
+        ..reportSilentFlutterErrors = true
+        ..attachScreenshot = true
+        ..screenshotQuality = SentryScreenshotQuality.low
+        ..attachViewHierarchy = true
+        ..debug = kDebugMode
+        ..spotlight = Spotlight(enabled: true)
+        ..enableTimeToFullDisplayTracing = true
+        ..maxRequestBodySize = MaxRequestBodySize.always
+        ..navigatorKey = AppNavigator.navigatorKey;
+    });
   } else {
     printWarningLog('sentry is not enabled, please check the .env file');
   }
@@ -100,16 +99,9 @@ Future<void> main() async {
   Widget child = const App();
   if (AppEnv.sentryEnabled) {
     child = SentryWidget(
-      child: DefaultAssetBundle(
-        bundle: SentryAssetBundle(),
-        child: child,
-      ),
+      child: DefaultAssetBundle(bundle: SentryAssetBundle(), child: child),
     );
   }
 
-  runApp(
-    TranslationProvider(
-      child: child,
-    ),
-  );
+  runApp(TranslationProvider(child: child));
 }

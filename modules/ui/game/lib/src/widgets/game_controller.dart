@@ -22,14 +22,11 @@ class GameController extends GameComponent {
 
   void _showDialogGameOver() {
     showGameOver = true;
-    Dialogs.showGameOver(
-      context,
-      () {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute<void>(builder: (context) => const Game()),
-          (Route<dynamic> route) => false,
-        );
-      },
-    );
+    Dialogs.showGameOver(context, () {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute<void>(builder: (context) => const Game()),
+        (Route<dynamic> route) => false,
+      );
+    });
   }
 }

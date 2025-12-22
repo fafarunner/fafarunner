@@ -8,12 +8,14 @@ import '../../gen/assets.gen.dart';
 
 class BarLifeComponent extends InterfaceComponent {
   BarLifeComponent()
-      : super(
-          id: 1,
-          position: Vector2(20, 20),
-          spriteUnselected: Sprite.load(Assets.images.healthUi.keyName), // 'health_ui.png'
-          size: Vector2(120, 40),
-        );
+    : super(
+        id: 1,
+        position: Vector2(20, 20),
+        spriteUnselected: Sprite.load(
+          Assets.images.healthUi.keyName,
+        ), // 'health_ui.png'
+        size: Vector2(120, 40),
+      );
 
   double padding = 20;
   double widthBar = 90;

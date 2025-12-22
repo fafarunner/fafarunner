@@ -10,11 +10,13 @@ import '../../gen/assets.gen.dart';
 
 class Door extends GameDecoration {
   Door(Vector2 position, Vector2 size)
-      : super.withSprite(
-          sprite: Sprite.load(Assets.images.items.doorClosed.keyName), // 'items/door_closed.png'
-          position: position,
-          size: size,
-        );
+    : super.withSprite(
+        sprite: Sprite.load(
+          Assets.images.items.doorClosed.keyName,
+        ), // 'items/door_closed.png'
+        position: position,
+        size: size,
+      );
 
   bool open = false;
   bool showDialog = false;
@@ -65,11 +67,7 @@ class Door extends GameDecoration {
       gameRef.context,
       [
         Say(
-          text: [
-            TextSpan(
-              text: t.gamePage.doorWithoutKey,
-            ),
-          ],
+          text: [TextSpan(text: t.gamePage.doorWithoutKey)],
           person: PlayerSpriteSheet.idleRight().asWidget(),
         ),
       ],

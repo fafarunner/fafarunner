@@ -7,9 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
 
 extension PumpApp on WidgetTester {
-  Future<void> pumpApp(
-    Widget widget,
-  ) {
+  Future<void> pumpApp(Widget widget) {
     return pumpWidget(
       MaterialApp(
         locale: AppLocaleUtils.findDeviceLocale().flutterLocale,
@@ -20,11 +18,7 @@ extension PumpApp on WidgetTester {
     );
   }
 
-  Future<void> pumpRoute(
-    Route<dynamic> route,
-  ) {
-    return pumpApp(
-      Navigator(onGenerateRoute: (_) => route),
-    );
+  Future<void> pumpRoute(Route<dynamic> route) {
+    return pumpApp(Navigator(onGenerateRoute: (_) => route));
   }
 }

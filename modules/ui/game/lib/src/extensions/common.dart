@@ -3,5 +3,5 @@ enum AddWidgetAsListType {
   // 前面
   front,
   // 后面
-  behind
+  behind,
 }

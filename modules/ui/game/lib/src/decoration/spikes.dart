@@ -6,11 +6,11 @@ import '../util/game_sprite_sheet.dart';
 
 class Spikes extends GameDecoration with Sensor<Knight> {
   Spikes(Vector2 position, {this.damage = 60})
-      : super.withAnimation(
-          animation: GameSpriteSheet.spikes(),
-          position: position,
-          size: Vector2(tileSize, tileSize),
-        );
+    : super.withAnimation(
+        animation: GameSpriteSheet.spikes(),
+        position: position,
+        size: Vector2(tileSize, tileSize),
+      );
 
   final double damage;
   Knight? player;

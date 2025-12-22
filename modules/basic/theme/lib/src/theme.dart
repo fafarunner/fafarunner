@@ -4,22 +4,15 @@ import 'package:theme/theme.dart';
 
 /// app theme
 class AppTheme {
-
   /// light mode
   static ThemeData get light {
     return ThemeData(
       textTheme: const TextTheme(
         bodyMedium: TextStyle(color: FRColors.primaryTextColor),
       ),
-      dialogTheme: const DialogThemeData(
-        backgroundColor: FRColors.white,
-      ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF13B9FF),
-      ),
-      colorScheme: ColorScheme.fromSwatch(
-        accentColor: const Color(0xFF13B9FF),
-      ),
+      dialogTheme: const DialogThemeData(backgroundColor: FRColors.white),
+      appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF13B9FF)),
+      colorScheme: ColorScheme.fromSwatch(accentColor: const Color(0xFF13B9FF)),
       bottomSheetTheme: const BottomSheetThemeData(
         surfaceTintColor: FRColors.white,
         shape: RoundedRectangleBorder(
@@ -37,15 +30,11 @@ class AppTheme {
   /// dark mode
   static ThemeData get dark {
     return ThemeData(
-      textTheme: const TextTheme(
-        bodyMedium: TextStyle(color: FRColors.white),
-      ),
+      textTheme: const TextTheme(bodyMedium: TextStyle(color: FRColors.white)),
       dialogTheme: const DialogThemeData(
         backgroundColor: FRColors.dialogBackgroundColor,
       ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF13B9FF),
-      ),
+      appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF13B9FF)),
       colorScheme: ColorScheme.fromSwatch(
         brightness: Brightness.dark,
         accentColor: const Color(0xFF13B9FF),

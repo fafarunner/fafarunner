@@ -16,15 +16,24 @@ class Sounds {
   }
 
   static void attackPlayerMelee() {
-    FlameAudio.play(Assets.audio.attackPlayer, volume: 0.4); // 'attack_player.mp3'
+    FlameAudio.play(
+      Assets.audio.attackPlayer,
+      volume: 0.4,
+    ); // 'attack_player.mp3'
   }
 
   static void attackRange() {
-    FlameAudio.play(Assets.audio.attackFireBall, volume: 0.3); // 'attack_fire_ball.wav'
+    FlameAudio.play(
+      Assets.audio.attackFireBall,
+      volume: 0.3,
+    ); // 'attack_fire_ball.wav'
   }
 
   static void attackEnemyMelee() {
-    FlameAudio.play(Assets.audio.attackEnemy, volume: 0.4); // 'attack_enemy.mp3'
+    FlameAudio.play(
+      Assets.audio.attackEnemy,
+      volume: 0.4,
+    ); // 'attack_enemy.mp3'
   }
 
   static void explosion() {
@@ -32,7 +41,10 @@ class Sounds {
   }
 
   static void interaction() {
-    FlameAudio.play(Assets.audio.soundInteraction, volume: 0.4); // 'sound_interaction.wav'
+    FlameAudio.play(
+      Assets.audio.soundInteraction,
+      volume: 0.4,
+    ); // 'sound_interaction.wav'
   }
 
   static Future<void> stopBackgroundSound() {

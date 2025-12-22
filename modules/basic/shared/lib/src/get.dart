@@ -27,41 +27,31 @@ bool get isMobile {
 /// Check whether the current environment is an iOS environment.
 bool get isIOS {
   if (isWeb) return false;
-  return [
-    TargetPlatform.iOS,
-  ].contains(defaultTargetPlatform);
+  return [TargetPlatform.iOS].contains(defaultTargetPlatform);
 }
 
 /// Check whether the current environment is an Android environment.
 bool get isAndroid {
   if (isWeb) return false;
-  return [
-    TargetPlatform.android,
-  ].contains(defaultTargetPlatform);
+  return [TargetPlatform.android].contains(defaultTargetPlatform);
 }
 
 /// Check whether the current environment is a Linux environment.
 bool get isLinux {
   if (isWeb) return false;
-  return [
-    TargetPlatform.linux,
-  ].contains(defaultTargetPlatform);
+  return [TargetPlatform.linux].contains(defaultTargetPlatform);
 }
 
 /// Check whether the current environment is a macOS environment.
 bool get isMacOS {
   if (isWeb) return false;
-  return [
-    TargetPlatform.macOS,
-  ].contains(defaultTargetPlatform);
+  return [TargetPlatform.macOS].contains(defaultTargetPlatform);
 }
 
 /// Check whether the current environment is a Windows environment.
 bool get isWindows {
   if (isWeb) return false;
-  return [
-    TargetPlatform.windows,
-  ].contains(defaultTargetPlatform);
+  return [TargetPlatform.windows].contains(defaultTargetPlatform);
 }
 
 /// Checks if the current environment is a mobile environment.
