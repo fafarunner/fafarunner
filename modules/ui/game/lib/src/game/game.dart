@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:bonfire/bonfire.dart';
-import 'package:get/get.dart' hide Translations;
 import 'package:l10n/l10n.dart';
+import 'package:provider/provider.dart';
 import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
@@ -25,10 +25,10 @@ import '../interface/knight_interface.dart';
 import '../npc/kid.dart';
 import '../npc/wizard_npc.dart';
 import '../player/knight.dart';
+import '../providers/providers.dart';
 import '../util/sounds.dart';
 import '../widgets/game_controller.dart';
 import '../../gen/assets.gen.dart';
-import '../controllers/settings_controller.dart';
 import '../enums/enums.dart';
 import '../reader/custom_tiled_asset_reader.dart';
 
@@ -72,10 +72,10 @@ class _GameState extends State<Game>
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
-    final controller = Get.find<SettingsController>();
-    final directionalKeys = controller.directionalKeys.value;
-    final attackKey = controller.attackKey.value;
-    final fireKey = controller.fireKey.value;
+    final state = context.watch<SettingsProvider>();
+    final directionalKeys = state.directionalKeys;
+    final attackKey = state.attackKey;
+    final fireKey = state.fireKey;
 
     Widget child = ColoredBox(
       color: Colors.black,

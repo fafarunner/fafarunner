@@ -1,11 +1,11 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:game/src/constrants/constrants.dart';
-import 'package:get/get.dart' hide Translations;
 import 'package:l10n/l10n.dart';
+import 'package:provider/provider.dart';
 import 'package:theme/theme.dart';
 
-import '../controllers/settings_controller.dart';
+import '../constrants/constrants.dart';
+import '../providers/providers.dart';
 import 'hotkey_virtual_view.dart';
 
 class HelpKeys extends StatelessWidget {
@@ -16,7 +16,10 @@ class HelpKeys extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
-    final controller = Get.find<SettingsController>();
+    final state = context.watch<SettingsProvider>();
+    final directionalKeys = state.directionalKeys;
+    final attackKey = state.attackKey;
+    final fireKey = state.fireKey;
     return SizedBox(
       height: 60,
       child: FittedBox(
@@ -25,80 +28,68 @@ class HelpKeys extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           spacing: 26,
           children: [
-            Obx(() {
-              final directionalKeys = controller.directionalKeys.value;
-
-              return TextButton(
-                onPressed: onKeySelected,
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all(EdgeInsets.zero),
-                  visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity,
+            TextButton(
+              onPressed: onKeySelected,
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity,
+                ),
+                foregroundColor: WidgetStateProperty.all(FRColors.white),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: HelpDirectionalKeys(
+                directionalKeys: keyboardDirectionalKeys[directionalKeys],
+                label: t.settings.shortcuts.move,
+              ),
+            ),
+            TextButton(
+              onPressed: onKeySelected,
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity,
+                ),
+                foregroundColor: WidgetStateProperty.all(FRColors.white),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 4,
+                children: [
+                  HotKeyVirtualView(hotKey: attackKey),
+                  Text(
+                    t.settings.shortcuts.attack,
+                    style: const TextStyle(fontFamily: 'Normal'),
                   ),
-                  foregroundColor: WidgetStateProperty.all(FRColors.white),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ],
+              ),
+            ),
+            TextButton(
+              onPressed: onKeySelected,
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity,
                 ),
-                child: HelpDirectionalKeys(
-                  directionalKeys: keyboardDirectionalKeys[directionalKeys],
-                  label: t.settings.shortcuts.move,
-                ),
-              );
-            }),
-            Obx(() {
-              final attackKey = controller.attackKey.value;
-
-              return TextButton(
-                onPressed: onKeySelected,
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all(EdgeInsets.zero),
-                  visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity,
+                foregroundColor: WidgetStateProperty.all(FRColors.white),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 4,
+                children: [
+                  HotKeyVirtualView(hotKey: fireKey),
+                  Text(
+                    t.settings.shortcuts.fire,
+                    style: const TextStyle(fontFamily: 'Normal'),
                   ),
-                  foregroundColor: WidgetStateProperty.all(FRColors.white),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 4,
-                  children: [
-                    HotKeyVirtualView(hotKey: attackKey),
-                    Text(
-                      t.settings.shortcuts.attack,
-                      style: const TextStyle(fontFamily: 'Normal'),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Obx(() {
-              final fireKey = controller.fireKey.value;
-
-              return TextButton(
-                onPressed: onKeySelected,
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all(EdgeInsets.zero),
-                  visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity,
-                  ),
-                  foregroundColor: WidgetStateProperty.all(FRColors.white),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 4,
-                  children: [
-                    HotKeyVirtualView(hotKey: fireKey),
-                    Text(
-                      t.settings.shortcuts.fire,
-                      style: const TextStyle(fontFamily: 'Normal'),
-                    ),
-                  ],
-                ),
-              );
-            }),
+                ],
+              ),
+            ),
           ],
         ),
       ),

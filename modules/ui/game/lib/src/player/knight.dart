@@ -3,10 +3,10 @@ import 'dart:async' as async;
 import 'package:flutter/material.dart';
 
 import 'package:bonfire/bonfire.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../constrants/constrants.dart';
-import '../controllers/settings_controller.dart';
+import '../providers/providers.dart';
 import '../util/functions.dart';
 import '../util/game_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';
@@ -37,7 +37,6 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
   async.Timer? _timerStamina;
   bool containKey = false;
   bool showObserveEnemy = false;
-  final controller = Get.find<SettingsController>();
 
   @override
   async.Future<void> onLoad() {
@@ -52,8 +51,9 @@ class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
 
   @override
   void onJoystickAction(JoystickActionEvent event) {
-    final attackKey = controller.attackKey.value;
-    final fireKey = controller.fireKey.value;
+    final state = context.read<SettingsProvider>();
+    final attackKey = state.attackKey;
+    final fireKey = state.fireKey;
 
     if (event.id == 0 && event.event == ActionEvent.DOWN) {
       actionAttack();
