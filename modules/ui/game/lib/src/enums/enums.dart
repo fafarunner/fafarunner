@@ -1,15 +1,5 @@
-enum Menus {
-  settings,
-  exit,
-}
+enum Menus { settings, exit }
 
-enum CustomKeys {
-  directional,
-  attack,
-  fire,
-}
+enum CustomKeys { directional, attack, fire }
 
-enum DirectionalKeys {
-  arrows,
-  wasd,
-}
+enum DirectionalKeys { arrows, wasd }

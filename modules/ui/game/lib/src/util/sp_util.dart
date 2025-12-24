@@ -1,14 +1,11 @@
-// Dart imports:
 import 'dart:async';
 
-// Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
 
 import './string_util.dart';
 
 class SpUtil {
-
   SpUtil.internal();
   static SpUtil? _singleton;
   static SharedPreferences? _prefs;
@@ -34,10 +31,7 @@ class SpUtil {
   }
 
   /// get string.
-  static String getString(
-    String key, {
-    String defValue = StringUtil.empty,
-  }) {
+  static String getString(String key, {String defValue = StringUtil.empty}) {
     return _prefs?.getString(key) ?? defValue;
   }
 

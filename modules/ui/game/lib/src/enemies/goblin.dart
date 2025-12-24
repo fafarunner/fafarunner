@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../util/enemy_sprite_sheet.dart';
 import '../util/functions.dart';
@@ -13,13 +10,13 @@ import '../util/sounds.dart';
 
 class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   Goblin(this.initPosition)
-      : super(
-          animation: EnemySpriteSheet.goblinAnimations(),
-          position: initPosition,
-          size: Vector2.all(tileSize * 0.8),
-          speed: tileSize * 1.5,
-          life: 120,
-        );
+    : super(
+        animation: EnemySpriteSheet.goblinAnimations(),
+        position: initPosition,
+        size: Vector2.all(tileSize * 0.8),
+        speed: tileSize * 1.5,
+        life: 120,
+      );
 
   final Vector2 initPosition;
   double attack = 25;
@@ -28,10 +25,7 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   Future<void> onLoad() {
     add(
       RectangleHitbox(
-        size: Vector2(
-          valueByTileSize(7),
-          valueByTileSize(7),
-        ),
+        size: Vector2(valueByTileSize(7), valueByTileSize(7)),
         position: Vector2(valueByTileSize(3), valueByTileSize(4)),
       ),
     );
@@ -74,7 +68,11 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void onReceiveDamage(AttackOriginEnum attacker, double damage, dynamic identify) {
+  void onReceiveDamage(
+    AttackOriginEnum attacker,
+    double damage,
+    dynamic identify,
+  ) {
     showDamage(
       damage,
       config: TextStyle(

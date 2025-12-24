@@ -1,36 +1,32 @@
-// Flutter imports:
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:get/get.dart' hide Translations;
 import 'package:l10n/l10n.dart';
 import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
-// Project imports:
-import 'package:game/src/constrants/constrants.dart';
-import 'package:game/src/decoration/barrel.dart';
-import 'package:game/src/decoration/door.dart';
-import 'package:game/src/decoration/key.dart';
-import 'package:game/src/decoration/potion_life.dart';
-import 'package:game/src/decoration/spikes.dart';
-import 'package:game/src/decoration/torch.dart';
-import 'package:game/src/enemies/boss.dart';
-import 'package:game/src/enemies/goblin.dart';
-import 'package:game/src/enemies/imp.dart';
-import 'package:game/src/enemies/mini_boss.dart';
-import 'package:game/src/interface/knight_interface.dart';
-import 'package:game/src/npc/kid.dart';
-import 'package:game/src/npc/wizard_npc.dart';
-import 'package:game/src/player/knight.dart';
-import 'package:game/src/util/sounds.dart';
-import 'package:game/src/widgets/game_controller.dart';
-
+import '../constrants/constrants.dart';
+import '../decoration/barrel.dart';
+import '../decoration/door.dart';
+import '../decoration/key.dart';
+import '../decoration/potion_life.dart';
+import '../decoration/spikes.dart';
+import '../decoration/torch.dart';
+import '../enemies/boss.dart';
+import '../enemies/goblin.dart';
+import '../enemies/imp.dart';
+import '../enemies/mini_boss.dart';
+import '../interface/knight_interface.dart';
+import '../npc/kid.dart';
+import '../npc/wizard_npc.dart';
+import '../player/knight.dart';
+import '../util/sounds.dart';
+import '../widgets/game_controller.dart';
 import '../../gen/assets.gen.dart';
 import '../controllers/settings_controller.dart';
 import '../enums/enums.dart';
@@ -101,11 +97,13 @@ class _GameState extends State<Game>
               playerControllers: [
                 Joystick(
                   directional: JoystickDirectional(
-                    spriteBackgroundDirectional:
-                        Sprite.load(Assets.images.joystickBackground.keyName),
+                    spriteBackgroundDirectional: Sprite.load(
+                      Assets.images.joystickBackground.keyName,
+                    ),
                     // 'joystick_background.png'
-                    spriteKnobDirectional:
-                        Sprite.load(Assets.images.joystickKnob.keyName),
+                    spriteKnobDirectional: Sprite.load(
+                      Assets.images.joystickKnob.keyName,
+                    ),
                     // 'joystick_knob.png'
                     size: 100,
                     isFixed: false,
@@ -124,8 +122,9 @@ class _GameState extends State<Game>
                     ),
                     JoystickAction(
                       actionId: 1,
-                      sprite:
-                          Sprite.load(Assets.images.joystickAtackRange.keyName),
+                      sprite: Sprite.load(
+                        Assets.images.joystickAtackRange.keyName,
+                      ),
                       // 'joystick_atack_range.png'
                       spritePressed: Sprite.load(
                         Assets.images.joystickAtackRangeSelected.keyName,
@@ -138,7 +137,9 @@ class _GameState extends State<Game>
                 Keyboard(
                   config: KeyboardConfig(
                     enable: !Game.useJoystick,
-                    directionalKeys: [keyboardDirectionalKeys.elementAt(directionalKeys)],
+                    directionalKeys: [
+                      keyboardDirectionalKeys.elementAt(directionalKeys),
+                    ],
                     acceptedKeys: [
                       LogicalKeyboardKey.space,
                       attackKey,
@@ -147,9 +148,7 @@ class _GameState extends State<Game>
                   ),
                 ),
               ],
-              player: Knight(
-                Vector2(2 * tileSize, 3 * tileSize),
-              ),
+              player: Knight(Vector2(2 * tileSize, 3 * tileSize)),
               map: WorldMapByTiled(
                 CustomTiledAssetReader(asset: Assets.images.tiled.map),
                 // 'tiled/map.json'
@@ -191,11 +190,7 @@ class _GameState extends State<Game>
     );
 
     if (kIsWeb) {
-      child = Title(
-        title: t.appName,
-        color: Colors.black,
-        child: child,
-      );
+      child = Title(title: t.appName, color: Colors.black, child: child);
     }
 
     return child;
@@ -219,12 +214,7 @@ class _GameState extends State<Game>
       isWindows ? Assets.trayIcon : Assets.trayLogo.keyName,
     );
     final menu = tray.Menu(
-      items: [
-        tray.MenuItem(
-          key: Menus.exit.name,
-          label: t.tray.exit,
-        ),
-      ],
+      items: [tray.MenuItem(key: Menus.exit.name, label: t.tray.exit)],
     );
     await tray.trayManager.setContextMenu(menu);
   }

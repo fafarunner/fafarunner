@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/foundation.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart' hide BarLifeComponent;
 
-// Project imports:
 import '../interface/bar_life_component.dart';
 import '../player/knight.dart';
 import '../../gen/assets.gen.dart';
@@ -14,7 +11,9 @@ class KnightInterface extends GameInterface {
 
   @override
   Future<void> onLoad() async {
-    keySprite = await Sprite.load(Assets.images.items.keySilver.keyName); // 'items/key_silver.png'
+    keySprite = await Sprite.load(
+      Assets.images.items.keySilver.keyName,
+    ); // 'items/key_silver.png'
     add(BarLifeComponent());
     return super.onLoad();
   }

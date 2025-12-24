@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../util/enemy_sprite_sheet.dart';
 import '../util/functions.dart';
@@ -13,13 +10,13 @@ import '../util/sounds.dart';
 
 class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   MiniBoss(this.initPosition)
-      : super(
-          animation: EnemySpriteSheet.miniBossAnimations(),
-          position: initPosition,
-          size: Vector2(tileSize * 0.68, tileSize * 0.93),
-          speed: tileSize * 1.5,
-          life: 150,
-        );
+    : super(
+        animation: EnemySpriteSheet.miniBossAnimations(),
+        position: initPosition,
+        size: Vector2(tileSize * 0.68, tileSize * 0.93),
+        speed: tileSize * 1.5,
+        life: 150,
+      );
 
   final Vector2 initPosition;
   double attack = 50;
@@ -108,7 +105,11 @@ class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void onReceiveDamage(AttackOriginEnum attacker, double damage, dynamic identify) {
+  void onReceiveDamage(
+    AttackOriginEnum attacker,
+    double damage,
+    dynamic identify,
+  ) {
     showDamage(
       damage,
       config: TextStyle(

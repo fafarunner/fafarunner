@@ -41,7 +41,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.38.3'
+          flutter-version: '3.38.5'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -69,7 +69,7 @@ jobs:
         run: ls -laR
         working-directory: dist
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: linux-rpm-artifact
           path: |

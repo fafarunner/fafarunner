@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../game/game.dart';
 import '../util/dialogs.dart';
 
@@ -25,14 +22,11 @@ class GameController extends GameComponent {
 
   void _showDialogGameOver() {
     showGameOver = true;
-    Dialogs.showGameOver(
-      context,
-      () {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute<void>(builder: (context) => const Game()),
-          (Route<dynamic> route) => false,
-        );
-      },
-    );
+    Dialogs.showGameOver(context, () {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute<void>(builder: (context) => const Game()),
+        (Route<dynamic> route) => false,
+      );
+    });
   }
 }

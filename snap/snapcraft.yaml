@@ -1,5 +1,5 @@
 name: fafarunner
-version: 2.5.6
+version: 2.6.1
 summary: Enjoy smooth gameplay, stunning graphics, and endless fun.
 description: |
   Step into the enchanting world of FaFa Runner: Dawn Legends, where an epic adventure awaits! Developed using Flutter and the Flame engine, this RPG delivers a seamless gaming experience with stunning visual effects.
@@ -44,7 +44,7 @@ parts:
     # flutter-target: lib/main.dart # The main entry-point file of the application
     build-environment:
       - FLUTTER_REPO: https://github.com/flutter/flutter.git
-      - FLUTTER_VERSION: 3.38.3
+      - FLUTTER_VERSION: 3.38.5
       - FLUTTER_TARGET: lib/main.dart
     build-packages:
       - curl

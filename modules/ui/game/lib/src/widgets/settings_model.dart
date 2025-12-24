@@ -23,10 +23,7 @@ List<DirectionalKeysWrapper> buttons = [
     DirectionalKeys.arrows,
     KeyboardDirectionalKeys.arrows(),
   ),
-  DirectionalKeysWrapper(
-    DirectionalKeys.wasd,
-    KeyboardDirectionalKeys.wasd(),
-  ),
+  DirectionalKeysWrapper(DirectionalKeys.wasd, KeyboardDirectionalKeys.wasd()),
 ];
 
 /// Settings
@@ -63,220 +60,237 @@ class _SettingsModalState extends State<SettingsModal> {
     final height = MediaQuery.sizeOf(context).height;
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              t.tray.settings,
-              style: TextStyle(
-                color: isDark ? Colors.white : FRColors.primaryTextColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                height: 1.43,
-              ),
-            ),
-            IconButton(
-              style: ButtonStyle(
-                padding: WidgetStateProperty.all(
-                  const EdgeInsets.all(8),
-                ),
-                minimumSize: WidgetStateProperty.all(Size.zero),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                elevation: WidgetStateProperty.all(0),
-              ),
-              onPressed: NavigatorUtil.pop,
-              icon: Icon(
-                Icons.close,
-                color: isDark
-                    ? FRColors.primaryTextColor
-                    : FRColors.secondaryTextColor,
-                size: 16,
-              )
-                  .nestedPadding(padding: const EdgeInsets.all(2))
-                  .nestedDecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: isDark
-                          ? FRColors.placeholderTextColor
-                          : FRColors.primaryGrayColor,
+            Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      t.tray.settings,
+                      style: TextStyle(
+                        color: isDark
+                            ? Colors.white
+                            : FRColors.primaryTextColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        height: 1.43,
+                      ),
+                    ),
+                    IconButton(
+                      style: ButtonStyle(
+                        padding: WidgetStateProperty.all(
+                          const EdgeInsets.all(8),
+                        ),
+                        minimumSize: WidgetStateProperty.all(Size.zero),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        elevation: WidgetStateProperty.all(0),
+                      ),
+                      onPressed: NavigatorUtil.pop,
+                      icon:
+                          Icon(
+                                Icons.close,
+                                color: isDark
+                                    ? FRColors.primaryTextColor
+                                    : FRColors.secondaryTextColor,
+                                size: 16,
+                              )
+                              .nestedPadding(padding: const EdgeInsets.all(2))
+                              .nestedDecoratedBox(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: isDark
+                                      ? FRColors.placeholderTextColor
+                                      : FRColors.primaryGrayColor,
+                                ),
+                              ),
+                    ),
+                  ],
+                )
+                .nestedPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+                )
+                .nestedDecoratedBox(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: FRColors.borderColor,
+                        width: 0.5,
+                      ),
                     ),
                   ),
-            ),
-          ],
-        )
-            .nestedPadding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-            )
-            .nestedDecoratedBox(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: FRColors.borderColor, width: 0.5),
                 ),
-              ),
-            ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 10,
-          children: [
-            Obx(() {
-              final themeMode = controller.themeMode.value;
-              final directionalKeys = controller.directionalKeys.value;
-              final attackKey = controller.attackKey.value;
-              final fireKey = controller.fireKey.value;
-              printDebugLog('themeMode: $themeMode');
+            Column(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 10,
+                  children: [
+                    Obx(() {
+                      final themeMode = controller.themeMode.value;
+                      final directionalKeys = controller.directionalKeys.value;
+                      final attackKey = controller.attackKey.value;
+                      final fireKey = controller.fireKey.value;
+                      printDebugLog('themeMode: $themeMode');
 
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  MineSectionGroup(
-                    title: t.settings.shortcutsTitle,
-                    description: t.settings.shortcutsDescription,
-                    descriptionColor: FRColors.warnTextColor,
-                    items: [
-                      MineSectionModel(
-                        title: t.settings.shortcuts.move,
-                        showIcon: false,
-                        trailing: GroupButton<DirectionalKeysWrapper>(
-                          options: const GroupButtonOptions(
-                            selectedColor: FRColors.primaryColor,
-                          ),
-                          // style: ButtonStyle(
-                          //   padding: WidgetStateProperty.all(
-                          //     const EdgeInsets.symmetric(
-                          //       vertical: 12,
-                          //       horizontal: 18,
-                          //     ),
-                          //   ),
-                          //   overlayColor: WidgetStateProperty.all(
-                          //     FRColors.primaryBackgroundColor
-                          //         .withValues(alpha: 0.3),
-                          //   ),
-                          //   surfaceTintColor: WidgetStateProperty.all(
-                          //     FRColors.primaryBackgroundColor
-                          //         .withValues(alpha: 0.5),
-                          //   ),
-                          //   minimumSize: WidgetStateProperty.all(Size.zero),
-                          //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          // ),
-                          // onPressed: () => Dialogs.showHotkeyDialog(
-                          //   attackKey,
-                          //   onHotKeyRecorded: controller.setAttackHotkey,
-                          // ),
-                          controller: groupButtonController,
-                          buttons: buttons,
-                          buttonIndexedBuilder: (selected, index, context) {
-                            return GestureDetector(
-                              onTap: () {
-                                printErrorLog(
-                                  'index: $index, selected: $selected',
-                                );
-                                final keyboardDirectionalKey =
-                                    keyboardDirectionalKeys.elementAt(index);
-                                if (keyboardDirectionalKey.contain(attackKey) ||
-                                    keyboardDirectionalKey.contain(fireKey)) {
-                                  BotToast.showText(
-                                    text: t.settings.shortcutsUsed,
-                                  );
-                                  return;
-                                }
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          MineSectionGroup(
+                            title: t.settings.shortcutsTitle,
+                            description: t.settings.shortcutsDescription,
+                            descriptionColor: FRColors.warnTextColor,
+                            items: [
+                              MineSectionModel(
+                                title: t.settings.shortcuts.move,
+                                showIcon: false,
+                                trailing: GroupButton<DirectionalKeysWrapper>(
+                                  options: const GroupButtonOptions(
+                                    selectedColor: FRColors.primaryColor,
+                                  ),
+                                  // style: ButtonStyle(
+                                  //   padding: WidgetStateProperty.all(
+                                  //     const EdgeInsets.symmetric(
+                                  //       vertical: 12,
+                                  //       horizontal: 18,
+                                  //     ),
+                                  //   ),
+                                  //   overlayColor: WidgetStateProperty.all(
+                                  //     FRColors.primaryBackgroundColor
+                                  //         .withValues(alpha: 0.3),
+                                  //   ),
+                                  //   surfaceTintColor: WidgetStateProperty.all(
+                                  //     FRColors.primaryBackgroundColor
+                                  //         .withValues(alpha: 0.5),
+                                  //   ),
+                                  //   minimumSize: WidgetStateProperty.all(Size.zero),
+                                  //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  // ),
+                                  // onPressed: () => Dialogs.showHotkeyDialog(
+                                  //   attackKey,
+                                  //   onHotKeyRecorded: controller.setAttackHotkey,
+                                  // ),
+                                  controller: groupButtonController,
+                                  buttons: buttons,
+                                  buttonIndexedBuilder: (selected, index, context) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        printErrorLog(
+                                          'index: $index, selected: $selected',
+                                        );
+                                        final keyboardDirectionalKey =
+                                            keyboardDirectionalKeys.elementAt(
+                                              index,
+                                            );
+                                        if (keyboardDirectionalKey.contain(
+                                              attackKey,
+                                            ) ||
+                                            keyboardDirectionalKey.contain(
+                                              fireKey,
+                                            )) {
+                                          BotToast.showText(
+                                            text: t.settings.shortcutsUsed,
+                                          );
+                                          return;
+                                        }
 
-                                controller.setDirectionalKeys(index);
-                              },
-                              behavior: HitTestBehavior.opaque,
-                              child: HelpDirectionalKeys(
-                                // label:
-                                //     buttons.elementAt(index).directionalKeys.name,
-                                directionalKeys: buttons
-                                    .elementAt(index)
-                                    .keyboardDirectionalKeys,
-                                labelColor: index == directionalKeys
-                                    ? FRColors.primaryColor
-                                    : null,
+                                        controller.setDirectionalKeys(index);
+                                      },
+                                      behavior: HitTestBehavior.opaque,
+                                      child: HelpDirectionalKeys(
+                                        // label:
+                                        //     buttons.elementAt(index).directionalKeys.name,
+                                        directionalKeys: buttons
+                                            .elementAt(index)
+                                            .keyboardDirectionalKeys,
+                                        labelColor: index == directionalKeys
+                                            ? FRColors.primaryColor
+                                            : null,
+                                      ),
+                                    );
+                                  },
+                                  // child: HotKeyVirtualView(hotKey: attackKey),
+                                ),
                               ),
-                            );
-                          },
-                          // child: HotKeyVirtualView(hotKey: attackKey),
-                        ),
-                      ),
-                      MineSectionModel(
-                        title: t.settings.shortcuts.attack,
-                        showIcon: false,
-                        trailing: TextButton(
-                          style: ButtonStyle(
-                            padding: WidgetStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 18,
+                              MineSectionModel(
+                                title: t.settings.shortcuts.attack,
+                                showIcon: false,
+                                trailing: TextButton(
+                                  style: ButtonStyle(
+                                    padding: WidgetStateProperty.all(
+                                      const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                        horizontal: 18,
+                                      ),
+                                    ),
+                                    overlayColor: WidgetStateProperty.all(
+                                      FRColors.primaryBackgroundColor
+                                          .withValues(alpha: 0.3),
+                                    ),
+                                    surfaceTintColor: WidgetStateProperty.all(
+                                      FRColors.primaryBackgroundColor
+                                          .withValues(alpha: 0.5),
+                                    ),
+                                    minimumSize: WidgetStateProperty.all(
+                                      Size.zero,
+                                    ),
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  onPressed: () => Dialogs.showHotkeyDialog(
+                                    attackKey,
+                                    onHotKeyRecorded:
+                                        controller.setAttackHotkey,
+                                  ),
+                                  child: HotKeyVirtualView(hotKey: attackKey),
+                                ),
                               ),
-                            ),
-                            overlayColor: WidgetStateProperty.all(
-                              FRColors.primaryBackgroundColor
-                                  .withValues(alpha: 0.3),
-                            ),
-                            surfaceTintColor: WidgetStateProperty.all(
-                              FRColors.primaryBackgroundColor
-                                  .withValues(alpha: 0.5),
-                            ),
-                            minimumSize: WidgetStateProperty.all(Size.zero),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () => Dialogs.showHotkeyDialog(
-                            attackKey,
-                            onHotKeyRecorded: controller.setAttackHotkey,
-                          ),
-                          child: HotKeyVirtualView(hotKey: attackKey),
-                        ),
-                      ),
-                      MineSectionModel(
-                        title: t.settings.shortcuts.fire,
-                        showIcon: false,
-                        trailing: TextButton(
-                          style: ButtonStyle(
-                            padding: WidgetStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 18,
+                              MineSectionModel(
+                                title: t.settings.shortcuts.fire,
+                                showIcon: false,
+                                trailing: TextButton(
+                                  style: ButtonStyle(
+                                    padding: WidgetStateProperty.all(
+                                      const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                        horizontal: 18,
+                                      ),
+                                    ),
+                                    overlayColor: WidgetStateProperty.all(
+                                      FRColors.primaryBackgroundColor
+                                          .withValues(alpha: 0.3),
+                                    ),
+                                    surfaceTintColor: WidgetStateProperty.all(
+                                      FRColors.primaryBackgroundColor
+                                          .withValues(alpha: 0.5),
+                                    ),
+                                    minimumSize: WidgetStateProperty.all(
+                                      Size.zero,
+                                    ),
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  onPressed: () => Dialogs.showHotkeyDialog(
+                                    fireKey,
+                                    onHotKeyRecorded: controller.setFireHotkey,
+                                  ),
+                                  child: HotKeyVirtualView(hotKey: fireKey),
+                                ),
                               ),
-                            ),
-                            overlayColor: WidgetStateProperty.all(
-                              FRColors.primaryBackgroundColor
-                                  .withValues(alpha: 0.3),
-                            ),
-                            surfaceTintColor: WidgetStateProperty.all(
-                              FRColors.primaryBackgroundColor
-                                  .withValues(alpha: 0.5),
-                            ),
-                            minimumSize: WidgetStateProperty.all(Size.zero),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ],
                           ),
-                          onPressed: () => Dialogs.showHotkeyDialog(
-                            fireKey,
-                            onHotKeyRecorded: controller.setFireHotkey,
-                          ),
-                          child: HotKeyVirtualView(hotKey: fireKey),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }),
+                        ],
+                      );
+                    }),
+                  ],
+                )
+                .nestedSingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                )
+                .nestedFlexible(),
           ],
         )
-            .nestedSingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-            )
-            .nestedFlexible(),
-      ],
-    )
         .nestedConstrainedBox(
           constraints: BoxConstraints(maxHeight: height * 0.8),
         )
-        .nestedPadding(
-          padding: EdgeInsets.only(bottom: 20 + bottom),
-        )
+        .nestedPadding(padding: EdgeInsets.only(bottom: 20 + bottom))
         .nestedColoredBox(
           color: isDark ? FRColors.dialogBackgroundColor : Colors.white,
         );

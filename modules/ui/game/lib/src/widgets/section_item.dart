@@ -1,4 +1,3 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
 import 'package:theme/theme.dart';
@@ -76,30 +75,30 @@ class MineSectionItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (leading != null) leading!,
-              Text(
-                name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: labelColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                  height: 1.43,
-                ),
-              ),
-              if (StringUtil.isNotBlank(tips))
-                Text(
-                  tips!,
-                  style: const TextStyle(
-                    color: FRColors.secondaryTextColor,
-                    fontSize: 12,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (leading != null) leading!,
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: labelColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      height: 1.43,
+                    ),
                   ),
-                ).nestedPadding(padding: const EdgeInsets.only(top: 4)),
-            ],
-          )
+                  if (StringUtil.isNotBlank(tips))
+                    Text(
+                      tips!,
+                      style: const TextStyle(
+                        color: FRColors.secondaryTextColor,
+                        fontSize: 12,
+                      ),
+                    ).nestedPadding(padding: const EdgeInsets.only(top: 4)),
+                ],
+              )
               .nestedPadding(padding: EdgeInsets.only(right: showIcon ? 4 : 0))
               .nestedExpanded(),
           if (showIcon)
@@ -168,32 +167,30 @@ class MineSectionGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final itemWidgets = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: List.generate(
-        items.length,
-        (index) {
-          final item = items.elementAt(index);
-          return MineSectionItem(
-            name: item.title,
-            showBorder: !(index == items.length - 1),
-            labelColor: item.color,
-            overlayColor: item.overlayColor,
-            callback: item.callback,
-            showIcon: item.showIcon,
-            direction: item.direction,
-            tips: item.tips,
-            leading: item.leading,
-            trailing: item.trailing,
-          );
-        },
-      ),
-    ).nestedDecoratedBox(
-      decoration: BoxDecoration(
-        color: isDark ? Colors.black12 : FRColors.secondaryGrayColor,
-        borderRadius: BorderRadius.circular(6),
-      ),
-    );
+    final itemWidgets =
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(items.length, (index) {
+            final item = items.elementAt(index);
+            return MineSectionItem(
+              name: item.title,
+              showBorder: !(index == items.length - 1),
+              labelColor: item.color,
+              overlayColor: item.overlayColor,
+              callback: item.callback,
+              showIcon: item.showIcon,
+              direction: item.direction,
+              tips: item.tips,
+              leading: item.leading,
+              trailing: item.trailing,
+            );
+          }),
+        ).nestedDecoratedBox(
+          decoration: BoxDecoration(
+            color: isDark ? Colors.black12 : FRColors.secondaryGrayColor,
+            borderRadius: BorderRadius.circular(6),
+          ),
+        );
 
     if (StringUtil.isNotBlank(title) || StringUtil.isNotBlank(description)) {
       return Column(
@@ -203,7 +200,8 @@ class MineSectionGroup extends StatelessWidget {
             Text(
               title!,
               style: TextStyle(
-                color: titleColor ??
+                color:
+                    titleColor ??
                     (isDark
                         ? FRColors.secondaryBorderColor
                         : FRColors.secondaryTextColor),
@@ -218,25 +216,20 @@ class MineSectionGroup extends StatelessWidget {
             Text(
               description!,
               style: TextStyle(
-                color: descriptionColor ??
+                color:
+                    descriptionColor ??
                     (isDark
                         ? FRColors.secondaryBorderColor
                         : FRColors.secondaryTextColor),
                 fontSize: 12,
                 height: 1.67,
               ),
-            ).nestedPadding(
-              padding: const EdgeInsets.only(left: 10, top: 10),
-            ),
+            ).nestedPadding(padding: const EdgeInsets.only(left: 10, top: 10)),
         ],
-      ).nestedPadding(
-        padding: const EdgeInsets.only(top: 20),
-      );
+      ).nestedPadding(padding: const EdgeInsets.only(top: 20));
     }
 
-    return itemWidgets.nestedPadding(
-      padding: const EdgeInsets.only(top: 20),
-    );
+    return itemWidgets.nestedPadding(padding: const EdgeInsets.only(top: 20));
   }
 }
 

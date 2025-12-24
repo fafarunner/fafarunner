@@ -1,13 +1,10 @@
-// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:app/app.dart';
 import 'package:flutter/services.dart';
 import 'package:l10n/l10n.dart';
 
-// Project imports:
 import '../menu/menu.dart';
 import '../../gen/assets.gen.dart';
 import '../widgets/record_hotkey_dialog.dart';
@@ -28,9 +25,7 @@ class Dialogs {
                 Assets.gameOver.keyName, // 'assets/game_over.png'
                 height: 100,
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.transparent),
@@ -72,9 +67,7 @@ class Dialogs {
                     fontSize: 30,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 100),
                   child: Text(
@@ -87,9 +80,7 @@ class Dialogs {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(

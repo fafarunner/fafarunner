@@ -1,10 +1,7 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../util/enemy_sprite_sheet.dart';
 import '../util/functions.dart';
@@ -13,13 +10,13 @@ import '../util/sounds.dart';
 
 class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   Imp(this.initPosition)
-      : super(
-          animation: EnemySpriteSheet.impAnimations(),
-          position: initPosition,
-          size: Vector2.all(tileSize * 0.8),
-          speed: tileSize * 2,
-          life: 80,
-        );
+    : super(
+        animation: EnemySpriteSheet.impAnimations(),
+        position: initPosition,
+        size: Vector2.all(tileSize * 0.8),
+        speed: tileSize * 2,
+        life: 80,
+      );
 
   final Vector2 initPosition;
   double attack = 10;
@@ -28,14 +25,8 @@ class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   Future<void> onLoad() {
     add(
       RectangleHitbox(
-        size: Vector2(
-          valueByTileSize(6),
-          valueByTileSize(6),
-        ),
-        position: Vector2(
-          valueByTileSize(3),
-          valueByTileSize(5),
-        ),
+        size: Vector2(valueByTileSize(6), valueByTileSize(6)),
+        position: Vector2(valueByTileSize(3), valueByTileSize(5)),
       ),
     );
     return super.onLoad();
@@ -77,7 +68,11 @@ class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void onReceiveDamage(AttackOriginEnum attacker, double damage, dynamic identify) {
+  void onReceiveDamage(
+    AttackOriginEnum attacker,
+    double damage,
+    dynamic identify,
+  ) {
     showDamage(
       damage,
       config: TextStyle(

@@ -1,11 +1,8 @@
-// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 
-// Project imports:
 import '../player/knight.dart';
 import '../util/game_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';
@@ -13,11 +10,13 @@ import '../../gen/assets.gen.dart';
 
 class Door extends GameDecoration {
   Door(Vector2 position, Vector2 size)
-      : super.withSprite(
-          sprite: Sprite.load(Assets.images.items.doorClosed.keyName), // 'items/door_closed.png'
-          position: position,
-          size: size,
-        );
+    : super.withSprite(
+        sprite: Sprite.load(
+          Assets.images.items.doorClosed.keyName,
+        ), // 'items/door_closed.png'
+        position: position,
+        size: size,
+      );
 
   bool open = false;
   bool showDialog = false;
@@ -68,11 +67,7 @@ class Door extends GameDecoration {
       gameRef.context,
       [
         Say(
-          text: [
-            TextSpan(
-              text: t.gamePage.doorWithoutKey,
-            ),
-          ],
+          text: [TextSpan(text: t.gamePage.doorWithoutKey)],
           person: PlayerSpriteSheet.idleRight().asWidget(),
         ),
       ],

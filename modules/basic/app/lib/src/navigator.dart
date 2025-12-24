@@ -1,4 +1,3 @@
-// Flutter imports:
 import 'package:flutter/widgets.dart';
 
 ///

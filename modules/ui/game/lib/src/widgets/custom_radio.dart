@@ -1,4 +1,3 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
 
 class DefectorRadio<T> extends StatelessWidget {
@@ -36,13 +35,8 @@ class DefectorRadio<T> extends StatelessWidget {
             ),
           ),
           if (label != null) ...[
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              label!,
-              style: const TextStyle(color: Colors.white),
-            ),
+            const SizedBox(width: 10),
+            Text(label!, style: const TextStyle(color: Colors.white)),
           ],
         ],
       ),

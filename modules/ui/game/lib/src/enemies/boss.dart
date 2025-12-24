@@ -1,15 +1,11 @@
-// Dart imports:
 import 'dart:async';
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
 import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 
-// Project imports:
 import '../constrants/constrants.dart';
 import '../enemies/imp.dart';
 import '../enemies/mini_boss.dart';
@@ -23,13 +19,13 @@ import '../util/sounds.dart';
 
 class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   Boss(this.initPosition)
-      : super(
-          animation: EnemySpriteSheet.bossAnimations(),
-          position: initPosition,
-          size: Vector2(tileSize * 1.5, tileSize * 1.7),
-          speed: tileSize * 1.5,
-          life: 200,
-        );
+    : super(
+        animation: EnemySpriteSheet.bossAnimations(),
+        position: initPosition,
+        size: Vector2(tileSize * 1.5, tileSize * 1.7),
+        speed: tileSize * 1.5,
+        life: 200,
+      );
 
   final Vector2 initPosition;
   double attack = 40;
@@ -123,18 +119,8 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
       }
 
       final Enemy e = childrenEnemy.length == 2
-          ? MiniBoss(
-              Vector2(
-                positionExplosion.x,
-                positionExplosion.y,
-              ),
-            )
-          : Imp(
-              Vector2(
-                positionExplosion.x,
-                positionExplosion.y,
-              ),
-            );
+          ? MiniBoss(Vector2(positionExplosion.x, positionExplosion.y))
+          : Imp(Vector2(positionExplosion.x, positionExplosion.y));
 
       gameRef.add(
         AnimatedGameObject(
@@ -161,7 +147,11 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
   }
 
   @override
-  void onReceiveDamage(AttackOriginEnum attacker, double damage, dynamic identify) {
+  void onReceiveDamage(
+    AttackOriginEnum attacker,
+    double damage,
+    dynamic identify,
+  ) {
     showDamage(
       damage,
       config: TextStyle(
@@ -256,9 +246,7 @@ class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
       onChangeTalk: (index) {
         Sounds.interaction();
       },
-      logicalKeyboardKeysToNext: [
-        LogicalKeyboardKey.space,
-      ],
+      logicalKeyboardKeysToNext: [LogicalKeyboardKey.space],
     );
   }
 

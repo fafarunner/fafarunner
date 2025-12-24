@@ -1,4 +1,3 @@
-// Project imports:
 import '../constrants/constrants.dart';
 
 const tileSizeSpriteSheet = 16;
