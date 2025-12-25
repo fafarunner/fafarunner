@@ -1,15 +1,15 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:game/src/constrants/constrants.dart';
-import 'package:game/src/util/navigator_util.dart';
-import 'package:get/get.dart' hide Translations;
 
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:theme/theme.dart';
 
-import '../controllers/settings_controller.dart';
+import '../constrants/constrants.dart';
+import '../providers/providers.dart';
+import '../util/navigator_util.dart';
 import 'hotkey_recorder.dart';
 
 class RecordHotKeyDialog extends StatefulWidget {
@@ -40,10 +40,10 @@ class _RecordHotKeyDialogState extends State<RecordHotKeyDialog> {
   Widget build(BuildContext context) {
     final t = Translations.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final controller = Get.find<SettingsController>();
-    final directionalKeys = controller.directionalKeys.value;
-    final attackKey = controller.attackKey.value;
-    final fireKey = controller.fireKey.value;
+    final state = context.watch<SettingsProvider>();
+    final directionalKeys = state.directionalKeys;
+    final attackKey = state.attackKey;
+    final fireKey = state.fireKey;
     return AlertDialog(
       title: Text(t.hotkeyDialog.description, textAlign: TextAlign.center),
       titleTextStyle: TextStyle(

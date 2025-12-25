@@ -8,10 +8,10 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:game/game.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:shared/shared.dart';
@@ -37,6 +37,9 @@ Future<void> main() async {
   if (isSplashSupported) {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   }
+
+  // init storage
+  await initialize();
 
   Logger.root.level = kReleaseMode
       ? Level.OFF
@@ -93,10 +96,15 @@ Future<void> main() async {
   // initialize with the right locale
   await LocaleSettings.useDeviceLocale();
 
-  await GetStorage.init(AppConfig.shared.container);
-  Get.lazyPut(SettingsController.new, fenix: true);
+  Widget child = MultiProvider(
+    providers: [
+      ChangeNotifierProvider<SettingsProvider>(
+        create: (_) => SettingsProvider(),
+      ),
+    ],
+    child: const App(),
+  );
 
-  Widget child = const App();
   if (AppEnv.sentryEnabled) {
     child = SentryWidget(
       child: DefaultAssetBundle(bundle: SentryAssetBundle(), child: child),
