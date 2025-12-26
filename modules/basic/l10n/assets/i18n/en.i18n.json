@@ -8,7 +8,8 @@
     "creditsCap": "CREDITS",
     "hostedOnPrefix": "The code is hosted on ",
     "hostedOnSuffix": ".",
-    "version": "Version: $version"
+    "version": "Version: ",
+    "commit": "Commit: "
   },
   "gamePage": {
     "talkWizard1": "Hello my young knight!\nWhat are you doing here?",

@@ -64,9 +64,10 @@ class _TranslationsMenuPageZh extends TranslationsMenuPageEn {
 	@override String get joystick => '操纵杆';
 	@override String get loading => '加载中...';
 	@override String get creditsCap => '学分';
-	@override String get hostedOnPrefix => '代码托管在';
-	@override String get hostedOnSuffix => '上.';
-	@override String version({required Object version}) => '版本号: ${version}';
+	@override String get hostedOnPrefix => '代码托管在 ';
+	@override String get hostedOnSuffix => ' 上.';
+	@override String get version => '版本号: ';
+	@override String get commit => '提交号: ';
 }
 
 // Path: gamePage
@@ -166,9 +167,10 @@ extension on TranslationsZh {
 			'menuPage.joystick' => '操纵杆',
 			'menuPage.loading' => '加载中...',
 			'menuPage.creditsCap' => '学分',
-			'menuPage.hostedOnPrefix' => '代码托管在',
-			'menuPage.hostedOnSuffix' => '上.',
-			'menuPage.version' => ({required Object version}) => '版本号: ${version}',
+			'menuPage.hostedOnPrefix' => '代码托管在 ',
+			'menuPage.hostedOnSuffix' => ' 上.',
+			'menuPage.version' => '版本号: ',
+			'menuPage.commit' => '提交号: ',
 			'gamePage.talkWizard1' => '你好, 我年轻的骑士! \n你在这里做什么?',
 			'gamePage.talkPlayer1' => '你好! \n我被派去营救一个被生活在这些街区的生物绑架的孩子.',
 			'gamePage.talkWizard2' => '嗯……\n我不想打击你, 但你是第五个被派来执行这项任务的骑士. 到目前为止, 没有人活着回来, 他们的尸体像战利品一样挂在墙上.',

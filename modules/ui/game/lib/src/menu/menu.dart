@@ -213,8 +213,13 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                         children: [
                           TextSpan(
                             text: shaShown
+                                ? t.menuPage.commit
+                                : t.menuPage.version,
+                          ),
+                          TextSpan(
+                            text: shaShown
                                 ? commitSha.substring(0, 8)
-                                : t.menuPage.version(version: version),
+                                : version,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 _launchUrlString(

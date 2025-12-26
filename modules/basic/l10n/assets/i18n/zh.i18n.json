@@ -6,9 +6,10 @@
     "joystick": "操纵杆",
     "loading": "加载中...",
     "creditsCap": "学分",
-    "hostedOnPrefix": "代码托管在",
-    "hostedOnSuffix": "上.",
-    "version": "版本号: $version"
+    "hostedOnPrefix": "代码托管在 ",
+    "hostedOnSuffix": " 上.",
+    "version": "版本号: ",
+    "commit": "提交号: "
   },
   "gamePage": {
     "talkWizard1": "你好, 我年轻的骑士! \n你在这里做什么?",
