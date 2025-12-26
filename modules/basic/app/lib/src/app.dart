@@ -6,5 +6,11 @@ Future<PackageInfo> initAppInfo() async {
   return PackageInfo.fromPlatform();
 }
 
+/// commit sha
+String initCommitSha() {
+  final String commitSha = const String.fromEnvironment('GIT_COMMIT_SHA');
+  return commitSha;
+}
+
 ///
 EventBus eventBus = EventBus();

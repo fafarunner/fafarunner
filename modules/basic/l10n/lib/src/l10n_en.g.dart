@@ -79,17 +79,17 @@ class TranslationsMenuPageEn {
 	/// en: 'CREDITS'
 	String get creditsCap => 'CREDITS';
 
-	/// en: 'Powered by '
-	String get poweredByPrefix => 'Powered by ';
+	/// en: 'The code is hosted on '
+	String get hostedOnPrefix => 'The code is hosted on ';
 
-	/// en: ''
-	String get poweredBySuffix => '';
+	/// en: '.'
+	String get hostedOnSuffix => '.';
 
-	/// en: 'KJXBYZ'
-	String get author => 'KJXBYZ';
+	/// en: 'Version: '
+	String get version => 'Version: ';
 
-	/// en: 'Version: $version'
-	String version({required Object version}) => 'Version: ${version}';
+	/// en: 'Commit: '
+	String get commit => 'Commit: ';
 }
 
 // Path: gamePage
@@ -246,10 +246,10 @@ extension on Translations {
 			'menuPage.joystick' => 'Joystick',
 			'menuPage.loading' => 'Loading...',
 			'menuPage.creditsCap' => 'CREDITS',
-			'menuPage.poweredByPrefix' => 'Powered by ',
-			'menuPage.poweredBySuffix' => '',
-			'menuPage.author' => 'KJXBYZ',
-			'menuPage.version' => ({required Object version}) => 'Version: ${version}',
+			'menuPage.hostedOnPrefix' => 'The code is hosted on ',
+			'menuPage.hostedOnSuffix' => '.',
+			'menuPage.version' => 'Version: ',
+			'menuPage.commit' => 'Commit: ',
 			'gamePage.talkWizard1' => 'Hello my young knight!\nWhat are you doing here?',
 			'gamePage.talkPlayer1' => 'Hello!\nI was sent to rescue a child who was kidnapped by creatures that live in those neighborhoods.',
 			'gamePage.talkWizard2' => 'Humm...\nI don\'t want to demotivate you, but you are the fifth knight sent for this task. So far, none have returned alive and their bodies are hanging from the walls like trophies.',

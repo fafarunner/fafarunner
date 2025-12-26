@@ -6,10 +6,10 @@
     "joystick": "Joystick",
     "loading": "Loading...",
     "creditsCap": "CREDITS",
-    "poweredByPrefix": "Powered by ",
-    "poweredBySuffix": "",
-    "author": "KJXBYZ",
-    "version": "Version: $version"
+    "hostedOnPrefix": "The code is hosted on ",
+    "hostedOnSuffix": ".",
+    "version": "Version: ",
+    "commit": "Commit: "
   },
   "gamePage": {
     "talkWizard1": "Hello my young knight!\nWhat are you doing here?",
