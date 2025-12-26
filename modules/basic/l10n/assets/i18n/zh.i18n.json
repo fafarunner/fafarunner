@@ -6,9 +6,8 @@
     "joystick": "操纵杆",
     "loading": "加载中...",
     "creditsCap": "学分",
-    "poweredByPrefix": "由 ",
-    "poweredBySuffix": " 开发",
-    "author": "科技小白英仔",
+    "hostedOnPrefix": "代码托管在",
+    "hostedOnSuffix": "上.",
     "version": "版本号: $version"
   },
   "gamePage": {

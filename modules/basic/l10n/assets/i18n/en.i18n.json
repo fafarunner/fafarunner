@@ -6,9 +6,8 @@
     "joystick": "Joystick",
     "loading": "Loading...",
     "creditsCap": "CREDITS",
-    "poweredByPrefix": "Powered by ",
-    "poweredBySuffix": "",
-    "author": "KJXBYZ",
+    "hostedOnPrefix": "The code is hosted on ",
+    "hostedOnSuffix": ".",
     "version": "Version: $version"
   },
   "gamePage": {

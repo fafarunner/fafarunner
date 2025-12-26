@@ -79,14 +79,11 @@ class TranslationsMenuPageEn {
 	/// en: 'CREDITS'
 	String get creditsCap => 'CREDITS';
 
-	/// en: 'Powered by '
-	String get poweredByPrefix => 'Powered by ';
+	/// en: 'The code is hosted on '
+	String get hostedOnPrefix => 'The code is hosted on ';
 
-	/// en: ''
-	String get poweredBySuffix => '';
-
-	/// en: 'KJXBYZ'
-	String get author => 'KJXBYZ';
+	/// en: '.'
+	String get hostedOnSuffix => '.';
 
 	/// en: 'Version: $version'
 	String version({required Object version}) => 'Version: ${version}';
@@ -246,9 +243,8 @@ extension on Translations {
 			'menuPage.joystick' => 'Joystick',
 			'menuPage.loading' => 'Loading...',
 			'menuPage.creditsCap' => 'CREDITS',
-			'menuPage.poweredByPrefix' => 'Powered by ',
-			'menuPage.poweredBySuffix' => '',
-			'menuPage.author' => 'KJXBYZ',
+			'menuPage.hostedOnPrefix' => 'The code is hosted on ',
+			'menuPage.hostedOnSuffix' => '.',
 			'menuPage.version' => ({required Object version}) => 'Version: ${version}',
 			'gamePage.talkWizard1' => 'Hello my young knight!\nWhat are you doing here?',
 			'gamePage.talkPlayer1' => 'Hello!\nI was sent to rescue a child who was kidnapped by creatures that live in those neighborhoods.',

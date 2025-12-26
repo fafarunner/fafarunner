@@ -178,19 +178,19 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(text: t.menuPage.poweredByPrefix),
+                    TextSpan(text: t.menuPage.hostedOnPrefix),
                     TextSpan(
-                      text: t.menuPage.author,
+                      text: 'GitHub',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          _launchUrlString('https://github.com/kjxbyz');
+                          _launchUrlString(githubLink);
                         },
                       style: const TextStyle(
                         decoration: TextDecoration.underline,
                         color: Colors.blue,
                       ),
                     ),
-                    TextSpan(text: t.menuPage.poweredBySuffix),
+                    TextSpan(text: t.menuPage.hostedOnSuffix),
                   ],
                 ),
                 style: const TextStyle(
@@ -199,20 +199,28 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                   fontSize: 12,
                 ),
               ),
+
               FutureBuilder<PackageInfo>(
                 future: initAppInfo(),
                 builder: (context, AsyncSnapshot<PackageInfo> snapshot) {
                   if (snapshot.hasData) {
+                    final commitSha = initCommitSha();
+                    final shaShown = commitSha.isNotEmpty;
+
                     final version = snapshot.data!.version;
                     return Text.rich(
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: t.menuPage.version(version: version),
+                            text: shaShown
+                                ? commitSha.substring(0, 8)
+                                : t.menuPage.version(version: version),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 _launchUrlString(
-                                  '$githubLink/releases/tag/v$version',
+                                  shaShown
+                                      ? '$githubLink/commit/$commitSha'
+                                      : '$githubLink/releases/tag/v$version',
                                 );
                               },
                             style: const TextStyle(
