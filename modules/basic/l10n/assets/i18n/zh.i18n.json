@@ -49,6 +49,17 @@
       "move": "移动",
       "attack": "攻击",
       "fire": "开火"
+    },
+    "settingsDialog": {
+      "settings": "设置",
+      "languages": "语言",
+      "themes": {
+        "manual": "手动模式",
+        "system": "跟随系统",
+        "dark": "深色模式",
+        "light": "浅色模式"
+      },
+      "themesDescription": "开启后, 将跟随系统打开或关闭深色模式"
     }
   },
   "locales(map)": {

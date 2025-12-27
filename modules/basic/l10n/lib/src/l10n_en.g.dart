@@ -212,6 +212,7 @@ class TranslationsSettingsEn {
 	String get shortcutsUsed => 'This key is used.';
 
 	late final TranslationsSettingsShortcutsEn shortcuts = TranslationsSettingsShortcutsEn.internal(_root);
+	late final TranslationsSettingsSettingsDialogEn settingsDialog = TranslationsSettingsSettingsDialogEn.internal(_root);
 }
 
 // Path: settings.shortcuts
@@ -230,6 +231,47 @@ class TranslationsSettingsShortcutsEn {
 
 	/// en: 'Fire'
 	String get fire => 'Fire';
+}
+
+// Path: settings.settingsDialog
+class TranslationsSettingsSettingsDialogEn {
+	TranslationsSettingsSettingsDialogEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Settings'
+	String get settings => 'Settings';
+
+	/// en: 'Languages'
+	String get languages => 'Languages';
+
+	late final TranslationsSettingsSettingsDialogThemesEn themes = TranslationsSettingsSettingsDialogThemesEn.internal(_root);
+
+	/// en: 'After turning it on, the dark mode will be turned on or off according to the system'
+	String get themesDescription => 'After turning it on, the dark mode will be turned on or off according to the system';
+}
+
+// Path: settings.settingsDialog.themes
+class TranslationsSettingsSettingsDialogThemesEn {
+	TranslationsSettingsSettingsDialogThemesEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Manual Mode'
+	String get manual => 'Manual Mode';
+
+	/// en: 'Auto Mode'
+	String get system => 'Auto Mode';
+
+	/// en: 'Dark Mode'
+	String get dark => 'Dark Mode';
+
+	/// en: 'Light Mode'
+	String get light => 'Light Mode';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -278,6 +320,13 @@ extension on Translations {
 			'settings.shortcuts.move' => 'Move',
 			'settings.shortcuts.attack' => 'Attack',
 			'settings.shortcuts.fire' => 'Fire',
+			'settings.settingsDialog.settings' => 'Settings',
+			'settings.settingsDialog.languages' => 'Languages',
+			'settings.settingsDialog.themes.manual' => 'Manual Mode',
+			'settings.settingsDialog.themes.system' => 'Auto Mode',
+			'settings.settingsDialog.themes.dark' => 'Dark Mode',
+			'settings.settingsDialog.themes.light' => 'Light Mode',
+			'settings.settingsDialog.themesDescription' => 'After turning it on, the dark mode will be turned on or off according to the system',
 			'locales.en' => 'English',
 			'locales.zh' => '中文',
 			_ => null,

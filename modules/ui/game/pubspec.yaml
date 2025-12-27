@@ -16,6 +16,7 @@ dependencies:
   flame_splash_screen: 0.3.1+2
   flutter:
     sdk: flutter
+  flutter_switch: ^0.3.2
   gap: ^3.0.1
   group_button: ^5.3.4
   nb_utils: ^7.1.8

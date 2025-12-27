@@ -139,6 +139,7 @@ class _TranslationsSettingsZh extends TranslationsSettingsEn {
 	@override String get shortcutsArrow => '该键已作为方向键使用';
 	@override String get shortcutsUsed => '该键已使用';
 	@override late final _TranslationsSettingsShortcutsZh shortcuts = _TranslationsSettingsShortcutsZh._(_root);
+	@override late final _TranslationsSettingsSettingsDialogZh settingsDialog = _TranslationsSettingsSettingsDialogZh._(_root);
 }
 
 // Path: settings.shortcuts
@@ -151,6 +152,32 @@ class _TranslationsSettingsShortcutsZh extends TranslationsSettingsShortcutsEn {
 	@override String get move => '移动';
 	@override String get attack => '攻击';
 	@override String get fire => '开火';
+}
+
+// Path: settings.settingsDialog
+class _TranslationsSettingsSettingsDialogZh extends TranslationsSettingsSettingsDialogEn {
+	_TranslationsSettingsSettingsDialogZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get settings => '设置';
+	@override String get languages => '语言';
+	@override late final _TranslationsSettingsSettingsDialogThemesZh themes = _TranslationsSettingsSettingsDialogThemesZh._(_root);
+	@override String get themesDescription => '开启后, 将跟随系统打开或关闭深色模式';
+}
+
+// Path: settings.settingsDialog.themes
+class _TranslationsSettingsSettingsDialogThemesZh extends TranslationsSettingsSettingsDialogThemesEn {
+	_TranslationsSettingsSettingsDialogThemesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get manual => '手动模式';
+	@override String get system => '跟随系统';
+	@override String get dark => '深色模式';
+	@override String get light => '浅色模式';
 }
 
 /// The flat map containing all translations for locale <zh>.
@@ -199,6 +226,13 @@ extension on TranslationsZh {
 			'settings.shortcuts.move' => '移动',
 			'settings.shortcuts.attack' => '攻击',
 			'settings.shortcuts.fire' => '开火',
+			'settings.settingsDialog.settings' => '设置',
+			'settings.settingsDialog.languages' => '语言',
+			'settings.settingsDialog.themes.manual' => '手动模式',
+			'settings.settingsDialog.themes.system' => '跟随系统',
+			'settings.settingsDialog.themes.dark' => '深色模式',
+			'settings.settingsDialog.themes.light' => '浅色模式',
+			'settings.settingsDialog.themesDescription' => '开启后, 将跟随系统打开或关闭深色模式',
 			'locales.en' => 'English',
 			'locales.zh' => '中文',
 			_ => null,
