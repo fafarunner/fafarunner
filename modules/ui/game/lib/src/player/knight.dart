@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:provider/provider.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../providers/providers.dart';
 import '../util/functions.dart';
 import '../util/game_sprite_sheet.dart';

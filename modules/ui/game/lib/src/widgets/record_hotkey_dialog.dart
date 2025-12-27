@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:theme/theme.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../providers/providers.dart';
 import '../util/navigator_util.dart';
 import 'hotkey_recorder.dart';

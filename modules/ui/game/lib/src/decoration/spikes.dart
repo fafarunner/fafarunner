@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../player/knight.dart';
 import '../util/game_sprite_sheet.dart';
 

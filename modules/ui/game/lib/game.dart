@@ -3,6 +3,7 @@
 /// More dartdocs go here.
 library;
 
+export 'src/constants/constants.dart';
 export 'src/providers/providers.dart';
 export 'src/enums/enums.dart';
 export 'src/menu/menu.dart';
