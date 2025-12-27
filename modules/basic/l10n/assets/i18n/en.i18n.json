@@ -49,6 +49,17 @@
       "move": "Move",
       "attack": "Attack",
       "fire": "Fire"
+    },
+    "settingsDialog": {
+      "settings": "Settings",
+      "languages": "Languages",
+      "themes": {
+        "manual": "Manual Mode",
+        "system": "Auto Mode",
+        "dark": "Dark Mode",
+        "light": "Light Mode"
+      },
+      "themesDescription": "After turning it on, the dark mode will be turned on or off according to the system"
     }
   },
   "locales(map)": {

@@ -1,6 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 import 'package:group_button/group_button.dart';
 import 'package:l10n/l10n.dart';
@@ -55,6 +56,8 @@ class _SettingsModalState extends State<SettingsModal> {
   Widget build(BuildContext context) {
     final t = Translations.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final currentLocale = LocaleSettings.currentLocale;
+    final languageCode = currentLocale.languageCode;
     final bottom = MediaQuery.paddingOf(context).bottom;
     final height = MediaQuery.sizeOf(context).height;
 
@@ -132,6 +135,7 @@ class _SettingsModalState extends State<SettingsModal> {
                       Consumer<SettingsProvider>(
                         builder: (context, provider, child) {
                           final themeMode = provider.themeMode;
+                          final auto = themeMode == ThemeMode.system;
                           final directionalKeys = provider.directionalKeys;
                           final attackKey = provider.attackKey;
                           final fireKey = provider.fireKey;
@@ -286,6 +290,138 @@ class _SettingsModalState extends State<SettingsModal> {
                                     ),
                                   ),
                                 ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  MineSectionGroup<void>(
+                                    title:
+                                        t.settings.settingsDialog.themes.dark,
+                                    description: t
+                                        .settings
+                                        .settingsDialog
+                                        .themesDescription,
+                                    items: [
+                                      MineSectionModel(
+                                        title: t
+                                            .settings
+                                            .settingsDialog
+                                            .themes
+                                            .system,
+                                        showIcon: false,
+                                        trailing: FlutterSwitch(
+                                          width: 50,
+                                          height: 30,
+                                          toggleSize: 20,
+                                          value: auto,
+                                          borderRadius: 15,
+                                          activeColor: FRColors.primaryColor,
+                                          onToggle: (value) async {
+                                            final isDark =
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.brightness ==
+                                                Brightness.dark;
+                                            final currentMode = isDark
+                                                ? ThemeMode.dark
+                                                : ThemeMode.light;
+                                            provider.switchThemeMode(
+                                              value
+                                                  ? ThemeMode.system
+                                                  : currentMode,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (!auto)
+                                    MineSectionGroup<ThemeMode>(
+                                      title: t
+                                          .settings
+                                          .settingsDialog
+                                          .themes
+                                          .manual,
+                                      groupValue: themeMode,
+                                      onChanged: (ThemeMode? value) async {
+                                        if (value != null) {
+                                          provider.switchThemeMode(value);
+                                        }
+                                      },
+                                      items: [
+                                        MineSectionModel(
+                                          title: t
+                                              .settings
+                                              .settingsDialog
+                                              .themes
+                                              .light,
+                                          showIcon: false,
+                                          trailing: const Radio<ThemeMode>(
+                                            value: ThemeMode.light,
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize
+                                                    .shrinkWrap,
+                                            visualDensity: VisualDensity(
+                                              horizontal:
+                                                  VisualDensity.minimumDensity,
+                                              vertical:
+                                                  VisualDensity.minimumDensity,
+                                            ),
+                                          ),
+                                        ),
+                                        MineSectionModel(
+                                          title: t
+                                              .settings
+                                              .settingsDialog
+                                              .themes
+                                              .dark,
+                                          showIcon: false,
+                                          trailing: const Radio<ThemeMode>(
+                                            value: ThemeMode.dark,
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize
+                                                    .shrinkWrap,
+                                            visualDensity: VisualDensity(
+                                              horizontal:
+                                                  VisualDensity.minimumDensity,
+                                              vertical:
+                                                  VisualDensity.minimumDensity,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                              MineSectionGroup<String>(
+                                title: t.settings.settingsDialog.languages,
+                                groupValue: languageCode,
+                                onChanged: (String? value) async {
+                                  if (value != null && value.isNotEmpty) {
+                                    await LocaleSettings.setLocaleRaw(value);
+                                  }
+                                },
+                                items: t.locales.entries.map((
+                                  MapEntry<String, String> entry,
+                                ) {
+                                  final appLocale = AppLocaleUtils.parse(
+                                    entry.key,
+                                  );
+                                  return MineSectionModel(
+                                    title: entry.value,
+                                    showIcon: false,
+                                    trailing: Radio<String>(
+                                      value: appLocale.languageCode,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      visualDensity: const VisualDensity(
+                                        horizontal:
+                                            VisualDensity.minimumDensity,
+                                        vertical: VisualDensity.minimumDensity,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                             ],
                           );
