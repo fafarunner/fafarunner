@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bonfire/bonfire.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../util/enemy_sprite_sheet.dart';
 import '../util/functions.dart';
 import '../util/game_sprite_sheet.dart';

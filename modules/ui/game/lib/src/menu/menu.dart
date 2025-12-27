@@ -11,18 +11,18 @@ import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gap/gap.dart';
 import 'package:l10n/l10n.dart';
+import 'package:provider/provider.dart';
 import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
-import '../constrants/constrants.dart';
-import '../enums/enums.dart';
+import '../../game.dart';
+import '../constants/constants.dart';
 import '../game/game.dart';
 import '../util/custom_sprite_animation_widget.dart';
 import '../util/dialogs.dart';
 import '../util/enemy_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';
 import '../util/navigator_util.dart';
-import '../util/sounds.dart';
 import '../widgets/custom_radio.dart';
 import '../../gen/assets.gen.dart';
 import '../widgets/help_keys.dart';
@@ -81,6 +81,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
 
   Widget buildMenu() {
     final t = Translations.of(context);
+    final provider = context.watch<SettingsProvider>();
+    final useJoystick = provider.useJoystick;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -133,26 +136,18 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               DefectorRadio<bool>(
                 value: false,
                 label: t.menuPage.keyboard,
-                group: Game.useJoystick,
-                onChange: (value) {
-                  setState(() {
-                    Game.useJoystick = value;
-                  });
-                },
+                group: useJoystick,
+                onChange: provider.switchUseJoystick,
               ),
               const Gap(10),
               DefectorRadio<bool>(
                 value: true,
-                group: Game.useJoystick,
+                group: useJoystick,
                 label: t.menuPage.joystick,
-                onChange: (value) {
-                  setState(() {
-                    Game.useJoystick = value;
-                  });
-                },
+                onChange: provider.switchUseJoystick,
               ),
               const Gap(20),
-              if (!Game.useJoystick)
+              if (!useJoystick)
                 HelpKeys(
                   onKeySelected: (isWeb || isDesktop)
                       ? Dialogs.showSettingsModal
@@ -168,6 +163,12 @@ class _MenuState extends State<Menu> with tray.TrayListener {
           ),
         ),
       ),
+      floatingActionButton: !useJoystick
+          ? null
+          : IconButton(
+              onPressed: () => Dialogs.showSettingsModal(shortKeyShown: false),
+              icon: Icon(Icons.settings),
+            ),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: 20,

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../util/custom_sprite_animation_widget.dart';
 import '../util/npc_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';

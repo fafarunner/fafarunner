@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../decoration/barrel.dart';
 import '../decoration/door.dart';
 import '../decoration/key.dart';
@@ -26,6 +26,7 @@ import '../npc/kid.dart';
 import '../npc/wizard_npc.dart';
 import '../player/knight.dart';
 import '../providers/providers.dart';
+import '../util/dialogs.dart';
 import '../util/sounds.dart';
 import '../widgets/game_controller.dart';
 import '../../gen/assets.gen.dart';
@@ -34,8 +35,6 @@ import '../reader/custom_tiled_asset_reader.dart';
 
 class Game extends StatefulWidget {
   const Game({super.key});
-
-  static bool useJoystick = isMobile;
 
   @override
   State<Game> createState() => _GameState();
@@ -72,10 +71,11 @@ class _GameState extends State<Game>
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
-    final state = context.watch<SettingsProvider>();
-    final directionalKeys = state.directionalKeys;
-    final attackKey = state.attackKey;
-    final fireKey = state.fireKey;
+    final provider = context.watch<SettingsProvider>();
+    final useJoystick = provider.useJoystick;
+    final directionalKeys = provider.directionalKeys;
+    final attackKey = provider.attackKey;
+    final fireKey = provider.fireKey;
 
     Widget child = ColoredBox(
       color: Colors.black,
@@ -136,7 +136,7 @@ class _GameState extends State<Game>
                 ),
                 Keyboard(
                   config: KeyboardConfig(
-                    enable: !Game.useJoystick,
+                    enable: !useJoystick,
                     directionalKeys: [
                       keyboardDirectionalKeys.elementAt(directionalKeys),
                     ],
@@ -185,6 +185,14 @@ class _GameState extends State<Game>
               },
             ),
           ),
+          Positioned(
+            right: 10,
+            bottom: 20,
+            child: IconButton(
+              onPressed: () => Dialogs.showSettingsModal(shortKeyShown: false),
+              icon: Icon(Icons.settings),
+            ),
+          ),
         ],
       ),
     );
@@ -196,6 +204,21 @@ class _GameState extends State<Game>
     return child;
   }
 
+  Future<void> initTrayMenu() async {
+    final t = Translations.of(context);
+    await tray.trayManager.setIcon(
+      isWindows ? Assets.trayIcon : Assets.trayLogo.keyName,
+    );
+    final menu = tray.Menu(
+      items: [
+        tray.MenuItem(key: Menus.settings.name, label: t.tray.settings),
+        tray.MenuItem.separator(),
+        tray.MenuItem(key: Menus.exit.name, label: t.tray.exit),
+      ],
+    );
+    await tray.trayManager.setContextMenu(menu);
+  }
+
   @override
   void onTrayIconMouseDown() {
     tray.trayManager.popUpContextMenu();
@@ -203,19 +226,10 @@ class _GameState extends State<Game>
 
   @override
   void onTrayMenuItemClick(tray.MenuItem menuItem) {
-    if (menuItem.key == Menus.exit.name) {
+    if (menuItem.key == Menus.settings.name) {
+      Dialogs.showSettingsModal(shortKeyShown: false);
+    } else if (menuItem.key == Menus.exit.name) {
       exit(0);
     }
-  }
-
-  Future<void> initTrayMenu() async {
-    final t = Translations.of(context);
-    await tray.trayManager.setIcon(
-      isWindows ? Assets.trayIcon : Assets.trayLogo.keyName,
-    );
-    final menu = tray.Menu(
-      items: [tray.MenuItem(key: Menus.exit.name, label: t.tray.exit)],
-    );
-    await tray.trayManager.setContextMenu(menu);
   }
 }

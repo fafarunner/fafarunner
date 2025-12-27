@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../../gen/assets.gen.dart';
 
 class Barrel extends GameDecoration {

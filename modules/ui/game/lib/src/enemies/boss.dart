@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../enemies/imp.dart';
 import '../enemies/mini_boss.dart';
 import '../util/custom_sprite_animation_widget.dart';

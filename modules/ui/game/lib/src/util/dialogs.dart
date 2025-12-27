@@ -131,14 +131,15 @@ class Dialogs {
     );
   }
 
-  static void showSettingsModal() {
+  static void showSettingsModal({bool shortKeyShown = true}) {
     final context = AppNavigator.navigatorKey.currentContext!;
     showModalBottomSheet<void>(
       context: context,
       isDismissible: false,
       enableDrag: false,
       isScrollControlled: true,
-      builder: (BuildContext context) => const SettingsModal(),
+      builder: (BuildContext context) =>
+          SettingsModal(shortKeyShown: shortKeyShown),
     );
   }
 }
