@@ -17,6 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_switch: ^0.3.2
+  games_services: ^5.0.0
   gap: ^3.0.1
   group_button: ^5.3.4
   nb_utils: ^7.1.8

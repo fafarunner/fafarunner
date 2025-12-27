@@ -493,6 +493,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  games_services:
+    dependency: transitive
+    description:
+      name: games_services
+      sha256: "904be03d8afdbb76703bda3bb2b0bf313d08e5099a19bc55b02cde5f658751ff"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
+  games_services_platform_interface:
+    dependency: transitive
+    description:
+      name: games_services_platform_interface
+      sha256: e05528712f33d2e6026d9e1c084eccaf03f04549b91f7fd73c2a220db0f30909
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   gap:
     dependency: transitive
     description:
