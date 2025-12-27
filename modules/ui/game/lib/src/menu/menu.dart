@@ -16,7 +16,6 @@ import 'package:shared/shared.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
 import '../../game.dart';
-import '../constants/constants.dart';
 import '../game/game.dart';
 import '../util/custom_sprite_animation_widget.dart';
 import '../util/dialogs.dart';
@@ -153,20 +152,15 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                       ? Dialogs.showSettingsModal
                       : null,
                 ),
-              // SizedBox(
-              //   height: 80,
-              //   width: 200,
-              //   child: Sprite.load(Assets.images.keyboardTip.keyName)
-              //       .asWidget(), // 'keyboard_tip.png'
-              // ),
             ],
           ),
         ),
       ),
-      floatingActionButton: !useJoystick
+      floatingActionButton: isDesktop
           ? null
           : IconButton(
-              onPressed: () => Dialogs.showSettingsModal(shortKeyShown: false),
+              onPressed: () =>
+                  Dialogs.showSettingsModal(shortKeyShown: !useJoystick),
               icon: Icon(Icons.settings),
             ),
       bottomNavigationBar: SafeArea(

@@ -185,14 +185,16 @@ class _GameState extends State<Game>
               },
             ),
           ),
-          Positioned(
-            right: 10,
-            bottom: 20,
-            child: IconButton(
-              onPressed: () => Dialogs.showSettingsModal(shortKeyShown: false),
-              icon: Icon(Icons.settings),
+          if (!isDesktop)
+            Positioned(
+              right: 10,
+              bottom: 20,
+              child: IconButton(
+                onPressed: () =>
+                    Dialogs.showSettingsModal(shortKeyShown: false),
+                icon: Icon(Icons.settings),
+              ),
             ),
-          ),
         ],
       ),
     );
