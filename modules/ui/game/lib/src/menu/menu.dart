@@ -13,6 +13,7 @@ import 'package:gap/gap.dart';
 import 'package:l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:shared/shared.dart';
+import 'package:theme/theme.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
 import '../../game.dart';
@@ -147,11 +148,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               ),
               const Gap(20),
               if (!useJoystick)
-                HelpKeys(
-                  onKeySelected: (isWeb || isDesktop)
-                      ? Dialogs.showSettingsModal
-                      : null,
-                ),
+                HelpKeys(onKeySelected: Dialogs.showSettingsModal),
             ],
           ),
         ),
@@ -161,7 +158,12 @@ class _MenuState extends State<Menu> with tray.TrayListener {
           : IconButton(
               onPressed: () =>
                   Dialogs.showSettingsModal(shortKeyShown: !useJoystick),
-              icon: Icon(Icons.settings),
+              style: ButtonStyle(
+                overlayColor: WidgetStateProperty.all(
+                  FRColors.primaryBackgroundColor,
+                ),
+              ),
+              icon: Icon(Icons.settings, color: FRColors.primaryColor),
             ),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -181,7 +183,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                           _launchUrlString(githubLink);
                         },
                       style: const TextStyle(
-                        decoration: TextDecoration.underline,
+                        decoration: TextDecoration.none,
                         color: Colors.blue,
                       ),
                     ),
@@ -214,7 +216,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                           TextSpan(
                             text: shaShown
                                 ? commitSha.substring(0, 8)
-                                : version,
+                                : 'v$version',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 _launchUrlString(
@@ -224,7 +226,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                                 );
                               },
                             style: const TextStyle(
-                              decoration: TextDecoration.underline,
+                              decoration: TextDecoration.none,
                               color: Colors.blue,
                             ),
                           ),
@@ -314,7 +316,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
   @override
   void onTrayMenuItemClick(tray.MenuItem menuItem) {
     if (menuItem.key == Menus.settings.name) {
-      Dialogs.showSettingsModal();
+      final provider = context.read<SettingsProvider>();
+      final useJoystick = provider.useJoystick;
+      Dialogs.showSettingsModal(shortKeyShown: !useJoystick);
     } else if (menuItem.key == Menus.exit.name) {
       exit(0);
     }
