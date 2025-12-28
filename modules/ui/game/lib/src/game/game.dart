@@ -8,6 +8,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:shared/shared.dart';
+import 'package:theme/theme.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
 import '../constants/constants.dart';
@@ -192,7 +193,12 @@ class _GameState extends State<Game>
               child: IconButton(
                 onPressed: () =>
                     Dialogs.showSettingsModal(shortKeyShown: false),
-                icon: Icon(Icons.settings),
+                style: ButtonStyle(
+                  overlayColor: WidgetStateProperty.all(
+                    FRColors.primaryBackgroundColor,
+                  ),
+                ),
+                icon: Icon(Icons.settings, color: FRColors.primaryColor),
               ),
             ),
         ],
