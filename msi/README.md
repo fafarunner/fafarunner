@@ -17,10 +17,7 @@ $env:LicensePath = "$env:FLUTTER_BUILD_OUTPUT_DIR\LICENSE.rtf"
 
 ```powershell
 python preprocess.py --arp -d ../build/windows/x64/runner/Release -i ../windows/runner/resources/app_icon.ico -v 1.0.0.1
-
-nuget restore fafarunner.sln
-
-& "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" fafarunner.sln -p:Configuration="$env:Configuration" -p:Platform="$env:Platform" /p:TargetVersion=Windows10
+& "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe" fafarunner.sln -restore -p:Configuration="$env:Configuration" -p:Platform="$env:Platform" /p:TargetVersion=Windows10
 ```
 
 ## Output
