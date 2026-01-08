@@ -29,7 +29,7 @@ dependencies:
   game: any
   l10n: any
   logger: any
-  sentry_flutter: ^9.9.1
+  sentry_flutter: ^9.9.2
   sentry_logging: ^9.9.1
   shared: any
   theme: any
