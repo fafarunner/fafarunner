@@ -357,10 +357,10 @@ packages:
     dependency: transitive
     description:
       name: dbus
-      sha256: "79e0c23480ff85dc68de79e2cd6334add97e48f7f4865d17686dd6ea81a47e8c"
+      sha256: d0c98dcd4f5169878b6cf8f6e0a52403a9dff371a3e2f019697accbf6f44a270
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.11"
+    version: "0.7.12"
   event_bus:
     dependency: transitive
     description:
@@ -405,10 +405,10 @@ packages:
     dependency: transitive
     description:
       name: flame
-      sha256: "348136b7d928188a8c9a11cd844d9125b02e7afc6c83bb9a52a16aee88ab7e81"
+      sha256: "6a98c1697bfe4669c604e4459cb01ca96559f464d3523f6af90a8956bf2080ee"
       url: "https://pub.dev"
     source: hosted
-    version: "1.34.0"
+    version: "1.35.0"
   flame_audio:
     dependency: transitive
     description:
@@ -553,10 +553,10 @@ packages:
     dependency: transitive
     description:
       name: hooks
-      sha256: "5d309c86e7ce34cd8e37aa71cb30cb652d3829b900ab145e4d9da564b31d59f7"
+      sha256: "7a08a0d684cb3b8fb604b78455d5d352f502b68079f7b80b831c62220ab0a4f6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   html:
     dependency: transitive
     description:
@@ -649,10 +649,10 @@ packages:
     dependency: transitive
     description:
       name: json_annotation
-      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
+      sha256: "805fa86df56383000f640384b282ce0cb8431f1a7a2396de92fb66186d8c57df"
       url: "https://pub.dev"
     source: hosted
-    version: "4.9.0"
+    version: "4.10.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -681,10 +681,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: a5e2b223cb7c9c8efdc663ef484fdd95bb243bff242ef5b13e26883547fce9a0
+      sha256: "12f842a479589fea194fe5c5a3095abc7be0c1f2ddfa9a0e76aed1dbd26a87df"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "6.1.0"
   logging:
     dependency: transitive
     description:
@@ -801,10 +801,10 @@ packages:
     dependency: transitive
     description:
       name: objective_c
-      sha256: "7fd0c4d8ac8980011753b9bdaed2bf15111365924cdeeeaeb596214ea2b03537"
+      sha256: "100a1c87616ab6ed41ec263b083c0ef3261ee6cd1dc3b0f35f8ddfa4f996fe52"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.4"
+    version: "9.3.0"
   ordered_set:
     dependency: transitive
     description:
@@ -961,26 +961,26 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: fa14b2177d2cd4489ec78817ec4e52affe1be9f595718de970a5e4ed2bccc530
+      sha256: "80b2a6667db8e0bb148ad70b2af242eb6aa8da9b56b56e72332a4221d93bc01d"
       url: "https://pub.dev"
     source: hosted
-    version: "9.10.0"
+    version: "9.12.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "00d168260c9be3777e4f1c9ca7a2e4f2c48566926ec22a64bbacae5a94ff72a3"
+      sha256: df09c63e0111a9ad5c4a13a89def67327fc2028bec0f55c246d8c083d486e418
       url: "https://pub.dev"
     source: hosted
-    version: "9.10.0"
+    version: "9.12.0"
   sentry_logging:
     dependency: "direct main"
     description:
       name: sentry_logging
-      sha256: eb7854fe038ee3b44ec24274575d4f02199feb44f964cbb3d0e521f39ed8ca74
+      sha256: d546a7dc7734d3b61b3b09ab8fbf2026393eb72dbbede5442062080016f7a1d0
       url: "https://pub.dev"
     source: hosted
-    version: "9.10.0"
+    version: "9.12.0"
   shared_preferences:
     dependency: transitive
     description:
@@ -993,10 +993,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "83af5c682796c0f7719c2bbf74792d113e40ae97981b8f266fa84574573556bc"
+      sha256: cbc40be9be1c5af4dab4d6e0de4d5d3729e6f3d65b89d21e1815d57705644a6f
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.18"
+    version: "2.4.20"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -1086,26 +1086,26 @@ packages:
     dependency: transitive
     description:
       name: slang
-      sha256: "13e3b6f07adc51ab751e7889647774d294cbce7a3382f81d9e5029acfe9c37b2"
+      sha256: "81e277dc5e2305f53412b92afeb803620453259afe147d5cd6417700f998a7a6"
       url: "https://pub.dev"
     source: hosted
-    version: "4.12.0"
+    version: "4.12.1"
   slang_build_runner:
     dependency: transitive
     description:
       name: slang_build_runner
-      sha256: "453d74b5430153a3c4150d5ba8f6380e0785f3939f7511f10ac5b6cf9bb7d2a7"
+      sha256: "010f337703dbc736ac9f0e3eb9d6e1464850736fed69f85a23c07ee4678fcc1c"
       url: "https://pub.dev"
     source: hosted
-    version: "4.12.0"
+    version: "4.12.1"
   slang_flutter:
     dependency: transitive
     description:
       name: slang_flutter
-      sha256: "0a4545cca5404d6b7487cf61cf1fe56c52daeb08de56a7574ee8381fbad035a0"
+      sha256: "0f0276c400660c8b67150005aa4df57643b86ce6ae9c824abee8e25f345d9abc"
       url: "https://pub.dev"
     source: hosted
-    version: "4.12.0"
+    version: "4.12.1"
   source_map_stack_trace:
     dependency: transitive
     description:
@@ -1126,10 +1126,10 @@ packages:
     dependency: transitive
     description:
       name: source_span
-      sha256: "254ee5351d6cb365c859e20ee823c3bb479bf4a293c22d17a9f1bf144ce86f7c"
+      sha256: "56a02f1f4cd1a2d96303c0144c93bd6d909eea6bee6bf5a0e0b685edbd4c47ab"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.1"
+    version: "1.10.2"
   stack_trace:
     dependency: transitive
     description:
