@@ -4,7 +4,7 @@ import 'package:l10n/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:theme/theme.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../providers/providers.dart';
 import 'hotkey_virtual_view.dart';
 

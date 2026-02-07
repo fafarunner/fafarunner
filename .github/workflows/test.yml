@@ -37,7 +37,7 @@ jobs:
         id: flutter-action
         with:
           channel: 'stable'
-          flutter-version: '3.38.5'
+          flutter-version: '3.38.9'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
@@ -91,7 +91,9 @@ jobs:
     runs-on: macos-15
     steps:
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '26.2'
 
       - name: print Xcode version
         run: xcodebuild -version
@@ -102,7 +104,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.38.5'
+          flutter-version: '3.38.9'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -190,7 +192,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.38.5'
+          flutter-version: '3.38.9'
 
       - name: Configure .env
         run: |
@@ -321,7 +323,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.38.5'
+          flutter-version: '3.38.9'
 
       - name: Configure .env
         run: |
@@ -369,7 +371,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.38.5'
+          flutter-version: '3.38.9'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -441,7 +443,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.38.5'
+          flutter-version: '3.38.9'
 
       - name: Configure .env
         run: echo "$ENV_KEY" | base64 --decode > .env

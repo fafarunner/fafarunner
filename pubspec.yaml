@@ -29,8 +29,8 @@ dependencies:
   game: any
   l10n: any
   logger: any
-  sentry_flutter: ^9.9.1
-  sentry_logging: ^9.9.1
+  sentry_flutter: ^9.12.0
+  sentry_logging: ^9.12.0
   shared: any
   theme: any
   url_strategy: any
@@ -41,7 +41,7 @@ dev_dependencies:
     sdk: flutter
   mockingjay: ^2.1.0
   mocktail: ^1.0.4
-  msix: ^3.16.12
+  msix: ^3.16.13
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

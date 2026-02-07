@@ -20,7 +20,7 @@ dependencies:
   games_services: ^5.0.0
   gap: ^3.0.1
   group_button: ^5.3.4
-  nb_utils: ^7.1.8
+  nb_utils: ^7.2.0
   provider: ^6.1.5+1
   shared_preferences: ^2.5.4
   tray_manager: ^0.5.2

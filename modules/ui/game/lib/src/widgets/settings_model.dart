@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:theme/theme.dart';
 
-import '../constrants/constrants.dart';
+import '../constants/constants.dart';
 import '../enums/enums.dart';
 import '../providers/providers.dart';
 import '../util/dialogs.dart';
@@ -28,7 +28,9 @@ List<DirectionalKeysWrapper> buttons = [
 
 /// Settings
 class SettingsModal extends StatefulWidget {
-  const SettingsModal({super.key});
+  const SettingsModal({required this.shortKeyShown, super.key});
+
+  final bool shortKeyShown;
 
   @override
   State<SettingsModal> createState() => _SettingsModalState();
@@ -128,306 +130,280 @@ class _SettingsModalState extends State<SettingsModal> {
               Flexible(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: 10,
-                    children: [
-                      Consumer<SettingsProvider>(
-                        builder: (context, provider, child) {
-                          final themeMode = provider.themeMode;
-                          final auto = themeMode == ThemeMode.system;
-                          final directionalKeys = provider.directionalKeys;
-                          final attackKey = provider.attackKey;
-                          final fireKey = provider.fireKey;
-                          printDebugLog('themeMode: $themeMode');
+                  child: Consumer<SettingsProvider>(
+                    builder: (context, provider, child) {
+                      final themeMode = provider.themeMode;
+                      final auto = themeMode == ThemeMode.system;
+                      final directionalKeys = provider.directionalKeys;
+                      final attackKey = provider.attackKey;
+                      final fireKey = provider.fireKey;
 
-                          return Column(
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: 10,
+                        children: [
+                          if (widget.shortKeyShown)
+                            MineSectionGroup(
+                              title: t.settings.shortcutsTitle,
+                              description: t.settings.shortcutsDescription,
+                              descriptionColor: FRColors.warnTextColor,
+                              items: [
+                                MineSectionModel(
+                                  title: t.settings.shortcuts.move,
+                                  showIcon: false,
+                                  trailing: GroupButton<DirectionalKeysWrapper>(
+                                    options: const GroupButtonOptions(
+                                      selectedColor: FRColors.primaryColor,
+                                    ),
+                                    // style: ButtonStyle(
+                                    //   padding: WidgetStateProperty.all(
+                                    //     const EdgeInsets.symmetric(
+                                    //       vertical: 12,
+                                    //       horizontal: 18,
+                                    //     ),
+                                    //   ),
+                                    //   overlayColor: WidgetStateProperty.all(
+                                    //     FRColors.primaryBackgroundColor
+                                    //         .withValues(alpha: 0.3),
+                                    //   ),
+                                    //   surfaceTintColor: WidgetStateProperty.all(
+                                    //     FRColors.primaryBackgroundColor
+                                    //         .withValues(alpha: 0.5),
+                                    //   ),
+                                    //   minimumSize: WidgetStateProperty.all(Size.zero),
+                                    //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    // ),
+                                    // onPressed: () => Dialogs.showHotkeyDialog(
+                                    //   attackKey,
+                                    //   onHotKeyRecorded: controller.setAttackHotkey,
+                                    // ),
+                                    controller: groupButtonController,
+                                    buttons: buttons,
+                                    buttonIndexedBuilder: (selected, index, context) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          printErrorLog(
+                                            'index: $index, selected: $selected',
+                                          );
+                                          final keyboardDirectionalKey =
+                                              keyboardDirectionalKeys.elementAt(
+                                                index,
+                                              );
+                                          if (keyboardDirectionalKey.contain(
+                                                attackKey,
+                                              ) ||
+                                              keyboardDirectionalKey.contain(
+                                                fireKey,
+                                              )) {
+                                            BotToast.showText(
+                                              text: t.settings.shortcutsUsed,
+                                            );
+                                            return;
+                                          }
+
+                                          provider.setDirectionalKeys(index);
+                                        },
+                                        behavior: HitTestBehavior.opaque,
+                                        child: HelpDirectionalKeys(
+                                          // label:
+                                          //     buttons.elementAt(index).directionalKeys.name,
+                                          directionalKeys: buttons
+                                              .elementAt(index)
+                                              .keyboardDirectionalKeys,
+                                          labelColor: index == directionalKeys
+                                              ? FRColors.primaryColor
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                    // child: HotKeyVirtualView(hotKey: attackKey),
+                                  ),
+                                ),
+                                MineSectionModel(
+                                  title: t.settings.shortcuts.attack,
+                                  showIcon: false,
+                                  trailing: TextButton(
+                                    style: ButtonStyle(
+                                      padding: WidgetStateProperty.all(
+                                        const EdgeInsets.symmetric(
+                                          vertical: 12,
+                                          horizontal: 18,
+                                        ),
+                                      ),
+                                      overlayColor: WidgetStateProperty.all(
+                                        FRColors.primaryBackgroundColor
+                                            .withValues(alpha: 0.3),
+                                      ),
+                                      surfaceTintColor: WidgetStateProperty.all(
+                                        FRColors.primaryBackgroundColor
+                                            .withValues(alpha: 0.5),
+                                      ),
+                                      minimumSize: WidgetStateProperty.all(
+                                        Size.zero,
+                                      ),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    onPressed: () => Dialogs.showHotkeyDialog(
+                                      attackKey,
+                                      onHotKeyRecorded:
+                                          provider.setAttackHotkey,
+                                    ),
+                                    child: HotKeyVirtualView(hotKey: attackKey),
+                                  ),
+                                ),
+                                MineSectionModel(
+                                  title: t.settings.shortcuts.fire,
+                                  showIcon: false,
+                                  trailing: TextButton(
+                                    style: ButtonStyle(
+                                      padding: WidgetStateProperty.all(
+                                        const EdgeInsets.symmetric(
+                                          vertical: 12,
+                                          horizontal: 18,
+                                        ),
+                                      ),
+                                      overlayColor: WidgetStateProperty.all(
+                                        FRColors.primaryBackgroundColor
+                                            .withValues(alpha: 0.3),
+                                      ),
+                                      surfaceTintColor: WidgetStateProperty.all(
+                                        FRColors.primaryBackgroundColor
+                                            .withValues(alpha: 0.5),
+                                      ),
+                                      minimumSize: WidgetStateProperty.all(
+                                        Size.zero,
+                                      ),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    onPressed: () => Dialogs.showHotkeyDialog(
+                                      fireKey,
+                                      onHotKeyRecorded: provider.setFireHotkey,
+                                    ),
+                                    child: HotKeyVirtualView(hotKey: fireKey),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              MineSectionGroup(
-                                title: t.settings.shortcutsTitle,
-                                description: t.settings.shortcutsDescription,
-                                descriptionColor: FRColors.warnTextColor,
+                              MineSectionGroup<void>(
+                                title: t.settings.settingsDialog.themes.dark,
+                                description:
+                                    t.settings.settingsDialog.themesDescription,
                                 items: [
                                   MineSectionModel(
-                                    title: t.settings.shortcuts.move,
+                                    title:
+                                        t.settings.settingsDialog.themes.system,
                                     showIcon: false,
-                                    trailing: GroupButton<DirectionalKeysWrapper>(
-                                      options: const GroupButtonOptions(
-                                        selectedColor: FRColors.primaryColor,
-                                      ),
-                                      // style: ButtonStyle(
-                                      //   padding: WidgetStateProperty.all(
-                                      //     const EdgeInsets.symmetric(
-                                      //       vertical: 12,
-                                      //       horizontal: 18,
-                                      //     ),
-                                      //   ),
-                                      //   overlayColor: WidgetStateProperty.all(
-                                      //     FRColors.primaryBackgroundColor
-                                      //         .withValues(alpha: 0.3),
-                                      //   ),
-                                      //   surfaceTintColor: WidgetStateProperty.all(
-                                      //     FRColors.primaryBackgroundColor
-                                      //         .withValues(alpha: 0.5),
-                                      //   ),
-                                      //   minimumSize: WidgetStateProperty.all(Size.zero),
-                                      //   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      // ),
-                                      // onPressed: () => Dialogs.showHotkeyDialog(
-                                      //   attackKey,
-                                      //   onHotKeyRecorded: controller.setAttackHotkey,
-                                      // ),
-                                      controller: groupButtonController,
-                                      buttons: buttons,
-                                      buttonIndexedBuilder: (selected, index, context) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            printErrorLog(
-                                              'index: $index, selected: $selected',
-                                            );
-                                            final keyboardDirectionalKey =
-                                                keyboardDirectionalKeys
-                                                    .elementAt(index);
-                                            if (keyboardDirectionalKey.contain(
-                                                  attackKey,
-                                                ) ||
-                                                keyboardDirectionalKey.contain(
-                                                  fireKey,
-                                                )) {
-                                              BotToast.showText(
-                                                text: t.settings.shortcutsUsed,
-                                              );
-                                              return;
-                                            }
-
-                                            provider.setDirectionalKeys(index);
-                                          },
-                                          behavior: HitTestBehavior.opaque,
-                                          child: HelpDirectionalKeys(
-                                            // label:
-                                            //     buttons.elementAt(index).directionalKeys.name,
-                                            directionalKeys: buttons
-                                                .elementAt(index)
-                                                .keyboardDirectionalKeys,
-                                            labelColor: index == directionalKeys
-                                                ? FRColors.primaryColor
-                                                : null,
-                                          ),
+                                    trailing: FlutterSwitch(
+                                      width: 50,
+                                      height: 30,
+                                      toggleSize: 20,
+                                      value: auto,
+                                      borderRadius: 15,
+                                      activeColor: FRColors.primaryColor,
+                                      onToggle: (value) async {
+                                        final isDark =
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.brightness ==
+                                            Brightness.dark;
+                                        final currentMode = isDark
+                                            ? ThemeMode.dark
+                                            : ThemeMode.light;
+                                        provider.switchThemeMode(
+                                          value
+                                              ? ThemeMode.system
+                                              : currentMode,
                                         );
                                       },
-                                      // child: HotKeyVirtualView(hotKey: attackKey),
-                                    ),
-                                  ),
-                                  MineSectionModel(
-                                    title: t.settings.shortcuts.attack,
-                                    showIcon: false,
-                                    trailing: TextButton(
-                                      style: ButtonStyle(
-                                        padding: WidgetStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                            vertical: 12,
-                                            horizontal: 18,
-                                          ),
-                                        ),
-                                        overlayColor: WidgetStateProperty.all(
-                                          FRColors.primaryBackgroundColor
-                                              .withValues(alpha: 0.3),
-                                        ),
-                                        surfaceTintColor:
-                                            WidgetStateProperty.all(
-                                              FRColors.primaryBackgroundColor
-                                                  .withValues(alpha: 0.5),
-                                            ),
-                                        minimumSize: WidgetStateProperty.all(
-                                          Size.zero,
-                                        ),
-                                        tapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      onPressed: () => Dialogs.showHotkeyDialog(
-                                        attackKey,
-                                        onHotKeyRecorded:
-                                            provider.setAttackHotkey,
-                                      ),
-                                      child: HotKeyVirtualView(
-                                        hotKey: attackKey,
-                                      ),
-                                    ),
-                                  ),
-                                  MineSectionModel(
-                                    title: t.settings.shortcuts.fire,
-                                    showIcon: false,
-                                    trailing: TextButton(
-                                      style: ButtonStyle(
-                                        padding: WidgetStateProperty.all(
-                                          const EdgeInsets.symmetric(
-                                            vertical: 12,
-                                            horizontal: 18,
-                                          ),
-                                        ),
-                                        overlayColor: WidgetStateProperty.all(
-                                          FRColors.primaryBackgroundColor
-                                              .withValues(alpha: 0.3),
-                                        ),
-                                        surfaceTintColor:
-                                            WidgetStateProperty.all(
-                                              FRColors.primaryBackgroundColor
-                                                  .withValues(alpha: 0.5),
-                                            ),
-                                        minimumSize: WidgetStateProperty.all(
-                                          Size.zero,
-                                        ),
-                                        tapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      onPressed: () => Dialogs.showHotkeyDialog(
-                                        fireKey,
-                                        onHotKeyRecorded:
-                                            provider.setFireHotkey,
-                                      ),
-                                      child: HotKeyVirtualView(hotKey: fireKey),
                                     ),
                                   ),
                                 ],
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  MineSectionGroup<void>(
-                                    title:
-                                        t.settings.settingsDialog.themes.dark,
-                                    description: t
-                                        .settings
-                                        .settingsDialog
-                                        .themesDescription,
-                                    items: [
-                                      MineSectionModel(
-                                        title: t
-                                            .settings
-                                            .settingsDialog
-                                            .themes
-                                            .system,
-                                        showIcon: false,
-                                        trailing: FlutterSwitch(
-                                          width: 50,
-                                          height: 30,
-                                          toggleSize: 20,
-                                          value: auto,
-                                          borderRadius: 15,
-                                          activeColor: FRColors.primaryColor,
-                                          onToggle: (value) async {
-                                            final isDark =
-                                                Theme.of(
-                                                  context,
-                                                ).colorScheme.brightness ==
-                                                Brightness.dark;
-                                            final currentMode = isDark
-                                                ? ThemeMode.dark
-                                                : ThemeMode.light;
-                                            provider.switchThemeMode(
-                                              value
-                                                  ? ThemeMode.system
-                                                  : currentMode,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (!auto)
-                                    MineSectionGroup<ThemeMode>(
+                              if (!auto)
+                                MineSectionGroup<ThemeMode>(
+                                  title:
+                                      t.settings.settingsDialog.themes.manual,
+                                  groupValue: themeMode,
+                                  onChanged: (ThemeMode? value) async {
+                                    if (value != null) {
+                                      provider.switchThemeMode(value);
+                                    }
+                                  },
+                                  items: [
+                                    MineSectionModel(
                                       title: t
                                           .settings
                                           .settingsDialog
                                           .themes
-                                          .manual,
-                                      groupValue: themeMode,
-                                      onChanged: (ThemeMode? value) async {
-                                        if (value != null) {
-                                          provider.switchThemeMode(value);
-                                        }
-                                      },
-                                      items: [
-                                        MineSectionModel(
-                                          title: t
-                                              .settings
-                                              .settingsDialog
-                                              .themes
-                                              .light,
-                                          showIcon: false,
-                                          trailing: const Radio<ThemeMode>(
-                                            value: ThemeMode.light,
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
-                                            visualDensity: VisualDensity(
-                                              horizontal:
-                                                  VisualDensity.minimumDensity,
-                                              vertical:
-                                                  VisualDensity.minimumDensity,
-                                            ),
-                                          ),
+                                          .light,
+                                      showIcon: false,
+                                      trailing: const Radio<ThemeMode>(
+                                        value: ThemeMode.light,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        visualDensity: VisualDensity(
+                                          horizontal:
+                                              VisualDensity.minimumDensity,
+                                          vertical:
+                                              VisualDensity.minimumDensity,
                                         ),
-                                        MineSectionModel(
-                                          title: t
-                                              .settings
-                                              .settingsDialog
-                                              .themes
-                                              .dark,
-                                          showIcon: false,
-                                          trailing: const Radio<ThemeMode>(
-                                            value: ThemeMode.dark,
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
-                                            visualDensity: VisualDensity(
-                                              horizontal:
-                                                  VisualDensity.minimumDensity,
-                                              vertical:
-                                                  VisualDensity.minimumDensity,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              ),
-                              MineSectionGroup<String>(
-                                title: t.settings.settingsDialog.languages,
-                                groupValue: languageCode,
-                                onChanged: (String? value) async {
-                                  if (value != null && value.isNotEmpty) {
-                                    await LocaleSettings.setLocaleRaw(value);
-                                  }
-                                },
-                                items: t.locales.entries.map((
-                                  MapEntry<String, String> entry,
-                                ) {
-                                  final appLocale = AppLocaleUtils.parse(
-                                    entry.key,
-                                  );
-                                  return MineSectionModel(
-                                    title: entry.value,
-                                    showIcon: false,
-                                    trailing: Radio<String>(
-                                      value: appLocale.languageCode,
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      visualDensity: const VisualDensity(
-                                        horizontal:
-                                            VisualDensity.minimumDensity,
-                                        vertical: VisualDensity.minimumDensity,
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
+                                    MineSectionModel(
+                                      title:
+                                          t.settings.settingsDialog.themes.dark,
+                                      showIcon: false,
+                                      trailing: const Radio<ThemeMode>(
+                                        value: ThemeMode.dark,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        visualDensity: VisualDensity(
+                                          horizontal:
+                                              VisualDensity.minimumDensity,
+                                          vertical:
+                                              VisualDensity.minimumDensity,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                             ],
-                          );
-                        },
-                      ),
-                    ],
+                          ),
+                          MineSectionGroup<String>(
+                            title: t.settings.settingsDialog.languages,
+                            groupValue: languageCode,
+                            onChanged: (String? value) async {
+                              if (value != null && value.isNotEmpty) {
+                                await LocaleSettings.setLocaleRaw(value);
+                              }
+                            },
+                            items: t.locales.entries.map((
+                              MapEntry<String, String> entry,
+                            ) {
+                              final appLocale = AppLocaleUtils.parse(entry.key);
+                              return MineSectionModel(
+                                title: entry.value,
+                                showIcon: false,
+                                trailing: Radio<String>(
+                                  value: appLocale.languageCode,
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  visualDensity: const VisualDensity(
+                                    horizontal: VisualDensity.minimumDensity,
+                                    vertical: VisualDensity.minimumDensity,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),

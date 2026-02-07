@@ -33,6 +33,8 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool useJoystick = isMobile;
+
   // 主题
   ThemeMode themeMode = ThemeMode.system;
 
@@ -41,6 +43,11 @@ class SettingsProvider extends ChangeNotifier {
   LogicalKeyboardKey attackKey = LogicalKeyboardKey.space;
 
   LogicalKeyboardKey fireKey = LogicalKeyboardKey.keyZ;
+
+  void switchUseJoystick(bool useJoystick) {
+    this.useJoystick = useJoystick;
+    notifyListeners();
+  }
 
   void switchThemeMode(ThemeMode themeMode) {
     this.themeMode = themeMode;

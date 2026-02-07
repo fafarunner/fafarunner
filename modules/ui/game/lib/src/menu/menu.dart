@@ -11,18 +11,18 @@ import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gap/gap.dart';
 import 'package:l10n/l10n.dart';
+import 'package:provider/provider.dart';
 import 'package:shared/shared.dart';
+import 'package:theme/theme.dart';
 import 'package:tray_manager/tray_manager.dart' as tray;
 
-import '../constrants/constrants.dart';
-import '../enums/enums.dart';
+import '../../game.dart';
 import '../game/game.dart';
 import '../util/custom_sprite_animation_widget.dart';
 import '../util/dialogs.dart';
 import '../util/enemy_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';
 import '../util/navigator_util.dart';
-import '../util/sounds.dart';
 import '../widgets/custom_radio.dart';
 import '../../gen/assets.gen.dart';
 import '../widgets/help_keys.dart';
@@ -81,6 +81,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
 
   Widget buildMenu() {
     final t = Translations.of(context);
+    final provider = context.watch<SettingsProvider>();
+    final useJoystick = provider.useJoystick;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -133,41 +136,35 @@ class _MenuState extends State<Menu> with tray.TrayListener {
               DefectorRadio<bool>(
                 value: false,
                 label: t.menuPage.keyboard,
-                group: Game.useJoystick,
-                onChange: (value) {
-                  setState(() {
-                    Game.useJoystick = value;
-                  });
-                },
+                group: useJoystick,
+                onChange: provider.switchUseJoystick,
               ),
               const Gap(10),
               DefectorRadio<bool>(
                 value: true,
-                group: Game.useJoystick,
+                group: useJoystick,
                 label: t.menuPage.joystick,
-                onChange: (value) {
-                  setState(() {
-                    Game.useJoystick = value;
-                  });
-                },
+                onChange: provider.switchUseJoystick,
               ),
               const Gap(20),
-              if (!Game.useJoystick)
-                HelpKeys(
-                  onKeySelected: (isWeb || isDesktop)
-                      ? Dialogs.showSettingsModal
-                      : null,
-                ),
-              // SizedBox(
-              //   height: 80,
-              //   width: 200,
-              //   child: Sprite.load(Assets.images.keyboardTip.keyName)
-              //       .asWidget(), // 'keyboard_tip.png'
-              // ),
+              if (!useJoystick)
+                HelpKeys(onKeySelected: Dialogs.showSettingsModal),
             ],
           ),
         ),
       ),
+      floatingActionButton: isDesktop
+          ? null
+          : IconButton(
+              onPressed: () =>
+                  Dialogs.showSettingsModal(shortKeyShown: !useJoystick),
+              style: ButtonStyle(
+                overlayColor: WidgetStateProperty.all(
+                  FRColors.primaryBackgroundColor,
+                ),
+              ),
+              icon: Icon(Icons.settings, color: FRColors.primaryColor),
+            ),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: 20,
@@ -186,7 +183,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                           _launchUrlString(githubLink);
                         },
                       style: const TextStyle(
-                        decoration: TextDecoration.underline,
+                        decoration: TextDecoration.none,
                         color: Colors.blue,
                       ),
                     ),
@@ -219,7 +216,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                           TextSpan(
                             text: shaShown
                                 ? commitSha.substring(0, 8)
-                                : version,
+                                : 'v$version',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 _launchUrlString(
@@ -229,7 +226,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
                                 );
                               },
                             style: const TextStyle(
-                              decoration: TextDecoration.underline,
+                              decoration: TextDecoration.none,
                               color: Colors.blue,
                             ),
                           ),
@@ -319,7 +316,9 @@ class _MenuState extends State<Menu> with tray.TrayListener {
   @override
   void onTrayMenuItemClick(tray.MenuItem menuItem) {
     if (menuItem.key == Menus.settings.name) {
-      Dialogs.showSettingsModal();
+      final provider = context.read<SettingsProvider>();
+      final useJoystick = provider.useJoystick;
+      Dialogs.showSettingsModal(shortKeyShown: !useJoystick);
     } else if (menuItem.key == Menus.exit.name) {
       exit(0);
     }

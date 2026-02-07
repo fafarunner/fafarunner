@@ -12,11 +12,8 @@ PODS:
     - FlutterMacOS
   - package_info_plus (0.0.1):
     - FlutterMacOS
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
   - Sentry/HybridSDK (8.56.2)
-  - sentry_flutter (9.9.1):
+  - sentry_flutter (9.12.0):
     - Flutter
     - FlutterMacOS
     - Sentry/HybridSDK (= 8.56.2)
@@ -35,7 +32,6 @@ DEPENDENCIES:
   - games_services (from `Flutter/ephemeral/.symlinks/plugins/games_services/darwin`)
   - nb_utils (from `Flutter/ephemeral/.symlinks/plugins/nb_utils/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
-  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - sentry_flutter (from `Flutter/ephemeral/.symlinks/plugins/sentry_flutter/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin`)
   - tray_manager (from `Flutter/ephemeral/.symlinks/plugins/tray_manager/macos`)
@@ -58,8 +54,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/nb_utils/macos
   package_info_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
-  path_provider_foundation:
-    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
   sentry_flutter:
     :path: Flutter/ephemeral/.symlinks/plugins/sentry_flutter/macos
   shared_preferences_foundation:
@@ -76,9 +70,8 @@ SPEC CHECKSUMS:
   games_services: 6115dc856b31b6e4348a838a49bf89c9342305ba
   nb_utils: 2361d8cd78db3c0167bab7635f62ec6d8a329819
   package_info_plus: f0052d280d17aa382b932f399edf32507174e870
-  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
   Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
-  sentry_flutter: 580133c878f86698e23bb5dd7217a3387c4b79b5
+  sentry_flutter: 26f4615de8bdc741318397fdc78ba3e4e08df07f
   shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
   tray_manager: a104b5c81b578d83f3c3d0f40a997c8b10810166
   url_launcher_macos: f87a979182d112f911de6820aefddaf56ee9fbfd
