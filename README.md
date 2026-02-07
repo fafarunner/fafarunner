@@ -7,6 +7,8 @@
 [![Release](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release.yml)
 [![Release Web](https://github.com/fafarunner/fafarunner/actions/workflows/release-web.yml/badge.svg)](https://github.com/fafarunner/fafarunner/actions/workflows/release-web.yml)
 
+## Status: Work In Progress
+
 ## Version
 
 | Platforms  | Versions                                                                                                                                                                                                                                                                                                                                                      |
