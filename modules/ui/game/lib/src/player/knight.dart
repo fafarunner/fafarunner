@@ -13,7 +13,7 @@ import '../util/player_sprite_sheet.dart';
 import '../util/sounds.dart';
 import '../../gen/assets.gen.dart';
 
-class Knight extends SimplePlayer with Lighting, BlockMovementCollision {
+class Knight extends SimplePlayer with Lighting, SimpleCollision {
   Knight(Vector2 position)
     : super(
         animation: PlayerSpriteSheet.playerAnimations(),

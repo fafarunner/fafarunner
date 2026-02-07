@@ -17,7 +17,7 @@ import '../util/npc_sprite_sheet.dart';
 import '../util/player_sprite_sheet.dart';
 import '../util/sounds.dart';
 
-class Boss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
+class Boss extends SimpleEnemy with SimpleCollision, UseLifeBar {
   Boss(this.initPosition)
     : super(
         animation: EnemySpriteSheet.bossAnimations(),

@@ -40,7 +40,7 @@ class MineSectionItem extends StatelessWidget {
       child = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (leading != null) leading!,
+          ?leading,
           Expanded(
             child: Text(
               name,
@@ -71,7 +71,7 @@ class MineSectionItem extends StatelessWidget {
               color: FRColors.borderColor,
               size: 14,
             ),
-          if (trailing != null) trailing!,
+          ?trailing,
         ],
       );
     } else {
@@ -84,7 +84,7 @@ class MineSectionItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (leading != null) leading!,
+                  ?leading,
                   Text(
                     name,
                     maxLines: 1,
@@ -117,7 +117,7 @@ class MineSectionItem extends StatelessWidget {
               color: FRColors.borderColor,
               size: 14,
             ),
-          if (trailing != null) trailing!,
+          ?trailing,
         ],
       );
     }
