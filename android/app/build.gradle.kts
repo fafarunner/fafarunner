@@ -1,11 +1,11 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
 }
-
-import java.util.Properties
-import java.io.FileInputStream
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
@@ -111,4 +111,6 @@ flutter {
     source = "../.."
 }
 
-dependencies {}
+dependencies {
+    implementation("com.google.android.gms:play-services-games-v2:21.0.0")
+}
