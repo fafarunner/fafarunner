@@ -413,10 +413,10 @@ packages:
     dependency: transitive
     description:
       name: flame_audio
-      sha256: "339b8aa5576e9d4678608c07b8e973ffa17802aaabb701a813364b59b64aedec"
+      sha256: "1b8df0e277cc1aea3a8bf93530e64ab92612344a5580ed737edee0cbde46d78b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.12"
+    version: "2.11.13"
   flame_splash_screen:
     dependency: transitive
     description:
