@@ -33,6 +33,17 @@
                 android:resource="@drawable/launch_background"
             />
         </activity>
+
+        <provider tools:node="remove" android:name="com.google.android.gms.games.provider.PlayGamesInitProvider" />
+
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="${GOOGLE_PLAY_GAMES_APP_ID}" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
