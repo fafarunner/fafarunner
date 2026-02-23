@@ -8,7 +8,7 @@ import '../util/functions.dart';
 import '../util/game_sprite_sheet.dart';
 import '../util/sounds.dart';
 
-class MiniBoss extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
+class MiniBoss extends SimpleEnemy with SimpleCollision, UseLifeBar {
   MiniBoss(this.initPosition)
     : super(
         animation: EnemySpriteSheet.miniBossAnimations(),

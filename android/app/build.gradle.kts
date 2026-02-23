@@ -1,11 +1,11 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
 }
-
-import java.util.Properties
-import java.io.FileInputStream
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
@@ -33,6 +33,10 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
+    sourceSets.getByName("main") {
+        java.setSrcDirs(listOf("src/main/java", "src/main/kotlin"))
+    }
+
     defaultConfig {
         applicationId = "com.chenyifaer.fafarunner"
         // You can update the following values to match your application needs.
@@ -41,6 +45,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders["GOOGLE_PLAY_GAMES_APP_ID"] = System.getenv("GOOGLE_PLAY_GAMES_APP_ID") ?: ""
     }
 
     flavorDimensions += "default"
@@ -86,7 +91,7 @@ android {
         }
     }
 
-    packagingOptions {
+    packaging {
         jniLibs {
             // Enabling flag to compress JNI Libs to reduce APK size Ref: https://developer.android.com/topic/performance/reduce-apk-size?hl=zh-cn#extract-false
             useLegacyPackaging = true
@@ -106,4 +111,6 @@ flutter {
     source = "../.."
 }
 
-dependencies {}
+dependencies {
+    implementation("com.google.android.gms:play-services-games-v2:21.0.0")
+}

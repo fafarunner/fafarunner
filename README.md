@@ -1,4 +1,4 @@
-# FaFa Runner
+# FaFa Runner (Status: WIP)
 
 > NOTE: This project is developed based on [Darkness Dungeon](https://github.com/RafaelBarbosatec/darkness_dungeon).
 

@@ -73,6 +73,8 @@ jobs:
       # Build the application.
       - name: Build apk
         run: flutter build apk --release --no-tree-shake-icons --flavor staging
+        env:
+          GOOGLE_PLAY_GAMES_APP_ID: ${{ secrets.GOOGLE_PLAY_GAMES_APP_ID }}
 
       # Package the build.
       - name: Copy build for Android
