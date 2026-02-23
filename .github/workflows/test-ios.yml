@@ -109,7 +109,7 @@ jobs:
       - name: Copy build for iOS
         run: |
           ls -la
-          cp *.ipa $GITHUB_WORKSPACE/FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER".ipa
+          cp FaFaRunner.ipa $GITHUB_WORKSPACE/FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER".ipa
         working-directory: build/ios/ipa
         env:
           VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}

@@ -282,7 +282,7 @@ jobs:
         if: github.event.inputs.env == 'staging'
         run: |
           ls -la
-          cp *.aab $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.aab
+          cp app-staging-release.aab $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.aab
         working-directory: build/app/outputs/bundle/stagingRelease
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -291,7 +291,7 @@ jobs:
         if: github.event.inputs.env == 'production'
         run: |
           ls -la
-          cp *.aab $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.aab
+          cp app-production-release.aab $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.aab
         working-directory: build/app/outputs/bundle/productionRelease
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}
@@ -409,7 +409,7 @@ jobs:
       - name: Copy build for iOS
         run: |
           ls -la
-          cp *.ipa $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.ipa
+          cp FaFaRunner.ipa $GITHUB_WORKSPACE/FaFaRunner-$RELEASE.ipa
         working-directory: build/ios/ipa
         env:
           RELEASE: ${{ needs.create-release.outputs.release }}

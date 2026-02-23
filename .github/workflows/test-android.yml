@@ -86,8 +86,8 @@ jobs:
       - name: Copy build for Android
         run: |
           ls -la
-          cp *.apk $GITHUB_WORKSPACE/FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER".apk
-        working-directory: build/app/outputs/apk/staging/release
+          cp app-staging-release.apk $GITHUB_WORKSPACE/FaFaRunner-"$VERSION_SHORT.$BUILD_NUMBER".apk
+        working-directory: build/app/outputs/flutter-apk
         env:
           VERSION_SHORT: ${{ steps.version_step.outputs.version_short }}
           BUILD_NUMBER: ${{ steps.version_step.outputs.build_number }}

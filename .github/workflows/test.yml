@@ -78,8 +78,8 @@ jobs:
 
       # Package the build.
       - name: Copy build for Android
-        run: cp *.apk $GITHUB_WORKSPACE/
-        working-directory: build/app/outputs/apk/staging/release
+        run: cp app-staging-release.apk $GITHUB_WORKSPACE/
+        working-directory: build/app/outputs/flutter-apk
 
       - name: Clean up
         if: ${{ always() }}
@@ -168,7 +168,7 @@ jobs:
 
       # Package the build.
       - name: Copy build for iOS
-        run: cp *.ipa $GITHUB_WORKSPACE/
+        run: cp FaFaRunner.ipa $GITHUB_WORKSPACE/
         working-directory: build/ios/ipa
 
       - name: Clean up keychain and provisioning profile
