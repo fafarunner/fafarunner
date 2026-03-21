@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "33CC10EC2044A3C60003C045"
                BuildableName = "FaFa Runner.app"
-               BlueprintName = "FaFaRunnerMac"
-               ReferencedContainer = "container:FaFaRunnerMac.xcodeproj">
+               BlueprintName = "FaFaRunner"
+               ReferencedContainer = "container:FaFaRunner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,8 +46,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "33CC10EC2044A3C60003C045"
             BuildableName = "FaFa Runner.app"
-            BlueprintName = "FaFaRunnerMac"
-            ReferencedContainer = "container:FaFaRunnerMac.xcodeproj">
+            BlueprintName = "FaFaRunner"
+            ReferencedContainer = "container:FaFaRunner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "33CC10EC2044A3C60003C045"
             BuildableName = "FaFa Runner.app"
-            BlueprintName = "FaFaRunnerMac"
-            ReferencedContainer = "container:FaFaRunnerMac.xcodeproj">
+            BlueprintName = "FaFaRunner"
+            ReferencedContainer = "container:FaFaRunner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
