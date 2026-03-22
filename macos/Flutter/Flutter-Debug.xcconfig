@@ -1,2 +1,2 @@
-#include? "Pods/Target Support Files/Pods-FaFaRunnerMac/Pods-FaFaRunnerMac.debug.xcconfig"
+#include? "Pods/Target Support Files/Pods-FaFaRunner/Pods-FaFaRunner.debug.xcconfig"
 #include "ephemeral/Flutter-Generated.xcconfig"

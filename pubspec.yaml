@@ -2,7 +2,7 @@ name: fafarunner
 description: Enjoy smooth gameplay, stunning graphics, and endless fun.
 publish_to: 'none'
 
-version: 2.6.1+388
+version: 2.7.0+389
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
@@ -29,8 +29,8 @@ dependencies:
   game: any
   l10n: any
   logger: any
-  sentry_flutter: ^9.12.0
-  sentry_logging: ^9.12.0
+  sentry_flutter: ^9.15.0
+  sentry_logging: ^9.15.0
   shared: any
   theme: any
   url_strategy: any
@@ -44,7 +44,7 @@ dev_dependencies:
   msix: ^3.16.13
 
 dependency_overrides:
-  archive: ^4.0.7
+  archive: ^4.0.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

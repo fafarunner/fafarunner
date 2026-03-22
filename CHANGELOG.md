@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.7.0
+
+1. fix: replace `nuget restore` with `msbuild -restore` (#408)
+2. refactor: Replace `get` with `provider` (#410)
+3. chore(deps): update deps
+4. Update flutter to 3.38.10
+5. fix: set Xcode version to 26.2 (#429)
+6. fix: Failed to find any of [ld.lld, ld] in LocalDirectory: '/usr/lib/llvm-14/bin' (#431)
+7. fix: Game Freezes on 1st boss (#405)
+
 ## 2.6.1
 
 1. chore(deps): update deps
