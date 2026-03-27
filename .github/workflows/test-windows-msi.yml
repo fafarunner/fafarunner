@@ -93,7 +93,7 @@ jobs:
           flutter build windows --dart-define-from-file=.env
 
       - name: Add MSBuild to PATH
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Create msi
         shell: pwsh
