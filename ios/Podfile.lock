@@ -9,9 +9,6 @@ PODS:
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
-  - games_services (4.1.0):
-    - Flutter
-    - FlutterMacOS
   - nb_utils (0.0.1):
     - Flutter
   - package_info_plus (0.4.5):
@@ -33,7 +30,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - games_services (from `.symlinks/plugins/games_services/darwin`)
   - nb_utils (from `.symlinks/plugins/nb_utils/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
@@ -55,8 +51,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  games_services:
-    :path: ".symlinks/plugins/games_services/darwin"
   nb_utils:
     :path: ".symlinks/plugins/nb_utils/ios"
   package_info_plus:
@@ -74,7 +68,6 @@ SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
   fluttertoast: 2c67e14dce98bbdb200df9e1acf610d7a6264ea1
-  games_services: 6115dc856b31b6e4348a838a49bf89c9342305ba
   nb_utils: f4e2d76a9018f7ac0ed7823d8efd6eca639c01a5
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   Sentry: d587a8fe91ca13503ecd69a1905f3e8a0fcf61be

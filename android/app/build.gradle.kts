@@ -45,7 +45,6 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        manifestPlaceholders["GOOGLE_PLAY_GAMES_APP_ID"] = System.getenv("GOOGLE_PLAY_GAMES_APP_ID") ?: ""
     }
 
     flavorDimensions += "default"
@@ -111,6 +110,4 @@ flutter {
     source = "../.."
 }
 
-dependencies {
-    implementation("com.google.android.gms:play-services-games-v2:21.0.0")
-}
+dependencies {}

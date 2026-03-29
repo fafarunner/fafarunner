@@ -188,7 +188,6 @@ jobs:
           flutter build apk --dart-define-from-file=.env --no-tree-shake-icons --flavor $FLAVOR
         env:
           ENV: ${{ github.event.inputs.env }}
-          GOOGLE_PLAY_GAMES_APP_ID: ${{ secrets.GOOGLE_PLAY_GAMES_APP_ID }}
 
       # Package the build.
       - name: Copy build for Android
@@ -275,7 +274,6 @@ jobs:
           flutter build appbundle --dart-define-from-file=.env --no-tree-shake-icons --flavor $FLAVOR
         env:
           ENV: ${{ github.event.inputs.env }}
-          GOOGLE_PLAY_GAMES_APP_ID: ${{ secrets.GOOGLE_PLAY_GAMES_APP_ID }}
 
       # Package the build.
       - name: Copy build for Android
