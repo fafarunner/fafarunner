@@ -8,7 +8,7 @@ import '../util/functions.dart';
 import '../util/game_sprite_sheet.dart';
 import '../util/sounds.dart';
 
-class Imp extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
+class Imp extends SimpleEnemy with SimpleCollision, UseLifeBar {
   Imp(this.initPosition)
     : super(
         animation: EnemySpriteSheet.impAnimations(),

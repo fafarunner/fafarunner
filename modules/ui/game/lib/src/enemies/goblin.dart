@@ -8,7 +8,7 @@ import '../util/functions.dart';
 import '../util/game_sprite_sheet.dart';
 import '../util/sounds.dart';
 
-class Goblin extends SimpleEnemy with BlockMovementCollision, UseLifeBar {
+class Goblin extends SimpleEnemy with SimpleCollision, UseLifeBar {
   Goblin(this.initPosition)
     : super(
         animation: EnemySpriteSheet.goblinAnimations(),

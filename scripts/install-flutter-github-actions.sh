@@ -20,7 +20,7 @@ if [ -d "$FLUTTER_DIR/flutter" ]; then
 fi
 
 echo "🟩 Cloning"
-mkdir -p "$FLUTTER_DIR/flutter" && git clone --depth 1 -b 3.38.10 https://github.com/flutter/flutter.git "$FLUTTER_DIR/flutter"
+mkdir -p "$FLUTTER_DIR/flutter" && git clone --depth 1 -b 3.41.6 https://github.com/flutter/flutter.git "$FLUTTER_DIR/flutter"
 
 echo "🟩 Config $FLUTTER_DIR/flutter"
 git config --global --add safe.directory "$FLUTTER_DIR/flutter"

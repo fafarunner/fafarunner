@@ -1,11 +1,11 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
 }
-
-import java.util.Properties
-import java.io.FileInputStream
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
 // keystore.properties file, in the rootProject folder.
@@ -31,6 +31,10 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    sourceSets.getByName("main") {
+        java.setSrcDirs(listOf("src/main/java", "src/main/kotlin"))
     }
 
     defaultConfig {
@@ -86,7 +90,7 @@ android {
         }
     }
 
-    packagingOptions {
+    packaging {
         jniLibs {
             // Enabling flag to compress JNI Libs to reduce APK size Ref: https://developer.android.com/topic/performance/reduce-apk-size?hl=zh-cn#extract-false
             useLegacyPackaging = true
