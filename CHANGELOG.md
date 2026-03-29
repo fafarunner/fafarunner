@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.8.0
+
+1. build(deps): bump bonfire from 3.16.1 to 4.0.0-beta.2 (#436)
+2. fix: update project name (#443)
+3. chore(deps): update deps
+4. Update flutter to 3.41.6
+
 ## 2.7.0
 
 1. fix: replace `nuget restore` with `msbuild -restore` (#408)
