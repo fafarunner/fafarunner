@@ -9,14 +9,9 @@ permissions: read-all
 jobs:
   dmg:
     name: Create macos dmg
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v6
-
-      - name: setup node
-        uses: actions/setup-node@v6
-        with:
-          node-version: 18
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
