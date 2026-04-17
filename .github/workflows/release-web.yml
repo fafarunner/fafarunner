@@ -54,8 +54,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.FR_RELEASE_TOKEN }}
+          publish_branch: web
           publish_dir: ./build/web
-          cname: web.fafarunner.com
 
       - name: Clean up
         if: ${{ always() }}
