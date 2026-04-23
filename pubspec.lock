@@ -117,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: bonfire
-      sha256: "8c621c9d4b9051d1df4ce297e5b1575768e4130d03a1a3577d4de11a571aecab"
+      sha256: c7c805d7d6b90ee54b6d427866883c2da9426ddbad736468706bb08a5b301dd4
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0-beta.3"
+    version: "4.0.0-beta.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -389,26 +389,26 @@ packages:
     dependency: transitive
     description:
       name: flame
-      sha256: d084557523a45ad446d2480a4fa5a1c75aade5f8eb54251418e0ed4ee73ff3b8
+      sha256: b9e65f6d7d06a301d6ea3cde03731cad3cdc255d56e0fb53c56c1e7806aaaf6a
       url: "https://pub.dev"
     source: hosted
-    version: "1.35.1"
+    version: "1.37.0"
   flame_audio:
     dependency: transitive
     description:
       name: flame_audio
-      sha256: "47d414720769fd0f1e73b1f14f857018fe49509452fe6c412d05357c6285f987"
+      sha256: "16303eef8e21281432d91f88526f91ef949d13a6f706a7d9252bfc027ceea39d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.14"
+    version: "2.12.1"
   flame_splash_screen:
     dependency: transitive
     description:
       name: flame_splash_screen
-      sha256: "5fdb0614321f0e084ba314b5cb39f3e0bcf0a6d77361703449ed6d70d9b96cea"
+      sha256: "7f3d353d19c4e74ee5774cffb96363047b964c283c801f9c211f17232a524973"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1+2"
+    version: "0.3.1+3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -793,18 +793,18 @@ packages:
     dependency: transitive
     description:
       name: package_info_plus
-      sha256: c2a4a9404e578d7c69e3cf19f0b057d906bd0b073deedc8006db997a8bfe97ca
+      sha256: "4bf625947f6c7713ee242296a682e23e44823c09cf9d79e4f1238923c92db852"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.0"
+    version: "10.1.0"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
       name: package_info_plus_platform_interface
-      sha256: "063b21cce7a2e3d902897d6cefc3bd211bb8ea42190698be72219cd5017f1c65"
+      sha256: db762cb2f4f25ee60fb6359773861b0f199e00b90d237bd85a76a1e806b46ef4
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   path:
     dependency: transitive
     description:
@@ -945,26 +945,26 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: "8c07a413ce5691db5b299024498f1ad6376e015f61b6d8fc8819b042f65df6c7"
+      sha256: "1f78300740739ff4b4920802687879231554350eab73eb229778f463aabda440"
       url: "https://pub.dev"
     source: hosted
-    version: "9.18.0"
+    version: "9.19.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "0c98ca79261325806c4eccc47274910306e2d914dfefc598650819677ce2b484"
+      sha256: "168bbb120f7684dee6c0e100817f56ee1925bc2eb7fa55a71253337640c7e241"
       url: "https://pub.dev"
     source: hosted
-    version: "9.18.0"
+    version: "9.19.0"
   sentry_logging:
     dependency: "direct main"
     description:
       name: sentry_logging
-      sha256: "04848afb41a18817da72f948095f9756456074bdf3a7fa392d336ac61e427489"
+      sha256: f335c25407bd5c68fd173cfb12f2ec324ebe20dce904b0f13d839fb110747659
       url: "https://pub.dev"
     source: hosted
-    version: "9.18.0"
+    version: "9.19.0"
   serial_csv:
     dependency: transitive
     description:
