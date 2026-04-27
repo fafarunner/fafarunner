@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
 
 # Declare default permissions as readonly.
-permissions: read-all
+permissions:
+  contents: write
 
 jobs:
   web:
@@ -53,7 +54,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.FR_RELEASE_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: web
           publish_dir: ./build/web
 
