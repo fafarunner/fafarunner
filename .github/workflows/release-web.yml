@@ -51,12 +51,12 @@ jobs:
       - name: Copy files to flutter web
         run: cp LICENSE README.md ./build/web
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: web
-          publish_dir: ./build/web
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy build/web --project-name=fafarunner-web
 
       - name: Clean up
         if: ${{ always() }}
