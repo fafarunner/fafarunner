@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.0
+
+1. chore(deps): update deps
+2. Update flutter to 3.41.9
+3. build(deps): bump bonfire from 4.0.0-beta.4 to 4.0.0-beta.5
+
 ## 2.9.0
 
 1. chore(deps): update deps
