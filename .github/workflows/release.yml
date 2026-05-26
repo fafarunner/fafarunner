@@ -373,12 +373,6 @@ jobs:
           mv $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           mv $PP_DEV_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: ios
-
       - name: Build ipa
         if: github.event.inputs.env == 'staging'
         run: |
@@ -444,12 +438,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |
@@ -566,12 +554,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |
@@ -708,12 +690,6 @@ jobs:
       - name: Resolving flutter dependencies
         run: flutter pub get
 
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
-
       - name: Build macOS
         run: |
           echo "╠ Releasing to mac app store..."
@@ -849,12 +825,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |

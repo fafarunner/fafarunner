@@ -141,12 +141,6 @@ jobs:
           PROVISION_PROFILE_DEV_BASE64: ${{ secrets.PROVISIONING_PROFILE_DEV_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: ios
-
       - name: Build
         run: |
           echo "╠ Releasing to app store..."
@@ -188,12 +182,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |
