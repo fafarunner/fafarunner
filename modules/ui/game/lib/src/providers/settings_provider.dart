@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:shared/shared.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../enums/enums.dart';
 import '../util/string_util.dart';
@@ -52,25 +53,25 @@ class SettingsProvider extends ChangeNotifier {
   void switchThemeMode(ThemeMode themeMode) {
     this.themeMode = themeMode;
     notifyListeners();
-    setValue('themeMode', themeMode.name);
+    SpUtil.putString('themeMode', themeMode.name);
   }
 
   void setDirectionalKeys(int index) {
     directionalKeys = index;
     notifyListeners();
-    setValue(getCachedKey(CustomKeys.directional.name), index);
+    SpUtil.putInt(getCachedKey(CustomKeys.directional.name), index);
   }
 
   void setAttackHotkey(LogicalKeyboardKey hotkey) {
     attackKey = hotkey;
     notifyListeners();
-    setValue(getCachedKey(CustomKeys.attack.name), hotkey.keyId);
+    SpUtil.putInt(getCachedKey(CustomKeys.attack.name), hotkey.keyId);
   }
 
   void setFireHotkey(LogicalKeyboardKey hotkey) {
     fireKey = hotkey;
     notifyListeners();
-    setValue(getCachedKey(CustomKeys.fire.name), hotkey.keyId);
+    SpUtil.putInt(getCachedKey(CustomKeys.fire.name), hotkey.keyId);
   }
 
   ThemeMode getThemeMode() {
@@ -103,5 +104,13 @@ class SettingsProvider extends ChangeNotifier {
     printDebugLog('${CustomKeys.fire} from storage: $value');
 
     return value != 0 ? LogicalKeyboardKey(value) : null;
+  }
+
+  int getIntAsync(String key, {int defaultValue = 0}) {
+    return SpUtil.getSp()?.getInt(key) ?? defaultValue;
+  }
+
+  String getStringAsync(String key, {String defaultValue = ''}) {
+    return SpUtil.getSp()?.getString(key) ?? defaultValue;
   }
 }

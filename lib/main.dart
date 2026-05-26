@@ -10,11 +10,11 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:game/game.dart';
 import 'package:l10n/l10n.dart';
 import 'package:logger/logger.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:shared/shared.dart';
+import 'package:sp_util/sp_util.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'package:fafarunner/app/app.dart';
@@ -39,7 +39,7 @@ Future<void> main() async {
   }
 
   // init storage
-  await initialize();
+  await SpUtil.getInstance();
 
   Logger.root.level = kReleaseMode
       ? Level.OFF
