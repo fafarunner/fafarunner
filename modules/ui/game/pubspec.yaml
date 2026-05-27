@@ -22,7 +22,6 @@ dependencies:
   provider: ^6.1.5+1
   shared: any
   shared_preferences: ^2.5.5
-  sp_util: ^2.0.3
   tray_manager:
     git:
       url: https://github.com/vitormf/tray_manager.git

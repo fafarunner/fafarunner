@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:shared/shared.dart';
-import 'package:sp_util/sp_util.dart';
 
 import '../enums/enums.dart';
+import '../util/sp_util.dart';
 import '../util/string_util.dart';
 
 const cachedKeyPrefix = 'fr_hotkey_';
@@ -75,7 +75,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   ThemeMode getThemeMode() {
-    final name = getStringAsync('themeMode');
+    final name = SpUtil.getStringAsync('themeMode');
     printDebugLog('theme mode from storage: $name');
 
     if (StringUtil.isBlank(name)) return ThemeMode.system;
@@ -86,31 +86,23 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   int getDirectionalKeys() {
-    final value = getIntAsync(getCachedKey(CustomKeys.directional.name));
+    final value = SpUtil.getIntAsync(getCachedKey(CustomKeys.directional.name));
     printDebugLog('directional from storage: $value');
 
     return min(1, value);
   }
 
   LogicalKeyboardKey? getAttackHotKey() {
-    final value = getIntAsync(getCachedKey(CustomKeys.attack.name));
+    final value = SpUtil.getIntAsync(getCachedKey(CustomKeys.attack.name));
     printDebugLog('${CustomKeys.attack} from storage: $value');
 
     return value != 0 ? LogicalKeyboardKey(value) : null;
   }
 
   LogicalKeyboardKey? getFireHotKey() {
-    final value = getIntAsync(getCachedKey(CustomKeys.fire.name));
+    final value = SpUtil.getIntAsync(getCachedKey(CustomKeys.fire.name));
     printDebugLog('${CustomKeys.fire} from storage: $value');
 
     return value != 0 ? LogicalKeyboardKey(value) : null;
-  }
-
-  int getIntAsync(String key, {int defaultValue = 0}) {
-    return SpUtil.getSp()?.getInt(key) ?? defaultValue;
-  }
-
-  String getStringAsync(String key, {String defaultValue = ''}) {
-    return SpUtil.getSp()?.getString(key) ?? defaultValue;
   }
 }
