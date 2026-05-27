@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'package:shared/shared.dart';
-import 'package:sp_util/sp_util.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'package:fafarunner/app/app.dart';

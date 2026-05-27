@@ -22,7 +22,6 @@ dependencies:
   provider: ^6.1.5+1
   shared: any
   shared_preferences: ^2.5.5
-  sp_util: ^2.0.3
   tray_manager: ^0.5.2
 
 dev_dependencies:

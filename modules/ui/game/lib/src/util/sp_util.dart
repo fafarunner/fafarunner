@@ -114,6 +114,31 @@ class SpUtil {
     return _prefs?.clear();
   }
 
+  /// Returns a StringList if exists in SharedPref
+  static List<String>? getStringListAsync(String key) {
+    return _prefs?.getStringList(key);
+  }
+
+  /// Returns a Bool if exists in SharedPref
+  static bool getBoolAsync(String key, {bool defaultValue = false}) {
+    return _prefs?.getBool(key) ?? defaultValue;
+  }
+
+  /// Returns a Double if exists in SharedPref
+  static double getDoubleAsync(String key, {double defaultValue = 0.0}) {
+    return _prefs?.getDouble(key) ?? defaultValue;
+  }
+
+  /// Returns a Int if exists in SharedPref
+  static int getIntAsync(String key, {int defaultValue = 0}) {
+    return _prefs?.getInt(key) ?? defaultValue;
+  }
+
+  /// Returns a String if exists in SharedPref
+  static String getStringAsync(String key, {String defaultValue = ''}) {
+    return _prefs?.getString(key) ?? defaultValue;
+  }
+
   /// Fetches the latest values from the host platform.
   static Future<void>? reload() {
     return _prefs?.reload();

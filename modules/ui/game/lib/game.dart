@@ -8,3 +8,4 @@ export 'src/providers/providers.dart';
 export 'src/enums/enums.dart';
 export 'src/menu/menu.dart';
 export 'src/util/sounds.dart';
+export 'src/util/sp_util.dart';
