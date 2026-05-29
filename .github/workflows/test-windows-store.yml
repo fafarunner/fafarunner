@@ -7,31 +7,11 @@ on:
 permissions: read-all
 
 jobs:
-  get-version:
-    name: Get version
-    runs-on: ubuntu-22.04
-    outputs:
-      version: ${{ steps.version_step.outputs.version }}
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Set version
-        id: version_step
-        run: |
-          VERSION=$(yq '.version' pubspec.yaml)
-          echo "$VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Check version
-        run: echo ${{ steps.version_step.outputs.version }}
-
   store:
     name: Create windows store
     runs-on: windows-2025
     env:
       Platform: x64
-    needs:
-      - get-version
     steps:
       - uses: actions/checkout@v6
 
@@ -71,16 +51,16 @@ jobs:
           
           $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
 
-          $yamlFile = ".\pubspec.yaml"
+          $yamlFile = ".\windows\packaging\msix\make_config.yaml"
           $yamlContent = Get-Content -Raw -Path $yamlFile
 
           # 获取环境变量的值
-          # $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
-          # $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
-          # $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
+          $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
+          $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
+          $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
 
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.certificate_path = env(certificatePath) | .msix_config.certificate_password = `"$certificatePassword`" | del(.msix_config.identity_name) | del(.msix_config.publisher) | del(.msix_config.publisher_display_name)" -
+          $updatedYamlContent = echo $yamlContent | yq e ".certificate_path = env(certificatePath) | .certificate_password = `"$certificatePassword`" | .identity_name = `"$identityName`" | .publisher = `"$publisher`" | .publisher_display_name = `"$publisherName`"" -
 
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
@@ -91,29 +71,26 @@ jobs:
           WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
+      - name: Install fastforge
+        run: dart pub global activate fastforge
+
       - name: Install flutter dependencies
         run: flutter pub get
 
-      - name: Build windows
+      - name: Build msix
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
-          flutter build windows --dart-define-from-file=.env
-
-      - name: Create msix
-        run: dart run msix:create --build-windows false  --output-name "fafarunner-$env:VERSION-windows-$env:Platform"
-        env:
-          VERSION: ${{ needs.get-version.outputs.version }}
-
-      # Package the build.
-      - name: Copy build for msix
-        run: ls
-        working-directory: build\windows\${{ env.Platform }}\runner\Release
+          fastforge package `
+            --skip-clean `
+            --flutter-build-args "dart-define-from-file=.env" `
+            --platform windows `
+            --targets msix `
+            --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-$env:Platform.{{ext}}"
 
       - uses: actions/upload-artifact@v7
         with:
           name: windows-msix-artifact
-          path: |
-            .\build\windows\${{ env.Platform }}\runner\Release\*.msix
+          path: .\dist\**\*.msix
 
       - name: Clean up
         if: ${{ always() }}
