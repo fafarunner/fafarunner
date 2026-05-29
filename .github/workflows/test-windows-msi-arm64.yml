@@ -1,4 +1,4 @@
-name: Test Windows msi
+name: Test Windows msi (arm64)
 
 on:
   workflow_dispatch:
@@ -45,9 +45,9 @@ jobs:
 
   msi:
     name: Create msi
-    runs-on: windows-2025
+    runs-on: windows-11-arm
     env:
-      Platform: x64
+      Platform: arm64
       Configuration: Release
     needs:
       - get-version
@@ -55,10 +55,15 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.44.0'
+        shell: pwsh
+        run: .\scripts\install-flutter-github-actions.ps1
+
+      - name: Download a fresh binary instead of using the stamped x64 version
+        shell: pwsh
+        run: |
+          Remove-Item -Path "$env:FLUTTER_ROOT\flutter\bin\cache\engine-dart-sdk.stamp" -Force -ErrorAction SilentlyContinue
+          dart --version
+          flutter precache --windows
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -89,6 +94,7 @@ jobs:
       - name: Build windows
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
+          $env:FLUTTER_WINDOWS_PLATFORM = "$env:Platform"
           flutter build windows --dart-define-from-file=.env
 
       - name: Add MSBuild to PATH
@@ -97,7 +103,6 @@ jobs:
       - name: Create msi
         shell: pwsh
         run: |
-          echo $env:RUNNER_TEMP
           $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
           # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
           # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell

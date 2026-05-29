@@ -1,4 +1,4 @@
-name: Test Windows zip
+name: Test Windows zip (arm64)
 
 on:
   workflow_dispatch:
@@ -9,17 +9,22 @@ permissions: read-all
 jobs:
   zip:
     name: Create windows zip
-    runs-on: windows-2025
+    runs-on: windows-11-arm
     env:
-      Platform: x64
+      Platform: arm64
     steps:
       - uses: actions/checkout@v6
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          flutter-version: '3.44.0'
+        shell: pwsh
+        run: .\scripts\install-flutter-github-actions.ps1
+
+      - name: Download a fresh binary instead of using the stamped x64 version
+        shell: pwsh
+        run: |
+          Remove-Item -Path "$env:FLUTTER_ROOT\flutter\bin\cache\engine-dart-sdk.stamp" -Force -ErrorAction SilentlyContinue
+          dart --version
+          flutter precache --windows
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -44,6 +49,7 @@ jobs:
         shell: pwsh
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
+          $env:FLUTTER_WINDOWS_PLATFORM = "$env:Platform"
           fastforge package `
             --skip-clean `
             --flutter-build-args "dart-define-from-file=.env" `

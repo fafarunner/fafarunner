@@ -107,15 +107,30 @@ install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   CONFIGURATIONS Profile;Release
   COMPONENT Runtime)
 
+# 1. Retrieve an environment variable, providing a default value if it is not set (to prevent errors).
+set(TARGET_ARCH $ENV{FLUTTER_WINDOWS_PLATFORM})
+if(NOT TARGET_ARCH)
+    set(TARGET_ARCH "x64") # Defaults to x64
+endif()
+
+# 2. Set the corresponding DLL directory based on the architecture value.
+if(TARGET_ARCH STREQUAL "x64")
+    set(DLL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dlls/x64")
+elseif(TARGET_ARCH STREQUAL "arm64")
+    set(DLL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dlls/arm64")
+else()
+    message(FATAL_ERROR "Unknown architecture type: ${TARGET_ARCH}")
+endif()
+
 # https://github.com/flutter/flutter/issues/131163
 # Copy main flutter dlls from [https://docs.flutter.dev/platform-integration/windows/building]
 # to the same folder where app's executable is located. Remove dlls from their original source path
 # after copying.
 set(SOURCE_FILES
   "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.rtf"
-  "${CMAKE_CURRENT_SOURCE_DIR}/DLLs/msvcp140.dll"
-  "${CMAKE_CURRENT_SOURCE_DIR}/DLLs/vcruntime140.dll"
-  "${CMAKE_CURRENT_SOURCE_DIR}/DLLs/vcruntime140_1.dll"
+  "${DLL_DIR}/msvcp140.dll"
+  "${DLL_DIR}/vcruntime140.dll"
+  "${DLL_DIR}/vcruntime140_1.dll"
 )
 install(FILES "${SOURCE_FILES}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
   CONFIGURATIONS Debug;Profile;Release
