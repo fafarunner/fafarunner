@@ -37,7 +37,7 @@ jobs:
         id: flutter-action
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
@@ -96,7 +96,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -141,16 +141,6 @@ jobs:
           PROVISION_PROFILE_DEV_BASE64: ${{ secrets.PROVISIONING_PROFILE_DEV_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-      - name: Resolving ios dependencies
-        run: pod install --repo-update
-        working-directory: ios
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: ios
-
       - name: Build
         run: |
           echo "╠ Releasing to app store..."
@@ -179,7 +169,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Configure .env
         run: |
@@ -192,16 +182,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Resolving macos dependencies
-        run: pod install --repo-update
-        working-directory: macos
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |
@@ -310,7 +290,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Configure .env
         run: |
@@ -358,7 +338,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -430,7 +410,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Configure .env
         run: echo "$ENV_KEY" | base64 --decode > .env

@@ -22,7 +22,7 @@ permissions: write-all
 
 env:
   flutter-channel: 'stable'
-  flutter-version: '3.41.9'
+  flutter-version: '3.44.0'
 
 jobs:
   create-release:
@@ -336,10 +336,6 @@ jobs:
       - name: Resolving flutter dependencies
         run: flutter pub get
 
-      - name: Resolving ios dependencies
-        run: pod install --repo-update
-        working-directory: ios
-
       - name: Install the Apple certificate and provisioning profile
         env:
           P12_BASE64: ${{ secrets.P12_BASE64 }}
@@ -376,12 +372,6 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mv $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           mv $PP_DEV_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: ios
 
       - name: Build ipa
         if: github.event.inputs.env == 'staging'
@@ -448,16 +438,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Resolving macos dependencies
-        run: pod install --repo-update
-        working-directory: macos
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |
@@ -574,16 +554,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Resolving macos dependencies
-        run: pod install --repo-update
-        working-directory: macos
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |
@@ -720,16 +690,6 @@ jobs:
       - name: Resolving flutter dependencies
         run: flutter pub get
 
-      - name: Resolving macos dependencies
-        run: pod install --repo-update
-        working-directory: macos
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
-
       - name: Build macOS
         run: |
           echo "╠ Releasing to mac app store..."
@@ -865,16 +825,6 @@ jobs:
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Resolving macos dependencies
-        run: pod install --repo-update
-        working-directory: macos
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: |

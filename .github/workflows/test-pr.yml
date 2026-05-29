@@ -37,7 +37,7 @@ jobs:
         id: flutter-action
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       #      - name: Setup NDK
       #        uses: nttld/setup-ndk@v1
@@ -69,23 +69,13 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
 
       - name: Install Deps
         run: flutter pub get
-
-      - name: Resolving ios dependencies
-        run: pod install --repo-update
-        working-directory: ios
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: ios
 
       - name: Build
         run: flutter build ipa --no-codesign
@@ -100,23 +90,13 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
 
       - name: Resolving flutter dependencies
         run: flutter pub get
-
-      - name: Resolving macos dependencies
-        run: pod install --repo-update
-        working-directory: macos
-
-      - name: Remove build cache
-        run: |
-          echo "╠ Removing build products and intermediate files from the build root..."
-          xcodebuild clean
-        working-directory: macos
 
       - name: Build macOS
         run: flutter build macos
@@ -151,7 +131,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -174,7 +154,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v
@@ -212,7 +192,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.41.9'
+          flutter-version: '3.44.0'
 
       - name: Flutter doctor -v
         run: flutter doctor -v

@@ -29,18 +29,6 @@ clean: ## Cleans the environment
 	echo "╠ Installing dependencies..."
 	make get
 
-install:
-	make ios_install
-	make macos_install
-
-ios_install: ## Installing ios dependencies
-	echo "╠ Resolving ios dependencies..."
-	cd ios && pod install && cd ..
-
-macos_install: ## Installing ios dependencies
-	echo "╠ Resolving macos dependencies..."
-	cd macos && pod install && cd ..
-
 precache: ## Installing ios dependencies
 	echo "╠ Populate the Flutter tool's cache of binary artifacts..."
 	fvm flutter precache -a
