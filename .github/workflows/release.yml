@@ -2010,45 +2010,47 @@ jobs:
           
           # $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
 
-          $yamlFile = ".\pubspec.yaml"
+          $yamlFile = ".\windows\packaging\msix\make_config.yaml"
           $yamlContent = Get-Content -Raw -Path $yamlFile
 
           # 获取环境变量的值
+          $isStore = (Get-Item -Path Env:WINDOWS_STORE).Value
           $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
           $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
           $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
 
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".msix_config.identity_name = `"$identityName`" | .msix_config.publisher = `"$publisher`" | .msix_config.publisher_display_name = `"$publisherName`" | del(.msix_config.certificate_path) | del(.msix_config.certificate_password)" -
+          $updatedYamlContent = echo $yamlContent | yq e ".store = `"$isStore`" | .identity_name = `"$identityName`" | .publisher = `"$publisher`" | .publisher_display_name = `"$publisherName`" | del(.certificate_path) | del(.certificate_password)" -
 
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
         env:
           WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
           WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_STORE: true
           WINDOWS_IDENTITY_NAME: ${{ secrets.WINDOWS_IDENTITY_NAME }}
           WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
+      - name: Install fastforge
+        run: dart pub global activate fastforge
+
       - name: Install flutter dependencies
         run: flutter pub get
 
-      - name: Build windows
+      - name: Build msix
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
-          flutter build windows --dart-define-from-file=.env
-
-      - name: Create msix
-        run: dart run msix:create --store --build-windows false --output-name "fafarunner-$env:RELEASE-windows-$env:Platform"
-        env:
-          RELEASE: ${{ needs.create-release.outputs.release }}
+          fastforge package `
+            --skip-clean `
+            --flutter-build-args "dart-define-from-file=.env" `
+            --platform windows `
+            --targets msix `
+            --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-$env:Platform.{{ext}}"
 
       # Package the build.
       - name: Copy build for msix
-        run: |
-          ls
-          cp .\*.msix "$env:GITHUB_WORKSPACE\"
-        working-directory: build\windows\${{ env.Platform }}\runner\Release
+        run: cp .\dist\**\*.msix "$env:GITHUB_WORKSPACE\"
 
       - name: Upload assets
         run: |

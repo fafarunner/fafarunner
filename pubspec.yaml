@@ -41,7 +41,6 @@ dev_dependencies:
     sdk: flutter
   mockingjay: ^2.1.0
   mocktail: ^1.0.5
-  msix: ^3.16.13
 
 dependency_overrides:
   archive: ^4.0.9
@@ -52,21 +51,3 @@ flutter:
   uses-material-design: true
 #  assets:
 #    - logo/
-
-msix_config:
-  display_name: FaFa Runner
-  logo_path: logo\logo-512.png
-  languages: en-us, zh-cn
-  architecture: x64
-  capabilities: "internetClient"
-  install_certificate: false
-
-  # msix_version: 1.0.0.0 # If not set, the value of `version` is used
-  # With Your Own Certificate 
-  certificate_path: CERTIFICATE_PATH_PLACEHOLDER
-  certificate_password: CERTIFICATE_PASSWORD_PLACEHOLDER
-
-  # For Publish To Windows Store
-  identity_name: IDENTITY_NAME_PLACEHOLDER
-  publisher: PUBLISHER_PLACEHOLDER
-  publisher_display_name: PUBLISHER_NAME_PLACEHOLDER
