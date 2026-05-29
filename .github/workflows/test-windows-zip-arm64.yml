@@ -1,0 +1,76 @@
+name: Test Windows zip (arm64)
+
+on:
+  workflow_dispatch:
+
+# Declare default permissions as readonly.
+permissions: read-all
+
+jobs:
+  zip:
+    name: Create windows zip
+    runs-on: windows-11-arm
+    env:
+      Platform: arm64
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        shell: pwsh
+        run: .\scripts\install-flutter-github-actions.ps1
+
+      - name: Download a fresh binary instead of using the stamped x64 version
+        shell: pwsh
+        run: |
+          Remove-Item -Path "$env:FLUTTER_ROOT\flutter\bin\cache\engine-dart-sdk.stamp" -Force -ErrorAction SilentlyContinue
+          dart --version
+          flutter precache --windows
+
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
+      - name: Configure .env
+        run: |
+          echo "$pwd"
+          $bytes = echo $env:ENV_KEY | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
+        env:
+          ENV_KEY: ${{ secrets.ENV_STG_BASE64_WINDOWS }}
+
+      - name: copy eula.rtf to the windows folder
+        run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
+
+      - name: Install fastforge
+        run: dart pub global activate fastforge
+
+      - name: Build zip
+        shell: pwsh
+        run: |
+          $env:SENTRY_NATIVE_BACKEND = "breakpad"
+          $env:FLUTTER_WINDOWS_PLATFORM = "$env:Platform"
+          fastforge package `
+            --flutter-build-args "dart-define-from-file=.env" `
+            --platform windows `
+            --targets zip `
+            --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-portable-$env:Platform.{{ext}}"
+
+      # Package the build.
+      - name: Copy build for zip
+        run: ls -R
+        working-directory: dist
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-zip-artifact
+          path: .\dist\**\*.zip
+
+      - name: Clean up
+        if: ${{ always() }}
+        run: |
+          ls
+          if (test-path -Path "$pwd\.env") {
+            echo "Remove file($pwd\.env)"
+            remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue
+          } else {
+            echo "File($pwd\.env) doesn't exist."
+          }

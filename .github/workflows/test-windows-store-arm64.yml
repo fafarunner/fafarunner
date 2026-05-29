@@ -1,4 +1,4 @@
-name: Test Windows exe (arm64)
+name: Test Windows store (arm64)
 
 on:
   workflow_dispatch:
@@ -7,8 +7,8 @@ on:
 permissions: read-all
 
 jobs:
-  exe:
-    name: Create exe
+  store:
+    name: Create windows store
     runs-on: windows-11-arm
     env:
       Platform: arm64
@@ -31,6 +31,7 @@ jobs:
 
       - name: Configure .env
         run: |
+          echo "$pwd"
           $bytes = echo $env:ENV_KEY | %{[Convert]::FromBase64String($_)}
           [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
         env:
@@ -39,10 +40,6 @@ jobs:
       - name: copy eula.rtf to the windows folder
         run: Copy-Item -Path "$pwd\macos\packaging\base\eula.rtf" -Destination "$pwd\windows\LICENSE.rtf" -Force
 
-      - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
-        run: |
-          copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
-
       - name: Install yq
         shell: pwsh
         run: choco install yq --no-progress
@@ -50,41 +47,42 @@ jobs:
       - name: Update config
         shell: pwsh
         run: |
-          $yamlFile = ".\windows\packaging\exe\make_config.yaml"
+          echo $env:RUNNER_TEMP
+          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
+          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
+          $env:certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
+          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
+          [IO.File]::WriteAllBytes("$env:certificatePath", $bytes)
+          
+          $certificatePassword = (Get-Item -Path Env:WINDOWS_CERTIFICATE_PASSWORD).Value
+
+          $yamlFile = ".\windows\packaging\msix\make_config.yaml"
           $yamlContent = Get-Content -Raw -Path $yamlFile
-          
+
           # 获取环境变量的值
-          $appId = (Get-Item -Path Env:WINDOWS_EXE_APP_ID).Value
           $publisherName = (Get-Item -Path Env:WINDOWS_PUBLISHER_NAME).Value
-          
+          $identityName = (Get-Item -Path Env:WINDOWS_IDENTITY_NAME).Value
+          $publisher = (Get-Item -Path Env:WINDOWS_PUBLISHER).Value
+
           # 使用 yq 更新多个字段
-          $updatedYamlContent = echo $yamlContent | yq e ".app_id = `"$appId`" | .publisher_name = `"$publisherName`"" -
-          
+          $updatedYamlContent = echo $yamlContent | yq e ".architecture = `"$env:Platform`" | .certificate_path = env(certificatePath) | .certificate_password = `"$certificatePassword`" | .identity_name = `"$identityName`" | .publisher = `"$publisher`" | .publisher_display_name = `"$publisherName`"" -
+
           # 将更新后的内容写回文件
           Set-Content -Path $yamlFile -Value $updatedYamlContent
         env:
-          WINDOWS_EXE_APP_ID: ${{ secrets.WINDOWS_EXE_APP_ID }}
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+          WINDOWS_IDENTITY_NAME: ${{ secrets.WINDOWS_IDENTITY_NAME }}
+          WINDOWS_PUBLISHER: ${{ secrets.WINDOWS_PUBLISHER }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
-
-      - name: Rename inno_setup_arm64.iss to inno_setup.iss
-        shell: pwsh
-        run: |
-          # 移除旧的 inno_setup.iss 文件
-          remove-item -Path "$pwd\windows\packaging\exe\inno_setup.iss" -Force -ErrorAction SilentlyContinue
-          
-          # 重命名 inno_setup_arm64.iss 文件
-          $sourcePath = "$pwd\windows\packaging\exe\inno_setup_arm64.iss"
-          $destinationPath = "$pwd\windows\packaging\exe\inno_setup.iss"
-          Rename-Item -Path $sourcePath -NewName $destinationPath
-
-      - name: Install Flutter dependencies
-        run: flutter pub get
 
       - name: Install fastforge
         run: dart pub global activate fastforge
 
-      - name: Build exe
-        shell: pwsh
+      - name: Install flutter dependencies
+        run: flutter pub get
+
+      - name: Build msix
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
           $env:FLUTTER_WINDOWS_PLATFORM = "$env:Platform"
@@ -92,32 +90,18 @@ jobs:
             --skip-clean `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
-            --targets exe `
-            --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-setup-$env:Platform.{{ext}}"
+            --targets msix `
+            --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-$env:Platform.{{ext}}"
 
-      - name: Signing
-        run: |
-          $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
-          # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
-          # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
-          $bytes = echo $env:WINDOWS_CERTIFICATE | %{[Convert]::FromBase64String($_)}
-          [IO.File]::WriteAllBytes("$certificatePath", $bytes)
-          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
-          & $signtool sign /f "$certificatePath" /fd SHA256 /t http://timestamp.comodoca.com/authenticode /p "$env:WINDOWS_CERTIFICATE_PASSWORD" /n "$env:WINDOWS_PUBLISHER_NAME" (get-item ".\**\*.exe")
-        env:
-          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
-          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
-          WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
-        working-directory: dist
-
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
-          name: windows-exe-artifact
-          path: .\dist\**\*.exe
+          name: windows-msix-artifact
+          path: .\dist\**\*.msix
 
       - name: Clean up
         if: ${{ always() }}
         run: |
+          ls
           if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
             echo "$env:RUNNER_TEMP\fafarunner.pfx"
             remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue
