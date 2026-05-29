@@ -25,8 +25,10 @@ metainfo: linux/shared/fafarunner.metainfo.xml
 
 keywords:
   - FaFa Runner
+  - Tactical
+  - RPG
 
-generic_name: FaFa Runner
+generic_name: Tactical RPG Game
 
 # https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#introduction
 # https://specifications.freedesktop.org/menu-spec/latest/apa.html
