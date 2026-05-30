@@ -26,7 +26,6 @@ jobs:
 
       - name: Configure .env
         run: |
-          echo "$pwd"
           $bytes = echo $env:ENV_KEY | %{[Convert]::FromBase64String($_)}
           [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
         env:
@@ -41,9 +40,6 @@ jobs:
       - name: Copy ChineseSimplified.isl to C:\Program Files (x86)\Inno Setup 6\Languages\
         run: |
           copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
-
-      - name: Install fastforge
-        run: dart pub global activate fastforge
 
       - name: Install yq
         shell: pwsh
@@ -68,24 +64,25 @@ jobs:
           WINDOWS_EXE_APP_ID: ${{ secrets.WINDOWS_EXE_APP_ID }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
+      - name: Install fastforge
+        run: dart pub global activate fastforge
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build exe
         shell: pwsh
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
           fastforge package `
+            --skip-clean `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `
             --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-setup-$env:Platform.{{ext}}"
 
-      # Package the build.
-      - name: Copy build for exe
-        run: ls -R
-        working-directory: dist
-
       - name: Signing
         run: |
-          echo $env:RUNNER_TEMP
           $certificatePath = "$env:RUNNER_TEMP\fafarunner.pfx"
           # https://stackoverflow.com/questions/15414678/how-to-decode-a-base64-string
           # https://stackoverflow.com/questions/66239147/pfx-encoded-and-back-to-pfx-in-powershell
@@ -102,13 +99,11 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: windows-exe-artifact
-          path: |
-            .\dist\**\*.exe
+          path: .\dist\**\*.exe
 
       - name: Clean up
         if: ${{ always() }}
         run: |
-          ls
           if (test-path -Path "$env:RUNNER_TEMP\fafarunner.pfx") {
             echo "$env:RUNNER_TEMP\fafarunner.pfx"
             remove-item -Path "$env:RUNNER_TEMP\fafarunner.pfx" -Force -ErrorAction SilentlyContinue

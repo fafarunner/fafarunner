@@ -26,7 +26,6 @@ jobs:
 
       - name: Configure .env
         run: |
-          echo "$pwd"
           $bytes = echo $env:ENV_KEY | %{[Convert]::FromBase64String($_)}
           [IO.File]::WriteAllBytes("$pwd\.env", $bytes)
         env:
@@ -38,31 +37,28 @@ jobs:
       - name: Install fastforge
         run: dart pub global activate fastforge
 
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build zip
         shell: pwsh
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
           fastforge package `
+            --skip-clean `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets zip `
             --artifact-name "{{name}}-{{build_name}}.{{build_number}}-{{platform}}-portable-$env:Platform.{{ext}}"
 
-      # Package the build.
-      - name: Copy build for zip
-        run: ls -R
-        working-directory: dist
-
       - uses: actions/upload-artifact@v7
         with:
           name: windows-zip-artifact
-          path: |
-            .\dist\**\*.zip
+          path: .\dist\**\*.zip
 
       - name: Clean up
         if: ${{ always() }}
         run: |
-          ls
           if (test-path -Path "$pwd\.env") {
             echo "Remove file($pwd\.env)"
             remove-item -Path "$pwd\.env" -Force -ErrorAction SilentlyContinue

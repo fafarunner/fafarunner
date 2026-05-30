@@ -77,11 +77,11 @@ jobs:
           $destinationPath = "$pwd\windows\packaging\exe\inno_setup.iss"
           Rename-Item -Path $sourcePath -NewName $destinationPath
 
-      - name: Install Flutter dependencies
-        run: flutter pub get
-
       - name: Install fastforge
         run: dart pub global activate fastforge
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
 
       - name: Build exe
         shell: pwsh
@@ -110,7 +110,7 @@ jobs:
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
         working-directory: dist
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: windows-exe-artifact
           path: .\dist\**\*.exe
