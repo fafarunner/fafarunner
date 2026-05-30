@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.1.0.393
+
+1. Revert "Update release web"
+2. fix: replace `nb_utils` with `sp_util`
+3. Update flutter to 3.44.0
+4. Migrate to Swift Package Manager
+5. fix(linux): update generic name
+6. Revert "ci: remove appimage support"
+7. build(windows): migrate to fastforge
+8. build(windows): add arm64 support
+9. Update the versioning style
+10. Migration to UIScene lifecycle
+
 ## 3.0.0
 
 1. chore(deps): update deps
