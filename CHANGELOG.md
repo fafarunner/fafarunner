@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.1.1.394
+
+1. Update runner template code
+2. Update flutter to 3.44.1
+
 ## 3.1.0.393
 
 1. Revert "Update release web"
