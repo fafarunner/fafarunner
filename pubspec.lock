@@ -1117,12 +1117,11 @@ packages:
   tray_manager:
     dependency: transitive
     description:
-      path: "packages/tray_manager"
-      ref: HEAD
-      resolved-ref: "766cc7e9688ffec42cf2bdd2871fd2fa0e9b59d9"
-      url: "https://github.com/vitormf/tray_manager.git"
-    source: git
-    version: "0.5.2"
+      name: tray_manager
+      sha256: "1a659b08baa6e9b91ef8ce16eda37740de398be1c4cf322b8a1ddfef25c68c5a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
   typed_data:
     dependency: transitive
     description:
