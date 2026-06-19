@@ -36,7 +36,7 @@ jobs:
       release: ${{ steps.version_step.outputs.release }}
       tag_name: ${{ steps.version_step.outputs.tag_name }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set sha
         id: sha_step
@@ -120,7 +120,7 @@ jobs:
       - windows-zip
       - windows-zip-arm64
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Publish a release
         run: |
@@ -142,7 +142,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-java@v5
         with:
           java-version: "17.x"
@@ -228,7 +228,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-java@v5
         with:
           java-version: "17.x"
@@ -319,7 +319,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -422,7 +422,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -538,7 +538,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -673,7 +673,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -802,7 +802,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -928,7 +928,7 @@ jobs:
 #    needs:
 #      - create-release
 #    steps:
-#      - uses: actions/checkout@v6
+#      - uses: actions/checkout@v7
 #
 #      - name: Install dependencies for Linux
 #        run: |
@@ -1009,7 +1009,7 @@ jobs:
 #    needs:
 #      - create-release
 #    steps:
-#      - uses: actions/checkout@v6
+#      - uses: actions/checkout@v7
 #
 #      - name: Install dependencies for Linux
 #        run: |
@@ -1096,7 +1096,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies for Linux
         run: |
@@ -1174,7 +1174,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies for Linux
         run: |
@@ -1251,7 +1251,7 @@ jobs:
 #    needs:
 #      - create-release
 #    steps:
-#      - uses: actions/checkout@v6
+#      - uses: actions/checkout@v7
 #      - name: Setup Java
 #        uses: actions/setup-java@v5
 #        with:
@@ -1333,7 +1333,7 @@ jobs:
 #    needs:
 #      - create-release
 #    steps:
-#      - uses: actions/checkout@v6
+#      - uses: actions/checkout@v7
 #
 #      - uses: actions/setup-java@v5
 #        with:
@@ -1430,7 +1430,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup LXD
         uses: canonical/setup-lxd@v1
@@ -1500,7 +1500,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup LXD
         uses: canonical/setup-lxd@v1
@@ -1576,7 +1576,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies for Linux
         run: |
@@ -1654,7 +1654,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install dependencies for Linux
         run: |
@@ -1734,7 +1734,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1856,7 +1856,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         shell: pwsh
@@ -2000,7 +2000,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -2111,7 +2111,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         shell: pwsh
@@ -2227,7 +2227,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -2350,7 +2350,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         shell: pwsh
@@ -2479,7 +2479,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -2553,7 +2553,7 @@ jobs:
     needs:
       - create-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         shell: pwsh
