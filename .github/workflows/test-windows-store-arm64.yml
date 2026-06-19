@@ -13,7 +13,7 @@ jobs:
     env:
       Platform: arm64
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Setup Flutter
         shell: pwsh
