@@ -976,10 +976,14 @@ jobs:
 #      - name: Install fastforge
 #        run: dart pub global activate fastforge
 #
+#      - name: Install Flutter dependencies
+#        run: flutter pub get
+#
 #      - name: Build AppImage
 #        run: |
 #          export SENTRY_NATIVE_BACKEND=breakpad
 #          fastforge package \
+#            --skip-clean \
 #            --flutter-build-args "dart-define-from-file=.env" \
 #            --platform linux \
 #            --targets appimage \
@@ -1063,10 +1067,14 @@ jobs:
 #            --git-ref appimage-arm64 \
 #            --git-path packages/fastforge
 #
+#      - name: Install Flutter dependencies
+#        run: flutter pub get
+#
 #      - name: Build AppImage
 #        run: |
 #          export SENTRY_NATIVE_BACKEND=breakpad
 #          fastforge package \
+#            --skip-clean \
 #            --flutter-build-args "dart-define-from-file=.env" \
 #            --platform linux \
 #            --targets appimage \
@@ -1139,10 +1147,14 @@ jobs:
       - name: Install fastforge
         run: dart pub global activate fastforge
 
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build deb
         run: |
           export SENTRY_NATIVE_BACKEND=breakpad
           fastforge package \
+            --skip-clean \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
@@ -1216,10 +1228,14 @@ jobs:
       - name: Install fastforge
         run: dart pub global activate fastforge
 
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build deb
         run: |
           export SENTRY_NATIVE_BACKEND=breakpad
           fastforge package \
+            --skip-clean \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets deb \
@@ -1298,10 +1314,14 @@ jobs:
 #      - name: Install fastforge
 #        run: dart pub global activate fastforge
 #
+#      - name: Install Flutter dependencies
+#        run: flutter pub get
+#
 #      - name: Build RPM
 #        run: |
 #          export SENTRY_NATIVE_BACKEND=breakpad
 #          fastforge package \
+#            --skip-clean \
 #            --flutter-build-args "dart-define-from-file=.env" \
 #            --platform linux \
 #            --targets rpm \
@@ -1378,9 +1398,6 @@ jobs:
 #          ENV_STG_BASE64: ${{ secrets.ENV_STG_BASE64 }}
 #          ENV_PROD_BASE64: ${{ secrets.ENV_PROD_BASE64 }}
 #
-#      - name: Install fastforge
-#        run: dart pub global activate fastforge
-#
 #      - name: Install yq
 #        run: |
 #          if ! command -v yq >/dev/null 2>&1; then
@@ -1393,10 +1410,17 @@ jobs:
 #      - name: Update make_config.yaml
 #        run: yq -i '.build_arch = "aarch64"' linux/packaging/rpm/make_config.yaml
 #
+#      - name: Install fastforge
+#        run: dart pub global activate fastforge
+#
+#      - name: Install Flutter dependencies
+#        run: flutter pub get
+#
 #      - name: Build RPM
 #        run: |
 #          export SENTRY_NATIVE_BACKEND=breakpad
 #          fastforge package \
+#            --skip-clean \
 #            --flutter-build-args "dart-define-from-file=.env" \
 #            --platform linux \
 #            --targets rpm \
@@ -1765,9 +1789,6 @@ jobs:
         run: |
           copy-item -Path windows\Languages\Unofficial\*.isl -Destination 'C:\Program Files (x86)\Inno Setup 6\Languages\'
 
-      - name: Install fastforge
-        run: dart pub global activate fastforge
-
       - name: Install yq
         shell: pwsh
         run: choco install yq --no-progress
@@ -1791,11 +1812,18 @@ jobs:
           WINDOWS_EXE_APP_ID: ${{ secrets.WINDOWS_EXE_APP_ID }}
           WINDOWS_PUBLISHER_NAME: ${{ secrets.WINDOWS_PUBLISHER_NAME }}
 
+      - name: Install fastforge
+        run: dart pub global activate fastforge
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build exe
         shell: pwsh
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
           fastforge package `
+            --skip-clean `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets exe `

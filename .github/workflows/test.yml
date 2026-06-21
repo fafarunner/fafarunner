@@ -357,11 +357,15 @@ jobs:
       - name: Install fastforge
         run: dart pub global activate fastforge
 
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build zip
         shell: pwsh
         run: |
           $env:SENTRY_NATIVE_BACKEND = "breakpad"
           fastforge package `
+            --skip-clean `
             --flutter-build-args "dart-define-from-file=.env" `
             --platform windows `
             --targets zip `

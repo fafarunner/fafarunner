@@ -56,10 +56,14 @@ jobs:
       - name: Install fastforge
         run: dart pub global activate fastforge
 
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build AppImage
         run: |
           export SENTRY_NATIVE_BACKEND=breakpad
           fastforge package \
+            --skip-clean \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets appimage \

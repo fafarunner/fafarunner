@@ -55,9 +55,6 @@ jobs:
         env:
           ENV_KEY: ${{ secrets.ENV_STG_BASE64 }}
 
-      - name: Install fastforge
-        run: dart pub global activate fastforge
-
       - name: Install yq
         run: |
           if ! command -v yq >/dev/null 2>&1; then
@@ -70,10 +67,17 @@ jobs:
       - name: Update make_config.yaml
         run: yq -i '.build_arch = "aarch64"' linux/packaging/rpm/make_config.yaml
 
+      - name: Install fastforge
+        run: dart pub global activate fastforge
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Build RPM
         run: |
           export SENTRY_NATIVE_BACKEND=breakpad
           fastforge package \
+            --skip-clean \
             --flutter-build-args "dart-define-from-file=.env" \
             --platform linux \
             --targets rpm \
