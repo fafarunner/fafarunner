@@ -16,3 +16,6 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   slang_build_runner: 4.12.0
   test: ^1.26.3
+
+dependency_overrides:
+  slang: 4.12.0

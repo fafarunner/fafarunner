@@ -979,13 +979,13 @@ packages:
     source: sdk
     version: "0.0.0"
   slang:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: slang
-      sha256: "81e277dc5e2305f53412b92afeb803620453259afe147d5cd6417700f998a7a6"
+      sha256: "13e3b6f07adc51ab751e7889647774d294cbce7a3382f81d9e5029acfe9c37b2"
       url: "https://pub.dev"
     source: hosted
-    version: "4.12.1"
+    version: "4.12.0"
   slang_build_runner:
     dependency: transitive
     description:
