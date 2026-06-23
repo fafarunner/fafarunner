@@ -49,6 +49,9 @@ endfunction()
 set(FLUTTER_MANAGED_DIR "${CMAKE_CURRENT_SOURCE_DIR}/flutter")
 add_subdirectory(${FLUTTER_MANAGED_DIR})
 
+# https://github.com/bluefireteam/audioplayers/issues/1985
+add_compile_definitions(_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS)
+
 # Application build; see runner/CMakeLists.txt.
 add_subdirectory("runner")
 
