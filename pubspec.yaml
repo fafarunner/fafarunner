@@ -39,7 +39,6 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  mockingjay: ^2.1.0
   mocktail: ^1.0.5
 
 # For information on the generic Dart part of this file, see the
