@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.2.0.395
+
+1. chore(deps): update deps
+2. Improve compatibility in VS 2026.
+3. fix(ios): update minimum system version to 15.0
+4. fix(macos): update minimum system version to 12.0
+5. Update flutter to 3.44.4
+6. fix(macos): update to recommended settings
+
 ## 3.1.1.394
 
 1. Update runner template code
