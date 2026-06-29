@@ -7,17 +7,9 @@ outdated:
 	echo "╠ Resolving dependencies..."
 	fvm flutter pub outdated
 
-l10n: ##
-	echo "╠ Generating l10n files..."
-	cd modules/basic/l10n ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
-
-theme: ##
-	echo "╠ Generating theme files..."
-	cd modules/basic/theme ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
-
-game: ##
+build_runner: ##
 	echo "╠ Generating files..."
-	cd modules/ui/game ; fvm dart run build_runner build --delete-conflicting-outputs ; cd -
+	fvm dart run build_runner build --workspace
 
 format: ##
 	echo "╠ Formatting files..."
