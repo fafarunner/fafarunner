@@ -1,0 +1,6 @@
+# See https://codeberg.org/Tienisto/slang/issues/352#issuecomment-18291716
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        enabled: false

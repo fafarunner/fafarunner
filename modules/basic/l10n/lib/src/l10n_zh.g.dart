@@ -40,12 +40,12 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override String get appName => '发发跑酷';
-	@override late final _TranslationsMenuPageZh menuPage = _TranslationsMenuPageZh._(_root);
-	@override late final _TranslationsGamePageZh gamePage = _TranslationsGamePageZh._(_root);
-	@override late final _TranslationsHotkeyDialogZh hotkeyDialog = _TranslationsHotkeyDialogZh._(_root);
-	@override late final _TranslationsTrayZh tray = _TranslationsTrayZh._(_root);
-	@override late final _TranslationsButtonsZh buttons = _TranslationsButtonsZh._(_root);
-	@override late final _TranslationsSettingsZh settings = _TranslationsSettingsZh._(_root);
+	@override late final _Translations$menuPage$zh menuPage = _Translations$menuPage$zh._(_root);
+	@override late final _Translations$gamePage$zh gamePage = _Translations$gamePage$zh._(_root);
+	@override late final _Translations$hotkeyDialog$zh hotkeyDialog = _Translations$hotkeyDialog$zh._(_root);
+	@override late final _Translations$tray$zh tray = _Translations$tray$zh._(_root);
+	@override late final _Translations$buttons$zh buttons = _Translations$buttons$zh._(_root);
+	@override late final _Translations$settings$zh settings = _Translations$settings$zh._(_root);
 	@override Map<String, String> get locales => {
 		'en': 'English',
 		'zh': '中文',
@@ -53,8 +53,8 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 }
 
 // Path: menuPage
-class _TranslationsMenuPageZh extends TranslationsMenuPageEn {
-	_TranslationsMenuPageZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$menuPage$zh extends Translations$menuPage$en {
+	_Translations$menuPage$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -71,8 +71,8 @@ class _TranslationsMenuPageZh extends TranslationsMenuPageEn {
 }
 
 // Path: gamePage
-class _TranslationsGamePageZh extends TranslationsGamePageEn {
-	_TranslationsGamePageZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$gamePage$zh extends Translations$gamePage$en {
+	_Translations$gamePage$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -95,8 +95,8 @@ class _TranslationsGamePageZh extends TranslationsGamePageEn {
 }
 
 // Path: hotkeyDialog
-class _TranslationsHotkeyDialogZh extends TranslationsHotkeyDialogEn {
-	_TranslationsHotkeyDialogZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$hotkeyDialog$zh extends Translations$hotkeyDialog$en {
+	_Translations$hotkeyDialog$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -105,8 +105,8 @@ class _TranslationsHotkeyDialogZh extends TranslationsHotkeyDialogEn {
 }
 
 // Path: tray
-class _TranslationsTrayZh extends TranslationsTrayEn {
-	_TranslationsTrayZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$tray$zh extends Translations$tray$en {
+	_Translations$tray$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -116,8 +116,8 @@ class _TranslationsTrayZh extends TranslationsTrayEn {
 }
 
 // Path: buttons
-class _TranslationsButtonsZh extends TranslationsButtonsEn {
-	_TranslationsButtonsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$buttons$zh extends Translations$buttons$en {
+	_Translations$buttons$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -127,8 +127,8 @@ class _TranslationsButtonsZh extends TranslationsButtonsEn {
 }
 
 // Path: settings
-class _TranslationsSettingsZh extends TranslationsSettingsEn {
-	_TranslationsSettingsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$settings$zh extends Translations$settings$en {
+	_Translations$settings$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -138,13 +138,13 @@ class _TranslationsSettingsZh extends TranslationsSettingsEn {
 	@override String get shortcutsRegistered => '该键是应用内置键';
 	@override String get shortcutsArrow => '该键已作为方向键使用';
 	@override String get shortcutsUsed => '该键已使用';
-	@override late final _TranslationsSettingsShortcutsZh shortcuts = _TranslationsSettingsShortcutsZh._(_root);
-	@override late final _TranslationsSettingsSettingsDialogZh settingsDialog = _TranslationsSettingsSettingsDialogZh._(_root);
+	@override late final _Translations$settings$shortcuts$zh shortcuts = _Translations$settings$shortcuts$zh._(_root);
+	@override late final _Translations$settings$settingsDialog$zh settingsDialog = _Translations$settings$settingsDialog$zh._(_root);
 }
 
 // Path: settings.shortcuts
-class _TranslationsSettingsShortcutsZh extends TranslationsSettingsShortcutsEn {
-	_TranslationsSettingsShortcutsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$settings$shortcuts$zh extends Translations$settings$shortcuts$en {
+	_Translations$settings$shortcuts$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -155,21 +155,21 @@ class _TranslationsSettingsShortcutsZh extends TranslationsSettingsShortcutsEn {
 }
 
 // Path: settings.settingsDialog
-class _TranslationsSettingsSettingsDialogZh extends TranslationsSettingsSettingsDialogEn {
-	_TranslationsSettingsSettingsDialogZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$settings$settingsDialog$zh extends Translations$settings$settingsDialog$en {
+	_Translations$settings$settingsDialog$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
 	// Translations
 	@override String get settings => '设置';
 	@override String get languages => '语言';
-	@override late final _TranslationsSettingsSettingsDialogThemesZh themes = _TranslationsSettingsSettingsDialogThemesZh._(_root);
+	@override late final _Translations$settings$settingsDialog$themes$zh themes = _Translations$settings$settingsDialog$themes$zh._(_root);
 	@override String get themesDescription => '开启后, 将跟随系统打开或关闭深色模式';
 }
 
 // Path: settings.settingsDialog.themes
-class _TranslationsSettingsSettingsDialogThemesZh extends TranslationsSettingsSettingsDialogThemesEn {
-	_TranslationsSettingsSettingsDialogThemesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _Translations$settings$settingsDialog$themes$zh extends Translations$settings$settingsDialog$themes$en {
+	_Translations$settings$settingsDialog$themes$zh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 

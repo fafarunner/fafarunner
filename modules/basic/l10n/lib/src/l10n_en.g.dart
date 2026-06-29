@@ -44,12 +44,12 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// en: 'FaFa Runner'
 	String get appName => 'FaFa Runner';
 
-	late final TranslationsMenuPageEn menuPage = TranslationsMenuPageEn.internal(_root);
-	late final TranslationsGamePageEn gamePage = TranslationsGamePageEn.internal(_root);
-	late final TranslationsHotkeyDialogEn hotkeyDialog = TranslationsHotkeyDialogEn.internal(_root);
-	late final TranslationsTrayEn tray = TranslationsTrayEn.internal(_root);
-	late final TranslationsButtonsEn buttons = TranslationsButtonsEn.internal(_root);
-	late final TranslationsSettingsEn settings = TranslationsSettingsEn.internal(_root);
+	late final Translations$menuPage$en menuPage = Translations$menuPage$en.internal(_root);
+	late final Translations$gamePage$en gamePage = Translations$gamePage$en.internal(_root);
+	late final Translations$hotkeyDialog$en hotkeyDialog = Translations$hotkeyDialog$en.internal(_root);
+	late final Translations$tray$en tray = Translations$tray$en.internal(_root);
+	late final Translations$buttons$en buttons = Translations$buttons$en.internal(_root);
+	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	Map<String, String> get locales => {
 		'en': 'English',
 		'zh': '中文',
@@ -57,8 +57,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 }
 
 // Path: menuPage
-class TranslationsMenuPageEn {
-	TranslationsMenuPageEn.internal(this._root);
+class Translations$menuPage$en {
+	Translations$menuPage$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -93,8 +93,8 @@ class TranslationsMenuPageEn {
 }
 
 // Path: gamePage
-class TranslationsGamePageEn {
-	TranslationsGamePageEn.internal(this._root);
+class Translations$gamePage$en {
+	Translations$gamePage$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -147,8 +147,8 @@ class TranslationsGamePageEn {
 }
 
 // Path: hotkeyDialog
-class TranslationsHotkeyDialogEn {
-	TranslationsHotkeyDialogEn.internal(this._root);
+class Translations$hotkeyDialog$en {
+	Translations$hotkeyDialog$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -159,8 +159,8 @@ class TranslationsHotkeyDialogEn {
 }
 
 // Path: tray
-class TranslationsTrayEn {
-	TranslationsTrayEn.internal(this._root);
+class Translations$tray$en {
+	Translations$tray$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -174,8 +174,8 @@ class TranslationsTrayEn {
 }
 
 // Path: buttons
-class TranslationsButtonsEn {
-	TranslationsButtonsEn.internal(this._root);
+class Translations$buttons$en {
+	Translations$buttons$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -189,8 +189,8 @@ class TranslationsButtonsEn {
 }
 
 // Path: settings
-class TranslationsSettingsEn {
-	TranslationsSettingsEn.internal(this._root);
+class Translations$settings$en {
+	Translations$settings$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -211,13 +211,13 @@ class TranslationsSettingsEn {
 	/// en: 'This key is used.'
 	String get shortcutsUsed => 'This key is used.';
 
-	late final TranslationsSettingsShortcutsEn shortcuts = TranslationsSettingsShortcutsEn.internal(_root);
-	late final TranslationsSettingsSettingsDialogEn settingsDialog = TranslationsSettingsSettingsDialogEn.internal(_root);
+	late final Translations$settings$shortcuts$en shortcuts = Translations$settings$shortcuts$en.internal(_root);
+	late final Translations$settings$settingsDialog$en settingsDialog = Translations$settings$settingsDialog$en.internal(_root);
 }
 
 // Path: settings.shortcuts
-class TranslationsSettingsShortcutsEn {
-	TranslationsSettingsShortcutsEn.internal(this._root);
+class Translations$settings$shortcuts$en {
+	Translations$settings$shortcuts$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -234,8 +234,8 @@ class TranslationsSettingsShortcutsEn {
 }
 
 // Path: settings.settingsDialog
-class TranslationsSettingsSettingsDialogEn {
-	TranslationsSettingsSettingsDialogEn.internal(this._root);
+class Translations$settings$settingsDialog$en {
+	Translations$settings$settingsDialog$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -247,15 +247,15 @@ class TranslationsSettingsSettingsDialogEn {
 	/// en: 'Languages'
 	String get languages => 'Languages';
 
-	late final TranslationsSettingsSettingsDialogThemesEn themes = TranslationsSettingsSettingsDialogThemesEn.internal(_root);
+	late final Translations$settings$settingsDialog$themes$en themes = Translations$settings$settingsDialog$themes$en.internal(_root);
 
 	/// en: 'After turning it on, the dark mode will be turned on or off according to the system'
 	String get themesDescription => 'After turning it on, the dark mode will be turned on or off according to the system';
 }
 
 // Path: settings.settingsDialog.themes
-class TranslationsSettingsSettingsDialogThemesEn {
-	TranslationsSettingsSettingsDialogThemesEn.internal(this._root);
+class Translations$settings$settingsDialog$themes$en {
+	Translations$settings$settingsDialog$themes$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
