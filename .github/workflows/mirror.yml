@@ -1,0 +1,26 @@
+name: Mirroring
+
+on: [push, delete, workflow_dispatch]
+
+jobs:
+  to_gitlab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: git@gitlab.com:${{ github.repository }}.git
+          ssh_private_key: ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
+
+  to_codeberg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: git@codeberg.org:${{ github.repository }}.git
+          ssh_private_key: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
