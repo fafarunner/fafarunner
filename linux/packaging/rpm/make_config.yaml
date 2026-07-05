@@ -37,7 +37,11 @@ categories:
 
 # direct dependencies required by the application
 # https://docs.redhat.com/zh-cn/documentation/red_hat_enterprise_linux/8/html/packaging_and_distributing_software/working-with-spec-files_packaging-software
-requires:
-  - libayatana-appindicator3-1
+requires: []
+
+# https://fastforge.dev/makers/rpm
+spec_macros:
+  - "%global __requires_exclude .*libcurl.*CURL_OPENSSL.*"
+  - "%define _build_id_links none"
 
 startup_notify: true
