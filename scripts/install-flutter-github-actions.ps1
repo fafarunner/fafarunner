@@ -19,7 +19,7 @@ if (Test-Path "$FLUTTER_DIR\flutter") {
 
 Write-Host "🟩 Cloning the Flutter repository"
 New-Item -ItemType Directory -Force -Path "$FLUTTER_DIR\flutter" | Out-Null
-git clone --depth 1 -b 3.44.4 https://github.com/flutter/flutter.git "$FLUTTER_DIR\flutter"
+git clone --depth 1 -b 3.44.5 https://github.com/flutter/flutter.git "$FLUTTER_DIR\flutter"
 
 Write-Host "🟩 Config $FLUTTER_DIR\flutter"
 Set-Location -Path "$FLUTTER_DIR\flutter"
