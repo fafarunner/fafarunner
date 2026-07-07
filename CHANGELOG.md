@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.1.396
+
+1. chore(deps): update deps
+2. ci(linux): add rpm support
+3. Update flutter to 3.44.5
+
 ## 3.2.0.395
 
 1. chore(deps): update deps
