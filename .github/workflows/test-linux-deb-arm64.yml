@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
 
 # Declare default permissions as readonly.
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   deb:
@@ -12,6 +13,8 @@ jobs:
     runs-on: ubuntu-22.04-arm
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Install dependencies for Linux
         run: |

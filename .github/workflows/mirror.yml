@@ -8,6 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          persist-credentials: false
           fetch-depth: 0
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
@@ -19,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          persist-credentials: false
           fetch-depth: 0
       - uses: pixta-dev/repository-mirroring-action@v1
         with:

@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
 
 # Declare default permissions as readonly.
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   exe:
@@ -14,6 +15,8 @@ jobs:
       Platform: arm64
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         shell: pwsh

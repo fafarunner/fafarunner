@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
 
 # Declare default permissions as readonly.
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   get-version:
@@ -16,6 +17,8 @@ jobs:
       build_number: ${{ steps.version_step.outputs.build_number }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Set version
         id: version_step
@@ -53,6 +56,8 @@ jobs:
       - get-version
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2

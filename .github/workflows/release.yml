@@ -18,7 +18,8 @@ on:
         required: false
 
 # Declare default permissions as readonly.
-permissions: write-all
+permissions:
+  contents: write
 
 env:
   flutter-channel: 'stable'
@@ -37,6 +38,8 @@ jobs:
       tag_name: ${{ steps.version_step.outputs.tag_name }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Set sha
         id: sha_step
@@ -119,6 +122,8 @@ jobs:
       - windows-zip-arm64
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Publish a release
         run: |
@@ -141,6 +146,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-java@v5
         with:
           java-version: "17.x"
@@ -227,6 +234,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-java@v5
         with:
           java-version: "17.x"
@@ -318,6 +327,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -421,6 +432,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -537,6 +550,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -672,6 +687,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -801,6 +818,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -927,6 +946,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Install dependencies for Linux
         run: |
@@ -1007,6 +1028,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Install dependencies for Linux
         run: |
@@ -1086,6 +1109,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
@@ -1170,6 +1195,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-java@v5
         with:
@@ -1269,6 +1296,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup LXD
         uses: canonical/setup-lxd@v1
@@ -1339,6 +1368,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup LXD
         uses: canonical/setup-lxd@v1
@@ -1415,6 +1446,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Install dependencies for Linux
         run: |
@@ -1493,6 +1526,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Install dependencies for Linux
         run: |
@@ -1573,6 +1608,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1699,6 +1736,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         shell: pwsh
@@ -1843,6 +1882,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1954,6 +1995,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         shell: pwsh
@@ -2070,6 +2113,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -2193,6 +2238,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         shell: pwsh
@@ -2322,6 +2369,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -2396,6 +2445,8 @@ jobs:
       - create-release
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Flutter
         shell: pwsh
