@@ -72,3 +72,4 @@ distribution.dist
 .fvm/
 
 /*.wxs
+*.profraw
