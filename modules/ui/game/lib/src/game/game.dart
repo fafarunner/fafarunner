@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +26,7 @@ import '../npc/wizard_npc.dart';
 import '../player/knight.dart';
 import '../providers/providers.dart';
 import '../util/dialogs.dart';
+import '../util/exit_app.dart';
 import '../util/sounds.dart';
 import '../widgets/game_controller.dart';
 import '../../gen/assets.gen.dart';
@@ -237,7 +236,7 @@ class _GameState extends State<Game>
     if (menuItem.key == Menus.settings.name) {
       Dialogs.showSettingsModal(shortKeyShown: false);
     } else if (menuItem.key == Menus.exit.name) {
-      exit(0);
+      exitApp();
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -21,6 +20,7 @@ import '../game/game.dart';
 import '../util/custom_sprite_animation_widget.dart';
 import '../util/dialogs.dart';
 import '../util/enemy_sprite_sheet.dart';
+import '../util/exit_app.dart';
 import '../util/player_sprite_sheet.dart';
 import '../util/navigator_util.dart';
 import '../widgets/custom_radio.dart';
@@ -320,7 +320,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
       final useJoystick = provider.useJoystick;
       Dialogs.showSettingsModal(shortKeyShown: !useJoystick);
     } else if (menuItem.key == Menus.exit.name) {
-      exit(0);
+      exitApp();
     }
   }
 }
