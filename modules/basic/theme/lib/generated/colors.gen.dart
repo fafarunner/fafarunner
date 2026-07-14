@@ -11,9 +11,7 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
 
-class FRColors {
-  FRColors._();
-
+abstract final class FRColors {
   /// Color: #FFECE8
   static const Color backgroundColor = Color(0xFFFFECE8);
 

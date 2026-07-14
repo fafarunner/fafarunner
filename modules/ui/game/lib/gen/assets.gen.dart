@@ -495,9 +495,7 @@ class $AssetsImagesEnemyMiniBossGen {
   ];
 }
 
-class Assets {
-  const Assets._();
-
+abstract final class Assets {
   static const String package = 'game';
 
   static const $AssetsAudioGen audio = $AssetsAudioGen();
