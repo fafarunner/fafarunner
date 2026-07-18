@@ -16,6 +16,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     final themeMode = context.select<SettingsProvider, ThemeMode>(
       (provider) => provider.themeMode,
     );
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
     );
 
     return MaterialApp(
+      title: t.appName,
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
       theme: AppTheme.light,

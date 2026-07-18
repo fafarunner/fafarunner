@@ -67,6 +67,7 @@ class _MenuState extends State<Menu> with tray.TrayListener {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     Widget child = AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: showSplash ? buildSplash() : buildMenu(),
