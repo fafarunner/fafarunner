@@ -23,7 +23,7 @@ permissions:
 
 env:
   flutter-channel: 'stable'
-  flutter-version: '3.44.6'
+  flutter-version: '3.44.7'
 
 jobs:
   create-release:
