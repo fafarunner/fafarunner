@@ -52,7 +52,6 @@ Future<void> main() async {
       options
         ..dsn = AppEnv.sentryDsn
         ..tracesSampleRate = 1.0
-        ..profilesSampleRate = 1.0
         ..attachThreads = true
         ..enableWindowMetricBreadcrumbs = true
         ..enableAppHangTracking =
@@ -62,7 +61,6 @@ Future<void> main() async {
         ..reportSilentFlutterErrors = true
         ..attachScreenshot = true
         ..screenshotQuality = SentryScreenshotQuality.low
-        ..attachViewHierarchy = true
         ..debug = kDebugMode
         ..spotlight = Spotlight(enabled: true)
         ..enableTimeToFullDisplayTracing = true
