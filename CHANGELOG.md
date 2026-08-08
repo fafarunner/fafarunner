@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.2.2.397
+
+1. chore(deps): update deps
+2. Secure GitHub Actions workflows
+3. Update flutter to 3.44.9
+4. fix: use ServicesBinding.instance.exitApplication instead of exit(0)
+5. Fixed an issue where the app name was not displayed in the background task snapshot on HarmonyOS 3.0.
+
 ## 3.2.1.396
 
 1. chore(deps): update deps
