@@ -16,6 +16,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Install dependencies for Linux
         run: |
           # https://github.com/getsentry/sentry-dart/issues/2504
