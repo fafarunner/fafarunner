@@ -1,15 +1,15 @@
 ((a,b)=>{a[b]=a[b]||{}})(self,"$__dart_deferred_initializers__")
 $__dart_deferred_initializers__.current=function(a,b,c,$){var B,C,A={
-bbd(d,e,f){var w,v,u=null,t=new B.oL(C.rh,x.c),s=new B.oL(C.ix,x.c)
+bbg(d,e,f){var w,v,u=null,t=new B.oL(C.rk,x.c),s=new B.oL(C.iy,x.c)
 s=new A.a3T(t,s)
-s.Xt(d,u,e,u)
+s.Xw(d,u,e,u)
 w=s.a
 v=t.r
 v.toString
 w.r=v
-t.r=A.bvH(s)
+t.r=A.bvN(s)
 return s},
-bvE(d,e){var w
+bvK(d,e){var w
 A:{w="\u8bbe\u7f6e"
 if("appName"===e){w="\u53d1\u53d1\u8dd1\u9177"
 break A}if("menuPage.playCap"===e){w="\u5f00\u59cb\u73a9"
@@ -60,141 +60,141 @@ break A}if("locales.en"===e){w="English"
 break A}if("locales.zh"===e){w="\u4e2d\u6587"
 break A}w=null
 break A}return w},
-bvH(d){return new A.aYL(d)},
+bvN(d){return new A.aYM(d)},
 a3T:function a3T(d,e){var _=this
 _.x=d
 _.ay=_.ax=_.at=_.as=_.Q=_.z=_.y=$
 _.a=e
 _.w=_.r=_.f=_.e=_.d=_.c=_.b=$},
-aXs:function aXs(){},
-aXq:function aXq(){},
+aXt:function aXt(){},
 aXr:function aXr(){},
-aXx:function aXx(){},
-aXp:function aXp(){},
-aXw:function aXw(d,e){var _=this
+aXs:function aXs(){},
+aXy:function aXy(){},
+aXq:function aXq(){},
+aXx:function aXx(d,e){var _=this
 _.d=d
 _.f=_.e=$
 _.a=e
 _.c=_.b=$},
-aXv:function aXv(){},
-aXu:function aXu(d,e){var _=this
+aXw:function aXw(){},
+aXv:function aXv(d,e){var _=this
 _.c=d
 _.d=$
 _.a=e
 _.b=$},
-aXt:function aXt(){},
-aYL:function aYL(d){this.a=d},
+aXu:function aXu(){},
+aYM:function aYM(d){this.a=d},
 afl:function afl(){}}
 B=c[0]
 C=c[2]
 A=a.updateHolder(c[3],A)
 A.a3T.prototype={
-i(d,e){var w=this.x.KM(e)
-return w==null?this.a.KM(e):w},
-gw5(){var w=this.y
+i(d,e){var w=this.x.KQ(e)
+return w==null?this.a.KQ(e):w},
+gw6(){var w=this.y
 return w===$?this.y=this:w},
-gAA(){return"\u53d1\u53d1\u8dd1\u9177"},
-gr9(){var w=this,v=w.z
-if(v===$){w.gw5()
+gwB(){return"\u53d1\u53d1\u8dd1\u9177"},
+gr8(){var w=this,v=w.z
+if(v===$){w.gw6()
 w.z!==$&&B.av()
-v=w.z=new A.aXs()}return v},
+v=w.z=new A.aXt()}return v},
 giM(){var w=this,v=w.Q
-if(v===$){w.gw5()
+if(v===$){w.gw6()
 w.Q!==$&&B.av()
-v=w.Q=new A.aXq()}return v},
-ga8R(){var w=this,v=w.as
-if(v===$){w.gw5()
+v=w.Q=new A.aXr()}return v},
+ga8T(){var w=this,v=w.as
+if(v===$){w.gw6()
 w.as!==$&&B.av()
-v=w.as=new A.aXr()}return v},
-gack(){var w=this,v=w.at
-if(v===$){w.gw5()
+v=w.as=new A.aXs()}return v},
+gacn(){var w=this,v=w.at
+if(v===$){w.gw6()
 w.at!==$&&B.av()
-v=w.at=new A.aXx()}return v},
-geB(){var w=this,v=w.ax
-if(v===$){w.gw5()
+v=w.at=new A.aXy()}return v},
+geA(){var w=this,v=w.ax
+if(v===$){w.gw6()
 w.ax!==$&&B.av()
-v=w.ax=new A.aXp()}return v},
-gfG(){var w,v=this,u=v.ay
-if(u===$){w=v.gw5()
+v=w.ax=new A.aXq()}return v},
+gfJ(){var w,v=this,u=v.ay
+if(u===$){w=v.gw6()
 v.ay!==$&&B.av()
-u=v.ay=new A.aXw(w,w)}return u},
-ga9U(){var w=x.g
+u=v.ay=new A.aXx(w,w)}return u},
+ga9W(){var w=x.g
 return B.ae(["en","English","zh","\u4e2d\u6587"],w,w)},
-gyd(){return this.x}}
-A.aXs.prototype={
-gaaE(){return"\u5f00\u59cb\u73a9"},
-ga9J(){return"\u952e\u76d8"},
-ga9I(){return"\u64cd\u7eb5\u6746"},
-ga9S(){return"\u52a0\u8f7d\u4e2d..."},
-ga8P(){return"\u4ee3\u7801\u6258\u7ba1\u5728 "},
-ga8Q(){return" \u4e0a."},
-gacB(){return"\u7248\u672c\u53f7: "}}
-A.aXq.prototype={
-gabZ(){return"\u4f60\u597d, \u6211\u5e74\u8f7b\u7684\u9a91\u58eb! \n\u4f60\u5728\u8fd9\u91cc\u505a\u4ec0\u4e48?"},
-gabV(){return"\u4f60\u597d! \n\u6211\u88ab\u6d3e\u53bb\u8425\u6551\u4e00\u4e2a\u88ab\u751f\u6d3b\u5728\u8fd9\u4e9b\u8857\u533a\u7684\u751f\u7269\u7ed1\u67b6\u7684\u5b69\u5b50."},
-gac_(){return y.m},
-gabW(){return"\u522b\u62c5\u5fc3\u6211\u7684\u8001\u4eba. \u4ece\u6765\u6ca1\u6709\u50cf\u6211\u8fd9\u6837\u7684\u9a91\u58eb!\n\u6211\u8981\u6d88\u706d\u8fd9\u91cc\u7684\u4e00\u5207\u751f\u7075, \u6551\u51fa\u5b69\u5b50!"},
-gac0(){return"\u662f\u7684, \u81ea\u4fe1\u662f\u4f60\u6700\u4e0d\u7f3a\u7684!\n\u90a3\u5c31\u522b\u8bf4\u6211\u6ca1\u63d0\u9192\u4f60!\n\u795d\u4f60\u597d\u8fd0!"},
-gabT(){return"\u6551\u547d! \u6551\u547d!"},
-gabR(){return"\u95ed\u5634, \u4f60\u8fd9\u4e2a\u4ee4\u4eba\u5782\u6d8e\u6b32\u6ef4\u7684\u5c0f\u4e1c\u897f!\n\u662f\u65f6\u5019\u54c1\u5c1d\u4f60\u67d4\u8f6f\u7684\u76ae\u80a4\u4e86! \u54c8\u54c8\u54c8..."},
-gabX(){return"\u8fd9\u6b21\u5b83\u4e0d\u4f1a\u662f\u4f60\u8ba8\u538c\u7684\u751f\u7269!\n\u4f60\u53ef\u6015\u7684\u65e5\u5b50\u7ed3\u675f\u4e86!"},
-gabS(){return"\u770b\u90a3\u4e2a! \u53e6\u4e00\u4e2a\u81ea\u8d1f\u7684\u9a91\u58eb\u8ba4\u4e3a\u4ed6\u53ef\u4ee5\u963b\u6b62\u6211! \u54c8\u54c8\u54c8\n\u8fc7\u6765!"},
-gabU(){return y.l},
-gabY(){return y.k},
-gaaD(){return"\u518d\u73a9\u4e00\u6b21"},
-ga6g(){return"\u606d\u559c!"},
-gac1(){return y.a},
-ga78(){return"\u6211\u60f3\u6211\u9700\u8981\u4e00\u628a\u94a5\u5319\u624d\u80fd\u901a\u8fc7\u8fd9\u91cc!"}}
+gye(){return this.x}}
+A.aXt.prototype={
+gaaG(){return"\u5f00\u59cb\u73a9"},
+ga9L(){return"\u952e\u76d8"},
+ga9K(){return"\u64cd\u7eb5\u6746"},
+ga9U(){return"\u52a0\u8f7d\u4e2d..."},
+ga8R(){return"\u4ee3\u7801\u6258\u7ba1\u5728 "},
+ga8S(){return" \u4e0a."},
+gacE(){return"\u7248\u672c\u53f7: "}}
 A.aXr.prototype={
-ga6O(){return"\u8bf7\u70b9\u51fb\u952e\u76d8\u4e0a\u7684\u952e\u6765\u8bbe\u7f6e\u5feb\u6377\u952e"}}
+gac1(){return"\u4f60\u597d, \u6211\u5e74\u8f7b\u7684\u9a91\u58eb! \n\u4f60\u5728\u8fd9\u91cc\u505a\u4ec0\u4e48?"},
+gabY(){return"\u4f60\u597d! \n\u6211\u88ab\u6d3e\u53bb\u8425\u6551\u4e00\u4e2a\u88ab\u751f\u6d3b\u5728\u8fd9\u4e9b\u8857\u533a\u7684\u751f\u7269\u7ed1\u67b6\u7684\u5b69\u5b50."},
+gac2(){return y.m},
+gabZ(){return"\u522b\u62c5\u5fc3\u6211\u7684\u8001\u4eba. \u4ece\u6765\u6ca1\u6709\u50cf\u6211\u8fd9\u6837\u7684\u9a91\u58eb!\n\u6211\u8981\u6d88\u706d\u8fd9\u91cc\u7684\u4e00\u5207\u751f\u7075, \u6551\u51fa\u5b69\u5b50!"},
+gac3(){return"\u662f\u7684, \u81ea\u4fe1\u662f\u4f60\u6700\u4e0d\u7f3a\u7684!\n\u90a3\u5c31\u522b\u8bf4\u6211\u6ca1\u63d0\u9192\u4f60!\n\u795d\u4f60\u597d\u8fd0!"},
+gabW(){return"\u6551\u547d! \u6551\u547d!"},
+gabU(){return"\u95ed\u5634, \u4f60\u8fd9\u4e2a\u4ee4\u4eba\u5782\u6d8e\u6b32\u6ef4\u7684\u5c0f\u4e1c\u897f!\n\u662f\u65f6\u5019\u54c1\u5c1d\u4f60\u67d4\u8f6f\u7684\u76ae\u80a4\u4e86! \u54c8\u54c8\u54c8..."},
+gac_(){return"\u8fd9\u6b21\u5b83\u4e0d\u4f1a\u662f\u4f60\u8ba8\u538c\u7684\u751f\u7269!\n\u4f60\u53ef\u6015\u7684\u65e5\u5b50\u7ed3\u675f\u4e86!"},
+gabV(){return"\u770b\u90a3\u4e2a! \u53e6\u4e00\u4e2a\u81ea\u8d1f\u7684\u9a91\u58eb\u8ba4\u4e3a\u4ed6\u53ef\u4ee5\u963b\u6b62\u6211! \u54c8\u54c8\u54c8\n\u8fc7\u6765!"},
+gabX(){return y.l},
+gac0(){return y.k},
+gaaF(){return"\u518d\u73a9\u4e00\u6b21"},
+ga6i(){return"\u606d\u559c!"},
+gac4(){return y.a},
+ga7a(){return"\u6211\u60f3\u6211\u9700\u8981\u4e00\u628a\u94a5\u5319\u624d\u80fd\u901a\u8fc7\u8fd9\u91cc!"}}
+A.aXs.prototype={
+ga6Q(){return"\u8bf7\u70b9\u51fb\u952e\u76d8\u4e0a\u7684\u952e\u6765\u8bbe\u7f6e\u5feb\u6377\u952e"}}
+A.aXy.prototype={
+gfJ(){return"\u8bbe\u7f6e"}}
+A.aXq.prototype={
+ga6_(){return"\u53d6\u6d88"},
+gaak(){return"\u786e\u5b9a"}}
 A.aXx.prototype={
-gfG(){return"\u8bbe\u7f6e"}}
-A.aXp.prototype={
-ga5Y(){return"\u53d6\u6d88"},
-gaai(){return"\u786e\u5b9a"}}
-A.aXw.prototype={
-gVU(){return"\u5feb\u6377\u952e"},
-gVT(){return"\u8b66\u544a: \u6682\u4e0d\u652f\u6301\u5b9a\u4e49\u7ec4\u5408\u952e"},
-gVS(){return"\u8be5\u952e\u5df2\u4f5c\u4e3a\u65b9\u5411\u952e\u4f7f\u7528"},
-gL1(){return"\u8be5\u952e\u5df2\u4f7f\u7528"},
+gVX(){return"\u5feb\u6377\u952e"},
+gVW(){return"\u8b66\u544a: \u6682\u4e0d\u652f\u6301\u5b9a\u4e49\u7ec4\u5408\u952e"},
+gVV(){return"\u8be5\u952e\u5df2\u4f5c\u4e3a\u65b9\u5411\u952e\u4f7f\u7528"},
+gL6(){return"\u8be5\u952e\u5df2\u4f7f\u7528"},
 giR(){var w=this.e
-return w===$?this.e=new A.aXv():w},
+return w===$?this.e=new A.aXw():w},
 gpN(){var w,v=this.f
 if(v===$){w=this.d
-v=this.f=new A.aXu(w,w)}return v}}
+v=this.f=new A.aXv(w,w)}return v}}
+A.aXw.prototype={
+gTo(){return"\u79fb\u52a8"},
+gQb(){return"\u653b\u51fb"},
+gS7(){return"\u5f00\u706b"}}
 A.aXv.prototype={
-gTl(){return"\u79fb\u52a8"},
-gQ8(){return"\u653b\u51fb"},
-gS4(){return"\u5f00\u706b"}}
+ga9M(){return"\u8bed\u8a00"},
+gxW(){var w=this.d
+return w===$?this.d=new A.aXu():w},
+gac5(){return"\u5f00\u542f\u540e, \u5c06\u8ddf\u968f\u7cfb\u7edf\u6253\u5f00\u6216\u5173\u95ed\u6df1\u8272\u6a21\u5f0f"}}
 A.aXu.prototype={
-ga9K(){return"\u8bed\u8a00"},
-gxV(){var w=this.d
-return w===$?this.d=new A.aXt():w},
-gac2(){return"\u5f00\u542f\u540e, \u5c06\u8ddf\u968f\u7cfb\u7edf\u6253\u5f00\u6216\u5173\u95ed\u6df1\u8272\u6a21\u5f0f"}}
-A.aXt.prototype={
-ga9Y(){return"\u624b\u52a8\u6a21\u5f0f"},
-gXi(){return"\u8ddf\u968f\u7cfb\u7edf"},
-gR2(){return"\u6df1\u8272\u6a21\u5f0f"},
-ga9M(){return"\u6d45\u8272\u6a21\u5f0f"}}
+gaa_(){return"\u624b\u52a8\u6a21\u5f0f"},
+gXl(){return"\u8ddf\u968f\u7cfb\u7edf"},
+gR5(){return"\u6df1\u8272\u6a21\u5f0f"},
+ga9O(){return"\u6d45\u8272\u6a21\u5f0f"}}
 A.afl.prototype={}
 var z=a.updateTypes([])
-A.aYL.prototype={
-$1(d){return A.bvE(this.a,d)},
-$S:91};(function inheritance(){var w=a.mixin,v=a.inherit
+A.aYM.prototype={
+$1(d){return A.bvK(this.a,d)},
+$S:101};(function inheritance(){var w=a.mixin,v=a.inherit
 v(A.afl,B.i3)
 v(A.a3T,A.afl)
-v(A.aXs,B.a3N)
-v(A.aXq,B.a3L)
-v(A.aXr,B.a3M)
-v(A.aXx,B.a3S)
-v(A.aXp,B.a3K)
-v(A.aXw,B.a3O)
-v(A.aXv,B.a3R)
-v(A.aXu,B.a3P)
-v(A.aXt,B.a3Q)
-v(A.aYL,B.nm)
-w(A.afl,B.jC)})()
-B.bcu(b.typeUniverse,JSON.parse('{"a3T":{"i3":[],"jC":["hM","i3"]}}'))
+v(A.aXt,B.a3N)
+v(A.aXr,B.a3L)
+v(A.aXs,B.a3M)
+v(A.aXy,B.a3S)
+v(A.aXq,B.a3K)
+v(A.aXx,B.a3O)
+v(A.aXw,B.a3R)
+v(A.aXv,B.a3P)
+v(A.aXu,B.a3Q)
+v(A.aYM,B.nm)
+w(A.afl,B.jD)})()
+B.bcy(b.typeUniverse,JSON.parse('{"a3T":{"i3":[],"jD":["hM","i3"]}}'))
 var y={m:"\u55ef\u2026\u2026\n\u6211\u4e0d\u60f3\u6253\u51fb\u4f60, \u4f46\u4f60\u662f\u7b2c\u4e94\u4e2a\u88ab\u6d3e\u6765\u6267\u884c\u8fd9\u9879\u4efb\u52a1\u7684\u9a91\u58eb. \u5230\u76ee\u524d\u4e3a\u6b62, \u6ca1\u6709\u4eba\u6d3b\u7740\u56de\u6765, \u4ed6\u4eec\u7684\u5c38\u4f53\u50cf\u6218\u5229\u54c1\u4e00\u6837\u6302\u5728\u5899\u4e0a.",l:"\u611f\u8c22\u5927\u795e!!! \n\u4f60\u6210\u529f\u6253\u8d25\u4e86\u8fd9\u4e2a\u53ef\u6015\u7684\u751f\u7269! \u975e\u5e38\u611f\u8c22! \n\u6211\u4ec0\u81f3\u4e0d\u77e5\u9053\u5982\u4f55\u611f\u8c22\u4f60!",a:"\u611f\u8c22\u60a8\u6d4b\u8bd5\u6e38\u620f\u5e76\u611f\u53d7 Flame \u548c Bonfire \u5728\u6784\u5efa 2D \u6e38\u620f\u4e2d\u7684\u5a01\u529b.\n\u4e5f\u8bb8\u6211\u4eec\u53ef\u4ee5\u6709\u4e00\u4e2a\u6e38\u620f\u7684\u5ef6\u7eed!\n\u6211\u5e0c\u671b\u4f60\u559c\u6b22!",k:"\u80fd\u4e3a\u60a8\u63d0\u4f9b\u5e2e\u52a9\u662f\u6211\u7684\u8363\u5e78! \u4e5f\u522b\u7740\u6025\u8d4f\u6211, \u4f60\u7239\u53ef\u662f\u7b54\u5e94\u6211\u4e00\u5927\u7b14\u94b1\u6765\u6551\u4f60\u7684! :-)"}
 var x={g:B.af("j"),c:B.af("oL<hM,i3>")}};
-(a=>{a["fNO9nwYaY0tBQPKcdSMzfRUeL+A="]=a.current})($__dart_deferred_initializers__);
+(a=>{a["MEtWZVD4AVFM3rxwK+/Prla+vQk="]=a.current})($__dart_deferred_initializers__);
