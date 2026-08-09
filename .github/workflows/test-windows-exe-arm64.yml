@@ -18,6 +18,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Setup Flutter
         shell: pwsh
         run: .\scripts\install-flutter-github-actions.ps1

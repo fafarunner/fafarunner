@@ -330,6 +330,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -434,6 +439,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -552,6 +562,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -690,6 +705,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -821,6 +841,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -949,6 +974,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
@@ -1031,6 +1061,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
@@ -1111,6 +1146,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
@@ -1449,6 +1485,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
@@ -1528,6 +1569,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Install dependencies for Linux
         run: |
@@ -1610,6 +1656,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -1738,6 +1789,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         shell: pwsh
@@ -1885,6 +1941,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -1997,6 +2058,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         shell: pwsh
@@ -2115,6 +2181,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -2240,6 +2311,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         shell: pwsh
@@ -2372,6 +2448,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -2447,6 +2528,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - uses: actions/setup-java@v5
+        with:
+          java-version: "17.x"
+          distribution: 'temurin'
 
       - name: Setup Flutter
         shell: pwsh
