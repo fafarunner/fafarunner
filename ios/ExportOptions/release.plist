@@ -9,7 +9,7 @@
         <key>signingStyle</key>
         <string>manual</string>
         <key>signingCertificate</key>
-        <string>iPhone Distribution: Qingdao INSCO Network Technology Co., Ltd. (43V9N6VW8L)</string>
+        <string>iPhone Distribution: Qingdao Insco Network Technology Co., Ltd. (43V9N6VW8L)</string>
         <key>provisioningProfiles</key>
         <dict>
             <key>com.chenyifaer.fafarunner</key>
