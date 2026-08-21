@@ -70,11 +70,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -98,11 +93,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -125,11 +115,6 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
 
       - name: Install dependencies for Linux
         run: |
@@ -176,11 +161,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -208,11 +188,6 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
 
       - name: Install dependencies for Linux
         run: |

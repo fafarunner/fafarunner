@@ -97,11 +97,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -176,11 +171,6 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -285,11 +275,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
-
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update -y && sudo apt-get upgrade -y
@@ -359,11 +344,6 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -442,11 +422,6 @@ jobs:
         run: |
           # Install libunwind-dev, see https://github.com/actions/runner-images/issues/6399#issuecomment-1285011525
           sudo apt-get install -y libunwind-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
-      - uses: actions/setup-java@v5
-        with:
-          java-version: "17.x"
-          distribution: 'temurin'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
