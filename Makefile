@@ -57,7 +57,7 @@ macos_appstore:
 	echo "╠ Releasing bundle..."
 	fvm flutter build macos --dart-define-from-file=".env.$(ENV).local"
 
-web_prod:
+web_app:
 	echo "╠ Releasing web..."
 	fvm flutter build web --dart-define-from-file=".env.$(ENV).local"
 

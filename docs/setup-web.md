@@ -3,5 +3,5 @@
 ## Release
 
 ```shell
-make ENV=<dev|stg|prod> web_prod
+make ENV=<dev|stg|prod> web_app
 ```
